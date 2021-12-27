@@ -1,7 +1,11 @@
 <template>
   <div>
     <h2>{{ article.title }}</h2>
-    <img :src="`${article.thumbnail}`" :alt="`${article.title}`" />
+    <img
+      v-if="article.thumbnail"
+      :src="`${article.thumbnail}`"
+      :alt="`${article.label}`"
+    />
     <nuxt-content :document="article" />
   </div>
 </template>

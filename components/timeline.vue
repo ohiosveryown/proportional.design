@@ -7,7 +7,11 @@
     <ul>
       <li v-for="article of articles" :key="article.slug">
         <NuxtLink :to="'/timeline/' + article.slug">
-          <img :src="`${article.thumbnail}`" :alt="`${article.thumbnail}`" />
+          <img
+            v-if="article.thumbnail"
+            :src="`${article.thumbnail}`"
+            :alt="`${article.label}`"
+          />
           <span class="title">{{ article.title }}</span>
         </NuxtLink>
       </li>
