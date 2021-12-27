@@ -5,6 +5,17 @@ backend:
 media_folder: static/img
 public_folder: /img
 
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: da32ufmnf
+    api_key: 123757614911618
+    default_transformations:
+      - - fetch_format: auto
+          width: 6
+          quality: auto
+          crop: scale
+
 collections:
   - name: "projects"
     identifier_field: projects
