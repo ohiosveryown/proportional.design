@@ -10,8 +10,6 @@ media_library:
   config:
     cloud_name: da32ufmnf
     api_key: 123757614911618
-    quality: auto
-    effect: cartoonify
 
 collections:
   - name: "projects"
