@@ -11,7 +11,7 @@ media_library:
     cloud_name: da32ufmnf
     api_key: 123757614911618
     quality: auto
-    effect: grayscale
+    effect: cartoonify
 
 collections:
   - name: "projects"
