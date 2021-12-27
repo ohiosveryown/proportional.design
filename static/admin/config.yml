@@ -37,8 +37,10 @@ collections:
         choose_url: true
         allow_multiple: true
         media_library:
+          name: cloudinary
           config:
-            multiple: true
+            cloud_name: da32ufmnf
+            api_key: 123757614911618
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
       - { label: "Description", name: "description", widget: "string" }
