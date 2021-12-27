@@ -37,14 +37,23 @@ collections:
     editor:
       preview: false
     fields:
-      - label: "Featured Image"
-        name: "thumbnail"
-        widget: "image"
-        required: false
-        choose_url: true
-        media_library:
-          config:
-            multiple: true
+      # - label: "Featured Image"
+      #   name: "thumbnail"
+      #   widget: "image"
+      #   required: false
+      #   choose_url: false
+      #   media_library:
+      #     config:
+      #       multiple: true
+      #
+
+      - name: thumbnail
+        label: Featured image
+        widget: object
+        fields:
+          - {name: src, label: Image, widget: image}
+          - {name: alt, label: Alt text, widget: string}
+
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
       - { label: "Description", name: "description", widget: "string" }
