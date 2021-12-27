@@ -1,8 +1,8 @@
 ---
+thumbnail: /img/img_2132.jpeg
 title: Test Timeline
 date: 2021-12-27T20:51:31.542Z
 description: This is a test timeline
-thumbnail: https://res.cloudinary.com/da32ufmnf/image/upload/v1640643324/proportional.design/IMG_7756_gzjbfj.jpg
 ---
 
 # 🧪 Test Timeline...
