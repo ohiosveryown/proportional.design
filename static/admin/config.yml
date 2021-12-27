@@ -35,7 +35,7 @@ collections:
         name: "thumbnail"
         widget: "image"
         choose_url: true
-        default: "https://res.cloudinary.com/da32ufmnf/image/upload/v1640573129/proportional.design/IMG_7756_hidr9i.jpg"
+        allow_multiple: true
         media_library:
           config:
             multiple: true
