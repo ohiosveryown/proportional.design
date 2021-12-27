@@ -1,5 +1,5 @@
 ---
-thumbnail: https://res.cloudinary.com/da32ufmnf/image/upload/v1605889359/proportional.design/rect_f4a65o.png
+thumbnail: ""
 title: Test Timeline
 date: 2021-12-27T20:51:31.542Z
 description: This is a test timeline
