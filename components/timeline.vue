@@ -22,19 +22,42 @@
           <p class="description">{{ article.description }}</p>
           <span class="tags">{{ article.tags }}</span>
 
-          <!--           <span>{{ article.address.street }}</span>
-          <span>{{ article.address.city }}</span> -->
-          <img
-            v-if="article.three_imgs"
-            :src="`${article.three_imgs.one_of_three}`"
-          />
+          <div class="two">
+            <img
+              v-if="article.two_imgs"
+              :src="`${article.two_imgs.one_of_two}`"
+            />
+            <img
+              v-if="article.two_imgs"
+              :src="`${article.two_imgs.two_of_two}`"
+            />
+            <img
+              v-if="article.two_imgs"
+              :src="`${article.two_imgs.two_of_two}`"
+            />
+          </div>
 
-          <div class="image-wrapper">
+          <div class="three">
+            <img
+              v-if="article.three_imgs"
+              :src="`${article.three_imgs.one_of_three}`"
+            />
+            <img
+              v-if="article.three_imgs"
+              :src="`${article.three_imgs.two_of_three}`"
+            />
+            <img
+              v-if="article.three_imgs"
+              :src="`${article.three_imgs.three_of_three}`"
+            />
+          </div>
+
+          <!--           <div class="image-wrapper">
             <img v-if="article.img_one" :src="`${article.img_one}`" />
             <img v-if="article.img_two" :src="`${article.img_two}`" />
             <img v-if="article.img_three" :src="`${article.img_three}`" />
             <img v-if="article.img_four" :src="`${article.img_four}`" />
-          </div>
+          </div> -->
         </NuxtLink>
       </li>
     </ul>
@@ -159,6 +182,43 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .two {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-gap: 6px;
+    border-radius: 16px;
+    overflow: hidden;
+    img:nth-of-type(1) {
+      /* grid-area: 1 / 1 / 3 / 2; */
+    }
+    img:nth-of-type(2) {
+      /* grid-area: 1 / 2 / 2 / 3; */
+    }
+  }
+
+  .three {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 50%);
+    grid-gap: 6px;
+    border-radius: 16px;
+    max-height: 40vh;
+    overflow: hidden;
+    @include breakpoint(mdl) {
+      max-height: 54vh;
+    }
+    img:nth-of-type(1) {
+      grid-area: 1 / 1 / 3 / 2;
+    }
+    img:nth-of-type(2) {
+      grid-area: 1 / 2 / 2 / 3;
+    }
+    img:nth-of-type(3) {
+      grid-area: 2 / 2 / 3 / 3;
+    }
   }
 </style>
 
