@@ -20,11 +20,13 @@
             {{ article.title }}
           </header>
           <p class="description">{{ article.description }}</p>
-          <span>{{ article.tags }}</span>
-          <img v-if="article.img_one" :src="`${article.img_one}`" />
-          <img v-if="article.img_two" :src="`${article.img_two}`" />
-          <img v-if="article.img_three" :src="`${article.img_three}`" />
-          <img v-if="article.img_four" :src="`${article.img_four}`" />
+          <span class="tags">{{ article.tags }}</span>
+          <div class="image-wrapper">
+            <img v-if="article.img_one" :src="`${article.img_one}`" />
+            <img v-if="article.img_two" :src="`${article.img_two}`" />
+            <img v-if="article.img_three" :src="`${article.img_three}`" />
+            <img v-if="article.img_four" :src="`${article.img_four}`" />
+          </div>
         </NuxtLink>
       </li>
     </ul>
@@ -126,18 +128,23 @@
   }
 
   .description {
-    margin-bottom: 2rem;
+    margin-bottom: 1.2rem;
     @include breakpoint(mdl) {
-      margin-bottom: 2rem;
+      margin-bottom: 0.2rem;
     }
   }
 
   .tags {
     display: flex;
+    margin-bottom: 2.2rem;
     color: #e3d8ff;
     li {
       margin-right: 0.8rem;
     }
+  }
+
+  .image-wrapper {
+    margin: 2rem 0;
   }
 
   img {
@@ -169,5 +176,6 @@
         return new Date(time).toLocaleTimeString("en", { timeStyle: "short" })
       },
     },
+    mounted() {},
   }
 </script>

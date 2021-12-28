@@ -62,6 +62,27 @@ collections:
     editor:
       preview: false
     fields:
+      - label: "Profile"
+      name: "profile"
+      widget: "object"
+      summary: '{{fields.name}}: {{fields.birthdate}}'
+      fields:
+        - {label: "Public", name: "public", widget: "boolean", default: true}
+        - {label: "Name", name: "name", widget: "string"}
+        - label: "Birthdate"
+          name: "birthdate"
+          widget: "date"
+          default: ""
+          format: "MM/DD/YYYY"
+        - label: "Address"
+          name: "address"
+          widget: "object"
+          collapsed: true
+          fields:
+            - {label: "Street Address", name: "street", widget: "string"}
+            - {label: "City", name: "city", widget: "string"}
+            - {label: "Postal Code", name: "post-code", widget: "string"}
+
       - name: "img_one"
         label: "Image One"
         widget: "image"
@@ -85,14 +106,14 @@ collections:
       - label: "Title"
         name: "title"
         widget: "string"
-      - name: "tags"
-        label: "Tags"
-        widget: "string"
       - label: "Publish Date"
         name: "date"
         widget: "datetime"
       - label: "Description"
         name: "description"
+        widget: "string"
+      - name: "tags"
+        label: "Tags"
         widget: "string"
       - label: "Body"
         name: "body"
