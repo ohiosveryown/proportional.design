@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <projects class="mb-9" />
+  <main class="width">
+    <intro />
+    <projects />
     <timeline />
-  </div>
+  </main>
 </template>
 
 <script>
@@ -14,5 +15,6 @@
         ],
       }
     },
+    scrollToTop: false,
   }
 </script>

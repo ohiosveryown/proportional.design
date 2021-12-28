@@ -29,6 +29,10 @@ export default {
       lang: "en",
     },
   },
+  server: {
+    port: 8008,
+    host: "0.0.0.0",
+  },
   content: {},
   build: {},
 }
