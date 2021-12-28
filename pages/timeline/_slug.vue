@@ -2,8 +2,8 @@
   <div>
     <h2>{{ article.title }}</h2>
     <img
-      v-if="article.thumbnail"
-      :src="`${article.thumbnail}`"
+      v-if="article.img_one"
+      :src="`${article.img_one}`"
       :alt="`${article.label}`"
     />
     <nuxt-content :document="article" />

@@ -8,8 +8,8 @@
       <li v-for="article of articles" :key="article.slug">
         <NuxtLink :to="'/timeline/' + article.slug">
           <img
-            v-if="article.thumbnail"
-            :src="`${article.thumbnail}`"
+            v-if="article.img_one"
+            :src="`${article.img_one}`"
             :alt="`${article.label}`"
           />
           <span class="title">{{ article.title }}</span>
