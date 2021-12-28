@@ -38,9 +38,10 @@
           </div>
 
           <div v-if="article.four_imgs" class="four">
-            :src="`${article.four_imgs.one_of_four}`" />
-            :src="`${article.four_imgs.two_of_four}`" />
-            :src="`${article.four_imgs.four_of_four}`" />
+            <img :src="`${article.four_imgs.one_of_four}`" />
+            <img :src="`${article.four_imgs.two_of_four}`" />
+            <img :src="`${article.four_imgs.three_of_four}`" />
+            <img :src="`${article.four_imgs.four_of_four}`" />
           </div>
         </NuxtLink>
       </li>
@@ -213,7 +214,7 @@
     overflow: hidden;
     img {
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
     }
   }
