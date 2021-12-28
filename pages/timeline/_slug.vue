@@ -99,18 +99,28 @@
       height: 100vh;
     }
     @include breakpoint(mdl) {
-      padding-top: 5.6rem;
+      padding-top: 0rem;
       width: 40vw;
     }
   }
 
   .title {
+    position: sticky;
+    top: 0;
+    z-index: var(--zmax);
+    background: rgba(88, 84, 65, 1);
+    backdrop-filter: blur(10px);
     margin-bottom: 1.2rem;
     font-size: 4.4rem;
     line-height: 0.8;
     @include breakpoint(md) {
       font-size: 3.8vw;
     }
+
+    @include breakpoint(mdl) {
+      padding-top: 5.6rem;
+    }
+
     @include breakpoint(lg) {
       font-size: 3.4vw;
     }
