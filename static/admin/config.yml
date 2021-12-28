@@ -11,7 +11,8 @@ media_library:
     cloud_name: da32ufmnf
     api_key: 123757614911618
     default_transformations:
-      quality: 50
+      - - fetch_format: auto
+          quality: 50
 
 collections:
   - name: "projects"
