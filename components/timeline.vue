@@ -21,6 +21,10 @@
           </header>
           <p class="description">{{ article.description }}</p>
           <span class="tags">{{ article.tags }}</span>
+
+          <!--           <span>{{ article.address.street }}</span>
+          <span>{{ article.address.city }}</span> -->
+
           <div class="image-wrapper">
             <img v-if="article.img_one" :src="`${article.img_one}`" />
             <img v-if="article.img_two" :src="`${article.img_two}`" />

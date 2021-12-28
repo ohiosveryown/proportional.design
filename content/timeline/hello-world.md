@@ -1,8 +1,4 @@
 ---
-address:
-  street: 123 Fake Street
-  city: Beverley Hills
-  post-code: "90210"
 img_one: https://res.cloudinary.com/da32ufmnf/image/upload/v1640643324/proportional.design/IMG_7756_gzjbfj.jpg
 img_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1600743604/proportional.design/02_t16j69.jpg
 title: Proportional [dot] Design v2.0
