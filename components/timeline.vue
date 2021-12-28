@@ -22,42 +22,17 @@
           <p class="description">{{ article.description }}</p>
           <span class="tags">{{ article.tags }}</span>
 
-          <div class="two">
-            <img
-              v-if="article.two_imgs"
-              :src="`${article.two_imgs.one_of_two}`"
-            />
-            <img
-              v-if="article.two_imgs"
-              :src="`${article.two_imgs.two_of_two}`"
-            />
-            <img
-              v-if="article.two_imgs"
-              :src="`${article.two_imgs.two_of_two}`"
-            />
+          <div v-if="article.two_imgs" class="two">
+            <img :src="`${article.two_imgs.one_of_two}`" />
+            <img :src="`${article.two_imgs.two_of_two}`" />
+            <img :src="`${article.two_imgs.two_of_two}`" />
           </div>
 
-          <div class="three">
-            <img
-              v-if="article.three_imgs"
-              :src="`${article.three_imgs.one_of_three}`"
-            />
-            <img
-              v-if="article.three_imgs"
-              :src="`${article.three_imgs.two_of_three}`"
-            />
-            <img
-              v-if="article.three_imgs"
-              :src="`${article.three_imgs.three_of_three}`"
-            />
+          <div v-if="article.three_imgs" class="three">
+            <img :src="`${article.three_imgs.one_of_three}`" />
+            <img :src="`${article.three_imgs.two_of_three}`" />
+            <img :src="`${article.three_imgs.three_of_three}`" />
           </div>
-
-          <!--           <div class="image-wrapper">
-            <img v-if="article.img_one" :src="`${article.img_one}`" />
-            <img v-if="article.img_two" :src="`${article.img_two}`" />
-            <img v-if="article.img_three" :src="`${article.img_three}`" />
-            <img v-if="article.img_four" :src="`${article.img_four}`" />
-          </div> -->
         </NuxtLink>
       </li>
     </ul>
