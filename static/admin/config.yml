@@ -13,6 +13,7 @@ media_library:
     default_transformations:
       - - fetch_format: auto
           quality: 50
+          effect: grayscale
 
 collections:
   - name: "projects"
