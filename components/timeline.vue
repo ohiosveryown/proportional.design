@@ -24,6 +24,10 @@
 
           <!--           <span>{{ article.address.street }}</span>
           <span>{{ article.address.city }}</span> -->
+          <img
+            v-if="article.three_imgs"
+            :src="`${article.three_imgs.one_of_three}`"
+          />
 
           <div class="image-wrapper">
             <img v-if="article.img_one" :src="`${article.img_one}`" />

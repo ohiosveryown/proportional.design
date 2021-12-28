@@ -63,15 +63,6 @@ collections:
       preview: false
     fields:
 
-      - label: "Address"
-        name: "address"
-        widget: "object"
-        collapsed: true
-        fields:
-          - {label: "Street Address", name: "street", widget: "string"}
-          - {label: "City", name: "city", widget: "string"}
-          - {label: "Postal Code", name: "post-code", widget: "string"}
-
       - label: "3/3"
         name: "three_imgs"
         widget: "object"
