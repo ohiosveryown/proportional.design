@@ -10,6 +10,8 @@ media_library:
   config:
     cloud_name: da32ufmnf
     api_key: 123757614911618
+    default_transformations:
+      quality: 50
 
 collections:
   - name: "projects"
@@ -83,14 +85,14 @@ collections:
           - {label: "tag two", name: "tag_two", widget: "string", required: false}
           - {label: "tag three", name: "tag_three", widget: "string", required: false}
 
-      - label: "1/1"
+      - label: "Image Group 1/1"
         name: "one_imgs"
         widget: "object"
         collapsed: true
         fields:
           - {label: "1/1", name: "one_of_one", widget: "image", required: false, choose_url: false}
 
-      - label: "2/2"
+      - label: "Image Group 2/2"
         name: "two_imgs"
         widget: "object"
         collapsed: true
@@ -98,7 +100,7 @@ collections:
           - {label: "1/2", name: "one_of_two", widget: "image", required: false, choose_url: false}
           - {label: "2/2", name: "two_of_two", widget: "image", required: false, choose_url: false}
 
-      - label: "3/3"
+      - label: "Image Group 3/3"
         name: "three_imgs"
         widget: "object"
         collapsed: true
@@ -107,7 +109,7 @@ collections:
           - {label: "2/3", name: "two_of_three", widget: "image", required: false, choose_url: false}
           - {label: "3/3", name: "three_of_three", widget: "image", required: false, choose_url: false}
 
-      - label: "4/4"
+      - label: "Image Group 4/4"
         name: "four_imgs"
         widget: "object"
         collapsed: true
