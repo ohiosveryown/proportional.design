@@ -20,6 +20,7 @@
             {{ article.title }}
           </header>
           <p class="description">{{ article.description }}</p>
+          <span>{{ article.tags }}</span>
           <img v-if="article.img_one" :src="`${article.img_one}`" />
           <img v-if="article.img_two" :src="`${article.img_two}`" />
           <img v-if="article.img_three" :src="`${article.img_three}`" />

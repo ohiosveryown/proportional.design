@@ -22,9 +22,6 @@ collections:
     editor:
       preview: false
     fields:
-      - name: "tags"
-        label: "Tags"
-        widget: "string"
       - name: "hero"
         label: "Hero"
         widget: "image"
@@ -87,6 +84,9 @@ collections:
         choose_url: false
       - label: "Title"
         name: "title"
+        widget: "string"
+      - name: "tags"
+        label: "Tags"
         widget: "string"
       - label: "Publish Date"
         name: "date"
