@@ -62,6 +62,14 @@ collections:
     editor:
       preview: false
     fields:
+      - label: "Address"
+        name: "address"
+        widget: "object"
+        collapsed: true
+        fields:
+          - {label: "Street Address", name: "street", widget: "string"}
+          - {label: "City", name: "city", widget: "string"}
+          - {label: "Postal Code", name: "post-code", widget: "string"}
       - name: "img_one"
         label: "Image One"
         widget: "image"
