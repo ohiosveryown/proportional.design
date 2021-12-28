@@ -97,26 +97,6 @@ collections:
           - {label: "3/4", name: "three_of_four", widget: "image", required: false, choose_url: false}
           - {label: "4/4", name: "four_of_four", widget: "image", required: false, choose_url: false}
 
-      - name: "img_one"
-        label: "Image One"
-        widget: "image"
-        required: false
-        choose_url: false
-      - name: "img_two"
-        label: "Image Two"
-        widget: "image"
-        required: false
-        choose_url: false
-      - name: "img_three"
-        label: "Image Three"
-        widget: "image"
-        required: false
-        choose_url: false
-      - name: "img_four"
-        label: "Image Four"
-        widget: "image"
-        required: false
-        choose_url: false
       - label: "Title"
         name: "title"
         widget: "string"
