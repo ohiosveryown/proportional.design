@@ -232,7 +232,7 @@
     display: flex;
     flex-direction: column;
     padding-top: 0.4rem;
-    opacity: 0.48;
+    color: #8b8a89;
     @include breakpoint(md) {
       flex-direction: row;
       justify-content: space-between;
@@ -266,6 +266,5 @@
         return new Date(time).toLocaleTimeString("en", { timeStyle: "short" })
       },
     },
-    mounted() {},
   }
 </script>

@@ -5,7 +5,7 @@ description: Welcome to the second iteration of proportional.design
 tags:
   tag_one: welcome
   tag_two: "2.0"
-dimensions: 18H X 24W X 16D
+dimensions: 👋
 four_imgs:
   one_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1640643324/proportional.design/IMG_7756_gzjbfj.jpg
   two_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1612969573/proportional.design/social-00_o80ipz.jpg

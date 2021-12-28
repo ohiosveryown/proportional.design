@@ -82,6 +82,15 @@ a {
   cursor: pointer;
 }
 
+.p {
+  p {
+    margin-bottom: 0.8rem;
+  }
+  p + p {
+    text-indent: 4ch;
+  }
+}
+
 h1,
 h2,
 h3,
