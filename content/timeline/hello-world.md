@@ -1,6 +1,6 @@
 ---
 two_imgs:
-  one_of_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1605889388/proportional.design/readme_aixd2p.jpg
+  one_of_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1600744194/proportional.design/sapele_lu4fb0.jpg
   two_of_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1600743681/proportional.design/IMG_2863_pq2xbr.jpg
 three_imgs:
   one_of_three: ""
