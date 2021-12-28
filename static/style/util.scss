@@ -3,11 +3,13 @@
 .debug {
   border: 2px solid hotpink;
 }
+
 .pointer {
   &:hover {
     cursor: pointer;
   }
 }
+
 .width {
   position: relative;
   margin: 0 auto;
@@ -22,6 +24,21 @@
   @include breakpoint(xl) {
     width: grid-width(6.05);
   }
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+  transition-duration: 200ms;
+  & + * + .site-footer {
+    opacity: 0;
+  }
+}
+
+.page-enter,
+.page-leave-to {
+  opacity: 0;
 }
 
 @keyframes moveit {

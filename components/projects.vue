@@ -13,6 +13,7 @@
         <NuxtLink :to="'/projects/' + article.slug">
           <img :src="`${article.hero}`" />
           <span class="title">{{ article.title }}</span>
+          <span>{{ article.tags }}</span>
         </NuxtLink>
       </li>
     </ul>
