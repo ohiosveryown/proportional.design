@@ -97,6 +97,15 @@ collections:
           - {label: "3/4", name: "three_of_four", widget: "image", required: false, choose_url: false}
           - {label: "4/4", name: "four_of_four", widget: "image", required: false, choose_url: false}
 
+      - label: "Tags"
+        name: "tags"
+        widget: "object"
+        collapsed: true
+        fields:
+          - {label: "tag one", name: "tag_one", widget: "string", required: false}
+          - {label: "tag two", name: "tag_two", widget: "string", required: false}
+          - {label: "tag three", name: "tag_three", widget: "string", required: false}
+
       - label: "Title"
         name: "title"
         widget: "string"
@@ -105,9 +114,6 @@ collections:
         widget: "datetime"
       - label: "Description"
         name: "description"
-        widget: "string"
-      - name: "tags"
-        label: "Tags"
         widget: "string"
       - label: "Body"
         name: "body"
