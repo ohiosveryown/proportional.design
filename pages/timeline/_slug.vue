@@ -22,7 +22,7 @@
       </article>
 
       <section>
-        <contact class="primary" />
+        <!--         <contact class="primary" /> -->
         <nuxt-link to="/">
           <button class="secondary neuebit uc">Go Back</button>
         </nuxt-link>
