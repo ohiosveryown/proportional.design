@@ -24,7 +24,7 @@ collections:
     fields:
       - name: "tags"
         label: "Tags"
-        default: ["news"]
+        default: "tag one", "tag two"
         widget: "list"
       - name: "hero"
         label: "Hero"
