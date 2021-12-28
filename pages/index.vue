@@ -2,6 +2,7 @@
   <main class="width">
     <intro />
     <projects />
+    <floating />
     <timeline />
   </main>
 </template>

@@ -50,6 +50,14 @@
               <img :src="`${article.four_imgs.four_of_four}`" />
             </div>
           </div>
+
+          <footer>
+            <small class="time-date">
+              {{ formatDate(article.createdAt) }}
+              {{ formatTime(article.createdAt) }}
+            </small>
+            <small v-if="article.dimensions">{{ article.dimensions }}</small>
+          </footer>
         </NuxtLink>
       </li>
     </ul>
@@ -110,7 +118,7 @@
     position: relative;
     z-index: var(--z2);
     margin-bottom: 4rem;
-    padding: 3.2rem 2rem 2.4rem;
+    padding: 3.2rem 2rem 1.4rem;
     border-radius: 2.2rem;
     color: #fff;
     background: linear-gradient(
@@ -125,7 +133,7 @@
       padding: 3.2rem 3.2rem 2.4rem;
     }
     @include breakpoint(mdl) {
-      padding: 4rem 3.2rem 2.4rem;
+      padding: 4rem 3.2rem 2rem;
     }
     p {
       max-width: 47ch;
@@ -218,6 +226,21 @@
       height: 100%;
       object-fit: cover;
     }
+  }
+
+  footer {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.4rem;
+    opacity: 0.48;
+    @include breakpoint(md) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  .time-date {
+    display: flex;
+    font-weight: 600;
   }
 </style>
 
