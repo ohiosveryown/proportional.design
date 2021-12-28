@@ -17,7 +17,10 @@
 
 <style lang="scss" scoped>
   @import "~static/style/grid.scss";
-
+  img {
+    max-width: 20rem;
+    height: auto;
+  }
   a {
     text-decoration: underline;
   }

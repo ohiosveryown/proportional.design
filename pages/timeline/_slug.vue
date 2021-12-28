@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>{{ article.title }}</h2>
     <img
       v-if="article.img_one"
       :src="`${article.img_one}`"
