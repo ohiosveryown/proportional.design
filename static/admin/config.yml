@@ -22,10 +22,35 @@ collections:
     editor:
       preview: false
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Description", name: "description", widget: "string" }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - name: "hero"
+        label: "Hero"
+        widget: "image"
+        required: true
+        choose_url: false
+      - name: "img_two"
+        label: "Image Two"
+        widget: "image"
+        required: false
+        choose_url: false
+      - name: "img_three"
+        label: "Image Three"
+        widget: "image"
+        required: false
+        choose_url: false
+      - name: "img_four"
+        label: "Image Four"
+        widget: "image"
+        required: false
+        choose_url: false
+      - label: "Title"
+        name: "title"
+        widget: "string"
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
 
   - name: "timeline"
     identifier_field: timeline
