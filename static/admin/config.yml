@@ -10,10 +10,6 @@ media_library:
   config:
     cloud_name: da32ufmnf
     api_key: 123757614911618
-    default_transformations:
-      - - fetch_format: auto
-          quality: 50
-          effect: grayscale
 
 collections:
   - name: "projects"
@@ -31,6 +27,12 @@ collections:
         widget: "image"
         required: true
         choose_url: false
+        media_library:
+          config:
+            default_transformations:
+              - fetch_format: auto
+                quality: auto
+                effect: grayscale
       - name: "img_two"
         label: "Image Two"
         widget: "image"
