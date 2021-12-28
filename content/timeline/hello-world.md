@@ -10,7 +10,6 @@ four_imgs:
 title: Proportional [dot] Design v2.0
 date: 2021-12-27T20:51:31.542Z
 description: Welcome to the second iteration of proportional.design
-tags: "#welcome #new-new"
 ---
 
 As I've been building furniture more seriously for the past two and a half years, I've wanted to document builds and progress, if for nothing else than a repository for me to revisit – and maybe even offer some insight into how I build things.

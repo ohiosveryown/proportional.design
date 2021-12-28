@@ -20,7 +20,12 @@
             {{ article.title }}
           </header>
           <p class="description">{{ article.description }}</p>
-          <span class="tags">{{ article.tags }}</span>
+
+          <ul if="article.tags" class="tags">
+            <li v-if="article.tag_one">#{{ article.tags.tag_one }}</li>
+            <li v-if="article.tag_two">#{{ article.tags.tag_two }}</li>
+            <li v-if="article.tag_three">#{{ article.tags.tag_three }}</li>
+          </ul>
 
           <div v-if="article.one_imgs" class="one">
             <img :src="`${article.one_imgs.one_of_one}`" />
