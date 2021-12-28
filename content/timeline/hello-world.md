@@ -1,7 +1,4 @@
 ---
-two_imgs:
-  one_of_two: ""
-  two_of_two: ""
 four_imgs:
   one_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1640643324/proportional.design/IMG_7756_gzjbfj.jpg
   two_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1612969573/proportional.design/social-00_o80ipz.jpg
@@ -9,7 +6,7 @@ four_imgs:
   four_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1600742638/proportional.design/IMG_4891_krocba.jpg
 tags:
   tag_one: welcome
-  tag_two: walnut
+  tag_two: "2.0"
 title: Proportional [dot] Design v2.0
 date: 2021-12-27T20:51:31.542Z
 description: Welcome to the second iteration of proportional.design

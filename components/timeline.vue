@@ -19,34 +19,36 @@
           <header class="title neuebit">
             {{ article.title }}
           </header>
-          <p class="description">{{ article.description }}</p>
+          <p>{{ article.description }}</p>
 
           <ul if="article.tags" class="tags">
-            <li v-if="article.tag_one">#{{ article.tags.tag_one }}</li>
-            <li v-if="article.tag_two">#{{ article.tags.tag_two }}</li>
-            <li v-if="article.tag_three">#{{ article.tags.tag_three }}</li>
+            <li v-if="article.tags.tag_one">#{{ article.tags.tag_one }}</li>
+            <li v-if="article.tags.tag_two">#{{ article.tags.tag_two }}</li>
+            <li v-if="article.tags.tag_three">#{{ article.tags.tag_three }}</li>
           </ul>
 
-          <div v-if="article.one_imgs" class="one">
-            <img :src="`${article.one_imgs.one_of_one}`" />
-          </div>
+          <div class="images">
+            <div v-if="article.one_imgs" class="one">
+              <img :src="`${article.one_imgs.one_of_one}`" />
+            </div>
 
-          <div v-if="article.two_imgs" class="two">
-            <img :src="`${article.two_imgs.one_of_two}`" />
-            <img :src="`${article.two_imgs.two_of_two}`" />
-          </div>
+            <div v-if="article.two_imgs" class="two">
+              <img :src="`${article.two_imgs.one_of_two}`" />
+              <img :src="`${article.two_imgs.two_of_two}`" />
+            </div>
 
-          <div v-if="article.three_imgs" class="three">
-            <img :src="`${article.three_imgs.one_of_three}`" />
-            <img :src="`${article.three_imgs.two_of_three}`" />
-            <img :src="`${article.three_imgs.three_of_three}`" />
-          </div>
+            <div v-if="article.three_imgs" class="three">
+              <img :src="`${article.three_imgs.one_of_three}`" />
+              <img :src="`${article.three_imgs.two_of_three}`" />
+              <img :src="`${article.three_imgs.three_of_three}`" />
+            </div>
 
-          <div v-if="article.four_imgs" class="four">
-            <img :src="`${article.four_imgs.one_of_four}`" />
-            <img :src="`${article.four_imgs.two_of_four}`" />
-            <img :src="`${article.four_imgs.three_of_four}`" />
-            <img :src="`${article.four_imgs.four_of_four}`" />
+            <div v-if="article.four_imgs" class="four">
+              <img :src="`${article.four_imgs.one_of_four}`" />
+              <img :src="`${article.four_imgs.two_of_four}`" />
+              <img :src="`${article.four_imgs.three_of_four}`" />
+              <img :src="`${article.four_imgs.four_of_four}`" />
+            </div>
           </div>
         </NuxtLink>
       </li>
@@ -148,24 +150,18 @@
     }
   }
 
-  .description {
-    margin-bottom: 1.2rem;
-    @include breakpoint(mdl) {
-      margin-bottom: 0.2rem;
-    }
-  }
-
   .tags {
     display: flex;
-    margin-bottom: 2.2rem;
+    margin: 0.2rem 0 0.6rem;
     color: #e3d8ff;
     li {
       margin-right: 0.8rem;
+      font-weight: 500;
     }
   }
 
-  .image-wrapper {
-    margin: 2rem 0;
+  .images {
+    margin: 2.2rem 0 1.2rem;
   }
 
   img {
