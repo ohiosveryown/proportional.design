@@ -1,7 +1,12 @@
 ---
 two_imgs:
-  one_of_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1600744194/proportional.design/sapele_lu4fb0.jpg
-  two_of_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1600743681/proportional.design/IMG_2863_pq2xbr.jpg
+  one_of_two: ""
+  two_of_two: ""
+four_imgs:
+  one_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1640643324/proportional.design/IMG_7756_gzjbfj.jpg
+  two_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1612969573/proportional.design/social-00_o80ipz.jpg
+  three_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1605733593/proportional.design/social4_ryeulk.png
+  four_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1600742638/proportional.design/IMG_4891_krocba.jpg
 title: Proportional [dot] Design v2.0
 date: 2021-12-27T20:51:31.542Z
 description: Welcome to the second iteration of proportional.design
