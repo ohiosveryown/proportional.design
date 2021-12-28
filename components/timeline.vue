@@ -32,18 +32,15 @@
           </div>
 
           <div v-if="article.three_imgs" class="three">
-            <img
-              v-if="article.three_imgs"
-              :src="`${article.three_imgs.one_of_three}`"
-            />
-            <img
-              v-if="article.three_imgs"
-              :src="`${article.three_imgs.two_of_three}`"
-            />
-            <img
-              v-if="article.three_imgs"
-              :src="`${article.three_imgs.three_of_three}`"
-            />
+            <img :src="`${article.three_imgs.one_of_three}`" />
+            <img :src="`${article.three_imgs.two_of_three}`" />
+            <img :src="`${article.three_imgs.three_of_three}`" />
+          </div>
+
+          <div v-if="article.four_imgs" class="four">
+            :src="`${article.four_imgs.one_of_four}`" />
+            :src="`${article.four_imgs.two_of_four}`" />
+            :src="`${article.four_imgs.four_of_four}`" />
           </div>
         </NuxtLink>
       </li>
@@ -205,6 +202,19 @@
     }
     img:nth-of-type(3) {
       grid-area: 2 / 2 / 3 / 3;
+    }
+  }
+
+  .four {
+    display: grid;
+    grid-gap: 6px;
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 16px;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
     }
   }
 </style>

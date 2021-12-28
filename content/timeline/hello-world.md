@@ -2,10 +2,6 @@
 two_imgs:
   one_of_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1600744194/proportional.design/sapele_lu4fb0.jpg
   two_of_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1600743681/proportional.design/IMG_2863_pq2xbr.jpg
-three_imgs:
-  one_of_three: ""
-  two_of_three: ""
-  three_of_three: ""
 title: Proportional [dot] Design v2.0
 date: 2021-12-27T20:51:31.542Z
 description: Welcome to the second iteration of proportional.design

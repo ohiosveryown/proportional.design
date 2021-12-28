@@ -87,6 +87,16 @@ collections:
           - {label: "2/3", name: "two_of_three", widget: "image", required: false, choose_url: false}
           - {label: "3/3", name: "three_of_three", widget: "image", required: false, choose_url: false}
 
+      - label: "4/4"
+        name: "four_imgs"
+        widget: "object"
+        collapsed: true
+        fields:
+          - {label: "1/4", name: "one_of_four", widget: "image", required: false, choose_url: false}
+          - {label: "2/4", name: "two_of_four", widget: "image", required: false, choose_url: false}
+          - {label: "3/4", name: "three_of_four", widget: "image", required: false, choose_url: false}
+          - {label: "4/4", name: "four_of_four", widget: "image", required: false, choose_url: false}
+
       - name: "img_one"
         label: "Image One"
         widget: "image"
