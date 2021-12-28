@@ -22,16 +22,28 @@
           <p class="description">{{ article.description }}</p>
           <span class="tags">{{ article.tags }}</span>
 
+          <div v-if="article.one_imgs" class="one">
+            <img :src="`${article.one_imgs.one_of_one}`" />
+          </div>
+
           <div v-if="article.two_imgs" class="two">
             <img :src="`${article.two_imgs.one_of_two}`" />
-            <img :src="`${article.two_imgs.two_of_two}`" />
             <img :src="`${article.two_imgs.two_of_two}`" />
           </div>
 
           <div v-if="article.three_imgs" class="three">
-            <img :src="`${article.three_imgs.one_of_three}`" />
-            <img :src="`${article.three_imgs.two_of_three}`" />
-            <img :src="`${article.three_imgs.three_of_three}`" />
+            <img
+              v-if="article.three_imgs"
+              :src="`${article.three_imgs.one_of_three}`"
+            />
+            <img
+              v-if="article.three_imgs"
+              :src="`${article.three_imgs.two_of_three}`"
+            />
+            <img
+              v-if="article.three_imgs"
+              :src="`${article.three_imgs.three_of_three}`"
+            />
           </div>
         </NuxtLink>
       </li>

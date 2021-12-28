@@ -63,6 +63,13 @@ collections:
       preview: false
     fields:
 
+      - label: "1/1"
+        name: "one_imgs"
+        widget: "object"
+        collapsed: true
+        fields:
+          - {label: "1/1", name: "one_of_one", widget: "image", required: false, choose_url: false}
+
       - label: "2/2"
         name: "two_imgs"
         widget: "object"
