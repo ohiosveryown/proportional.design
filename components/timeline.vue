@@ -19,7 +19,7 @@
           <header class="title neuebit">
             {{ article.title }}
           </header>
-          <p class="excerpt">{{ article.excerpt }}</p>
+          <p class="description">{{ article.description }}</p>
           <img v-if="article.img_one" :src="`${article.img_one}`" />
           <img v-if="article.img_two" :src="`${article.img_two}`" />
           <img v-if="article.img_three" :src="`${article.img_three}`" />
@@ -124,10 +124,10 @@
     }
   }
 
-  .excerpt {
-    // margin-bottom: 2rem;
+  .description {
+    margin-bottom: 2rem;
     @include breakpoint(mdl) {
-      margin-bottom: 0.4rem;
+      margin-bottom: 2rem;
     }
   }
 
