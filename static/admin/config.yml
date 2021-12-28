@@ -77,9 +77,9 @@ collections:
         widget: "object"
         collapsed: true
         fields:
-          - {label: "1/3", name: "one_of_three", widget: "image", required: "false", choose_url: "false"}
-          - {label: "2/3", name: "two_of_three", widget: "image", required: "false", choose_url: "false"}
-          - {label: "3/3", name: "three_of_three", widget: "image", required: "false", choose_url: "false"}
+          - {label: "1/3", name: "one_of_three", widget: "image", required: false, choose_url: false}
+          - {label: "2/3", name: "two_of_three", widget: "image", required: false", choose_url: false}
+          - {label: "3/3", name: "three_of_three", widget: "image", required: false, choose_url: false}
 
       - name: "img_one"
         label: "Image One"
