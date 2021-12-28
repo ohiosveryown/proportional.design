@@ -42,20 +42,26 @@ collections:
         widget: "image"
         required: false
         choose_url: false
-        media_library:
-          config:
-            multiple: true
+      - name: "img_two"
+        label: "Image Two"
+        widget: "image"
+        required: false
+        choose_url: false
+      - name: "img_three"
+        label: "Image Three"
+        widget: "image"
+        required: false
+        choose_url: false
+      - name: "img_four"
+        label: "Image Four"
+        widget: "image"
+        required: false
+        choose_url: false
+      - label: "Title"
+        name: "title"
+        widget: "string"
 
-      # - name: thumbnail
-      #   label: Featured image
-      #   widget: object
-      #   required: false
-      #   choose_url: false
-      #   fields:
-      #     - {name: src, label: Image, widget: image}
-      #     - {name: alt, label: Alt text, widget: string}
 
-      - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Body", name: "body", widget: "markdown" }
