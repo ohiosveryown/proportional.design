@@ -17,8 +17,8 @@
     color: #fff;
     font-size: 2.2rem;
     background: rgba(38, 35, 34, 0.96);
-    box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.07),
-      0px 40px 32px rgba(0, 0, 0, 0.13), 0px 22px 17px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 20px 32px rgba(0, 0, 0, 0.13),
+      0px 22px 17px rgba(0, 0, 0, 0.05);
     transform-origin: bottom;
     transition: transform 300ms ease;
     will-change: transform;

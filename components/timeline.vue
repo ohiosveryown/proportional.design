@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="">
     <header class="section-header">
       <span
         class="trigger"
@@ -13,7 +13,7 @@
       >
     </header>
 
-    <ul>
+    <ul class="entries">
       <li class="entry" v-for="article of articles" :key="article.slug">
         <NuxtLink :to="'/timeline/' + article.slug">
           <header class="title neuebit">
@@ -112,6 +112,10 @@
     opacity: 1;
     animation: moveit 900ms ease forwards;
     will-change: transform;
+  }
+
+  section {
+    padding-bottom: 1.2rem;
   }
 
   .entry {
