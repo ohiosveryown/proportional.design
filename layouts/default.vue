@@ -15,53 +15,38 @@
         const body = document.body
         const html = document.documentElement
         if (this.currentTime >= 20 && this.currentTime <= 24) {
-          console.log("it's night 🌙")
+          console.log("it's evening 🌙")
           body.style.cssText = `
-            background: linear-gradient(135deg, rgba(125,85,187,1) 0%, rgba(22,41,73,1) 15%, rgba(1,10,24,1) 70%);
-            color: #fff;
-          `
-          html.style.cssText = `
-            background: linear-gradient(135deg, rgba(125,85,187,1) 0%, rgba(22,41,73,1) 15%, rgba(1,10,24,1) 70%);
+            background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640758491/proportional.design-v2/bg/evening_wbgosa.svg) no-repeat top center fixed;
+            background-size: cover;
             color: #fff;
           `
         } else if (this.currentTime >= 0 && this.currentTime < 7) {
           console.log("it's still night 🌗")
           body.style.cssText = `
-            background: linear-gradient(135deg, #4A68A4 0.04%, #1C3357 25.52%, #031024 100%);
-            color: #fff;
-          `
-          html.style.cssText = `
-            background: linear-gradient(135deg, #4A68A4 0.04%, #1C3357 25.52%, #031024 100%);
-            color: #fff;
-          `
+              background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640758898/proportional.design-v2/bg/night_ig0bgl.svg) no-repeat top center fixed;
+              background-size: cover;
+              color: #fff;
+            `
         } else if (this.currentTime >= 7 && this.currentTime < 12) {
           console.log("it's morning time ⛅")
           body.style.cssText = `
-            background: linear-gradient(135deg, #FEFCEA 0%, #52ACFF 67.19%, #1D74C5 100%);
-            color: #0e0e0f;
-          `
-          html.style.cssText = `
-            background: linear-gradient(135deg, #FEFCEA 0%, #52ACFF 67.19%, #1D74C5 100%);
-            color: #0e0e0f;
-          `
+              background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640758051/proportional.design-v2/bg/morning_j4tsrx.svg) no-repeat top center fixed;
+              background-size: cover;
+              color: #0e0e0f;
+            `
         } else if (this.currentTime >= 12 && this.currentTime < 17) {
           console.log("it's the afternoon ☀️")
           body.style.cssText = `
-            background: linear-gradient(135deg, #FEF1EA 0%, #4296E4 66.67%, #2E6BA4 100%);
-            color: #0e0e0f;
-          `
-          html.style.cssText = `
-            background: linear-gradient(135deg, #FEF1EA 0%, #4296E4 66.67%, #2E6BA4 100%);
-            color: #0e0e0f;
+            background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640759377/proportional.design-v2/bg/afternoon_qliyuv.svg) no-repeat top center fixed;
+            background-size: cover;
+            color: #fff;
           `
         } else {
           console.log("it's dusk 🌇")
           body.style.cssText = `
-            background: linear-gradient(135deg, #A7478F 0.04%, #4E2980 25.52%, #281876 100%);
-            color: #fff;
-          `
-          html.style.cssText = `
-            background: linear-gradient(135deg, #A7478F 0.04%, #4E2980 25.52%, #281876 100%);
+            background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640757207/proportional.design-v2/bg/dusk_q3xtfh.svg) no-repeat top center fixed;
+            background-size: cover;
             color: #fff;
           `
         }

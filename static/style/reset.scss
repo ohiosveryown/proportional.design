@@ -32,7 +32,7 @@ html {
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility !important;
-  overscroll-behavior: none;
+  // overscroll-behavior: none;
 }
 
 html:focus-within {
@@ -44,7 +44,7 @@ body {
   color: var(--gravity);
   font: normal 1.6rem/1.4 var(--system-ui);
   text-rendering: optimizeSpeed;
-  overscroll-behavior: none;
+  // overscroll-behavior: none;
 }
 
 body,

@@ -47,6 +47,10 @@
       </div>
 
       <article class="p-timeline">
+        <ul class="meta">
+          <li class="date">{{ formatDate(article.createdAt) }}</li>
+          <li class="dimensions">{{ article.dimensions }}</li>
+        </ul>
         <nuxt-content :document="article" />
       </article>
     </main>

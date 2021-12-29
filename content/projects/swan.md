@@ -2,6 +2,7 @@
 hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1640651657/proportional.design-v2/roop_l4jj0j.jpg
 title: Swan
 title_full: Swan Breakfast Table
+dimensions: 18H X 24W X 16D
 tags:
   tag_one: oak
   tag_two: table

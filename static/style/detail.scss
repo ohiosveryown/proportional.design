@@ -56,6 +56,18 @@ h1 {
   }
 }
 
+.meta {
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  margin-bottom: 2.8rem;
+  font-size: 1.6rem;
+  color: #838895;
+  .date {
+    font-weight: 600;
+  }
+}
+
 .tags {
   display: flex;
   margin: 1.2rem 0 2.4rem;

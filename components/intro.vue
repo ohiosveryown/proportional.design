@@ -97,9 +97,9 @@
       timeOfDay() {
         const time = document.querySelector(".time")
         if (this.currentTime >= 20 && this.currentTime <= 24) {
-          time.innerText = "Good Night 🌙"
+          time.innerText = "Have a Good Night 🌙"
         } else if (this.currentTime >= 0 && this.currentTime < 7) {
-          time.innerText = "Good Night 🌗"
+          time.innerText = "Night Owl Mode 🌗"
         } else if (this.currentTime >= 7 && this.currentTime < 12) {
           time.innerText = "Good Morning ⛅"
         } else if (this.currentTime >= 12 && this.currentTime < 17) {
