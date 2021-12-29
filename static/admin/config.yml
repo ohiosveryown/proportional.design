@@ -27,33 +27,36 @@ collections:
         widget: "image"
         required: true
         choose_url: false
-      - name: "img_two"
-        label: "Image Two"
-        widget: "image"
-        required: false
-        choose_url: false
-      - name: "img_three"
-        label: "Image Three"
-        widget: "image"
-        required: false
-        choose_url: false
-      - name: "img_four"
-        label: "Image Four"
-        widget: "image"
-        required: false
-        choose_url: false
+
       - label: "Title"
         name: "title"
         widget: "string"
+
+      - label: "Title for Detail Page"
+        name: "title_full"
+        widget: "string"
+
       - label: "Publish Date"
         name: "date"
         widget: "datetime"
-      - label: "Body"
-        name: "body"
-        widget: "markdown"
+
       - label: "Dimensions"
         name: "dimensions"
         widget: "string"
+
+      - label: "Tags"
+        name: "tags"
+        widget: "object"
+        collapsed: true
+        fields:
+          - {label: "tag one", name: "tag_one", widget: "string", required: false}
+          - {label: "tag two", name: "tag_two", widget: "string", required: false}
+          - {label: "tag three", name: "tag_three", widget: "string", required: false}
+
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
 
   - name: "timeline"
     identifier_field: timeline
