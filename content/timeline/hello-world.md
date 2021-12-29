@@ -16,3 +16,9 @@ four_imgs:
 As I've been building furniture more seriously for the past two and a half years, I've wanted to document builds and progress, if for nothing else than a repository for me to revisit – and maybe even offer some insight into how I build things.
 
 The first iteration of proportional.design had some limitations, the biggest being it was a pain to update and wasn't very blog-like.
+
+![Hiro Chair](https://res.cloudinary.com/da32ufmnf/image/upload/v1612969573/proportional.design/social-00_o80ipz.jpg)
+
+As I've been building furniture more seriously for the past two and a half years, I've wanted to document builds and progress, if for nothing else than a repository for me to revisit – and maybe even offer some insight into how I build things.
+
+The first iteration of proportional.design had some limitations, the biggest being it was a pain to update and wasn't very blog-like.

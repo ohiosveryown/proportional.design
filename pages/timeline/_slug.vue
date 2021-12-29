@@ -1,15 +1,20 @@
 <template>
-  <div>
-    <aside class="slide">
-      <h1 class="title neuebit">{{ article.title }}</h1>
+  <div class="wrapper">
+    <main class="">
+      <a href="" @click.prevent="$router.back()">
+        <button class="back">
+          <svg width="14" height="14" fill="none">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M16.03 6.098H4.185l4.402-4.447a.974.974 0 0 0 0-1.368.95.95 0 0 0-1.353 0L1.276 6.301a.975.975 0 0 0-.135 1.196.966.966 0 0 0 .174.24l5.92 5.98a.95.95 0 0 0 1.353 0 .974.974 0 0 0 0-1.367L4.313 8.032H16.03a.967.967 0 0 0 0-1.934Z"
+              fill="#fff"
+            />
+          </svg>
+        </button>
+      </a>
 
-      <footer>
-        <small class="time-date">
-          {{ formatDate(article.createdAt) }}
-          {{ formatTime(article.createdAt) }}
-        </small>
-        <small v-if="article.dimensions">{{ article.dimensions }}</small>
-      </footer>
+      <h1 class="title neuebit">{{ article.title }}</h1>
 
       <ul if="article.tags" class="tags">
         <li v-if="article.tags.tag_one">#{{ article.tags.tag_one }}</li>
@@ -17,176 +22,174 @@
         <li v-if="article.tags.tag_three">#{{ article.tags.tag_three }}</li>
       </ul>
 
-      <article class="p">
+      <div class="images">
+        <div v-if="article.one_imgs" class="one">
+          <img :src="`${article.one_imgs.one_of_one}`" />
+        </div>
+
+        <div v-if="article.two_imgs" class="two">
+          <img :src="`${article.two_imgs.one_of_two}`" />
+          <img :src="`${article.two_imgs.two_of_two}`" />
+        </div>
+
+        <div v-if="article.three_imgs" class="three">
+          <img :src="`${article.three_imgs.one_of_three}`" />
+          <img :src="`${article.three_imgs.two_of_three}`" />
+          <img :src="`${article.three_imgs.three_of_three}`" />
+        </div>
+
+        <div v-if="article.four_imgs" class="four">
+          <img :src="`${article.four_imgs.one_of_four}`" />
+          <img :src="`${article.four_imgs.two_of_four}`" />
+          <img :src="`${article.four_imgs.three_of_four}`" />
+          <img :src="`${article.four_imgs.four_of_four}`" />
+        </div>
+      </div>
+
+      <article class="p-timeline">
         <nuxt-content :document="article" />
       </article>
+    </main>
 
-      <section>
-        <!--         <contact class="primary" /> -->
-        <nuxt-link to="/">
-          <button class="secondary neuebit uc">Go Back</button>
-        </nuxt-link>
-      </section>
+    <div class="divider-wrapper">
+      <div class="divider" />
+    </div>
 
-      <section class="rating">
-        <div class="question">
-          <header>Care to rate this project?</header>
-          <ul class="emojis">
-            <li class="emoji">🔥</li>
-            <li class="emoji">❤️</li>
-            <li class="emoji">🤔</li>
-            <li class="emoji">👎</li>
-          </ul>
+    <aside class="">
+      <div class="cards">
+        <div class="card card--contact">
+          <header>Get in Touch</header>
+          <p>
+            Interested in a custom project or want to learn more? Smash that
+            contact button below.
+          </p>
+          <contact class="primary" />
         </div>
-        <div class="answer">
-          Hey, thanks. I really appreciate the feedback 🙌.
+
+        <section class="card card--rating">
+          <div class="question">
+            <header>Care to rate this project?</header>
+            <p>Ratings help me build more things people like</p>
+            <ul class="emojis">
+              <li class="emoji">🔥</li>
+              <li class="emoji">❤️</li>
+              <li class="emoji">🤔</li>
+              <li class="emoji">👎</li>
+            </ul>
+          </div>
+          <div class="answer">
+            <header>Hey, Thanks</header>
+            <p>I really appreciate the feedback 🙌.</p>
+          </div>
+        </section>
+
+        <div class="card card--next-post">
+          <header>More From the Timeline</header>
+          <p>More posts go here</p>
         </div>
-      </section>
+      </div>
     </aside>
-
-    <div v-if="article.one_imgs" class="one">
-      <img :src="`${article.one_imgs.one_of_one}`" />
-    </div>
-
-    <div v-if="article.two_imgs" class="two">
-      <img :src="`${article.two_imgs.one_of_two}`" />
-      <img :src="`${article.two_imgs.two_of_two}`" />
-    </div>
-
-    <div v-if="article.three_imgs" class="three">
-      <img :src="`${article.three_imgs.one_of_three}`" />
-      <img :src="`${article.three_imgs.two_of_three}`" />
-      <img :src="`${article.three_imgs.three_of_three}`" />
-    </div>
-
-    <div v-if="article.four_imgs" class="four">
-      <img :src="`${article.four_imgs.one_of_four}`" />
-      <img :src="`${article.four_imgs.two_of_four}`" />
-      <img :src="`${article.four_imgs.three_of_four}`" />
-      <img :src="`${article.four_imgs.four_of_four}`" />
-    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
   @import "~static/style/grid.scss";
 
-  aside {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: var(--zmax);
-    padding: 3.2rem 3.6rem;
-    width: 100vw;
-    height: 30vh;
-    overflow-y: scroll;
-    color: #fff;
-    background: linear-gradient(
-      134.5deg,
-      rgba(97, 86, 78, 0.82) 0%,
-      rgba(12, 12, 14, 0.82) 69.19%
-    );
-    box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.24);
-    backdrop-filter: blur(32px);
-    border-radius: 20px 20px 0 0;
-    @include breakpoint(md) {
-      top: 0;
-      right: 0;
-      left: auto;
-      padding-top: 5.6rem;
-      border-radius: 20px 0 0 20px;
-      width: 44vw;
-      height: 100vh;
-    }
-    @include breakpoint(mdl) {
-      padding-top: 0rem;
-      width: 40vw;
-    }
-  }
-
-  .title {
+  .cards {
     position: sticky;
-    top: 0;
-    z-index: var(--zmax);
-    background: rgba(88, 84, 65, 1);
-    backdrop-filter: blur(10px);
-    margin-bottom: 1.2rem;
-    font-size: 4.4rem;
-    line-height: 0.8;
-    @include breakpoint(md) {
-      font-size: 3.8vw;
-    }
-
-    @include breakpoint(mdl) {
-      padding-top: 5.6rem;
-    }
-
-    @include breakpoint(lg) {
-      font-size: 3.4vw;
-    }
+    top: 2rem;
+    margin-top: 5.6rem;
   }
 
-  .p {
-    margin: 1.2rem 0;
-    max-width: 47ch;
-    @include breakpoint(mdl) {
-      font-size: 1.8rem;
-    }
-    @include breakpoint(xl) {
-      font-size: 2.6rem;
-    }
-  }
+  .card {
+    margin-bottom: 2rem;
+    padding: 1.2rem 2rem 2rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(40px);
 
-  .tags {
-    display: flex;
-    color: #e3d8ff;
-    li {
-      margin-right: 0.8rem;
+    header {
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+      font-size: 16px;
     }
-  }
 
-  footer {
-    display: flex;
-    flex-direction: column;
-    margin: 2rem 0 0.2rem;
-    font-size: 1.7rem;
-    font-weight: 600;
-    color: #8b8a89;
-    @include breakpoint(md) {
-      flex-direction: row;
-      justify-content: space-between;
+    p {
+      font-size: 1.4rem;
+      line-height: 1.3;
+      color: rgba(255, 255, 255, 0.64);
+      @include breakpoint(xl) {
+        max-width: 40ch;
+        font-size: 1.7rem;
+      }
     }
   }
 
   .primary,
   .secondary {
     position: relative;
-    margin: 4.8rem 2rem 4.8rem 0;
+    margin: 1.2rem 0 0rem;
     bottom: auto;
     font-size: 1.8rem;
   }
 
-  .secondary {
-    width: max-content;
-    padding: 1.6rem 0.2rem;
-    border-radius: 16px;
-    color: #fff;
-    background: none;
-  }
-
-  @media (pointer: fine) {
-    button:hover {
-      transform: none;
-    }
-    .secondary:hover {
-      text-decoration: underline;
+  .wrapper {
+    position: relative;
+    margin: 0 auto;
+    max-width: var(--max-width);
+    width: 90vw;
+    @include breakpoint(md) {
+      display: flex;
     }
   }
 
-  .rating {
+  .back {
+    position: sticky;
+    top: 2rem;
+    z-index: var(--zmax);
+    padding: 1.2rem 1.3rem 1rem;
+    border-radius: 100%;
+    background: rgba(38, 35, 34, 0.96);
+  }
+
+  main {
+    position: relative;
+    @include breakpoint(md) {
+      width: grid-width(7);
+    }
+  }
+
+  .divider-wrapper {
+    display: none;
+    @include breakpoint(md) {
+      display: inherit;
+      width: grid-width(1);
+    }
+  }
+
+  .divider {
+    display: none;
+    @include breakpoint(md) {
+      display: inherit;
+      margin: 0 auto;
+      width: 1px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  aside {
+    @include breakpoint(md) {
+      padding: 0;
+      width: grid-width(4);
+      min-height: 100vh;
+    }
+  }
+
+  .card--rating {
     ul {
       display: flex;
-      margin: 0.6rem 0 2rem;
+      margin: 0.6rem 0;
     }
     li {
       margin-right: 0.6rem;
@@ -197,10 +200,118 @@
       cursor: pointer;
     }
   }
-
   @media (pointer: fine) {
-    .rating li:hover {
-      background: rgba(38, 36, 35, 1);
+    .card--rating li:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+  .question {
+    transition: visibility 0ms, opacity 400ms ease;
+  }
+  .answer {
+    display: none;
+    visibility: hidden;
+    opacity: 1;
+    transition: visibility 0ms, opacity 400ms ease;
+  }
+
+  h1 {
+    margin-top: 4.8rem;
+    font-size: 4.4rem;
+    line-height: 0.8;
+    @include breakpoint(md) {
+      margin-top: 4.8rem;
+      font-size: 5vw;
+      line-height: 1;
+    }
+  }
+
+  .tags {
+    display: flex;
+    margin: 1.2rem 0 2.4rem;
+    font-size: 2rem;
+    color: #e3d8ff;
+    font-weight: 500;
+    @include breakpoint(md) {
+      margin: 0 0 4.8rem;
+      font-size: 2rem;
+    }
+    li {
+      margin-right: 0.8rem;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .images {
+    box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.07),
+      0px 42px 32px rgba(0, 0, 0, 0.1303), 0px 22px 16px rgba(0, 0, 0, 0.04);
+  }
+
+  .two {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-gap: 6px;
+    border-radius: 16px;
+    overflow: hidden;
+    img:nth-of-type(1) {
+      /* grid-area: 1 / 1 / 3 / 2; */
+    }
+    img:nth-of-type(2) {
+      /* grid-area: 1 / 2 / 2 / 3; */
+    }
+  }
+
+  .three {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 50%);
+    grid-gap: 6px;
+    border-radius: 16px;
+    max-height: 40vh;
+    overflow: hidden;
+    @include breakpoint(mdl) {
+      max-height: 54vh;
+    }
+    img:nth-of-type(1) {
+      grid-area: 1 / 1 / 3 / 2;
+    }
+    img:nth-of-type(2) {
+      grid-area: 1 / 2 / 2 / 3;
+    }
+    img:nth-of-type(3) {
+      grid-area: 2 / 2 / 3 / 3;
+    }
+  }
+
+  .four {
+    display: grid;
+    grid-gap: 6px;
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 16px;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .p-timeline {
+    margin: 6.4rem 0;
+    font-size: 1.8rem;
+    line-height: 1.6;
+    @include breakpoint(mdl) {
+      font-size: 2.2rem;
+      line-height: 1.5;
+    }
+    @include breakpoint(xl) {
+      font-size: 2.6rem;
     }
   }
 </style>
@@ -224,6 +335,30 @@
       formatTime(time) {
         return new Date(time).toLocaleTimeString("en", { timeStyle: "short" })
       },
+      escape() {
+        document.addEventListener("keydown", () => {
+          if (event.key === "Escape") {
+            this.$nuxt.$options.router.push("/")
+          }
+        })
+      },
+    },
+    mounted() {
+      this.escape()
+      const emojis = document.querySelectorAll(".emoji")
+      const question = document.querySelector(".question")
+      const answer = document.querySelector(".answer")
+      emojis.forEach((emoji) => {
+        emoji.addEventListener("click", () => {
+          question.style.display = "none"
+          answer.style.display = "flex"
+          answer.style.cssText = `
+            display: inherit;
+            visibility: visible;
+            opacity: 1;
+          `
+        })
+      })
     },
   }
 </script>
