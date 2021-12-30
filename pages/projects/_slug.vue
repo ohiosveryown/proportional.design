@@ -1,15 +1,5 @@
 <template>
   <div class="wrapper">
-    <svg width="0" height="0">
-      <defs>
-        <clipPath id="squircle" clipPathUnits="objectBoundingBox">
-          <path
-            d="M .5,0 C .001,0 0,.001 0,.3 0,.9 .001,1 .3,1 .9,1 1,.9 1,.3 1,.001 .9,0 .3,0 Z"
-          />
-        </clipPath>
-      </defs>
-    </svg>
-
     <svg
       class="waveEnter"
       viewBox="0 0 469.539032 263.986786"
