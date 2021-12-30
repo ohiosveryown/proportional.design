@@ -38,6 +38,8 @@
       </nuxt-link>
 
       <h1 class="title neuebit">{{ article.title_full }}</h1>
+
+      <!-- like counter -->
       <likes />
 
       <ul if="article.tags" class="tags">
