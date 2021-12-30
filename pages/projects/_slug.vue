@@ -38,6 +38,7 @@
       </nuxt-link>
 
       <h1 class="title neuebit">{{ article.title_full }}</h1>
+      <!--       <voltage /> -->
 
       <ul if="article.tags" class="tags">
         <li v-if="article.tags.tag_one">#{{ article.tags.tag_one }}</li>
