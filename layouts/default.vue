@@ -12,10 +12,6 @@
 <style lang="scss" scoped>
   @import "~static/style/grid.scss";
 
-  .cc-unoo {
-    opacity: 0.3;
-  }
-
   .haze {
     position: absolute;
     top: 0;
@@ -24,6 +20,7 @@
     width: 100vw;
     height: auto;
     object-fit: cover;
+    pointer-events: none;
   }
 </style>
 

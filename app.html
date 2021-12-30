@@ -44,40 +44,26 @@
   <body {{ BODY_ATTRS }}>
     {{ APP }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script>
-      window.Papercups = {
-        config: {
-          // Pass in your Papercups account token here after signing up
-          accountId: "428f4b54-5d62-42f6-a6cd-017e007108d4",
-          title: "Oh, hey there",
-          subtitle: "Interested in some furniture or have a question?",
-          newMessagePlaceholder: "Add your message here...",
-          primaryColor: "#13c2c2",
-          // Optionally pass in a default greeting
-          greeting: "Hi there! How can I help you?",
-          // Optionally pass in metadata to identify the customer
-          customer: {
-            name: "Test User",
-            email: "test@test.com",
-            external_id: "123",
-            metadata: { version: 1, plan: "premium" }, // Custom fields go here
-          },
-          // Optionally specify the base URL
-          baseUrl: "https:proportional.design",
-          // Add this if you want to require the customer to enter
-          // their email before being able to send you a message
-          requireEmailUpfront: true,
-          // Add this if you want to indicate when you/your agents
-          // are online or offline to your customers
-          showAgentAvailability: true,
-        },
-      }
+    <!-- Smartsupp Live Chat script -->
+    <script type="text/javascript">
+      var _smartsupp = _smartsupp || {}
+      _smartsupp.key = "7a4a583abfc2252c4d70d9d0784687c4c994b96f"
+      window.smartsupp ||
+        (function (d) {
+          var s,
+            c,
+            o = (smartsupp = function () {
+              o._.push(arguments)
+            })
+          o._ = []
+          s = d.getElementsByTagName("script")[0]
+          c = d.createElement("script")
+          c.type = "text/javascript"
+          c.charset = "utf-8"
+          c.async = true
+          c.src = "https://www.smartsuppchat.com/loader.js?"
+          s.parentNode.insertBefore(c, s)
+        })(document)
     </script>
-    <script
-      type="text/javascript"
-      async
-      defer
-      src="https://app.papercups.io/widget.js"
-    ></script>
   </body>
 </html>
