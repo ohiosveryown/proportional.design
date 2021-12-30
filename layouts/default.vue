@@ -1,6 +1,27 @@
 <template>
-  <nuxt />
+  <div>
+    <img
+      class="haze"
+      src="https://res.cloudinary.com/da32ufmnf/image/upload/v1640883977/proportional.design-v2/bg/haze_o1m70z.png"
+      alt="haze image"
+    />
+    <nuxt />
+  </div>
 </template>
+
+<style lang="scss" scoped>
+  @import "~static/style/grid.scss";
+
+  .haze {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: auto;
+    object-fit: cover;
+  }
+</style>
 
 <script>
   export default {
