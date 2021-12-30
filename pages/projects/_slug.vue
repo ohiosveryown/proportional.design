@@ -24,7 +24,7 @@
       />
     </svg>
     <main>
-      <a href="" @click.prevent="$router.back()">
+      <nuxt-link to="/">
         <button ref="back" class="back">
           <svg width="14" height="14" fill="none">
             <path
@@ -35,7 +35,7 @@
             />
           </svg>
         </button>
-      </a>
+      </nuxt-link>
 
       <h1 class="title neuebit">{{ article.title_full }}</h1>
 
@@ -92,7 +92,7 @@
 
         <div class="card card--next-post">
           <header>More From the Timeline</header>
-          <p>More posts go here</p>
+          <previous :prev="prev" />
         </div>
       </div>
     </aside>
@@ -106,14 +106,19 @@
 
 <script>
   export default {
-    async asyncData({ $content, params, error }) {
-      let article
-      try {
-        article = await $content("projects", params.slug).fetch()
-      } catch (e) {
-        error({ message: "Projects not found" })
+    async asyncData({ $content, params }) {
+      const article = await $content("projects", params.slug).fetch()
+
+      const [prev] = await $content("projects")
+        .only(["title", "slug", "createdAt"])
+        .sortBy("createdAt", "asc")
+        .surround(params.slug)
+        .fetch()
+
+      return {
+        article,
+        prev,
       }
-      return { article }
     },
     methods: {
       formatDate(date) {

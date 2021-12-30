@@ -182,6 +182,11 @@
     object-fit: cover;
   }
 
+  .one {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
   .two {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

@@ -13,12 +13,12 @@ four_imgs:
   four_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1600742638/proportional.design/IMG_4891_krocba.jpg
 ---
 
-As I've been building furniture more seriously for the past two and a half years, I've wanted to document builds and progress, if for nothing else than a repository for me to revisit – and maybe even offer some insight into how I build things.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-The first iteration of proportional.design had some limitations, the biggest being it was a pain to update and wasn't very blog-like.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ![Hiro Chair](https://res.cloudinary.com/da32ufmnf/image/upload/v1612969573/proportional.design/social-00_o80ipz.jpg)
 
-As I've been building furniture more seriously for the past two and a half years, I've wanted to document builds and progress, if for nothing else than a repository for me to revisit – and maybe even offer some insight into how I build things.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-The first iteration of proportional.design had some limitations, the biggest being it was a pain to update and wasn't very blog-like.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

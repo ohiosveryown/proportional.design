@@ -121,6 +121,11 @@ img {
   border-radius: 24px;
 }
 
+.one {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
 .two {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -264,4 +269,8 @@ aside {
   margin: 1.2rem 0 0rem;
   bottom: auto;
   font-size: 1.8rem;
+}
+
+.emojis {
+  padding-top: 0.8rem;
 }

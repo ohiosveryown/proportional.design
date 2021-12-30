@@ -24,7 +24,7 @@
       />
     </svg>
     <main>
-      <a href="" @click.prevent="$router.back()">
+      <nuxt-link to="/">
         <button ref="back" class="back">
           <svg width="14" height="14" fill="none">
             <path
@@ -35,7 +35,7 @@
             />
           </svg>
         </button>
-      </a>
+      </nuxt-link>
 
       <h1 class="title neuebit">{{ article.title }}</h1>
 
@@ -112,7 +112,6 @@
 
         <div class="card card--next-post">
           <header>More From the Timeline</header>
-          <p>More posts go here</p>
           <previous :prev="prev" />
         </div>
       </div>
@@ -130,8 +129,8 @@
     async asyncData({ $content, params }) {
       const article = await $content("timeline", params.slug).fetch()
 
-      const [prev, next] = await $content("timeline")
-        .only(["title", "slug"])
+      const [prev] = await $content("timeline")
+        .only(["title", "slug", "createdAt"])
         .sortBy("createdAt", "asc")
         .surround(params.slug)
         .fetch()
