@@ -59,7 +59,7 @@
       <div class="divider" />
     </div>
 
-    <aside class="">
+    <aside>
       <div class="cards">
         <div class="card card--contact">
           <header>Get in Touch</header>

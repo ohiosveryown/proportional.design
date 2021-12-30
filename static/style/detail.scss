@@ -162,8 +162,8 @@ img {
 }
 
 aside {
+  padding-bottom: 2.4rem;
   @include breakpoint(md) {
-    padding: 0;
     width: grid-width(4);
     min-height: 100vh;
   }

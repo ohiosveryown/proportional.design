@@ -67,6 +67,12 @@
     left: 4vw;
   }
 
+  img:nth-of-type(1) {
+  }
+
+  img:nth-of-type(2) {
+  }
+
   li:nth-of-type(2) {
     top: 12vh;
     left: 12vw;

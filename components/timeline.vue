@@ -1,5 +1,5 @@
 <template>
-  <section class="">
+  <section>
     <header class="section-header">
       <span
         class="trigger"
