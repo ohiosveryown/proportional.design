@@ -4,27 +4,20 @@
     <projects />
     <floating />
     <timeline />
-    <svg
-      class="waveEnter"
-      viewBox="0 0 469.539032 263.986786"
-      preserveAspectRatio="none"
-    >
+
+    <svg class="waveEnter" viewBox="0 0 469 264" preserveAspectRatio="none">
       <path
         id="waveEnter"
-        fill="#fff"
-        d="M469.539032,263.986786H-0.000001L0,0c226.11113,0,182.887283-0.414484,469.539032,0V263.986786zz"
+        fill="#000"
+        d="M469,264H-0.000001L0,0c226.11113,0,182.887283-0.414484,469.539032,0V263.986786zz"
       />
     </svg>
 
-    <svg
-      class="waveLeave"
-      viewBox="0 0 469.539032 263.986786"
-      preserveAspectRatio="none"
-    >
+    <svg class="waveLeave" viewBox="0 0 469 264" preserveAspectRatio="none">
       <path
         id="waveLeave"
-        fill="#fff"
-        d="M469.539032,263.986786H-0.000001L0,263.557617c66.11113,0.429169,351.088104,0.429169,469.539032,0.208344V263.986786z"
+        fill="#000"
+        d="M469,264H-0.000001L0,263.557617c66.11113,0.429169,351.088104,0.429169,469.539032,0.208344V263.986786z"
       />
     </svg>
   </main>
@@ -39,7 +32,7 @@
     left: 0;
     top: 0;
     pointer-events: none;
-    transform: scaleY(-1);
+    transform: scaleY(-1) translateY(1vh);
   }
 
   .waveLeave {
@@ -65,6 +58,7 @@
     scrollToTop: false,
     methods: {
       wavyEnter() {
+        const enter = document.querySelector(".enter")
         const waveEnter = document.querySelector("#waveEnter")
 
         const shape2 =
@@ -72,19 +66,16 @@
         const shape3 =
           "M469.539032,263.986786H-0.000001L0,263.557617c66.11113,0.429169,351.088104,0.429169,469.539032,0.208344V263.986786z"
 
-        new TimelineMax({
-          repeat: 0,
-          repeatDelay: 0,
-        })
+        new TimelineMax({})
           .to(waveEnter, 0.4, {
             attr: { d: shape2 },
             ease: Power1.easeIn,
-            fill: "#fff",
+            fill: "#000",
           })
           .to(waveEnter, 0.4, {
             attr: { d: shape3 },
             ease: Power1.easeOut,
-            fill: "#fff",
+            fill: "#000",
           })
       },
     },
@@ -108,12 +99,12 @@
             .to(wave, 0.3, {
               attr: { d: shape2 },
               ease: Power1.easeIn,
-              fill: "#fff",
+              fill: "#000",
             })
             .to(wave, 0.4, {
               attr: { d: shape3 },
               ease: Power1.easeOut,
-              fill: "#fff",
+              fill: "#000",
             })
         }
         wavy()

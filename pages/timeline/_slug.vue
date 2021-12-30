@@ -7,7 +7,7 @@
     >
       <path
         id="waveEnter"
-        fill="#fff"
+        fill="#000"
         d="M469.539032,263.986786H-0.000001L0,0c226.11113,0,182.887283-0.414484,469.539032,0V263.986786zz"
       />
     </svg>
@@ -19,7 +19,7 @@
     >
       <path
         id="waveLeave"
-        fill="#fff"
+        fill="#000"
         d="M469.539032,263.986786H-0.000001L0,263.557617c66.11113,0.429169,351.088104,0.429169,469.539032,0.208344V263.986786z"
       />
     </svg>
@@ -171,12 +171,12 @@
           .to(waveEnter, 0.5, {
             attr: { d: shape2 },
             ease: Power3.easeIn,
-            fill: "#fff",
+            fill: "#000",
           })
           .to(waveEnter, 0.5, {
             attr: { d: shape3 },
             ease: Power1.easeOut,
-            fill: "#fff",
+            fill: "#000",
           })
       },
     },
@@ -225,12 +225,12 @@
             .to(wave, 0.3, {
               attr: { d: shape2 },
               ease: Power1.easeIn,
-              fill: "#fff",
+              fill: "#000",
             })
             .to(wave, 0.4, {
               attr: { d: shape3 },
               ease: Power1.easeOut,
-              fill: "#fff",
+              fill: "#000",
             })
         }
         wavy()
