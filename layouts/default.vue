@@ -2,8 +2,6 @@
   <nuxt />
 </template>
 
-<style lang="scss" scoped></style>
-
 <script>
   export default {
     data: () => ({
@@ -40,11 +38,11 @@
             `
         } else if (this.currentTime >= 12 && this.currentTime < 17) {
           console.log("it's the afternoon ☀️")
-          html.style.background = "#547BD5"
+          html.style.background = "#CCC5EA"
           body.style.cssText = `
-            background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640760670/proportional.design-v2/bg/afternoon_zcddoy.svg) no-repeat top center fixed;
+            background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640835081/proportional.design-v2/bg/afternoon-2_mkebzx.svg) no-repeat top center fixed;
             background-size: cover;
-            color: #fff;
+            color: #0e0e0f;
           `
         } else {
           console.log("it's dusk 🌇")
