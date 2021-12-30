@@ -23,9 +23,9 @@
         d="M469.539032,263.986786H-0.000001L0,263.557617c66.11113,0.429169,351.088104,0.429169,469.539032,0.208344V263.986786z"
       />
     </svg>
-    <main class="">
+    <main>
       <a href="" @click.prevent="$router.back()">
-        <button class="back">
+        <button ref="back" class="back">
           <svg width="14" height="14" fill="none">
             <path
               fill-rule="evenodd"
@@ -156,6 +156,9 @@
     },
 
     mounted() {
+      this.$refs.back.style.cssText = `
+        opacity: 1;
+      `
       this.wavyEnter()
       this.escape()
       const emojis = document.querySelectorAll(".emoji")
@@ -173,6 +176,13 @@
         })
       })
     },
+
+    beforeDestroy() {
+      this.$refs.back.style.cssText = `
+        opacity: 0;
+      `
+    },
+
     transition: {
       beforeLeave(el) {
         const wavy = () => {

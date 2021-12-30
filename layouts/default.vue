@@ -13,7 +13,7 @@
         const body = document.body
         const html = document.documentElement
         if (this.currentTime >= 20 && this.currentTime <= 24) {
-          console.log("it's evening 🌙")
+          console.log("have a good night 🌙")
           html.style.background = "#080E2D"
           body.style.cssText = `
             background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640758491/proportional.design-v2/bg/evening_wbgosa.svg) no-repeat top center fixed;
@@ -21,7 +21,7 @@
             color: #fff;
           `
         } else if (this.currentTime >= 0 && this.currentTime < 7) {
-          console.log("it's still night 🌗")
+          console.log("night owl mode 🌗")
           html.style.background = "#03081D"
           body.style.cssText = `
               background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640758898/proportional.design-v2/bg/night_ig0bgl.svg) no-repeat top center fixed;
@@ -29,7 +29,7 @@
               color: #fff;
           `
         } else if (this.currentTime >= 7 && this.currentTime < 12) {
-          console.log("it's morning time ⛅")
+          console.log("good morning ⛅")
           html.style.background = "#A8D4F5"
           body.style.cssText = `
               background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640758051/proportional.design-v2/bg/morning_j4tsrx.svg) no-repeat top center fixed;
@@ -37,7 +37,7 @@
               color: #0e0e0f;
             `
         } else if (this.currentTime >= 12 && this.currentTime < 17) {
-          console.log("it's the afternoon ☀️")
+          console.log("good afternoon ☀️")
           html.style.background = "#CCC5EA"
           body.style.cssText = `
             background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640835081/proportional.design-v2/bg/afternoon-2_mkebzx.svg) no-repeat top center fixed;
@@ -45,7 +45,7 @@
             color: #0e0e0f;
           `
         } else {
-          console.log("it's dusk 🌇")
+          console.log("good evening 🌇")
           html.style.background = "#060210"
           body.style.cssText = `
             background: url(https://res.cloudinary.com/da32ufmnf/image/upload/v1640757207/proportional.design-v2/bg/dusk_q3xtfh.svg) no-repeat top center fixed;
