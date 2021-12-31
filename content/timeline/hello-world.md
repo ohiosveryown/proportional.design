@@ -1,24 +1,33 @@
 ---
 title: Proportional [dot] Design v2.0
-date: 2021-12-27T20:51:31.542Z
+date: 2021-12-24T20:51:31.542Z
 description: Welcome to the second iteration of proportional.design
 tags:
   tag_one: welcome
   tag_two: "2.0"
 dimensions: 👋
+three_imgs:
+  one_of_three: https://res.cloudinary.com/da32ufmnf/image/upload/v1640914624/proportional.design-v2/v2/03_xbzcvi.jpg
+  two_of_three: https://res.cloudinary.com/da32ufmnf/image/upload/v1640914624/proportional.design-v2/v2/01_egb1du.jpg
+  three_of_three: https://res.cloudinary.com/da32ufmnf/image/upload/v1640914624/proportional.design-v2/v2/02_bug3fd.jpg
 four_imgs:
-  one_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1640643324/proportional.design/IMG_7756_gzjbfj.jpg
-  two_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1612969573/proportional.design/social-00_o80ipz.jpg
-  three_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1605733593/proportional.design/social4_ryeulk.png
-  four_of_four: https://res.cloudinary.com/da32ufmnf/image/upload/v1600742638/proportional.design/IMG_4891_krocba.jpg
+  one_of_four: ""
+  two_of_four: ""
+  three_of_four: ""
+  four_of_four: ""
 ---
+Meet the new site, same as the old site – not really. As I've been building furniture more seriously for the past three years, I've wanted to document builds and progress, if for nothing else than a repository for me to revisit – and maybe even offer some insight into how I build things.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Over the last three years, as I’ve been building furniture more consistently (and more seriously), I’ve been wanting to document more of the process. It's nice to be able to reflect and think about not just the final about, but the journey as well; as corny as that sounds.
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The first iteration of [proportional.design](<>) was definitely not set up to support a blogging style experience. Not only that, but the architecture of how I originally built the site supported just a single image per project, and so a goal of mine for the new site was to support more content.
 
-![Hiro Chair](https://res.cloudinary.com/da32ufmnf/image/upload/v1612969573/proportional.design/social-00_o80ipz.jpg)
+![initial inspiration](https://res.cloudinary.com/da32ufmnf/image/upload/v1640913232/proportional.design-v2/v2/tweet_kzjdma.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+The design of the new iteration is actually based on an image of a tweet I had posted. My goal was to have the site feel more “application” like. 
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+![UI](https://res.cloudinary.com/da32ufmnf/image/upload/v1640913385/proportional.design-v2/v2/post_buiccq.jpg)
+
+The front-end is built on Nuxt.js which is typically my go-to. I also incorporated netlify CMS which will make updating the site a lot easier and will hopefully encourage me to post more. I’m sure at some point I’ll post more about the design and development but for now, if you’re curious, you can check out the [source here](https://github.com/ohiosveryown/proportional.design).
+
+![Javascript code](https://res.cloudinary.com/da32ufmnf/image/upload/v1640913232/proportional.design-v2/v2/carbon_ltwka5.png)
