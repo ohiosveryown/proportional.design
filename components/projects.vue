@@ -12,7 +12,6 @@
       <li v-for="article of articles" :key="article.slug">
         <NuxtLink :to="'/projects/' + article.slug">
           <img :src="`${article.hero}`" />
-          <nuxt-img :src="`${article.hero}`" />
           <span class="title">{{ article.title }}</span>
         </NuxtLink>
       </li>
