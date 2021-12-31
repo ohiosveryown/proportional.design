@@ -1,17 +1,17 @@
 ---
-hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1640651657/proportional.design-v2/roop_l4jj0j.jpg
+hero: "/img/hero--swan.jpg"
 title: Swan
 title_full: Swan Breakfast Table
 date: 2021-12-27T20:51:31.542Z
-dimensions: 18H X 24W X 16D
+dimensions: 42H X 42W
 tags:
   tag_one: oak
   tag_two: table
 ---
+
 If I had to guess, I’d say woodworking is probably 70% planning and order of operations, 20% fixing dumb mistakes, and 10% execution. A project pretty much never comes together perfectly with zero challenges along the way. This table was no exception, however the biggest variable from the formula above was a client wanting to make a design change halfway through the build.
 
 Originally, the Swan Table was meant to be a standard, small, circular dining table. Most tables are around 30” off the floor and this one was no exception – at least initially. It was to have pretty standard, tapered legs but evolved into a hightop table, with a pretty interesting pyramid base.
-
 
 ![white oak](https://res.cloudinary.com/da32ufmnf/image/upload/v1640937219/proportional.design-v2/swan/01_wzwtkg.jpg)
 
