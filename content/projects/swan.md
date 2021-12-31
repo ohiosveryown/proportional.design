@@ -12,9 +12,10 @@ If I had to guess, I’d say woodworking is probably 70% planning and order of o
 
 Originally, the Swan Table was meant to be a standard, small, circular dining table. Most tables are around 30” off the floor and this one was no exception – at least initially. It was to have pretty standard, tapered legs but evolved into a hightop table, with a pretty interesting pyramid base.
 
-\### Begin
 
 ![white oak](https://res.cloudinary.com/da32ufmnf/image/upload/v1640937219/proportional.design-v2/swan/01_wzwtkg.jpg)
+
+### Begin
 
 The first step was picking lumber and checking for any majors knots or cracks. This table was made from white oak and the stock I got was really wide; close to 13” at some points. I roughly marked the general blanks I’ll need and then cut them to size. Everything here is rough and oversized.
 
@@ -24,7 +25,7 @@ Once things were cut to rough size, I began to orient the boards to find the bes
 
 ![table glue up](https://res.cloudinary.com/da32ufmnf/image/upload/v1640937219/proportional.design-v2/swan/03_aq0dot.jpg)
 
-\### Circles & Squares
+### Circles & Squares
 
 For the round top I broke out the circle cutting jig and the router, of course you could achieve the same results with a jigsaw. When cutting a with the router, it’s important to go slow and take shallow passes to not stress the bit and create tear out ini the workpiece.
 
@@ -52,7 +53,7 @@ This was my first time making this style base. It was pretty cool, it gives almo
 
 I debating using bridle joints for the legs and “feet” but ultimately ended up going with mortise and tenon joinery. I rounded the edges with a 3/16” round over bit . The grain on the base was definitely my favorite from this project. There were [ray flecks](https://www.google.com/search?client=safari&rls=en&q=ray+flecks&ie=UTF-8&oe=UTF-8) everywhere, and straight grain white oak is so nice.
 
-\### Trippin'
+### Trippin'
 
 With the project about wrapped up, Mirely and I took a trip out west. We even got to see some very old, petrified wood.
 
