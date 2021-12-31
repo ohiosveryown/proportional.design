@@ -4,7 +4,7 @@ date: 2021-12-30T07:57:21.484Z
 description: Making the seat for the Hero chair
 tags:
   tag_one: walnut
-dimensions: "   "
+dimensions: 🪑
 one_imgs:
   one_of_one: https://res.cloudinary.com/da32ufmnf/image/upload/v1640851222/proportional.design-v2/IMG_9546_wsyn5t.jpg
 ---
