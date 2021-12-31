@@ -238,13 +238,9 @@
 
   footer {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     padding-top: 0.4rem;
     color: #8b8a89;
-    @include breakpoint(md) {
-      flex-direction: row;
-      justify-content: space-between;
-    }
   }
   .time-date {
     display: flex;
