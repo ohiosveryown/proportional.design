@@ -54,7 +54,6 @@
           <footer>
             <small class="time-date">
               {{ formatDate(article.createdAt) }}
-              <!--               {{ formatTime(article.createdAt) }} -->
             </small>
             <small v-if="article.dimensions">{{ article.dimensions }}</small>
           </footer>
