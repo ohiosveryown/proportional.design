@@ -46,7 +46,6 @@
     border-radius: 100px;
     transition: transform 300ms ease;
     transform: scale(0.8);
-    animation: float 5s ease-in-out infinite;
     will-change: transform;
   }
 
@@ -65,17 +64,19 @@
   li:nth-of-type(1) {
     top: 6vh;
     left: 4vw;
-  }
-
-  img:nth-of-type(1) {
-  }
-
-  img:nth-of-type(2) {
+    img,
+    span {
+      animation: float 5s ease-in-out infinite;
+    }
   }
 
   li:nth-of-type(2) {
     top: 12vh;
     left: 12vw;
+    img,
+    span {
+      animation: float 5s ease-in-out 2s infinite;
+    }
   }
 
   li:nth-of-type(3) {
@@ -113,7 +114,7 @@
     text-align: center;
     text-shadow: 0 0 18px rgba(0, 0, 0, 0.34);
     font-size: 1.5rem;
-    animation: float 5s ease-in-out infinite;
+    /*     animation: float 5s ease-in-out infinite; */
     will-change: transform;
   }
 </style>

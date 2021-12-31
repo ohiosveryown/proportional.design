@@ -1,8 +1,12 @@
 <template>
   <div>
     <NuxtLink v-if="prev" :to="{ params: { slug: prev.slug } }">
-      <p>{{ formatDate(prev.createdAt) }}</p>
-      <p class="title neuebit">{{ prev.title }}</p>
+      <img v-if="prev.hero" :src="`${prev.hero}`" />
+      <div class="meta">
+        <p>{{ formatDate(prev.createdAt) }}</p>
+        <p v-if="!prev.hero" class="title neuebit">{{ prev.title }}</p>
+        <p v-if="prev.hero" class="title-move-up neuebit">{{ prev.title }}</p>
+      </div>
     </NuxtLink>
     <div v-else>
       <p>Nothing new right now.</p>
@@ -16,6 +20,18 @@
 <style lang="scss" scoped>
   @import "~static/style/grid.scss";
 
+  a {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    margin-right: 1.2rem;
+    width: 20%;
+    height: auto;
+    border-radius: 16px;
+  }
+
   p {
     padding: 0.6rem 0;
     font-size: 1.4rem;
@@ -27,7 +43,8 @@
     }
   }
 
-  .title {
+  .title,
+  .title-move-up {
     padding: 0;
     font-size: 2.8rem;
     line-height: 0.8;
@@ -35,6 +52,10 @@
     @include breakpoint(xl) {
       font-size: 4rem;
     }
+  }
+
+  .title-move-up {
+    margin-top: -0.4rem;
   }
 
   .home {

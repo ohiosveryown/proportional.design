@@ -113,7 +113,7 @@
       const article = await $content("projects", params.slug).fetch()
 
       const [prev] = await $content("projects")
-        .only(["title", "slug", "createdAt"])
+        .only(["title", "slug", "createdAt", "hero"])
         .sortBy("createdAt", "asc")
         .surround(params.slug)
         .fetch()
