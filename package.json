@@ -17,5 +17,8 @@
     "node-sass": "^6.0.0",
     "nuxt": "^2.15.7",
     "sass-loader": "^10.2.0"
+  },
+  "devDependencies": {
+    "@nuxt/image": "^0.6.0"
   }
 }

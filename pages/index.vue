@@ -1,9 +1,9 @@
 <template>
   <main class="width">
-    <intro />
-    <projects />
+    <intro class="intro" />
+    <projects class="entrance" />
     <floating />
-    <timeline />
+    <timeline class="entrance" />
 
     <svg class="waveEnter" viewBox="0 0 469 264" preserveAspectRatio="none">
       <path
@@ -78,9 +78,30 @@
             fill: "#000",
           })
       },
+      introEnter() {
+        gsap.from(".intro", {
+          opacity: 0,
+          duration: 1,
+          delay: 0.5,
+          ease: Power4.easeOut,
+        })
+      },
+      bodyEnter() {
+        gsap.from(".entrance", {
+          opacity: 0,
+          stagger: 0.15,
+          skewY: 10,
+          y: 100,
+          duration: 1,
+          delay: 0.75,
+          ease: Power4.easeInOut,
+        })
+      },
     },
     mounted() {
       this.wavyEnter()
+      this.introEnter()
+      this.bodyEnter()
     },
     transition: {
       beforeLeave(el) {

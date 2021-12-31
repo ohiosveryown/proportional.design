@@ -23,7 +23,7 @@ export default {
   plugins: [],
   components: true,
   buildModules: [],
-  modules: ["@nuxtjs/pwa", "@nuxt/content", "@nuxtjs/axios"],
+  modules: ["@nuxtjs/pwa", "@nuxt/content", "@nuxt/image", "@nuxtjs/axios"],
   pwa: {
     manifest: {
       lang: "en",
@@ -42,5 +42,13 @@ export default {
     host: "0.0.0.0",
   },
   content: {},
+  image: {
+    cloudinary: {
+      baseURL: "https://res.cloudinary.com/da32ufmnf/image/upload/",
+    },
+    domains: ["res.cloudinary.com"],
+    quality: 2,
+    rotate: 45,
+  },
   build: {},
 }

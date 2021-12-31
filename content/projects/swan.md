@@ -1,5 +1,5 @@
 ---
-hero: "/img/hero--swan.jpg"
+hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1640972117/proportional.design-v2/hero--swan_ufwgx7.jpg
 title: Swan
 title_full: Swan Breakfast Table
 date: 2021-12-27T20:51:31.542Z
