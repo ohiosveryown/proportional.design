@@ -25,5 +25,3 @@ I should mention, I typically cut mortises in the blanks first (you can see the 
 ![rough shape](https://res.cloudinary.com/da32ufmnf/image/upload/v1640909716/proportional.design-v2/hero-chair-seat/03_xhaprt.jpg)
 
 ![final seat](https://res.cloudinary.com/da32ufmnf/image/upload/v1640909716/proportional.design-v2/hero-chair-seat/01_fzqlvt.jpg)
-
-When make seats, a little shop help is never a bad thing.
