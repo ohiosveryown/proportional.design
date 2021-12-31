@@ -15,7 +15,7 @@ Meet the new site, same as the old site – not really. As I've been building fu
 
 Over the last three years, as I’ve been building furniture more consistently (and more seriously), I’ve been wanting to document more of the process. It's nice to be able to reflect and think about not just the final about, but the journey as well; as corny as that sounds.
 
-The first iteration of [proportional.design](https://proportional.design)[](<>) was definitely not set up to support a blogging style experience. Not only that, but the architecture of how I originally built the site supported just a single image per project, and so a goal of mine for the new site was to support more content.
+The first iteration of [proportional.design](https://6050e4a79c3a7d0008a9d073--proportional-design-v1.netlify.app/)[](https://proportional.design) was definitely not set up to support a blogging style experience. Not only that, but the architecture of how I originally built the site supported just a single image per project, and so a goal of mine for the new site was to support more content.
 
 ![initial inspiration](https://res.cloudinary.com/da32ufmnf/image/upload/v1640913232/proportional.design-v2/v2/tweet_kzjdma.png)
 
