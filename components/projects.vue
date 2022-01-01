@@ -11,7 +11,7 @@
     <ul>
       <li v-for="article of articles" :key="article.slug">
         <NuxtLink :to="'/projects/' + article.slug">
-          <img :src="`${article.hero}`" />
+          <figure><img :src="`${article.hero}`" /></figure>
           <span class="title">{{ article.title }}</span>
         </NuxtLink>
       </li>
@@ -79,12 +79,22 @@
     }
   }
 
+  figure {
+    display: block;
+    position: relative;
+    aspect-ratio: auto 1;
+    overflow: hidden;
+  }
+
   li:hover img {
     transform: rotate(3deg);
   }
 
   img {
     border-radius: 100px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: transform 300ms ease;
     will-change: transform;
   }

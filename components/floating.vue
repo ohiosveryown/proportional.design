@@ -3,8 +3,11 @@
     <ul>
       <li v-for="article of articles" :key="article.slug">
         <NuxtLink :to="'/projects/' + article.slug">
-          <img :src="`${article.hero}`" />
-          <span class="title">{{ article.title }}</span>
+          <figure>
+            <img :src="`${article.hero}`" />
+            <figcaption class="title">{{ article.title }}</figcaption>
+          </figure>
+          <!--           <span class="title">{{ article.title }}</span> -->
         </NuxtLink>
       </li>
     </ul>
@@ -42,22 +45,58 @@
     }
   }
 
+  figcaption {
+    display: block;
+    text-align: center;
+    text-shadow: 0 0 18px rgba(0, 0, 0, 0.34);
+    font-size: 1.7rem;
+    will-change: transform;
+  }
+
   img {
     border-radius: 100px;
+    width: 6vw;
+    height: 6vw;
+    overflow: hidden;
+    object-fit: cover;
     transition: transform 300ms ease;
     transform: scale(0.8);
     will-change: transform;
   }
 
-  @keyframes float {
+  @keyframes float01 {
     0% {
-      transform: translateY(0) scale(0.8);
+      transform: translate(0, 0) scale(0.8);
     }
     50% {
-      transform: translateY(-0.8rem) scale(0.8);
+      transform: translate(-0.2rem, -0.8rem) scale(0.8);
     }
     100% {
-      transform: translateY(0) scale(0.8);
+      transform: translate(0, 0) scale(0.8);
+    }
+  }
+
+  @keyframes float02 {
+    0% {
+      transform: translate(0, 0) scale(0.8);
+    }
+    50% {
+      transform: translate(0.3rem, 0.6rem) scale(0.8);
+    }
+    100% {
+      transform: translate(0, 0) scale(0.8);
+    }
+  }
+
+  @keyframes float03 {
+    0% {
+      transform: translate(0, 0) scale(0.8);
+    }
+    50% {
+      transform: translate(-0.2rem, -0.8rem) scale(0.8);
+    }
+    100% {
+      transform: translate(0, 0) scale(0.8);
     }
   }
 
@@ -65,8 +104,8 @@
     top: 6vh;
     left: 4vw;
     img,
-    span {
-      animation: float 5s ease-in-out infinite;
+    figcaption {
+      animation: float01 5s ease-in-out infinite;
     }
   }
 
@@ -74,48 +113,59 @@
     top: 12vh;
     left: 12vw;
     img,
-    span {
-      animation: float 5s ease-in-out 2s infinite;
+    figcaption {
+      animation: float02 5s ease-in-out 2s infinite;
     }
   }
 
   li:nth-of-type(3) {
     top: 25vh;
     left: 6vw;
+    img,
+    figcaption {
+      animation: float03 5s ease-in-out 2s infinite;
+    }
   }
 
   li:nth-of-type(4) {
     opacity: 0;
     top: 32vh;
     left: 12vw;
+    img,
+    figcaption {
+      animation: float02 5s ease-in-out 2s infinite;
+    }
   }
 
   li:nth-of-type(5) {
     top: 4vh;
     left: 80vw;
+    img,
+    figcaption {
+      animation: float03 5s ease-in-out 2s infinite;
+    }
   }
 
   li:nth-of-type(6) {
     top: 13vh;
     left: 90vw;
+    img,
+    figcaption {
+      animation: float01 5s ease-in-out infinite;
+    }
   }
 
   li:nth-of-type(7) {
-    top: 24vh;
-    left: 83vw;
+    top: 22vh;
+    left: 82vw;
+    img,
+    figcaption {
+      animation: float02 5s ease-in-out 2s infinite;
+    }
   }
 
   li:nth-of-type(n + 8) {
     display: none;
-  }
-
-  span {
-    display: block;
-    text-align: center;
-    text-shadow: 0 0 18px rgba(0, 0, 0, 0.34);
-    font-size: 1.5rem;
-    /*     animation: float 5s ease-in-out infinite; */
-    will-change: transform;
   }
 </style>
 
