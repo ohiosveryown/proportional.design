@@ -15,15 +15,56 @@
           <span class="title">{{ article.title }}</span>
         </NuxtLink>
       </li>
+      <li>
+        <a href="https://instagram.com/proportional.design" target="_blank">
+          <figure class="ig">
+            <img
+              src="https://res.cloudinary.com/da32ufmnf/image/upload/v1641083808/proportional.design-v2/lzxlxkm3hmdsd9i9j8ao.png"
+              alt=""
+            />
+          </figure>
+          <span class="title">Insta</span>
+        </a>
+      </li>
     </ul>
   </section>
 </template>
 
 <style lang="scss" scoped>
   @import "~static/style/grid.scss";
+
   @media (pointer: coarse) {
     .tooltip {
       display: none;
+    }
+  }
+
+  .ig {
+    position: relative;
+  }
+
+  .ig:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    background: url("data:image/svg+xml,%3Csvg width='154' height='154' viewBox='0 0 154 154' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='77' cy='77' r='73.5' stroke='url(%23paint0_linear_1713_2456)' stroke-width='4'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear_1713_2456' x1='16' y1='19.5' x2='139.5' y2='141' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0.000446688' stop-color='%23E27329'/%3E%3Cstop offset='0.479167' stop-color='%23923FAA'/%3E%3Cstop offset='1' stop-color='%231B6ADF'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E")
+      no-repeat center center;
+    background-size: 100%;
+    transform: scale(1.2);
+    transform-origin: center;
+    animation: 2.4s rotate ease-in-out infinite;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg) scale(1.2);
+    }
+    to {
+      transform: rotate(360deg) scale(1.2);
     }
   }
 
@@ -83,7 +124,7 @@
     display: block;
     position: relative;
     aspect-ratio: auto 1;
-    overflow: hidden;
+    /*     overflow: hidden; */
   }
 
   li:hover img {

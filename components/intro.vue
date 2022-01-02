@@ -69,9 +69,9 @@
     letter-spacing: -0.25px;
     font-size: 3.9rem;
     line-height: 1.3;
-    text-align: justify;
     @include breakpoint(md) {
       font-size: 3.4vw;
+      text-align: justify;
     }
     @include breakpoint(mdl) {
       font-size: 3.8vw;
