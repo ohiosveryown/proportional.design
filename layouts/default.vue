@@ -2,7 +2,7 @@
   <div>
     <img
       class="haze"
-      src="https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640883977/proportional.design-v2/bg/haze_o1m70z.png"
+      src="https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_20/v1640883977/proportional.design-v2/bg/haze_o1m70z.png"
       alt="haze image"
     />
     <nuxt />
