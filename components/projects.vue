@@ -19,11 +19,11 @@
         <a href="https://instagram.com/proportional.design" target="_blank">
           <figure class="ig">
             <img
-              src="https://res.cloudinary.com/da32ufmnf/image/upload/v1641083808/proportional.design-v2/lzxlxkm3hmdsd9i9j8ao.png"
+              src="https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1641083808/proportional.design-v2/lzxlxkm3hmdsd9i9j8ao.png"
               alt=""
             />
           </figure>
-          <span class="title">Insta</span>
+          <span class="title">Instagram</span>
         </a>
       </li>
     </ul>
