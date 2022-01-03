@@ -164,21 +164,6 @@
     },
 
     mounted() {
-      const getvideos = document.querySelector("video")
-      const videos = document.querySelectorAll("video")
-
-      if (document.body.contains(getvideos)) {
-        // page has vidoes
-        videos.forEach((video) => {
-          video.controls = "true"
-          video.playsInline = ""
-          video.loop = "loop"
-          video.muted = "true"
-        })
-      } else {
-        // page doesn't have videos
-      }
-
       this.$refs.back.style.cssText = `
         opacity: 1;
       `
