@@ -57,7 +57,8 @@ p a {
   p + p {
     text-indent: 4ch;
   }
-  img {
+  img,
+  video {
     margin: 4.8rem 0;
     border-radius: 24px;
     box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.07),

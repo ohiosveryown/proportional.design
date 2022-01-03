@@ -11,6 +11,14 @@ tags:
 
 As I've been building furniture more seriously for the past two and a half years, I've wanted to document builds and progress, if for nothing else than a repository for me to revisit – and maybe even offer some insight into how I build things.
 
+<video>
+  <source src="https://res.cloudinary.com/da32ufmnf/video/upload/v1615239510/proportional.design/story_ymzet9.mp4" />
+</video>
+
+<video>
+  <source src="https://res.cloudinary.com/da32ufmnf/video/upload/v1595993469/vibes/vibes_pq2ets.mp4" />
+</video>
+
 The first iteration of proportional.design had some limitations, the biggest being it was a pain to update and wasn't very blog-like.
 
 ![Mercury Nightstand](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640754570/proportional.design-v2/mercury/003_kpezzj.jpg)
