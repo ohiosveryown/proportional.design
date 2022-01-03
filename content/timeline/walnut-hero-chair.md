@@ -6,7 +6,7 @@ tags:
   tag_one: walnut
 dimensions: 🪑
 one_imgs:
-  one_of_one: https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_70/v1640851222/proportional.design-v2/IMG_9546_wsyn5t.jpg
+  one_of_one: https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_7/v1640851222/proportional.design-v2/IMG_9546_wsyn5t.jpg
 ---
 
 ### Intro
