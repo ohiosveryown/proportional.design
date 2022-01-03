@@ -50,13 +50,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 99;
+    z-index: var(--zmin);
     background: url("data:image/svg+xml,%3Csvg width='154' height='154' viewBox='0 0 154 154' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='77' cy='77' r='73.5' stroke='url(%23paint0_linear_1713_2456)' stroke-width='4'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear_1713_2456' x1='16' y1='19.5' x2='139.5' y2='141' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0.000446688' stop-color='%23E27329'/%3E%3Cstop offset='0.479167' stop-color='%23923FAA'/%3E%3Cstop offset='1' stop-color='%231B6ADF'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E")
       no-repeat center center;
     background-size: 100%;
     transform: scale(1.2);
     transform-origin: center;
-    animation: 2s rotate ease-in-out infinite;
+    animation: 2s pulse ease-in-out infinite;
   }
 
   @keyframes rotate {
@@ -64,7 +64,29 @@
       transform: rotate(0deg) scale(1.2);
     }
     to {
+      transform: rotate(720deg) scale(1.2);
+    }
+  }
+
+  @keyframes border {
+    0% {
+      transform: rotate(0) scale(1.2);
+    }
+    50% {
+      transform: rotate(180deg) scale(1.25);
+    }
+    100% {
       transform: rotate(360deg) scale(1.2);
+    }
+  }
+
+  @keyframes pulse {
+    from {
+      transform: rotate(0deg) scale(1);
+    }
+    to {
+      transform: rotate(720deg) scale(1.3);
+      opacity: 0;
     }
   }
 
