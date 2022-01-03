@@ -56,7 +56,7 @@
     background-size: 100%;
     transform: scale(1.2);
     transform-origin: center;
-    animation: 2.4s rotate ease-in-out infinite;
+    animation: 2s rotate ease-in-out infinite;
   }
 
   @keyframes rotate {
@@ -112,7 +112,6 @@
     display: grid;
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fill, 28%);
-    // grid-template-columns: repeat(5, 1fr);
     justify-content: space-between;
     margin: 0 auto;
     @include breakpoint(sm) {
