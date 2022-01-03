@@ -6,7 +6,7 @@ tags:
   tag_one: walnut
 dimensions: 🪑
 one_imgs:
-  one_of_one: https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_7/v1640851222/proportional.design-v2/IMG_9546_wsyn5t.jpg
+  one_of_one: https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640851222/proportional.design-v2/IMG_9546_wsyn5t.jpg
 ---
 
 ### Intro
@@ -17,7 +17,7 @@ Depending on how the cut is oriented, you can sometimes take flat sawn stock and
 
 #### Outro
 
-![partially cut seat](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_70/v1640856264/proportional.design-v2/IMG_9547_mazlnk.jpg)
+![partially cut seat](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640856264/proportional.design-v2/IMG_9547_mazlnk.jpg)
 
 Before any cutting, I clamp the pieces together and cut the overall size to rough length and width – this is easier before the curves are cut in.
 
@@ -25,8 +25,8 @@ Once the overall blank is cut to rough size, I use a template to transfer the cu
 
 I should mention, I typically cut mortises in the blanks first (you can see the tenons in the first photo) to help with alignment when it’s time for glueup. After the glue is dry, all that’s left is to complete the final shaping and do any finish sanding.
 
-![seat glue up](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_70/v1640909716/proportional.design-v2/hero-chair-seat/02_cs3dlt.jpg)
+![seat glue up](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640909716/proportional.design-v2/hero-chair-seat/02_cs3dlt.jpg)
 
-![rough shape](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_70/v1640909716/proportional.design-v2/hero-chair-seat/03_xhaprt.jpg)
+![rough shape](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640909716/proportional.design-v2/hero-chair-seat/03_xhaprt.jpg)
 
-![final seat](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_70/v1640909716/proportional.design-v2/hero-chair-seat/01_fzqlvt.jpg)
+![final seat](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640909716/proportional.design-v2/hero-chair-seat/01_fzqlvt.jpg)
