@@ -1,7 +1,7 @@
 ---
-title: Walnut Hero Chair
+title: Hero Chair Seat
 date: 2021-12-30T07:57:21.484Z
-description: Making the seat for the Hero chair
+description: Started from the bottom – making the seat for the Hero chair
 tags:
   tag_one: walnut
 dimensions: 🪑
