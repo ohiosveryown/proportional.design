@@ -56,7 +56,7 @@
     background-size: 100%;
     transform: scale(1.2);
     transform-origin: center;
-    animation: 2s pulse ease-in-out infinite;
+    animation: 1.5s pulse ease-in-out infinite;
   }
 
   @keyframes rotate {

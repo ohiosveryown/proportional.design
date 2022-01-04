@@ -45,13 +45,6 @@ body {
   color: var(--gravity);
   font: normal 1.6rem/1.4 var(--system-ui);
   text-rendering: optimizeSpeed;
-  overflow-x: hidden;
-}
-
-@media screen and (min-width: 700px) {
-  body {
-    overflow-x: initial;
-  }
 }
 
 body,
