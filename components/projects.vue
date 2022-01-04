@@ -43,6 +43,7 @@
     position: relative;
   }
 
+  .ig:before,
   .ig:after {
     content: "";
     position: absolute;
@@ -56,7 +57,11 @@
     background-size: 100%;
     transform: scale(1.2);
     transform-origin: center;
-    animation: 1.5s pulse ease-in-out infinite;
+    animation: 2.5s pulse ease-in-out infinite;
+  }
+
+  .ig:before {
+    animation-delay: 0.64s;
   }
 
   @keyframes rotate {

@@ -9,10 +9,16 @@
       </div>
     </NuxtLink>
     <div v-else>
-      <p>Nothing new right now.</p>
-      <p class="home">
-        <nuxt-link to="/">Return Home</nuxt-link>
-      </p>
+      <p class="mb-0">proportional.design on Instagram</p>
+      <a href="https://instagram.com/proportional.design" target="_blank">
+        <figure class="ig">
+          <img
+            class="ig"
+            src="https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1641083808/proportional.design-v2/lzxlxkm3hmdsd9i9j8ao.png"
+            alt=""
+          />
+        </figure>
+      </a>
     </div>
   </div>
 </template>
@@ -30,6 +36,10 @@
     width: 20%;
     height: auto;
     border-radius: 16px;
+  }
+
+  .ig {
+    border-radius: 100px;
   }
 
   p {

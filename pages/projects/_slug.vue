@@ -68,7 +68,7 @@
     <aside>
       <div class="cards">
         <div class="card card--contact">
-          <header>Get in Touch</header>
+          <header>Get in touch</header>
           <p>
             Interested in a custom project or want to learn more? Smash that
             contact button below.
@@ -94,7 +94,7 @@
         </section>
 
         <div class="card card--next-post">
-          <header>More From the Timeline</header>
+          <header>You might be interested in:</header>
           <previous :prev="prev" />
         </div>
       </div>

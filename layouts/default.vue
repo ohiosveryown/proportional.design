@@ -58,7 +58,7 @@
               background-size: cover;
               color: #0e0e0f;
             `
-        } else if (this.currentTime >= 12 && this.currentTime < 17) {
+        } else if (this.currentTime >= 12 && this.currentTime < 18) {
           console.log("good afternoon ☀️")
           html.style.background = "#CCC5EA"
           body.style.cssText = `

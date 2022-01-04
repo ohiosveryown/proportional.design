@@ -86,7 +86,7 @@
     <aside>
       <div class="cards">
         <div class="card card--contact">
-          <header>Get in Touch</header>
+          <header>Get in touch</header>
           <p>
             Interested in a custom project or want to learn more? Smash that
             contact button below.
@@ -96,8 +96,8 @@
 
         <section class="card card--rating">
           <div class="question">
-            <header>Care to rate this project?</header>
-            <p>Ratings help me build more things people like</p>
+            <header>Care to rate this post?</header>
+            <p>Ratings help me share more things people like</p>
             <ul class="emojis">
               <li class="emoji">🔥</li>
               <li class="emoji">❤️</li>
@@ -112,7 +112,7 @@
         </section>
 
         <div class="card card--next-post">
-          <header>More From the Timeline</header>
+          <header>More From the timeline:</header>
           <previous :prev="prev" />
         </div>
       </div>
