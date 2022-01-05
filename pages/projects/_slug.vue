@@ -77,6 +77,7 @@
         </div>
 
         <section class="card card--rating">
+          <counter />
           <div class="question">
             <header>Care to rate this project?</header>
             <p>Ratings help me build more things people like</p>
@@ -164,6 +165,29 @@
     },
 
     mounted() {
+      var dCounters = document.querySelectorAll(".CountLike")
+      ;[].forEach.call(dCounters, function (dCounter) {
+        var el = dCounter.querySelector("button")
+        var cId = dCounter.id
+        var dDatabase = firebase
+          .database()
+          .ref("Like Number Counter")
+          .child(cId)
+
+        // get firebase data
+        dDatabase.on("value", function (snap) {
+          var data = snap.val() || 0
+          dCounter.querySelector("span").innerHTML = data
+        })
+
+        // set firebase data
+        el.addEventListener("click", function () {
+          dDatabase.transaction(function (dCount) {
+            return (dCount || 0) + 1
+          })
+        })
+      })
+
       this.$refs.back.style.cssText = `
         opacity: 1;
       `
