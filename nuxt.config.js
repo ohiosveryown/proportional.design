@@ -23,18 +23,10 @@ export default {
   plugins: [],
   components: true,
   buildModules: [],
-  modules: ["@nuxtjs/pwa", "@nuxt/content", "@nuxtjs/axios"],
+  modules: ["@nuxtjs/pwa", "@nuxt/content"],
   pwa: {
     manifest: {
       lang: "en",
-    },
-  },
-  publicRuntimeConfig: {
-    axios: {
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.BASE_URL || "http://192.168.0.195:8008"
-          : "http://192.168.0.195:8008",
     },
   },
   server: {
