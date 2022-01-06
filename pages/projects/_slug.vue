@@ -74,15 +74,15 @@
         </div>
 
         <section class="card card--rating">
-          <counter />
           <div class="question">
             <header>Care to rate this project?</header>
             <p>Ratings help me build more things people like</p>
             <ul class="emojis">
-              <li class="emoji">🔥</li>
+              <counter />
+              <!--               <li class="emoji">🔥</li>
               <li class="emoji">❤️</li>
               <li class="emoji">🤔</li>
-              <li class="emoji">👎</li>
+              <li class="emoji">👎</li> -->
             </ul>
           </div>
           <div class="answer">
@@ -190,20 +190,20 @@
       `
       this.wavyEnter()
       this.escape()
-      const emojis = document.querySelectorAll(".emoji")
-      const question = document.querySelector(".question")
-      const answer = document.querySelector(".answer")
-      emojis.forEach((emoji) => {
-        emoji.addEventListener("click", () => {
-          question.style.display = "none"
-          answer.style.display = "flex"
-          answer.style.cssText = `
-            display: inherit;
-            visibility: visible;
-            opacity: 1;
-          `
-        })
-      })
+      // const emojis = document.querySelectorAll(".emoji")
+      // const question = document.querySelector(".question")
+      // const answer = document.querySelector(".answer")
+      // emojis.forEach((emoji) => {
+      //   emoji.addEventListener("click", () => {
+      //     question.style.display = "none"
+      //     answer.style.display = "flex"
+      //     answer.style.cssText = `
+      //       display: inherit;
+      //       visibility: visible;
+      //       opacity: 1;
+      //     `
+      //   })
+      // })
     },
 
     beforeDestroy() {
