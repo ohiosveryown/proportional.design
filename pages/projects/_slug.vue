@@ -24,6 +24,8 @@
       />
     </svg>
     <main>
+      <button class="btn">Like Button</button>
+      <p>Likes: <span class="pressed"></span></p>
       <nuxt-link to="/">
         <button ref="back" class="back">
           <svg width="14" height="14" fill="none">
@@ -190,20 +192,30 @@
       `
       this.wavyEnter()
       this.escape()
-      // const emojis = document.querySelectorAll(".emoji")
-      // const question = document.querySelector(".question")
-      // const answer = document.querySelector(".answer")
-      // emojis.forEach((emoji) => {
-      //   emoji.addEventListener("click", () => {
-      //     question.style.display = "none"
-      //     answer.style.display = "flex"
-      //     answer.style.cssText = `
-      //       display: inherit;
-      //       visibility: visible;
-      //       opacity: 1;
-      //     `
-      //   })
-      // })
+
+      var xhr = new XMLHttpRequest()
+      xhr.open(
+        "GET",
+        "https://api.countapi.xyz/hit/" + this.article.slug + "/awesomeclick"
+      )
+      xhr.responseType = "json"
+      xhr.onload = function () {
+        document.querySelector(".pressed").innerText = this.response.value
+      }
+      xhr.send()
+
+      document.querySelector(".btn").addEventListener("click", () => {
+        var xhr = new XMLHttpRequest()
+        xhr.open(
+          "GET",
+          "https://api.countapi.xyz/hit/" + this.article.slug + "/awesomeclick"
+        )
+        xhr.responseType = "json"
+        xhr.onload = function () {
+          document.querySelector(".pressed").innerText = this.response.value
+        }
+        xhr.send()
+      })
     },
 
     beforeDestroy() {
