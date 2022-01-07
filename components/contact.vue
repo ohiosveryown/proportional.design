@@ -4,7 +4,7 @@
 
     <form
       name="contactus"
-      action="/"
+      action="/projects/swan"
       method="post"
       netlify
       netlify-honeypot="bot-field"
