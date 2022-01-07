@@ -89,9 +89,9 @@
           <header>Get in touch</header>
           <p>
             Interested in a custom project or want to learn more? Smash that
-            contact button below.
+            chat button below.
           </p>
-          <contact class="primary" />
+          <!--           <contact class="primary" /> -->
         </div>
 
         <section class="card card--rating">
@@ -196,7 +196,6 @@
       },
     },
     mounted() {
-      console.log(`${this.article.slug}`)
       this.$refs.back.style.cssText = `
         opacity: 1;
       `
