@@ -20,7 +20,7 @@ export default {
     "~/static/style/util.scss",
   ],
 
-  plugins: [],
+  plugins: [{ src: "~/plugins/vue-gtag" }],
   components: true,
   buildModules: [],
   modules: ["@nuxtjs/pwa", "@nuxt/content"],
