@@ -182,9 +182,7 @@
     }),
     async fetch() {
       this.articles = await this.$content("projects", { deep: true })
-        .sortBy("createdAt", "desc")
-        // .skip(1)
-        // .where({ hero: 'yes' })
+        .sortBy("createdAt", "asc")
         .fetch()
     },
   }
