@@ -1,5 +1,5 @@
 ---
-hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1641542458/proportional.design-v2/hero/romwzjkkfdv01jxnz7cy.jpg
+hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1641542467/proportional.design-v2/hero/jovow1mnuwytazjafiwt.jpg
 title: Hero
 title_full: Hero Dining Chair
 date: 2022-01-07T08:05:28.460Z
