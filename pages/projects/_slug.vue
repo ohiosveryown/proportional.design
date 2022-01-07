@@ -64,14 +64,15 @@
 
     <aside>
       <div class="cards">
-        <div class="card card--contact">
+        <section class="card card--contact">
           <header>Get in touch</header>
           <p>
             Interested in a custom project or want to learn more? Smash that
             chat button below.
           </p>
+          <div class="chat-emoji">💬👇</div>
           <!--           <contact class="primary" /> -->
-        </div>
+        </section>
 
         <section class="card card--rating">
           <div class="question">
@@ -104,10 +105,10 @@
           </div>
         </section>
 
-        <div class="card card--next-post">
+        <section class="card card--next-post">
           <header>You might be interested in:</header>
           <previous :prev="prev" />
-        </div>
+        </section>
       </div>
     </aside>
   </div>
