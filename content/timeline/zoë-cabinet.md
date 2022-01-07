@@ -7,10 +7,10 @@ tags:
   tag_two: credenza
 dimensions: 77H X 64 W X 20 D
 one_imgs:
-  one_of_one: ""
+  one_of_one: https://res.cloudinary.com/da32ufmnf/image/upload/v1641537785/proportional.design-v2/Zoe/pyqiszndqk5ramftdror.jpg
 two_imgs:
-  one_of_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1641537785/proportional.design-v2/Zoe/pyqiszndqk5ramftdror.jpg
-  two_of_two: https://res.cloudinary.com/da32ufmnf/image/upload/v1641537786/proportional.design-v2/Zoe/gmcjhmtkzfvys9htwmpo.jpg
+  one_of_two: ""
+  two_of_two: ""
 ---
 ### Summary
 
