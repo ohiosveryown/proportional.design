@@ -257,8 +257,6 @@
     async fetch() {
       this.articles = await this.$content("timeline", { deep: true })
         .sortBy("createdAt", "desc")
-        // .skip(1)
-        // .where({ hero: 'yes' })
         .fetch()
     },
     methods: {

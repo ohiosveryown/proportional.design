@@ -196,6 +196,7 @@
       },
     },
     mounted() {
+      console.log(`${this.article.slug}`)
       this.$refs.back.style.cssText = `
         opacity: 1;
       `

@@ -8,9 +8,10 @@ tags:
   tag_one: walnut
   tag_two: nightstand
 ---
+
 Building a box is surprisingly more difficult than it looks. Another attribute that adds to the challenge is a waterfall miter joint. A waterfall miter joint is a joint on a table that allows the grain to flow right through the joint, from the top to the sides, giving the appearance of a seamless waterfall.
 
-Angled or miter corners can be tricky because the corners of all 45º angles have to be precise. Any inaccurate angles, even by just a half degree compound over four corners: 0.5º * 4  = 2º. Two degrees is a big deal when making anything, especially a miter box.
+Angled or miter corners can be tricky because the corners of all 45º angles have to be precise. Any inaccurate angles, even by just a half degree compound over four corners: 0.5º \* 4  = 2º. Two degrees is a big deal when making anything, especially a miter box.
 
 For the Mercury Nightstand, I chose to go with a waterfall miter. I also wanted to kind of juxtapose the crisp edges with some sort of round or organic shape. These incorporated shapes ended up being the bottom corners of the drawer face, as well as the bottom edges of the left and right sides.
 
@@ -37,7 +38,7 @@ Once I have the miters cut, but before glue up, I marked a large radius on the b
 I had a little bit of cleanup on the bevel after I cut the rounded corners. I just used a little block plane and chisel to connect the bottom with the sides.
 
 <video controls="true" playsinline="" loop="loop" muted>
-  <source src="<https://res.cloudinary.com/da32ufmnf/video/upload/v1641540507/proportional.design-v2/mercury/02_rforwn.mp4>#t=0.1"/>
+  <source src="https://res.cloudinary.com/da32ufmnf/video/upload/v1641540507/proportional.design-v2/mercury/02_rforwn.mp4#t=0.1"/>
 </video>
 
 For the drawer, I used Blum undermount, soft close drawer slides. They can be a little tricky to use because the drawer box has to be spec’ed to the proper size, but it’s not too bad. The box is made from mdf, it will be painted white in the end so mdf is a good, cheap choice.
@@ -45,13 +46,13 @@ For the drawer, I used Blum undermount, soft close drawer slides. They can be a 
 ![Nightstand drawer](https://res.cloudinary.com/da32ufmnf/image/upload/v1641540218/proportional.design-v2/mercury/wmjhgnprytlokvbfpt7q.jpg)
 
 <video controls="true" playsinline="" loop="loop" muted>
-  <source src="[](https://res.cloudinary.com/da32ufmnf/video/upload/v1641540507/proportional.design-v2/mercury/02_rforwn.mp4)<https://res.cloudinary.com/da32ufmnf/video/upload/v1641540584/proportional.design-v2/mercury/03_g6shzb.mp4>#t=0.1"/>
+  <source src="https://res.cloudinary.com/da32ufmnf/video/upload/v1641540584/proportional.design-v2/mercury/03_g6shzb.mp4#t=0.1"/>
 </video>
 
 Another cool little feature that's incorporated into these nightstands is the hidden, wireless charger. It’s identified on the top side with a circle inlay, while the bottom is routed out, almost the entire thickness of the panel to allow for the charger to work.
 
 <video controls="true" playsinline="" loop="loop" muted>
-  <source src="[](https://res.cloudinary.com/da32ufmnf/video/upload/v1641540507/proportional.design-v2/mercury/02_rforwn.mp4)<https://res.cloudinary.com/da32ufmnf/video/upload/v1641540628/proportional.design-v2/mercury/04_gscuvy.mp4>[](https://res.cloudinary.com/da32ufmnf/video/upload/v1641540584/proportional.design-v2/mercury/03_g6shzb.mp4)#t=0.1"/>
+  <source src="https://res.cloudinary.com/da32ufmnf/video/upload/v1641540628/proportional.design-v2/mercury/04_gscuvy.mp4#t=0.1"/>
 </video>
 
 For finish, I went with a water based lacquer. I find it enhances the color without tinting or yellowing the color. It holds up well to moderate use and is easy to reapply if any future repairs need to be made.
