@@ -4,7 +4,7 @@
 
     <form
       name="contactus"
-      action="/thanks"
+      action="/"
       method="post"
       netlify
       netlify-honeypot="bot-field"
@@ -30,7 +30,7 @@
 <style lang="scss" scoped>
   @import "~static/style/grid.scss";
   button {
-    position: fixed;
+    /*     position: fixed; */
     z-index: var(--zmax);
     bottom: 1.6rem;
     left: 0;
