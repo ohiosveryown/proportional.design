@@ -1,5 +1,5 @@
 ---
-hero: https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640754310/proportional.design-v2/005_l6wxv0.jpg
+hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1641539312/proportional.design-v2/mercury/epltjoxldqns338jbex5.jpg
 title: Mercury
 title_full: Mercury Nightstand
 date: 2021-12-29T05:01:01.386Z
