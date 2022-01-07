@@ -283,6 +283,30 @@ aside {
   font-size: 1.8rem;
 }
 
-.emojis {
+.ratings {
+  display: flex;
   padding-top: 0.8rem;
+}
+
+.rate {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 0.5px solid rgba(255, 255, 255, 0.24);
+  border-radius: 100px;
+  margin: 0.6rem 1rem 0 0;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 1.3rem;
+  transition: background 300ms ease;
+}
+
+@media (pointer: fine) {
+  .rate:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
+
+.count {
+  margin: 0 0.2rem;
 }

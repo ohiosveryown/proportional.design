@@ -24,8 +24,6 @@
       />
     </svg>
     <main>
-      <button class="btn">Like Button</button>
-      <p>Likes: <span class="pressed"></span></p>
       <nuxt-link to="/">
         <button ref="back" class="back">
           <svg width="14" height="14" fill="none">
@@ -77,19 +75,32 @@
 
         <section class="card card--rating">
           <div class="question">
-            <header>Care to rate this project?</header>
-            <p>Ratings help me build more things people like</p>
-            <ul class="emojis">
-              <counter />
-              <!--               <li class="emoji">🔥</li>
-              <li class="emoji">❤️</li>
-              <li class="emoji">🤔</li>
-              <li class="emoji">👎</li> -->
-            </ul>
-          </div>
-          <div class="answer">
-            <header>Hey, Thanks</header>
-            <p>I really appreciate the feedback 🙌.</p>
+            <header>Care to spare an emoji?</header>
+            <p>
+              You're choices are: you like it, it's fire, hmm, and oh,
+              interesting...
+            </p>
+            <div class="ratings">
+              <div class="rate heart">
+                <div class="heart-emoji">❤️</div>
+                <span class="count heart-count">...</span>
+              </div>
+
+              <div class="rate fire">
+                <div class="fire-emoji">🔥</div>
+                <span class="count fire-count">...</span>
+              </div>
+
+              <div class="rate thinking">
+                <div class="thinking-emoji">🤔</div>
+                <span class="count thinking-count">...</span>
+              </div>
+
+              <div class="rate interesting">
+                <div class="interesting-emoji">👀</div>
+                <span class="count interesting-count">...</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -164,55 +175,180 @@
     },
 
     mounted() {
-      var dCounters = document.querySelectorAll(".CountLike")
-      ;[].forEach.call(dCounters, function (dCounter) {
-        var el = dCounter.querySelector("button")
-        var cId = dCounter.id
-        var dDatabase = firebase
-          .database()
-          .ref("Like Number Counter")
-          .child(cId)
-
-        // get firebase data
-        dDatabase.on("value", function (snap) {
-          var data = snap.val() || 0
-          dCounter.querySelector("span").innerHTML = data
-        })
-
-        // set firebase data
-        el.addEventListener("click", function () {
-          dDatabase.transaction(function (dCount) {
-            return (dCount || 0) + 1
-          })
-        })
-      })
-
       this.$refs.back.style.cssText = `
         opacity: 1;
       `
       this.wavyEnter()
       this.escape()
 
-      var xhr = new XMLHttpRequest()
+      const xhr = new XMLHttpRequest()
       xhr.open(
         "GET",
-        "https://api.countapi.xyz/hit/" + this.article.slug + "/awesomeclick"
+        "https://api.countapi.xyz/hit/" +
+          this.article.slug +
+          "q" +
+          "/awesomeclick"
       )
       xhr.responseType = "json"
       xhr.onload = function () {
-        document.querySelector(".pressed").innerText = this.response.value
+        document.querySelector(".heart-count").innerText = this.response.value
       }
       xhr.send()
 
-      document.querySelector(".btn").addEventListener("click", () => {
-        var xhr = new XMLHttpRequest()
+      const fireCount = new XMLHttpRequest()
+      fireCount.open(
+        "GET",
+        "https://api.countapi.xyz/hit/" +
+          this.article.slug +
+          "f" +
+          "/awesomeclick"
+      )
+      fireCount.responseType = "json"
+      fireCount.onload = function () {
+        document.querySelector(".fire-count").innerText = this.response.value
+      }
+      fireCount.send()
+
+      const thinkCount = new XMLHttpRequest()
+      thinkCount.open(
+        "GET",
+        "https://api.countapi.xyz/hit/" +
+          this.article.slug +
+          "t" +
+          "/awesomeclick"
+      )
+      thinkCount.responseType = "json"
+      thinkCount.onload = function () {
+        document.querySelector(".thinking-count").innerText =
+          this.response.value
+      }
+      thinkCount.send()
+
+      const interestingCount = new XMLHttpRequest()
+      interestingCount.open(
+        "GET",
+        "https://api.countapi.xyz/hit/" +
+          this.article.slug +
+          "i" +
+          "/awesomeclick"
+      )
+      interestingCount.responseType = "json"
+      interestingCount.onload = function () {
+        document.querySelector(".interesting-count").innerText =
+          this.response.value
+      }
+      interestingCount.send()
+
+      document.querySelector(".heart").addEventListener("click", () => {
+        gsap.to(".heart-emoji", {
+          scale: 1.4,
+          duration: 0.2,
+          ease: Power4.easeIn,
+        })
+        gsap.to(".heart-emoji", {
+          scale: 1,
+          duration: 0.2,
+          delay: 0.2,
+          ease: Power1.easeOut,
+        })
+
+        const xhr = new XMLHttpRequest()
         xhr.open(
           "GET",
-          "https://api.countapi.xyz/hit/" + this.article.slug + "/awesomeclick"
+          "https://api.countapi.xyz/hit/" +
+            this.article.slug +
+            "q" +
+            "/awesomeclick"
         )
         xhr.responseType = "json"
         xhr.onload = function () {
-          document.querySelector(".pressed").innerText = this.response.value
+          document.querySelector(".heart-count").innerText = this.response.value
+        }
+        xhr.send()
+      })
+
+      document.querySelector(".fire").addEventListener("click", () => {
+        gsap.to(".fire-emoji", {
+          scale: 1.4,
+          duration: 0.2,
+          ease: Power4.easeIn,
+        })
+        gsap.to(".fire-emoji", {
+          scale: 1,
+          duration: 0.2,
+          delay: 0.2,
+          ease: Power1.easeOut,
+        })
+
+        const xhr = new XMLHttpRequest()
+        xhr.open(
+          "GET",
+          "https://api.countapi.xyz/hit/" +
+            this.article.slug +
+            "f" +
+            "/awesomeclick"
+        )
+        xhr.responseType = "json"
+        xhr.onload = function () {
+          document.querySelector(".fire-count").innerText = this.response.value
+        }
+        xhr.send()
+      })
+
+      document.querySelector(".thinking").addEventListener("click", () => {
+        gsap.to(".thinking-emoji", {
+          scale: 1.4,
+          duration: 0.2,
+          ease: Power4.easeIn,
+        })
+        gsap.to(".thinking-emoji", {
+          scale: 1,
+          duration: 0.2,
+          delay: 0.2,
+          ease: Power1.easeOut,
+        })
+
+        const xhr = new XMLHttpRequest()
+        xhr.open(
+          "GET",
+          "https://api.countapi.xyz/hit/" +
+            this.article.slug +
+            "t" +
+            "/awesomeclick"
+        )
+        xhr.responseType = "json"
+        xhr.onload = function () {
+          document.querySelector(".thinking-count").innerText =
+            this.response.value
+        }
+        xhr.send()
+      })
+
+      document.querySelector(".interesting").addEventListener("click", () => {
+        gsap.to(".interesting-emoji", {
+          scale: 1.4,
+          duration: 0.2,
+          ease: Power4.easeIn,
+        })
+        gsap.to(".interesting-emoji", {
+          scale: 1,
+          duration: 0.2,
+          delay: 0.2,
+          ease: Power1.easeOut,
+        })
+
+        const xhr = new XMLHttpRequest()
+        xhr.open(
+          "GET",
+          "https://api.countapi.xyz/hit/" +
+            this.article.slug +
+            "i" +
+            "/awesomeclick"
+        )
+        xhr.responseType = "json"
+        xhr.onload = function () {
+          document.querySelector(".interesting-count").innerText =
+            this.response.value
         }
         xhr.send()
       })

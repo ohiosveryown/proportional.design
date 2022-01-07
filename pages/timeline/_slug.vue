@@ -96,18 +96,32 @@
 
         <section class="card card--rating">
           <div class="question">
-            <header>Care to rate this post?</header>
-            <p>Ratings help me share more things people like</p>
-            <ul class="emojis">
-              <li class="emoji">🔥</li>
-              <li class="emoji">❤️</li>
-              <li class="emoji">🤔</li>
-              <li class="emoji">👎</li>
-            </ul>
-          </div>
-          <div class="answer">
-            <header>Hey, Thanks</header>
-            <p>I really appreciate the feedback 🙌.</p>
+            <header>Care to spare an emoji?</header>
+            <p>
+              You're choices are: you like it, it's fire, hmm, and oh,
+              interesting...
+            </p>
+            <div class="ratings">
+              <div class="rate heart">
+                <div class="heart-emoji">❤️</div>
+                <span class="count heart-count">...</span>
+              </div>
+
+              <div class="rate fire">
+                <div class="fire-emoji">🔥</div>
+                <span class="count fire-count">...</span>
+              </div>
+
+              <div class="rate thinking">
+                <div class="thinking-emoji">🤔</div>
+                <span class="count thinking-count">...</span>
+              </div>
+
+              <div class="rate interesting">
+                <div class="interesting-emoji">👀</div>
+                <span class="count interesting-count">...</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -187,19 +201,177 @@
       `
       this.wavyEnter()
       this.escape()
-      const emojis = document.querySelectorAll(".emoji")
-      const question = document.querySelector(".question")
-      const answer = document.querySelector(".answer")
-      emojis.forEach((emoji) => {
-        emoji.addEventListener("click", () => {
-          question.style.display = "none"
-          answer.style.display = "flex"
-          answer.style.cssText = `
-            display: inherit;
-            visibility: visible;
-            opacity: 1;
-          `
+
+      const xhr = new XMLHttpRequest()
+      xhr.open(
+        "GET",
+        "https://api.countapi.xyz/hit/" +
+          this.article.slug +
+          "q" +
+          "/awesomeclick"
+      )
+      xhr.responseType = "json"
+      xhr.onload = function () {
+        document.querySelector(".heart-count").innerText = this.response.value
+      }
+      xhr.send()
+
+      const fireCount = new XMLHttpRequest()
+      fireCount.open(
+        "GET",
+        "https://api.countapi.xyz/hit/" +
+          this.article.slug +
+          "f" +
+          "/awesomeclick"
+      )
+      fireCount.responseType = "json"
+      fireCount.onload = function () {
+        document.querySelector(".fire-count").innerText = this.response.value
+      }
+      fireCount.send()
+
+      const thinkCount = new XMLHttpRequest()
+      thinkCount.open(
+        "GET",
+        "https://api.countapi.xyz/hit/" +
+          this.article.slug +
+          "t" +
+          "/awesomeclick"
+      )
+      thinkCount.responseType = "json"
+      thinkCount.onload = function () {
+        document.querySelector(".thinking-count").innerText =
+          this.response.value
+      }
+      thinkCount.send()
+
+      const interestingCount = new XMLHttpRequest()
+      interestingCount.open(
+        "GET",
+        "https://api.countapi.xyz/hit/" +
+          this.article.slug +
+          "i" +
+          "/awesomeclick"
+      )
+      interestingCount.responseType = "json"
+      interestingCount.onload = function () {
+        document.querySelector(".interesting-count").innerText =
+          this.response.value
+      }
+      interestingCount.send()
+
+      document.querySelector(".heart").addEventListener("click", () => {
+        gsap.to(".heart-emoji", {
+          scale: 1.4,
+          duration: 0.2,
+          ease: Power4.easeIn,
         })
+        gsap.to(".heart-emoji", {
+          scale: 1,
+          duration: 0.2,
+          delay: 0.2,
+          ease: Power1.easeOut,
+        })
+
+        const xhr = new XMLHttpRequest()
+        xhr.open(
+          "GET",
+          "https://api.countapi.xyz/hit/" +
+            this.article.slug +
+            "q" +
+            "/awesomeclick"
+        )
+        xhr.responseType = "json"
+        xhr.onload = function () {
+          document.querySelector(".heart-count").innerText = this.response.value
+        }
+        xhr.send()
+      })
+
+      document.querySelector(".fire").addEventListener("click", () => {
+        gsap.to(".fire-emoji", {
+          scale: 1.4,
+          duration: 0.2,
+          ease: Power4.easeIn,
+        })
+        gsap.to(".fire-emoji", {
+          scale: 1,
+          duration: 0.2,
+          delay: 0.2,
+          ease: Power1.easeOut,
+        })
+
+        const xhr = new XMLHttpRequest()
+        xhr.open(
+          "GET",
+          "https://api.countapi.xyz/hit/" +
+            this.article.slug +
+            "f" +
+            "/awesomeclick"
+        )
+        xhr.responseType = "json"
+        xhr.onload = function () {
+          document.querySelector(".fire-count").innerText = this.response.value
+        }
+        xhr.send()
+      })
+
+      document.querySelector(".thinking").addEventListener("click", () => {
+        gsap.to(".thinking-emoji", {
+          scale: 1.4,
+          duration: 0.2,
+          ease: Power4.easeIn,
+        })
+        gsap.to(".thinking-emoji", {
+          scale: 1,
+          duration: 0.2,
+          delay: 0.2,
+          ease: Power1.easeOut,
+        })
+
+        const xhr = new XMLHttpRequest()
+        xhr.open(
+          "GET",
+          "https://api.countapi.xyz/hit/" +
+            this.article.slug +
+            "t" +
+            "/awesomeclick"
+        )
+        xhr.responseType = "json"
+        xhr.onload = function () {
+          document.querySelector(".thinking-count").innerText =
+            this.response.value
+        }
+        xhr.send()
+      })
+
+      document.querySelector(".interesting").addEventListener("click", () => {
+        gsap.to(".interesting-emoji", {
+          scale: 1.4,
+          duration: 0.2,
+          ease: Power4.easeIn,
+        })
+        gsap.to(".interesting-emoji", {
+          scale: 1,
+          duration: 0.2,
+          delay: 0.2,
+          ease: Power1.easeOut,
+        })
+
+        const xhr = new XMLHttpRequest()
+        xhr.open(
+          "GET",
+          "https://api.countapi.xyz/hit/" +
+            this.article.slug +
+            "i" +
+            "/awesomeclick"
+        )
+        xhr.responseType = "json"
+        xhr.onload = function () {
+          document.querySelector(".interesting-count").innerText =
+            this.response.value
+        }
+        xhr.send()
       })
     },
 
