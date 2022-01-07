@@ -11,6 +11,9 @@ three_imgs:
   two_of_three: https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640914624/proportional.design-v2/v2/01_egb1du.jpg
   three_of_three: https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640914624/proportional.design-v2/v2/02_bug3fd.jpg
 ---
+
+### Hello World
+
 Meet the new site, same as the old site. Over the last three years, as I’ve been building furniture more consistently (and more seriously), I’ve been wanting to document more of the process. It's nice to be able to reflect and think about not just the final output, but the journey as well; as corny as that sounds.
 
 The first iteration of [proportional.design (v1)](https://6050e4a79c3a7d0008a9d073--proportional-design-v1.netlify.app/)[](https://proportional.design) was definitely not set up to support a blogging style experience. Not only that, but the architecture of how I originally built the site supported just a single image per project, and so a goal of mine for the new site was to support more content.
@@ -26,7 +29,7 @@ The front-end is built on Nuxt.js which is typically my go-to. I also incorporat
 
 ![CMS UI](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640915382/proportional.design-v2/v2/04_cer2xq.png)
 
-Site optimization was also an important consideration. All the images are served through Cloudinary, a cdn I’ve used in the past and I have a couple automations setup; including image compression. So whenever I’m in the CMS and I upload an image, it gets compressed and served in the optimal image format per the device of the end viewer.
+Site optimization was also an important consideration. All the images are served through Cloudinary, a cdn I’ve used in the past. I have a couple automations setup: including image compression. Whenever I’m in the CMS and I upload an image, it gets compressed and served in the optimal image format per the device of the end viewer.
 
 ![Google PageSpeed](https://res.cloudinary.com/da32ufmnf/image/upload/v1641530341/proportional.design-v2/v2/ueij4njuahagukdgx4rx.jpg)
 
