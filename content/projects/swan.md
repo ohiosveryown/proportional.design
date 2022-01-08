@@ -8,7 +8,6 @@ tags:
   tag_one: oak
   tag_two: table
 ---
-
 If I had to guess, I’d say woodworking is probably 70% planning and order of operations, 20% fixing dumb mistakes, and 10% execution. A project pretty much never comes together perfectly with zero challenges along the way. This table was no exception, however the biggest variable from the formula above was a client wanting to make a design change halfway through the build.
 
 Originally, the Swan Table was meant to be a standard, small, circular dining table. Most tables are around 30” off the floor and this one was no exception – at least initially. It was to have pretty standard, tapered legs but evolved into a hightop table, with a pretty interesting pyramid base.
@@ -27,7 +26,7 @@ Once things were cut to rough size, I began to orient the boards to find the bes
 
 ### Circles & Squares
 
-For the round top I broke out the circle cutting jig and the router, of course you could achieve the same results with a jigsaw. When cutting a with the router, it’s important to go slow and take shallow passes to not stress the bit and create tear out ini the workpiece.
+For the round top I broke out the circle cutting jig and the router, of course you could achieve the same results with a jigsaw. When cutting a with the router, it’s important to go slow and take shallow passes to not stress the bit and create tear out on the workpiece.
 
 ![cutting a circle](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640937218/proportional.design-v2/swan/04_yneek7.jpg)
 
