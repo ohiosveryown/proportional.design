@@ -24,7 +24,7 @@ I picked some really nice figured walnut and since this was a waterfall box, it�
 
 ![panel laminate](https://res.cloudinary.com/da32ufmnf/image/upload/v1641540218/proportional.design-v2/mercury/eih5jsc1krruvnqqwjw0.jpg)
 
-There’s no real trick when cutting 45’s, the best way that works for me when it comes to wide boards or panels is to use a track saw with a straight edge. If the board or panel is small enough, I typically use a table saw sled and make sure I clamp the piece both done and tight to the back fence. Here I just the track saw method.
+There’s no real trick when cutting 45’s, the best way that works for me when it comes to wide boards or panels is to use a track saw with a straight edge. If the board or panel is small enough, I typically use a table saw sled and make sure I clamp the piece both done and tight to the back fence. Here I just used the track saw method.
 
 ![waterfall miter](https://res.cloudinary.com/da32ufmnf/image/upload/v1641540218/proportional.design-v2/mercury/lw5hn5pxp9tarxbvlvbt.jpg)
 
