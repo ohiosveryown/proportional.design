@@ -1,5 +1,5 @@
 export default {
-  ssr: false,
+  ssr: true,
   target: "static",
 
   head: {
