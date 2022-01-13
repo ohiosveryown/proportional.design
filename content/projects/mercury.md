@@ -1,5 +1,5 @@
 ---
-hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1641539312/proportional.design-v2/mercury/epltjoxldqns338jbex5.jpg
+hero: https://i.imgur.com/DL1cSHv.jpeg
 title: Armstrong
 title_full: Armstrong Nightstands
 date: 2021-12-29T05:01:01.386Z
@@ -8,9 +8,10 @@ tags:
   tag_one: walnut
   tag_two: nightstand
 ---
+
 Building a box is surprisingly more difficult than it looks. Another attribute that adds to the challenge is a waterfall miter joint. A waterfall miter joint is a joint on a table that allows the grain to flow right through the joint, from the top to the sides, giving the appearance of a seamless waterfall.
 
-Angled or miter corners can be tricky because the corners of all 45º angles have to be precise. Any inaccurate angles, even by just a half degree compound over four corners: 0.5º * 4  = 2º. Two degrees is a big deal when making anything, especially a miter box.
+Angled or miter corners can be tricky because the corners of all 45º angles have to be precise. Any inaccurate angles, even by just a half degree compound over four corners: 0.5º \* 4  = 2º. Two degrees is a big deal when making anything, especially a miter box.
 
 For the Mercury Nightstand, I chose to go with a waterfall miter. I also wanted to kind of juxtapose the crisp edges with some sort of round or organic shape. These incorporated shapes ended up being the bottom corners of the drawer face, as well as the bottom edges of the left and right sides.
 
