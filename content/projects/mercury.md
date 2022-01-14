@@ -1,5 +1,5 @@
 ---
-hero: https://i.imgur.com/DL1cSHv.jpeg
+hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1642130680/proportional.design-v2/mercury/rdjkdqmdqgf0xkpz0xl8.jpg
 title: Armstrong
 title_full: Armstrong Nightstands
 date: 2021-12-29T05:01:01.386Z

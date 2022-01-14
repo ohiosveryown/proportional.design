@@ -3,12 +3,17 @@ hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1642130259/proportional
 title: Casper
 title_full: Casper Dresser
 date: 2022-01-14T03:12:14.993Z
-dimensions: 32H X 24W X 22D
+dimensions: 33H X 60W X 22D
 tags:
-  tag_one: chair
-  tag_two: oak
+  tag_one: maple
+  tag_two: bridle
 ---
-The Hiro Chair was my first venture into chairmaking. It’s heavily inspired by Danish and Japanese styles, in particular the [PP501 chair by Hans Wegner](https://www.pamono.com/stories/the-one-only). I love how the back and arms flow together, almost as if it’s one piece of wood, but if you look close enough you can see the large finger joints. Needless to say, for my first chair, this was diving into the deep end.
+
+The Casper dresser is made from solid ambrosia maple, and some maple plywood. It features squared bridle joints at the top side panels, and rounded bridles along the bottom side panels.
+
+Each drawer front is painted a flat white, with drawer boxes being support with Blum under-mounted drawer slides. The fronts feature an integrated pull recess which is rounded as well. The finish was a water based lacquer which was applied via spray gun.
+
+The dresser was based off of a [vintage, 1978 dresser](https://homeunionnyc.com/products/1978-maple-three-drawer-dresser) by Schoolfield Furniture. The original consisted of a single column design with simple butt joints. Unfortunately Schoolfield is no longer around.
 
 ![Chair back](https://res.cloudinary.com/da32ufmnf/image/upload/v1642130259/proportional.design-v2/casper/exg8yecbuu2fkwze9iex.jpg)
 
