@@ -37,3 +37,5 @@ Site optimization was also an important consideration. All the images are served
 I’m sure at some point I’ll post more about the design and development but for now, if you’re curious, you can check out the [source here](https://github.com/ohiosveryown/proportional.design).
 
 ![Javascript code](https://res.cloudinary.com/da32ufmnf/image/upload/f_auto,q_50/v1640913232/proportional.design-v2/v2/carbon_ltwka5.png)
+
+If you're still curious, you can check out some more details over on [Twitter](https://twitter.com/cmykw_/status/1479634249124913152)[](https://proportional.design), where I posted a thread of updates.
