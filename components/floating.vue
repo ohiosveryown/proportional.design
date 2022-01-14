@@ -128,12 +128,11 @@
   }
 
   li:nth-of-type(4) {
-    opacity: 0;
     top: 32vh;
-    left: 12vw;
+    left: 14vw;
     img,
     figcaption {
-      animation: float02 5s ease-in-out 2s infinite;
+      animation: float01 5s ease-in-out 1.5s infinite;
     }
   }
 

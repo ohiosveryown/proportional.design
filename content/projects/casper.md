@@ -8,6 +8,7 @@ tags:
   tag_one: maple
   tag_two: bridle-joint
 ---
+
 The Casper dresser is made from solid ambrosia maple hardwood and maple plywood. It features squared bridle joints at the top side panels, and rounded bridles along the bottom side panels.
 
 Each drawer front is painted a flat white, with drawer boxes being supported with Blum under-mounted drawer slides. The fronts feature an integrated pull recess which is rounded as well. The finish is a water based lacquer which was applied via spray gun.
