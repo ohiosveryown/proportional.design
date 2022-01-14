@@ -6,19 +6,23 @@ date: 2022-01-14T03:12:14.993Z
 dimensions: 33H X 60W X 22D
 tags:
   tag_one: maple
-  tag_two: bridle
+  tag_two: "bridle-joint"
 ---
 
 The Casper dresser is made from solid ambrosia maple hardwood and maple plywood. It features squared bridle joints at the top side panels, and rounded bridles along the bottom side panels.
 
-Each drawer front is painted a flat white, with drawer boxes being support with Blum under-mounted drawer slides. The fronts feature an integrated pull recess which is rounded as well. The finish was a water based lacquer which was applied via spray gun.
+Each drawer front is painted a flat white, with drawer boxes being supported with Blum under-mounted drawer slides. The fronts feature an integrated pull recess which is rounded as well. The finish is a water based lacquer which was applied via spray gun.
 
 The dresser was based off of a [vintage, 1978 dresser](https://homeunionnyc.com/products/1978-maple-three-drawer-dresser) by Schoolfield Furniture. The original consisted of a single column design with simple butt joints. Unfortunately Schoolfield is no longer around.
 
-![Chair back](https://res.cloudinary.com/da32ufmnf/image/upload/v1642130259/proportional.design-v2/casper/exg8yecbuu2fkwze9iex.jpg)
+![Dresser front](https://res.cloudinary.com/da32ufmnf/image/upload/v1642130259/proportional.design-v2/casper/exg8yecbuu2fkwze9iex.jpg)
 
-![Chair front](https://res.cloudinary.com/da32ufmnf/image/upload/v1642130259/proportional.design-v2/casper/mvugyzsuwdnl4q9yhwfz.jpg)
+![Integrated drawer pull](https://res.cloudinary.com/da32ufmnf/image/upload/v1642130259/proportional.design-v2/casper/mvugyzsuwdnl4q9yhwfz.jpg)
 
-![Chair back](https://res.cloudinary.com/da32ufmnf/image/upload/v1642130259/proportional.design-v2/casper/pixifq3jk0hn3kqdabmp.jpg)
+![Bridle joint detail](https://res.cloudinary.com/da32ufmnf/image/upload/v1642130259/proportional.design-v2/casper/pixifq3jk0hn3kqdabmp.jpg)
 
-![Chair front](https://res.cloudinary.com/da32ufmnf/image/upload/v1642130260/proportional.design-v2/casper/nobla8gejwozxrj5tyl5.jpg)
+![Side view](https://res.cloudinary.com/da32ufmnf/image/upload/v1642130260/proportional.design-v2/casper/nobla8gejwozxrj5tyl5.jpg)
+
+![Original dresser](https://res.cloudinary.com/da32ufmnf/image/upload/v1642131530/proportional.design-v2/casper/s7xz6stetsxszdpwc837.webp)
+
+Finally, the original 1978 Schoolfield Furniture design.
