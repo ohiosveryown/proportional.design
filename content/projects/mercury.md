@@ -59,6 +59,8 @@ Another cool little feature that's incorporated into these nightstands is the hi
 
 For finish, I went with a water based lacquer. I find it enhances the color without tinting or yellowing the color. It holds up well to moderate use and is easy to reapply if any future repairs need to be made.
 
+![Armstrong I corner](https://res.cloudinary.com/da32ufmnf/image/upload/v1642101633/proportional.design-v2/gkmikatd6azjulp8zzjw.jpg)
+
 ![Armstrong I, II](https://res.cloudinary.com/da32ufmnf/image/upload/v1641540220/proportional.design-v2/mercury/yqqboxuib0wjfi3tlhcg.jpg)
 
 ![Armstrong nightstand](https://res.cloudinary.com/da32ufmnf/image/upload/v1641540220/proportional.design-v2/mercury/p17qekdpulx2drufix88.jpg)

@@ -71,7 +71,6 @@
             chat button below.
           </p>
           <div class="chat-emoji">💬👇</div>
-          <!--           <contact class="primary" /> -->
         </section>
 
         <section class="card card--rating">
