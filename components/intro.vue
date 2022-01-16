@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header ref="header">
     <span @mouseenter="hover = true" @mouseleave="hover = false" class="time" />
     <span :class="{ hoverStyle: hover }" class="tooltip">
       Come back another time of day and get a fresh new interface 🍩</span
@@ -109,7 +109,7 @@
         }
       },
       handleScroll() {
-        const intro = document.querySelector("header")
+        const intro = this.$refs.header
         window.addEventListener(
           "scroll",
           () => {

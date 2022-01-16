@@ -1,5 +1,5 @@
 <template>
-  <section class="projects">
+  <section ref="projects" class="projects">
     <ul>
       <li v-for="article of articles" :key="article.slug">
         <NuxtLink :to="'/projects/' + article.slug">
@@ -7,7 +7,6 @@
             <img :src="`${article.hero}`" />
             <figcaption class="title">{{ article.title }}</figcaption>
           </figure>
-          <!--           <span class="title">{{ article.title }}</span> -->
         </NuxtLink>
       </li>
     </ul>
@@ -180,7 +179,7 @@
     },
     methods: {
       handle() {
-        const projects = document.querySelector(".projects")
+        const projects = this.$refs.projects
         window.addEventListener(
           "scroll",
           () => {

@@ -26,11 +26,11 @@
     <main>
       <nuxt-link to="/">
         <button ref="back" class="back">
-          <svg width="14" height="14" fill="none">
+          <svg width="20" height="20">
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
-              d="M16.03 6.098H4.185l4.402-4.447a.974.974 0 0 0 0-1.368.95.95 0 0 0-1.353 0L1.276 6.301a.975.975 0 0 0-.135 1.196.966.966 0 0 0 .174.24l5.92 5.98a.95.95 0 0 0 1.353 0 .974.974 0 0 0 0-1.367L4.313 8.032H16.03a.967.967 0 0 0 0-1.934Z"
+              d="m18.264 11.227-.845-.805v7.61a.968.968 0 0 1-1.023.967H3.926a.812.812 0 0 1-.055 0 .968.968 0 0 1-.968-.967V10.063l-1.167 1.111a1.054 1.054 0 0 1-1.438 0 .935.935 0 0 1 0-1.368l2.605-2.48V2.588a.968.968 0 0 1 1.935 0v2.896l4.415-4.2c.198-.19.459-.284.72-.284.26 0 .52.094.72.283l9.01 8.575a.935.935 0 0 1 0 1.369 1.054 1.054 0 0 1-1.439 0ZM4.838 16.955h10.645V8.722a.98.98 0 0 1 .01-.133l-5.52-5.254-5.135 4.886v8.734Z"
               fill="#fff"
             />
           </svg>
@@ -51,7 +51,7 @@
 
       <article class="p-timeline">
         <ul class="meta">
-          <li class="date">{{ formatDate(article.createdAt) }}</li>
+          <li class="date">{{ formatDate(article.date) }}</li>
           <li class="dimensions">{{ article.dimensions }}</li>
         </ul>
         <nuxt-content :document="article" />
