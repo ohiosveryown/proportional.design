@@ -29,11 +29,11 @@ There’s no real trick when cutting 45’s, the best way that works for me when
 
 ![waterfall miter](https://res.cloudinary.com/da32ufmnf/image/upload/v1641540218/proportional.design-v2/mercury/lw5hn5pxp9tarxbvlvbt.jpg)
 
-With the box laid on its side, you can see how the long laminated panel gets cut and “folded” so the grain looks like it’s wrapping around the sides and top. You can also just barely see that I cut a bevel along the front edges of the board. It’s obviously down before the miters are cut, but I suppose you could use a really large chamfer bit to do it after the fact.
+With the box laid on its side, you can see how the long laminated panel gets cut and “folded” so the grain looks like it’s wrapping around the sides and top. You can also just barely see that I cut a bevel along the front edges of the board. It’s obviously done before the miters are cut, but I suppose you could use a really large chamfer bit to do it after the fact.
 
 ![nightstand side](https://res.cloudinary.com/da32ufmnf/image/upload/v1641540218/proportional.design-v2/mercury/upomugxhtb4mckh9xj8a.jpg)
 
-Once I have the miters cut, but before glue up, I marked a large radius on the bottom corners and rough cut them at the bandsaw. I then sanded them to final dimensions with my spindle sander. Above you can see how the radius turned out as I’ve begun sanded the component.
+Once I have the miters cut, but before glue up, I marked a large radius on the bottom corners and rough cut them at the bandsaw. I then sanded them to final dimensions with my spindle sander. Above you can see how the radius turned out as I started to sand the component.
 
 I had a little bit of cleanup on the bevel after I cut the rounded corners. I just used a little block plane and chisel to connect the bottom with the sides.
 
@@ -41,7 +41,7 @@ I had a little bit of cleanup on the bevel after I cut the rounded corners. I ju
   <source src="https://res.cloudinary.com/da32ufmnf/video/upload/v1641540507/proportional.design-v2/mercury/02_rforwn.mp4#t=0.1"/>
 </video>
 
-For the drawer, I used Blum undermount, soft close drawer slides. They can be a little tricky to use because the drawer box has to be spec’ed to the proper size, but it’s not too bad. The box is made from mdf, it will be painted white in the end so mdf is a good, cheap choice.
+For the drawer, I used Blum undermount, soft close drawer slides. They can be a little tricky to use because the drawer box has to be spec’d to the proper size, but it’s not too bad. The box is made from mdf, it will be painted white in the end so mdf is a good, cheap choice.
 
 ![Nightstand drawer](https://res.cloudinary.com/da32ufmnf/image/upload/v1641540218/proportional.design-v2/mercury/wmjhgnprytlokvbfpt7q.jpg)
 
