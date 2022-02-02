@@ -23,7 +23,12 @@ The Hiro Chair was my first venture into chairmaking. It’s heavily inspired by
 
 ### WIP Photos
 
-A work in progress photo dump, in no particular order
+<small>
+
+_A work in progress photo dump, in no particular order_
+
+</small>
+
 ![Chair top view](https://res.cloudinary.com/da32ufmnf/image/upload/v1643833202/proportional.design-v2/hero/wip/iinvrvn3sjhqczfhvcz0.jpg)
 
 ![Chair top back view](https://res.cloudinary.com/da32ufmnf/image/upload/v1643833499/proportional.design-v2/hero/wip/iblkljezc0rlr142kbvf.jpg)

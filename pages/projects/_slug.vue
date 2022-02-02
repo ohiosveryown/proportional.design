@@ -45,6 +45,14 @@
         <li v-if="article.tags.tag_three">#{{ article.tags.tag_three }}</li>
       </ul>
 
+      <!--       <div class="callout">
+        <i>📣</i>
+        <article>
+          <header>WIP Photos</header>
+          <p>A work in progress photo dump, in no particular order</p>
+        </article>
+      </div> -->
+
       <div class="images">
         <img class="project-hero" :src="`${article.hero}`" />
       </div>
