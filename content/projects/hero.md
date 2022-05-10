@@ -1,7 +1,7 @@
 ---
 hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1641542458/proportional.design-v2/hero/romwzjkkfdv01jxnz7cy.jpg
-title: Hero
-title_full: Hero Dining Chair
+title: Hiro
+title_full: Hiro Dining Chair
 date: 2022-01-07T08:05:28.460Z
 dimensions: 32H X 24W X 22D
 tags:
