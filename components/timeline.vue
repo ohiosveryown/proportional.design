@@ -256,7 +256,7 @@
     }),
     async fetch() {
       this.articles = await this.$content("timeline", { deep: true })
-        .sortBy("title", "asc")
+        .sortBy("createdAt", "desc")
         .fetch()
     },
     methods: {
