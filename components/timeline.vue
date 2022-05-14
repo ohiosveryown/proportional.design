@@ -53,7 +53,7 @@
 
           <footer>
             <small class="time-date">
-              {{ formatDate(article.date) }}
+              {{ article.date }}
             </small>
             <small v-if="article.dimensions">{{ article.dimensions }}</small>
           </footer>
