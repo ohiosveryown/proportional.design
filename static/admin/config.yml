@@ -68,6 +68,10 @@ collections:
     editor:
       preview: false
     fields:
+      - label: "For Sorting"
+        name: "sortForHome"
+        widget: "number"
+
       - label: "Title"
         name: "title"
         widget: "string"
