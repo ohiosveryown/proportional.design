@@ -53,7 +53,7 @@
 
           <footer>
             <small class="time-date">
-              {{ article.date }}
+              {{ formatDate(article.date) }}
             </small>
             <small v-if="article.dimensions">{{ article.dimensions }}</small>
           </footer>
@@ -256,7 +256,7 @@
     }),
     async fetch() {
       this.articles = await this.$content("timeline", { deep: true })
-        .sortBy("createdAt", "desc")
+        .sortBy("createdAt", "asc")
         .fetch()
     },
     methods: {
