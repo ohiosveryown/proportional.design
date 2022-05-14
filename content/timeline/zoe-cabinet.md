@@ -1,4 +1,5 @@
 ---
+sortForHome: 03
 title: Zoë Cabinet
 date: 2022-01-07T06:29:26.842Z
 description: A credenza with a lot of shelves

@@ -1,4 +1,5 @@
 ---
+sortForHome: 02
 title: Hero Chair Seat
 date: 2021-12-30T07:57:21.484Z
 description: Started from the bottom – making the seat for the Hero chair

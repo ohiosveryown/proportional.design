@@ -1,4 +1,5 @@
 ---
+sortForHome: 01
 title: Proportional [dot] Design v2.0
 date: 2021-12-24T20:51:31.542Z
 description: Welcome to the second iteration of proportional.design

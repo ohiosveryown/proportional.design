@@ -1,4 +1,5 @@
 ---
+sortForHome: 04
 title: Lakeview Dresser Base
 date: 2022-05-10T05:50:30.078Z
 description: Started at the bottom (kind of)
@@ -9,6 +10,7 @@ dimensions: 32 H X 58 W X 20 D
 one_imgs:
   one_of_one: https://res.cloudinary.com/da32ufmnf/image/upload/v1652160038/proportional.design-v2/lakeview-base/taohbrrmmzazwdtxntap.jpg
 ---
+
 ### Starting with a base (not really)
 
 Recently I've been working on a solid walnut dresser and wanted to share progress on the base. The carcass of the dresser has rounded, mitered corners, and the client wanted those curves incorporated into the base. We decided on a design where the stretchers round into the legs and middle support.
