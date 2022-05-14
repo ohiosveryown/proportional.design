@@ -1,7 +1,7 @@
 ---
 title: Lakeview Dresser Base
 date: 2022-05-10T05:50:30.078Z
-description: Started at the bottom
+description: Started at the bottom (kind of)
 tags:
   tag_one: walnut
   tag_two: dresser
