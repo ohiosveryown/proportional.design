@@ -32,7 +32,7 @@ Check out some of the build process below.
 
 ![Doors and drawers](https://res.cloudinary.com/da32ufmnf/image/upload/v1671214683/proportional.design-v2/zoe-vanity/c8fvhlxj6rzavmm0ejnu.jpg)
 
-<video controls="true" playsinline="" loop="loop" muted poster="<https://res.cloudinary.com/da32ufmnf/image/upload/v1671215613/proportional.design-v2/zoe-vanity/fdxuzqxcayofalori9kb.jpg>">
+<video controls="true" playsinline="" loop="loop" muted>
   <source src="<https://res.cloudinary.com/da32ufmnf/video/upload/v1671214695/proportional.design-v2/zoe-vanity/vanity-01_ci7kuq.mp4#t=0.1"/>
 </video>
 
