@@ -2,7 +2,7 @@
 hero: https://res.cloudinary.com/da32ufmnf/image/upload/v1671214708/proportional.design-v2/zoe-vanity/oq093lp8mrljl0c90dc0.jpg
 title: Brasilia
 title_full: Brasilia Vanity
-date: 2022-12-16T17:43:06.626Z
+date: 2022-10-16T16:43:00.000Z
 dimensions: 30H X 60W X 22D
 tags:
   tag_one: walnut
