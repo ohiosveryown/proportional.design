@@ -18,7 +18,7 @@ Check out some of the build process below.
 
 ![Box glue up](https://res.cloudinary.com/da32ufmnf/image/upload/v1671214675/proportional.design-v2/zoe-vanity/ubrdd4vt4ygt4dla12uw.jpg)
 
-![Leg joinery](https://res.cloudinary.com/da32ufmnf/image/upload/v1671215991/proportional.design-v2/zoe-vanity/qa7yrjy7qwdbnz29wsdz.png)
+![Leg joinery](https://res.cloudinary.com/da32ufmnf/image/upload/v1671216309/proportional.design-v2/zoe-vanity/udzh2srxf6wq4fbzxzg4.png)
 
 ![Base](https://res.cloudinary.com/da32ufmnf/image/upload/v1671214676/proportional.design-v2/zoe-vanity/eyhrck0m0wnwcepvplre.jpg)
 
@@ -33,9 +33,7 @@ Check out some of the build process below.
 ![Doors and drawers](https://res.cloudinary.com/da32ufmnf/image/upload/v1671214683/proportional.design-v2/zoe-vanity/c8fvhlxj6rzavmm0ejnu.jpg)
 
 <video controls="true" playsinline="" loop="loop" muted poster="<https://res.cloudinary.com/da32ufmnf/image/upload/v1671215613/proportional.design-v2/zoe-vanity/fdxuzqxcayofalori9kb.jpg>">
-  <source src="<https://res.cloudinary.com/da32ufmnf/video/upload/v1671214695/proportional.design-v2/zoe-vanity/vanity-01_ci7kuq.mp4>#t=0.1"/>
+  <source src="<https://res.cloudinary.com/da32ufmnf/video/upload/v1671214695/proportional.design-v2/zoe-vanity/vanity-01_ci7kuq.mp4#t=0.1"/>
 </video>
-
-And finished
 
 ![Finished vanity](https://res.cloudinary.com/da32ufmnf/image/upload/v1671214708/proportional.design-v2/zoe-vanity/wrdhjsi50ggfnunolm9q.jpg)
