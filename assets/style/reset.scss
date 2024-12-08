@@ -15,6 +15,8 @@
   --z1: 1;
   --z0: -1;
   --zmin: -9999;
+  // color
+  --color--primary: #fff;
 }
 
 *,
@@ -31,13 +33,16 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility !important;
   height: 100vh;
+  background: #000;
   // overscroll-behavior: none;
 }
 
 body {
   min-height: 100vh;
   font: normal 1.5rem/1.5 var(--system-font);
-  // color: var(--color--primary);
+  color: var(--color--primary);
+  background: url('https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733444492/proportional.design-3.0/bg-01_kaaqx9.webp') no-repeat center center fixed;
+  background-size: cover;
   text-rendering: optimizeSpeed;
 }
 
@@ -46,8 +51,9 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-  // color: var(--color--primary);
+h6,
+button {
+  color: var(--color--primary);
 }
 
 body,
@@ -97,7 +103,9 @@ h6 {
 
 button {
   border: none;
+  font-size: 1.3rem;
   background: none;
+  cursor: pointer;
 }
 
 figure,
@@ -123,14 +131,24 @@ ul {
   -webkit-margin-after: 0;
 }
 
+
 // debug
 .debug {
   border: 2px solid hotpink;
 }
 
+
 // a11y
 :focus {
   outline: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+// app
+.app {
+  position: relative;
+  margin: 0 auto;
+  padding: 2.4rem;
+  width: 100vw;
 }
 
 @media (prefers-reduced-motion: reduce) {
