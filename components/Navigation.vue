@@ -27,9 +27,9 @@
 
     <ClientOnly>
       <details
-        v-for="(items, folder, index) in posts"
+        v-for="(items, folder) in posts"
         :key="folder"
-        :open="index === 0 || openStates[folder]"
+        :open="openStates[folder]"
         @toggle="(e) => handleToggle(folder, e.target.open)"
       >
         <summary>{{ folder }}</summary>
@@ -93,11 +93,29 @@ h2 {
 // const posts = await queryContent("").sort({ key: 1 }).skip(1).find();
 // const posts = await queryContent().sort({ key: 1 }).find();
 
-const route = useRoute();
+const posts = ref({});
 const openStates = ref({});
+const loading = ref(true);
 
-// Initialize from localStorage on mount
+// Fetch posts
+const { data } = await useAsyncData("posts", () =>
+  queryContent().where({ _partial: false }).find()
+);
+
+// Group posts by directory
+if (data.value) {
+  posts.value = data.value.reduce((acc, post) => {
+    const directory = post._path.split("/")[1] || "root";
+    if (!acc[directory]) {
+      acc[directory] = [];
+    }
+    acc[directory].push(post);
+    return acc;
+  }, {});
+}
+
 onMounted(() => {
+  // Load saved states
   const stored = localStorage.getItem("detailsStates");
   if (stored) {
     openStates.value = JSON.parse(stored);
@@ -109,32 +127,4 @@ const handleToggle = (folder, isOpen) => {
   openStates.value[folder] = isOpen;
   localStorage.setItem("detailsStates", JSON.stringify(openStates.value));
 };
-
-const loading = ref(true);
-const error = ref(null);
-
-const { data: posts } = await useAsyncData("posts", async () => {
-  try {
-    loading.value = true;
-    const allContent = await queryContent()
-      .skip(1)
-      .sort({ date: -1 })
-      .where({ _partial: false })
-      .find();
-
-    return allContent.reduce((acc, post) => {
-      const directory = post._path.split("/")[1] || "root";
-      if (!acc[directory]) {
-        acc[directory] = [];
-      }
-      acc[directory].push(post);
-      return acc;
-    }, {});
-  } catch (e) {
-    error.value = e;
-    return {};
-  } finally {
-    loading.value = false;
-  }
-});
 </script>
