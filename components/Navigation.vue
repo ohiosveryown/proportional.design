@@ -25,40 +25,13 @@
       objects 🪑.
     </h2>
 
-    <ClientOnly>
-      <details
-        v-for="(items, folder) in posts"
-        :key="folder"
-        :open="openStates[folder]"
-        @toggle="(e) => handleToggle(folder, e.target.open)"
-      >
-        <summary>{{ folder }}</summary>
-        <ul>
-          <li v-for="post in items" :key="post._id">
-            <NuxtLink :to="post._path">
-              {{ post.title }}
-            </NuxtLink>
-          </li>
-        </ul>
-      </details>
-    </ClientOnly>
-
-    <!-- <details>
-      <summary>Bastogne Slab Desk</summary>
-      <ul>
-        <li v-for="post in posts" :key="post._id">
-          <NuxtLink :to="post._path">
-            {{ post.title }}
-          </NuxtLink>
-        </li>
-      </ul>
-    </details> -->
+    <Directory />
   </nav>
 </template>
 
 <style lang="scss" scoped>
-@import "/assets/style/grid.scss";
-@import "/assets/style/type.scss";
+@use "/assets/style/grid.scss" as *;
+@use "/assets/style/type.scss" as *;
 
 nav {
   display: flex;
@@ -66,6 +39,8 @@ nav {
   flex-direction: column;
   border-radius: 5px;
   border: 0.541px solid rgba(255, 255, 255, 0.2);
+  height: max-content;
+  padding: 0.8rem 1.4rem;
   background: rgba(0, 0, 0, 0.14);
   box-shadow: 0px 18px 38px 0px rgba(0, 0, 0, 0.1),
     0px 4.021px 8.488px 0px rgba(0, 0, 0, 0.1),
@@ -88,43 +63,3 @@ h2 {
   margin-bottom: 4rem;
 }
 </style>
-
-<script setup>
-// const posts = await queryContent("").sort({ key: 1 }).skip(1).find();
-// const posts = await queryContent().sort({ key: 1 }).find();
-
-const posts = ref({});
-const openStates = ref({});
-const loading = ref(true);
-
-// Fetch posts
-const { data } = await useAsyncData("posts", () =>
-  queryContent().where({ _partial: false }).find()
-);
-
-// Group posts by directory
-if (data.value) {
-  posts.value = data.value.reduce((acc, post) => {
-    const directory = post._path.split("/")[1] || "root";
-    if (!acc[directory]) {
-      acc[directory] = [];
-    }
-    acc[directory].push(post);
-    return acc;
-  }, {});
-}
-
-onMounted(() => {
-  // Load saved states
-  const stored = localStorage.getItem("detailsStates");
-  if (stored) {
-    openStates.value = JSON.parse(stored);
-  }
-});
-
-// Handle details toggle
-const handleToggle = (folder, isOpen) => {
-  openStates.value[folder] = isOpen;
-  localStorage.setItem("detailsStates", JSON.stringify(openStates.value));
-};
-</script>

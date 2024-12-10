@@ -1,15 +1,17 @@
 <template>
   <!-- <Navigation /> -->
-  <main>
+  <main class="debug">
+    <h1>This is slug content...</h1>
     <ClientOnly>
-      <ContentDoc :path="path">
+      <ContentDoc :path="contentPath">
         <template #default="{ doc }">
-          <article>
+          <article :class="`${route.params.directory}-content`">
+            <h1>{{ doc.title }}</h1>
             <ContentRenderer :value="doc" />
           </article>
         </template>
         <template #not-found>
-          <h1>Hellloooooo</h1>
+          <h1>Content not found</h1>
         </template>
         <template #loading>
           <p>Loading...</p>
@@ -27,14 +29,17 @@ main {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 7.2rem 14rem;
+  padding: 1.2rem;
   overflow-x: hidden;
 }
 </style>
 
 <script setup>
 const route = useRoute();
-const path = computed(() => {
-  return route.params.slug ? `/${route.params.slug.join("/")}` : "/";
+
+const contentPath = computed(() => {
+  const directory = route.params.directory;
+  const slug = route.params.slug;
+  return `/${directory}/${slug ? slug.join("/") : ""}`;
 });
 </script>
