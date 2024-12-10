@@ -1,5 +1,4 @@
 <template>
-  <!-- <Navigation /> -->
   <main>
     <ClientOnly>
       <ContentDoc :path="path">

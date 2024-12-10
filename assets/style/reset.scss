@@ -17,6 +17,14 @@
   --zmin: -9999;
   // color
   --color--primary: #fff;
+  // border
+  --border: 0.5px solid rgba(255, 255, 255, 0.2);
+  --border-radius--sm: 5px;
+  --border-radius--md: 7px;
+  // shadow
+  --shadow: 0 18px 38px 0px rgba(0, 0, 0, 0.2),
+    0px 4px 8px 0px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
 *,
@@ -147,7 +155,6 @@ ul {
 .app {
   position: relative;
   margin: 0 auto;
-  // padding: 2.4rem;
   width: 100vw;
 }
 

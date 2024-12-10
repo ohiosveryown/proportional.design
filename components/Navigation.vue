@@ -19,6 +19,7 @@
         </svg>
       </button>
     </header>
+
     <h1>proportional.design</h1>
     <h2>
       A small-fry studio 🎨 based in Atlanta, Ga 🍑 building functional
@@ -52,6 +53,10 @@ header {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+button:focus {
+  outline: 3px solid red;
 }
 
 .btn-search {

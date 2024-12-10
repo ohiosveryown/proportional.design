@@ -1,0 +1,249 @@
+<template>
+  <ClientOnly>
+    <details
+      v-for="(items, directory) in groupedPosts"
+      :key="directory"
+      :open="openStates[directory]"
+      @toggle="(e) => handleToggle(directory, e.target.open)"
+    >
+      <summary>
+        <img
+          src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733756746/proportional.design-3.0/icons/icon--folder--01_3x_eaz3f9.webp"
+          alt=""
+          class="icon-directory"
+        />
+        <h3>{{ directory }}</h3>
+      </summary>
+
+      <!-- Finished items -->
+      <section
+        v-if="getStatusGroup(items, 'finished').length"
+        class="finished status-group"
+      >
+        <header>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="none"
+          >
+            <path
+              fill="#fff"
+              fill-rule="evenodd"
+              d="M1.5 4.75c0-.69.56-1.25 1.25-1.25h6.5c.69 0 1.25.56 1.25 1.25v3.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-3.5ZM12.75 5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h4.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25h-4.5Zm-3.5 5.5c.69 0 1.25.56 1.25 1.25v2.5c0 .69-.56 1.25-1.25 1.25H3.6c-.69 0-1.25-.56-1.25-1.25v-2.5c0-.69.56-1.25 1.25-1.25h5.65Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <h4>Finished media</h4>
+        </header>
+        <ul>
+          <li v-for="post in getStatusGroup(items, 'finished')" :key="post._id">
+            <NuxtLink :to="post._path">
+              <img class="icon-file" :src="post.icon" :alt="post.title" />
+              <span>{{ post.title }}</span>
+            </NuxtLink>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Unfinished items -->
+      <section
+        v-if="getStatusGroup(items, 'unfinished').length"
+        class="wip status-group"
+      >
+        <header>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="none"
+          >
+            <path
+              fill="#fff"
+              fill-rule="evenodd"
+              d="M1.5 4.75c0-.69.56-1.25 1.25-1.25h6.5c.69 0 1.25.56 1.25 1.25v3.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-3.5ZM12.75 5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h4.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25h-4.5Zm-3.5 5.5c.69 0 1.25.56 1.25 1.25v2.5c0 .69-.56 1.25-1.25 1.25H3.6c-.69 0-1.25-.56-1.25-1.25v-2.5c0-.69.56-1.25 1.25-1.25h5.65Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <h4>WIP media</h4>
+        </header>
+        <ul>
+          <li
+            v-for="post in getStatusGroup(items, 'unfinished')"
+            :key="post._id"
+          >
+            <NuxtLink :to="post._path">
+              <img class="icon-file" :src="post.icon" :alt="post.title" />
+              <span>{{ post.title }}</span>
+            </NuxtLink>
+          </li>
+        </ul>
+      </section>
+    </details>
+  </ClientOnly>
+</template>
+
+<style lang="scss" scoped>
+@use "/assets/style/grid.scss" as *;
+
+details {
+  // margin-bottom: 0.2rem;
+}
+
+details {
+  &[open] {
+    margin-bottom: 0.6rem;
+  }
+}
+
+details:last-of-type {
+  &[open] {
+    opacity: 0.9;
+    margin-bottom: 0rem;
+  }
+}
+
+summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  list-style: none;
+  position: relative;
+  margin: 0 0.8rem 0;
+  padding: 0.7rem 0.8rem;
+  text-transform: capitalize;
+}
+
+summary h3 {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+summary,
+li {
+  border-radius: var(--border-radius--md);
+  overflow: default;
+}
+
+summary:hover,
+li:hover {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::after {
+  content: "";
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733755752/proportional.design-3.0/chevron_xfdpr7.svg")
+    no-repeat center;
+  background-size: contain;
+  transition: transform 0.2s ease;
+}
+
+details[open] > summary::after {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.icon-directory {
+  width: 3.2rem;
+  object-fit: cover;
+  transform: translateY(-0.2rem);
+}
+
+section {
+  // margin: 0 2rem 0 2rem;
+}
+
+section header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: 0.3rem;
+  padding: 0.8rem 3rem;
+  opacity: 0.84;
+}
+
+section header svg {
+  transform: translateY(0.1rem);
+}
+
+section header h4 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+section li {
+  margin: 0 0.8rem 0 2rem;
+}
+
+li a {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0.8rem 0 0.7rem;
+  padding: 0.5rem 0.8rem 0.15rem 0;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+li span {
+  transform: translateY(-0.2rem);
+}
+
+.icon-file {
+  width: 3.2rem;
+  object-fit: cover;
+  transform: translateY(-0.2rem);
+}
+</style>
+
+<script setup>
+const { data: posts } = await useAsyncData("posts", () =>
+  queryContent().where({ _partial: false }).find()
+);
+
+const openStates = ref({});
+
+// Load saved states on mount
+onMounted(() => {
+  const saved = localStorage.getItem("directoryStates");
+  if (saved) {
+    openStates.value = JSON.parse(saved);
+  }
+});
+
+// Handle details toggle
+const handleToggle = (directory, isOpen) => {
+  openStates.value[directory] = isOpen;
+  localStorage.setItem("directoryStates", JSON.stringify(openStates.value));
+};
+
+const groupedPosts = computed(() => {
+  if (!posts.value) return {};
+
+  return posts.value.reduce((acc, post) => {
+    const directory = post._path.split("/")[1];
+
+    // Skip if directory is empty, undefined, or root
+    if (!directory || directory === "root" || directory === "") return acc;
+
+    if (!acc[directory]) {
+      acc[directory] = [];
+    }
+    acc[directory].push(post);
+    return acc;
+  }, {});
+});
+
+const getStatusGroup = (items, status) => {
+  return items.filter((item) => item.status === status);
+};
+</script>
