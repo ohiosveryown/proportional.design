@@ -15,7 +15,9 @@
             </div>
           </header>
 
-          <img class="hero" :src="doc.icon" :alt="doc.title" />
+          <figure>
+            <img class="hero" :src="doc.icon" :alt="doc.title" />
+          </figure>
 
           <section>
             <div class="details">
@@ -132,17 +134,25 @@ h4 {
   text-transform: uppercase;
 }
 
-.hero {
+figure {
+  display: grid;
+  place-items: center;
   margin-top: 2.4rem;
-  border-radius: var(--border-radius--sm);
+  border-radius: var(--border-radius--md);
   border: var(--border);
-  // box-shadow: var(--shadow);
-  object-fit: contain;
   width: 100%;
-  max-height: 77rem;
-  padding: 2rem;
+  padding: 6.4rem 0;
   background: rgba(0, 0, 0, 0.32);
   pointer-events: none;
+}
+
+img.hero {
+  border-radius: var(--border-radius--sm);
+  border: var(--border);
+  max-width: calc(100% - 12rem);
+  max-height: 77rem;
+  box-shadow: var(--shadow);
+  object-fit: contain;
 }
 
 section {

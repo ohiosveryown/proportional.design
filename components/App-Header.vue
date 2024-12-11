@@ -8,7 +8,14 @@
           alt="proportional.design avatar"
         />
       </li>
-      <li><button>Contact</button></li>
+      <li>
+        <a
+          href="https://www.notion.so/1599d0f43b9881238f64e3211d43c345?pvs=106"
+          target="_blank"
+        >
+          <button>Contact</button>
+        </a>
+      </li>
       <li>
         <button>
           <svg
@@ -65,8 +72,8 @@ menu {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  border-bottom: 0.5px solid rgb(255, 255, 255, 0.24);
-  padding: 1.3rem 1.2rem;
+  border-bottom: var(--border);
+  padding: 1.3rem 1.2rem 1.4rem;
 }
 
 menu li:first-of-type {
@@ -110,19 +117,20 @@ menu li:first-of-type::after {
 section {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.8rem;
   margin: 0 1.2rem;
   border-bottom: 0.5px solid rgb(255, 255, 255, 0.32);
   padding: 1.5rem 0;
 }
 
 .logotype {
-  width: 48%;
+  width: 50%;
 }
 
 h2 {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   font-weight: 500;
-  opacity: 0.84;
+  line-height: 1.4;
+  opacity: 0.8;
 }
 </style>
