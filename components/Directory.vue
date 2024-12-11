@@ -7,11 +7,6 @@
       @toggle="(e) => handleToggle(directory, e.target.open)"
     >
       <summary>
-        <!-- <img
-          src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733756746/proportional.design-3.0/icons/icon--folder--01_3x_eaz3f9.webp"
-          alt="directory icon"
-          class="icon-directory"
-        /> -->
         <div class="icon-directory" />
         <h3>{{ directory }}</h3>
       </summary>
