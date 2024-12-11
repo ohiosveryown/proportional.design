@@ -66,7 +66,7 @@ menu {
   align-items: center;
   gap: 0.8rem;
   border-bottom: 0.5px solid rgb(255, 255, 255, 0.24);
-  padding: 1rem 1.2rem;
+  padding: 1.3rem 1.2rem;
 }
 
 menu li:first-of-type {

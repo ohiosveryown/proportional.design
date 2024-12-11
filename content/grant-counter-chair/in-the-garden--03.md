@@ -1,10 +1,10 @@
 ---
-title: in-the-garden--01.jpg
+title: in-the-garden--03.jpg
 date: "november 1, 2024"
 type: "photo"
-size: "0.8 mb"
+size: "1.2 mb"
 project: "grant counter chair"
-icon: "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733953406/proportional.design-3.0/grant-counter-chair/IMG_9597_wdctbi.webp"
+icon: "/img/grant-counter-stool/IMG_1469.webp"
 status: "finished"
 tags:
   - chair

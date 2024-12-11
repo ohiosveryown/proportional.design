@@ -34,7 +34,10 @@
         </header>
         <ul>
           <li v-for="post in getStatusGroup(items, 'finished')" :key="post._id">
-            <NuxtLink :to="post._path">
+            <NuxtLink
+              :to="post._path"
+              :class="{ active: isActiveLink(post._path) }"
+            >
               <img class="icon-file" :src="post.icon" :alt="post.title" />
               <span>{{ post.title }}</span>
             </NuxtLink>
@@ -68,7 +71,10 @@
             v-for="post in getStatusGroup(items, 'unfinished')"
             :key="post._id"
           >
-            <NuxtLink :to="post._path">
+            <NuxtLink
+              :to="post._path"
+              :class="{ active: isActiveLink(post._path) }"
+            >
               <img class="icon-file" :src="post.icon" :alt="post.title" />
               <span>{{ post.title }}</span>
             </NuxtLink>
@@ -102,7 +108,11 @@ summary {
   list-style: none;
   position: relative;
   margin: 0 0.8rem 0;
-  padding: 0.6rem 0.8rem;
+  padding: 0.8rem 0.8rem;
+  &:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.2);
+  }
 }
 
 summary h3 {
@@ -113,12 +123,11 @@ summary h3 {
 
 summary,
 li {
-  border-radius: var(--border-radius--md);
+  border-radius: var(--border-radius--sm);
   overflow: default;
 }
 
-summary:hover,
-li:hover {
+summary:hover {
   background: rgba(0, 0, 0, 0.32);
 }
 
@@ -134,34 +143,42 @@ summary::after {
   transform: translateY(-50%);
   width: 2rem;
   height: 2rem;
-  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733755752/proportional.design-3.0/chevron_xfdpr7.svg")
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733932989/proportional.design-3.0/chevron_jpthtr.svg")
     no-repeat center;
   background-size: contain;
   transition: transform 0.2s ease;
 }
 
 details[open] > summary::after {
-  transform: translateY(-50%) rotate(90deg);
+  transform: translate(-1px, -50%) rotate(90deg);
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+ul > * {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none;
 }
 
 .icon-directory {
   width: 3.2rem;
   height: 2.4rem;
-  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733756746/proportional.design-3.0/icons/icon--folder--01_3x_eaz3f9.webp")
-    no-repeat center;
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733929950/folder-sprite_3x_ajronm.webp")
+    no-repeat 0.75px -0.5px;
   background-size: cover;
-
-  transform: translateY(-0.2rem);
 }
 
 details[open] .icon-directory {
   width: 3.2rem;
   height: 2.4rem;
-  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733880022/proportional.design-3.0/icons/icon--folder-open_3x_go6nsr.webp")
-    no-repeat center;
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733929950/folder-sprite_3x_ajronm.webp")
+    no-repeat -30px -0.5px;
   background-size: cover;
-
-  transform: translateY(-0.2rem);
 }
 
 section header {
@@ -169,8 +186,8 @@ section header {
   align-items: center;
   gap: 0.6rem;
   margin-left: 0.3rem;
-  padding: 0.8rem 3rem;
-  opacity: 0.84;
+  padding: 1.1rem 3rem;
+  opacity: 0.76;
 }
 
 section header svg {
@@ -178,22 +195,38 @@ section header svg {
 }
 
 section header h4 {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  text-transform: uppercase;
 }
 
-section li {
-  margin: 0 0.8rem 0 2rem;
-}
+// li {
+//   content-visibility: auto;
+// }
 
 li a {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  margin: 0 0.8rem 0 0.7rem;
-  padding: 0.9rem 0.8rem 0.5rem 0;
+  margin: 0 0.8rem 0 2rem;
+  border-radius: var(--border-radius--sm);
+  padding: 0.9rem 0.8rem 0.5rem 0.7rem;
   font-size: 1.6rem;
   font-weight: 500;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.32);
+  }
+
+  &:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus:not(:hover) {
+    outline: none;
+    background: rgba(0, 0, 0, 0.2);
+  }
 }
 
 li span {
@@ -203,9 +236,10 @@ li span {
 .icon-file {
   border-radius: var(--border-radius--xs);
   border: 1.5px solid #fff;
-  width: 3.2rem;
+  width: 3rem;
   height: 2.4rem;
   object-fit: cover;
+  object-position: top;
   transform: translateY(-0.2rem);
   box-shadow: var(--shadow--sm);
 }
@@ -214,12 +248,24 @@ h3,
 a {
   text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.32);
 }
+
+.active {
+  background: rgba(0, 0, 0, 0.32);
+  pointer-events: none;
+}
 </style>
 
 <script setup>
 const { data: posts } = await useAsyncData("posts", () =>
   queryContent().where({ _partial: false }).find()
 );
+
+const route = useRoute();
+
+// Add isActive computed property
+const isActiveLink = (path) => {
+  return route.path === path;
+};
 
 const openStates = ref({});
 

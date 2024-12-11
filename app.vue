@@ -12,17 +12,19 @@
 
 .app {
   display: flex;
-  gap: 2rem;
-  padding: 2.4rem;
+  gap: var(--unit);
+  margin: 0 auto;
+  max-width: 200rem;
+  padding: var(--unit);
 }
 
 :deep(.main) {
   flex: 1;
-  border-radius: 5px;
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius--lg);
+  border: var(--border);
   width: 100%;
-  min-height: calc(100vh - 4.8rem);
-  max-height: calc(100vh - 4.8rem);
+  padding: 1.2rem;
+  max-height: calc(100vh - var(--unit) * 2);
   background: rgba(0, 0, 0, 0.2);
   box-shadow: 0 18px 38px 0 rgba(0, 0, 0, 0.1), 0 4px 8px 0 rgba(0, 0, 0, 0.1),
     0 1px 2px 0 rgba(0, 0, 0, 0.08);
