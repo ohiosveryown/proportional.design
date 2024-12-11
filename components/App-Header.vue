@@ -4,7 +4,7 @@
       <li>
         <img
           class="avatar"
-          src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733869919/proportional.design-3.0/avatar_2x_cttm0e.webp"
+          src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733875450/proportional.design-3.0/avatar_w_3x_j45unb.webp"
           alt="proportional.design avatar"
         />
       </li>
@@ -47,8 +47,8 @@
         />
       </h1>
       <h2>
-        A small-fry studio 🎨 based in Atlanta, Ga 🍑 building functional
-        objects 🪑.
+        A small-fry studio based in Atlanta, Ga building functional objects
+        🎨🍑🪑.
       </h2>
     </section>
   </header>
@@ -70,6 +70,7 @@ menu {
 }
 
 menu li:first-of-type {
+  position: relative;
   flex: 1;
 }
 
@@ -88,24 +89,40 @@ menu button {
 }
 
 .avatar {
+  position: relative;
+  border-radius: 100px;
+  border: 1px solid #000;
   width: 2.8rem;
+}
+
+menu li:first-of-type::after {
+  content: "";
+  position: absolute;
+  bottom: 0rem;
+  left: 1.8rem;
+  border-radius: 100px;
+  border: 1.5px solid #000;
+  width: 9px;
+  height: 9px;
+  background: #1dda0f;
 }
 
 section {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.6rem;
   margin: 0 1.2rem;
   border-bottom: 0.5px solid rgb(255, 255, 255, 0.32);
   padding: 1.5rem 0;
 }
 
 .logotype {
-  width: 15vw;
+  width: 48%;
 }
 
 h2 {
+  font-size: 1.7rem;
+  font-weight: 500;
   opacity: 0.84;
-  font-weight: 400;
 }
 </style>

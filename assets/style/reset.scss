@@ -19,9 +19,11 @@
   --color--primary: #fff;
   // border
   --border: 0.5px solid rgba(255, 255, 255, 0.2);
+  --border-radius--xs: 2px;
   --border-radius--sm: 5px;
   --border-radius--md: 7px;
   // shadow
+  --shadow--sm: 0px 2px 8px 0px rgba(0, 0, 0, 0.4);
   --shadow: 0 18px 38px 0px rgba(0, 0, 0, 0.2),
     0px 4px 8px 0px rgba(0, 0, 0, 0.2),
     0px 2px 2px 0px rgba(0, 0, 0, 0.2);

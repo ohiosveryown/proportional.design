@@ -1,6 +1,6 @@
 ---
-title: slab two
-icon: "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733756747/proportional.design-3.0/icons/icon--img-01_3x_heaqcc.webp"
+title: slab-two.jpg
+icon: "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733878608/proportional.design-3.0/sample-2_2x_a8jgiy.webp"
 status: "unfinished"
 ---
 

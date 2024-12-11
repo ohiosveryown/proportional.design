@@ -1,12 +1,13 @@
 <template>
   <!-- <Navigation /> -->
   <main class="debug">
-    <h1>This is slug content...</h1>
+    <!-- <h1>This is slug content...</h1> -->
     <ClientOnly>
       <ContentDoc :path="contentPath">
         <template #default="{ doc }">
           <article :class="`${route.params.directory}-content`">
             <h1>{{ doc.title }}</h1>
+            <img :src="doc.icon" :alt="doc.title" />
             <ContentRenderer :value="doc" />
           </article>
         </template>

@@ -7,18 +7,27 @@
       @toggle="(e) => handleToggle(directory, e.target.open)"
     >
       <summary>
-        <img
+        <!-- <img
           src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733756746/proportional.design-3.0/icons/icon--folder--01_3x_eaz3f9.webp"
-          alt=""
-          class="directory-icon"
-        />
-        {{ directory }}
+          alt="directory icon"
+          class="icon-directory"
+        /> -->
+        <div class="icon-directory" />
+        <h3>{{ directory }}</h3>
       </summary>
 
       <!-- Finished items -->
-      <div v-if="getStatusGroup(items, 'finished').length" class="status-group">
-        <h4>
-          <svg width="20" height="20" fill="none">
+      <section
+        v-if="getStatusGroup(items, 'finished').length"
+        class="finished status-group"
+      >
+        <header>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="none"
+          >
             <path
               fill="#fff"
               fill-rule="evenodd"
@@ -26,25 +35,30 @@
               clip-rule="evenodd"
             />
           </svg>
-          Finished media
-        </h4>
+          <h4>Finished media</h4>
+        </header>
         <ul>
           <li v-for="post in getStatusGroup(items, 'finished')" :key="post._id">
             <NuxtLink :to="post._path">
-              <img :src="post.icon" :alt="post.title" />
+              <img class="icon-file" :src="post.icon" :alt="post.title" />
               <span>{{ post.title }}</span>
             </NuxtLink>
           </li>
         </ul>
-      </div>
+      </section>
 
       <!-- Unfinished items -->
-      <div
+      <section
         v-if="getStatusGroup(items, 'unfinished').length"
-        class="status-group"
+        class="wip status-group"
       >
-        <h4>
-          <svg width="20" height="20" fill="none">
+        <header>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="none"
+          >
             <path
               fill="#fff"
               fill-rule="evenodd"
@@ -52,33 +66,65 @@
               clip-rule="evenodd"
             />
           </svg>
-          WIP media
-        </h4>
+          <h4>WIP media</h4>
+        </header>
         <ul>
           <li
             v-for="post in getStatusGroup(items, 'unfinished')"
             :key="post._id"
           >
             <NuxtLink :to="post._path">
-              <img :src="post.icon" :alt="post.title" />
+              <img class="icon-file" :src="post.icon" :alt="post.title" />
               <span>{{ post.title }}</span>
             </NuxtLink>
           </li>
         </ul>
-      </div>
+      </section>
     </details>
   </ClientOnly>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use "/assets/style/grid.scss" as *;
+
+details {
+  &[open] {
+    margin-bottom: 0.6rem;
+  }
+}
+
+details:last-of-type {
+  &[open] {
+    opacity: 0.9;
+    margin-bottom: 0rem;
+  }
+}
+
 summary {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   list-style: none;
   position: relative;
-  padding-right: 24px;
-  text-transform: capitalize;
+  margin: 0 0.8rem 0;
+  padding: 0.6rem 0.8rem;
+}
+
+summary h3 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+summary,
+li {
+  border-radius: var(--border-radius--md);
+  overflow: default;
+}
+
+summary:hover,
+li:hover {
+  background: rgba(0, 0, 0, 0.32);
 }
 
 summary::-webkit-details-marker {
@@ -88,11 +134,11 @@ summary::-webkit-details-marker {
 summary::after {
   content: "";
   position: absolute;
-  right: 0.6rem;
+  right: 0.8rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
+  width: 2rem;
+  height: 2rem;
   background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733755752/proportional.design-3.0/chevron_xfdpr7.svg")
     no-repeat center;
   background-size: contain;
@@ -103,61 +149,75 @@ details[open] > summary::after {
   transform: translateY(-50%) rotate(90deg);
 }
 
-summary,
-li {
-  border-radius: 5px;
-  padding: 0.4rem 0.8rem;
-  overflow: hidden;
+.icon-directory {
+  width: 3.2rem;
+  height: 2.4rem;
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733756746/proportional.design-3.0/icons/icon--folder--01_3x_eaz3f9.webp")
+    no-repeat center;
+  background-size: cover;
+
+  transform: translateY(-0.2rem);
 }
 
-summary {
-  margin-bottom: 0.2rem;
-  font-weight: 550;
+details[open] .icon-directory {
+  width: 3.2rem;
+  height: 2.4rem;
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733880022/proportional.design-3.0/icons/icon--folder-open_3x_go6nsr.webp")
+    no-repeat center;
+  background-size: cover;
+
+  transform: translateY(-0.2rem);
 }
 
-li {
-  padding-left: 1.6rem;
+section header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: 0.3rem;
+  padding: 0.8rem 3rem;
+  opacity: 0.84;
+}
+
+section header svg {
+  transform: translateY(0.1rem);
+}
+
+section header h4 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+section li {
+  margin: 0 0.8rem 0 2rem;
 }
 
 li a {
   display: flex;
-  align-content: center;
-  gap: 1rem;
-}
-
-li img,
-.directory-icon {
-  width: 2.8rem;
-  object-fit: cover;
-}
-
-li span {
-  margin-top: 0.2rem;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0.8rem 0 0.7rem;
+  padding: 0.9rem 0.8rem 0.5rem 0;
+  font-size: 1.6rem;
   font-weight: 500;
 }
 
-summary:hover,
-li:hover {
-  background: rgba(0, 0, 0, 0.32);
+li span {
+  transform: translateY(-0.2rem);
 }
 
-h4 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: 1.4rem;
-  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.12);
+.icon-file {
+  border-radius: var(--border-radius--xs);
+  border: 1.5px solid #fff;
+  width: 3.2rem;
+  height: 2.4rem;
+  object-fit: cover;
+  transform: translateY(-0.2rem);
+  box-shadow: var(--shadow--sm);
 }
 
-.status-group {
-  margin-left: 1rem;
-  margin-bottom: 1rem;
-}
-
-.status-group h4 {
-  font-size: 0.8em;
-  opacity: 0.6;
-  margin-bottom: 0.5rem;
+h3,
+a {
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.32);
 }
 </style>
 

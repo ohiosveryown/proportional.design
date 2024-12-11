@@ -1,7 +1,7 @@
 <template>
   <aside>
     <App-Header />
-    <D />
+    <Directory />
   </aside>
 </template>
 
@@ -20,7 +20,7 @@ aside {
   backdrop-filter: blur(100px);
   overflow-y: scroll;
   @include breakpoint(md) {
-    width: 28vw;
+    width: 42rem;
     max-height: calc(100vh - 4.8rem);
     // padding: 0 1.2rem 1.5rem;
   }
