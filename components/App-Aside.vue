@@ -21,7 +21,7 @@ aside {
   overflow-y: scroll;
   @include breakpoint(md) {
     width: 40rem;
-    max-height: calc(100vh - 4.8rem);
+    max-height: calc(100vh - 2.4rem);
     // padding: 0 1.2rem 1.5rem;
   }
 }

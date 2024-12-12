@@ -173,7 +173,7 @@ video.hero {
 
 section {
   display: flex;
-  padding: 2rem 0 1rem;
+  padding: 2rem 0.8rem 1rem;
 }
 
 section .details {
@@ -218,6 +218,25 @@ summary {
   text-transform: capitalize;
   text-shadow: var(--shadow--text);
   cursor: context-menu;
+}
+
+:deep(sup) {
+  opacity: 0.8;
+}
+
+:deep(#footnote-label) {
+  display: none;
+}
+
+:deep(.footnotes ol) {
+  border-top: var(--border);
+  padding: 1.2rem 0 0 0;
+  font-size: 1.3rem;
+  opacity: 0.8;
+}
+
+:deep(.footnotes a:hover) {
+  text-decoration: underline;
 }
 </style>
 

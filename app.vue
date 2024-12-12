@@ -1,9 +1,9 @@
 <template>
   <div class="app">
     <App-Aside />
-    <!-- <Navigation /> -->
     <NuxtPage class="main" />
   </div>
+  <!-- <NuxtPage class="main" /> -->
 </template>
 
 <style lang="scss" scoped>
