@@ -16,7 +16,20 @@
           </header>
 
           <figure>
-            <img class="hero" :src="doc.icon" :alt="doc.title" />
+            <img
+              v-if="doc.type === 'photo'"
+              class="hero"
+              :src="doc.icon"
+              :alt="doc.title"
+            />
+            <video
+              v-else-if="doc.type === 'mp4'"
+              class="hero"
+              :src="doc.icon"
+              controls
+              muted
+              loop
+            ></video>
           </figure>
 
           <section>
@@ -143,10 +156,13 @@ figure {
   width: 100%;
   padding: 6.4rem 0;
   background: rgba(0, 0, 0, 0.32);
-  pointer-events: none;
+  img {
+    pointer-events: none;
+  }
 }
 
-img.hero {
+img.hero,
+video.hero {
   border-radius: var(--border-radius--sm);
   border: var(--border);
   max-width: calc(100% - 12rem);
@@ -172,7 +188,7 @@ section .details {
 
 section .comments {
   @include breakpoint(md) {
-    width: grid-width(7);
+    width: grid-width(6.5);
   }
 }
 
@@ -180,6 +196,9 @@ details span,
 details article {
   font-weight: 500;
   text-shadow: var(--shadow--text);
+}
+
+details span {
   text-transform: capitalize;
 }
 

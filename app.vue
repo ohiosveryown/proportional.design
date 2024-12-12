@@ -14,7 +14,7 @@
   display: flex;
   gap: var(--unit);
   margin: 0 auto;
-  max-width: 200rem;
+  max-width: 180rem;
   padding: var(--unit);
 }
 
