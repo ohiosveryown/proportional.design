@@ -14,6 +14,23 @@
               <div class="meta">
                 <h3>{{ doc.type }} –</h3>
                 <h4>{{ doc.size }}</h4>
+                <NuxtLink to="/" class="close">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="17"
+                    height="14.5"
+                    fill="none"
+                  >
+                    <g
+                      stroke="#fff"
+                      stroke-linecap="round"
+                      stroke-width="1.5"
+                      opacity=".56"
+                    >
+                      <path d="m4.637 4 8 8M12.637 4l-8 8" />
+                    </g>
+                  </svg>
+                </NuxtLink>
               </div>
             </header>
 
@@ -155,6 +172,16 @@ h4 {
 
 h4 {
   text-transform: uppercase;
+}
+
+a.close {
+  border-left: var(--border);
+  margin-left: 1rem;
+  padding: 0 0.5rem 0 1rem;
+  transform: translateY(0.1rem);
+  // @include breakpoint(md) {
+  //   display: none;
+  // }
 }
 
 figure {

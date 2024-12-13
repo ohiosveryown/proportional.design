@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <App-Aside class="aside" />
-    <!-- <main class="main">
+    <main class="main">
       <ClientOnly>
         <ContentDoc :path="path">
           <template #default="{ doc }">
@@ -20,7 +20,7 @@
           </template>
         </ContentDoc>
       </ClientOnly>
-    </main> -->
+    </main>
   </div>
 </template>
 
