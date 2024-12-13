@@ -20,9 +20,12 @@ aside {
   backdrop-filter: blur(100px);
   overflow-y: scroll;
   @include breakpoint(md) {
-    width: 40rem;
+    width: 32rem;
     max-height: calc(100vh - 2.4rem);
-    // padding: 0 1.2rem 1.5rem;
+  }
+  @include breakpoint(lg) {
+    width: 40rem;
+    opacity: 1;
   }
 }
 </style>

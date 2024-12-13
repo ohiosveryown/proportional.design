@@ -1,83 +1,93 @@
 <template>
-  <main>
-    <ClientOnly>
-      <ContentDoc :path="contentPath">
-        <template #default="{ doc }">
-          <header>
-            <img class="thumbnail" :src="doc.icon" :alt="doc.title" />
-            <div class="title">
-              <h1>{{ doc.title }}</h1>
-              <h2>{{ doc.date }}</h2>
-            </div>
-            <div class="meta">
-              <h3>{{ doc.type }} –</h3>
-              <h4>{{ doc.size }}</h4>
-            </div>
-          </header>
+  <div class="app">
+    <App-Aside class="aside" />
+    <main class="main">
+      <ClientOnly>
+        <ContentDoc :path="contentPath">
+          <template #default="{ doc }">
+            <header>
+              <img class="thumbnail" :src="doc.icon" :alt="doc.title" />
+              <div class="title">
+                <h1>{{ doc.title }}</h1>
+                <h2>{{ doc.date }}</h2>
+              </div>
+              <div class="meta">
+                <h3>{{ doc.type }} –</h3>
+                <h4>{{ doc.size }}</h4>
+              </div>
+            </header>
 
-          <figure>
-            <img
-              v-if="doc.type === 'photo'"
-              class="hero"
-              :src="doc.icon"
-              :alt="doc.title"
-            />
-            <video
-              v-else-if="doc.type === 'mp4'"
-              class="hero"
-              :src="doc.icon"
-              controls
-              muted
-              loop
-            ></video>
-          </figure>
+            <figure>
+              <img
+                v-if="doc.type === 'photo'"
+                class="hero"
+                :src="doc.icon"
+                :alt="doc.title"
+              />
+              <video
+                v-else-if="doc.type === 'mp4'"
+                class="hero"
+                :src="doc.icon"
+                controls
+                muted
+                loop
+              ></video>
+            </figure>
 
-          <section>
-            <div class="details">
-              <details open>
-                <summary>project</summary>
-                <span class="project">{{ doc.project }}</span>
+            <section>
+              <div class="details">
+                <details open>
+                  <summary>project</summary>
+                  <span class="project">{{ doc.project }}</span>
+                </details>
+
+                <details open>
+                  <summary>date</summary>
+                  <span class="date">{{ doc.date }}</span>
+                </details>
+
+                <details open>
+                  <summary>tags</summary>
+                  <span class="tags">{{
+                    doc.tags ? doc.tags.join(", ") : "No tags"
+                  }}</span>
+                </details>
+              </div>
+
+              <details class="comments" open>
+                <summary>comments</summary>
+                <article :class="`${route.params.directory}-content`">
+                  <ContentRenderer :value="doc" />
+                </article>
               </details>
+            </section>
+          </template>
 
-              <details open>
-                <summary>date</summary>
-                <span class="date">{{ doc.date }}</span>
-              </details>
-
-              <details open>
-                <summary>tags</summary>
-                <span class="tags">{{
-                  doc.tags ? doc.tags.join(", ") : "No tags"
-                }}</span>
-              </details>
-            </div>
-
-            <details class="comments" open>
-              <summary>comments</summary>
-              <article :class="`${route.params.directory}-content`">
-                <ContentRenderer :value="doc" />
-              </article>
-            </details>
-          </section>
-        </template>
-
-        <!-- misc templates -->
-        <template #not-found>
-          <h1>Content not found</h1>
-        </template>
-        <template #loading>
-          <p>Loading...</p>
-        </template>
-        <template #error="{ error }">
-          <h1>Error: {{ error.message }}</h1>
-        </template>
-      </ContentDoc>
-    </ClientOnly>
-  </main>
+          <!-- misc templates -->
+          <template #not-found>
+            <h1>Content not found</h1>
+          </template>
+          <template #loading>
+            <p>Loading...</p>
+          </template>
+          <template #error="{ error }">
+            <h1>Error: {{ error.message }}</h1>
+          </template>
+        </ContentDoc>
+      </ClientOnly>
+    </main>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
+
+.aside {
+  display: none;
+  @include breakpoint(md) {
+    display: initial;
+  }
+}
 
 header {
   display: flex;
@@ -173,21 +183,29 @@ video.hero {
 
 section {
   display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
   padding: 2rem 0.8rem 1rem;
+  @include breakpoint(mdl) {
+    flex-direction: row;
+    gap: 0;
+  }
 }
 
 section .details {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  @include breakpoint(md) {
+  width: 100%;
+  @include breakpoint(mdl) {
     margin-right: grid-width(1);
     width: grid-width(4);
   }
 }
 
 section .comments {
-  @include breakpoint(md) {
+  width: 100%;
+  @include breakpoint(mdl) {
     width: grid-width(6.5);
   }
 }
