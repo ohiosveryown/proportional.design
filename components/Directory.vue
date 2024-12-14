@@ -123,6 +123,10 @@ summary h3 {
   font-size: 1.6rem;
   font-weight: 500;
   pointer-events: none;
+  @include breakpoint(md) {
+    font-size: 1.5rem;
+    letter-spacing: 0.25px;
+  }
 }
 
 summary,
@@ -217,6 +221,11 @@ li a {
   padding: 0.9rem 0.8rem 0.5rem 0.7rem;
   font-size: 1.6rem;
   font-weight: 500;
+  @include breakpoint(md) {
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+  }
 
   &:hover {
     background: rgba(0, 0, 0, 0.32);

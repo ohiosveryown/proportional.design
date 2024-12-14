@@ -198,7 +198,10 @@ figure {
     padding: 4.4rem 4rem;
   }
   @include breakpoint(lg) {
-    padding: 10rem;
+    padding: 5.6rem;
+  }
+  @include breakpoint(xl) {
+    padding: 7.2rem;
   }
 
   img {
@@ -208,10 +211,13 @@ figure {
 
 img.hero,
 video.hero {
-  border-radius: var(--border-radius--sm);
+  border-radius: 3px;
   border: var(--border);
   box-shadow: var(--shadow);
   object-fit: contain;
+  @include breakpoint(md) {
+    border-radius: var(--border-radius--sm);
+  }
   // @include breakpoint(lg) {
   //   max-height: 120rem;
   // }

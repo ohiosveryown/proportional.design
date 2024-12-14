@@ -12,4 +12,4 @@ tags:
   - walnut
 ---
 
-Receiving the bastogne slab in all its natural glory. Unfortunately there were a couple of cuts that needed to happen to remove rot near the upper crotch. It obviously looks unatural but it was neccesary.
+Receiving the bastogne slab in all its natural glory. Unfortunately there were a couple of cuts that needed to happen to remove rot near the upper crotch.
