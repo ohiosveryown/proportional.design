@@ -17,6 +17,7 @@
 .main {
   flex: 1;
   border-radius: var(--border-radius--lg);
+  border: var(--border--light);
   width: 100%;
   padding: 1.2rem;
   background: var(--bg);

@@ -19,12 +19,14 @@
   --color--primary: #fff;
   // border
   --border: 0.5px solid rgba(255, 255, 255, 0.2);
+  --border--light: 0.5px solid rgba(255, 255, 255, 0.1);
   --border-radius--xs: 2px;
   --border-radius--sm: 5px;
   --border-radius--md: 7px;
   --border-radius--lg: 11px;
   // bg
   --bg:rgba(255, 255, 255, 0.1);
+  --bg--dark: rgba(0, 0, 0, 0.32);
   // shadow
   --shadow--inset: 0px -1px 0px 0px #000 inset,
     0px 1px 1px 0px rgba(255, 255, 255, 0.12) inset;

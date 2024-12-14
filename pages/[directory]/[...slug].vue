@@ -125,7 +125,7 @@ header:after {
   border-bottom: var(--border);
   width: calc(100% + 2.4rem);
   height: calc(100% + 2.4rem);
-  background: rgba(0, 0, 0, 0.32);
+  background: var(--bg--dark);
   backdrop-filter: blur(56px);
 }
 
@@ -212,9 +212,8 @@ video.hero {
   border: var(--border);
   box-shadow: var(--shadow);
   object-fit: contain;
-  // @include breakpoint(md) {
-  //   max-width: calc(100% - 12rem);
-  //   max-height: 77rem;
+  // @include breakpoint(lg) {
+  //   max-height: 120rem;
   // }
 }
 
