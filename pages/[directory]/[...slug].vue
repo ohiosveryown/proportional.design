@@ -125,7 +125,7 @@ header:after {
   border-bottom: var(--border);
   width: calc(100% + 2.4rem);
   height: calc(100% + 2.4rem);
-  background: rgba(0, 0, 0, 0.32);
+  background: rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(3.2rem);
 }
 
@@ -192,7 +192,7 @@ figure {
   border: var(--border);
   width: 100%;
   padding: 2.2rem 2rem;
-  background: rgba(0, 0, 0, 0.32);
+  background: rgba(0, 0, 0, 0.2);
   @include breakpoint(md) {
     padding: 4.4rem 4rem;
   }

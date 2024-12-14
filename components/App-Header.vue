@@ -72,6 +72,8 @@ menu {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  position: sticky;
+  top: 0;
   border-bottom: var(--border);
   padding: 1.3rem 1.2rem 1.4rem;
 }
@@ -83,7 +85,7 @@ menu li:first-of-type {
 
 menu li:nth-of-type(2) {
   padding-right: 1.8rem;
-  border-right: 0.5px solid rgb(255, 255, 255, 0.4);
+  border-right: var(--border);
   opacity: 0.84;
 }
 
@@ -119,7 +121,7 @@ section {
   flex-direction: column;
   gap: 0.8rem;
   margin: 0 1.2rem;
-  border-bottom: 0.5px solid rgb(255, 255, 255, 0.32);
+  border-bottom: var(--border);
   padding: 1.5rem 0;
 }
 

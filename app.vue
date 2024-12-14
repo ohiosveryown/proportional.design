@@ -24,12 +24,10 @@
 :deep(.main) {
   flex: 1;
   border-radius: var(--border-radius--lg);
-  border: var(--border);
   width: 100%;
   padding: 1.2rem;
-  background: rgba(0, 0, 0, 0.2);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(100px);
+  background: var(--bg);
+  box-shadow: var(--shadow--inset);
   overflow-y: scroll;
   @include breakpoint(md) {
     max-height: calc(100vh - 2.4rem);

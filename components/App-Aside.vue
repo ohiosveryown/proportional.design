@@ -12,12 +12,10 @@ aside {
   display: flex;
   flex-direction: column;
   border-radius: var(--border-radius--lg);
-  border: var(--border);
   height: max-content;
   padding-bottom: 1rem;
-  background: rgba(0, 0, 0, 0.14);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(100px);
+  background: var(--bg);
+  box-shadow: var(--shadow--inset);
   overflow-y: scroll;
   @include breakpoint(md) {
     width: 32rem;
