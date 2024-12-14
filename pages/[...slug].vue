@@ -33,6 +33,10 @@ main {
     display: initial;
   }
 }
+
+main {
+  padding: 2.4rem 4rem;
+}
 </style>
 
 <script setup>
