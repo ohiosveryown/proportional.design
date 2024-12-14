@@ -125,8 +125,8 @@ header:after {
   border-bottom: var(--border);
   width: calc(100% + 2.4rem);
   height: calc(100% + 2.4rem);
-  background: rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(3.2rem);
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(56px);
 }
 
 .thumbnail {
@@ -179,6 +179,7 @@ a.close {
   margin-left: 1rem;
   padding: 0 0.5rem 0 1rem;
   transform: translateY(0.1rem);
+  cursor: default;
   // @include breakpoint(md) {
   //   display: none;
   // }

@@ -1,19 +1,12 @@
 <template>
-  <div>
-    <NuxtPage />
-    <!-- <img
-      src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733444492/proportional.design-3.0/bg-01_kaaqx9.webp"
-      alt=""
-      class="bg"
-    /> -->
-  </div>
+  <NuxtPage />
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use "/assets/style/grid.scss" as *;
 @use "/assets/style/type.scss" as *;
 
-:deep(.app) {
+.app {
   display: flex;
   gap: var(--unit);
   margin: 0 auto;
@@ -21,7 +14,7 @@
   padding: var(--unit);
 }
 
-:deep(.main) {
+.main {
   flex: 1;
   border-radius: var(--border-radius--lg);
   width: 100%;
@@ -29,18 +22,9 @@
   background: var(--bg);
   box-shadow: var(--shadow--inset);
   overflow-y: scroll;
+
   @include breakpoint(md) {
     max-height: calc(100vh - 2.4rem);
   }
-}
-
-.bg {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  opacity: 0.7;
-  z-index: var(--zmin);
 }
 </style>
