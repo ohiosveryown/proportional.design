@@ -52,11 +52,12 @@ body {
   min-height: 100vh;
   font: normal 1.5rem/1.5 var(--system-font);
   color: var(--color--primary);
-  background:
-      linear-gradient(rgba(0, 0, 0, 0.4),
-        rgba(0, 0, 0, 0.2)),
-      url('https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733444492/proportional.design-3.0/bg-01_kaaqx9.webp') no-repeat center center fixed;
-  background-size: cover;
+background: linear-gradient(180deg, #232325 0%, #000 100%);
+  // background:
+  //     linear-gradient(rgba(0, 0, 0, 0.4),
+  //       rgba(0, 0, 0, 0.2)),
+  //     url('https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733444492/proportional.design-3.0/bg-01_kaaqx9.webp') no-repeat center center fixed;
+  // background-size: cover;
   text-rendering: optimizeSpeed;
 }
 
@@ -143,27 +144,6 @@ ul {
   list-style-type: none;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
-}
-
-.app {
-  display: flex;
-  gap: var(--unit);
-  margin: 0 auto;
-  max-width: 180rem;
-  padding: var(--unit);
-}
-
-.main {
-  flex: 1;
-  border-radius: var(--border-radius--lg);
-  border: var(--border);
-  width: 100%;
-  padding: 1.2rem;
-  max-height: calc(100vh - var(--unit) * 2);
-  background: rgba(0, 0, 0, 0.2);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(100px);
-  overflow-y: scroll;
 }
 
 // debug

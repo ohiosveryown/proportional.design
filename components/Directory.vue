@@ -108,7 +108,11 @@ summary {
   list-style: none;
   position: relative;
   margin: 0 0.8rem 0;
-  padding: 0.8rem 0.8rem;
+  padding: 0.6rem 0.8rem;
+  @include breakpoint(md) {
+    gap: 0.4rem;
+    padding: 0.8rem 0.8rem;
+  }
   &:focus {
     outline: none;
     background: rgba(0, 0, 0, 0.2);
@@ -166,18 +170,18 @@ ul > * {
 }
 
 .icon-directory {
-  width: 3.2rem;
-  height: 2.4rem;
+  width: 3.6rem;
+  height: 2.8rem;
   background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733929950/folder-sprite_3x_ajronm.webp")
     no-repeat 0.75px -0.5px;
   background-size: cover;
 }
 
 details[open] .icon-directory {
-  width: 3.2rem;
-  height: 2.4rem;
+  width: 3.6rem;
+  height: 2.8rem;
   background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733929950/folder-sprite_3x_ajronm.webp")
-    no-repeat -30px -0.5px;
+    no-repeat -35px -0.5px;
   background-size: cover;
 }
 

@@ -31,11 +31,9 @@ aside {
 </style>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick, watch } from "vue";
 import { useDebounceFn, useStorage } from "@vueuse/core";
 const route = useRoute();
 const asideEl = ref(null);
-
 const scrollPosition = useStorage("asideScrollPos", 0);
 
 const handleScroll = useDebounceFn(() => {
@@ -53,7 +51,7 @@ watch(
     const savedPos = localStorage.getItem("asideScrollPos");
     if (savedPos && asideEl.value) {
       asideEl.value.scrollTop = parseInt(savedPos);
-      console.log("Restored scroll position:", savedPos); // Debug
+      // console.log("Restored scroll position:", savedPos);
     }
   }
 );
@@ -63,7 +61,7 @@ onMounted(async () => {
   const savedPos = localStorage.getItem("asideScrollPos");
   if (savedPos && asideEl.value) {
     asideEl.value.scrollTop = parseInt(savedPos);
-    console.log("Initial scroll position:", savedPos); // Debug
+    // console.log("Initial scroll position:", savedPos);
   }
 });
 
@@ -71,7 +69,7 @@ onUnmounted(() => {
   if (asideEl.value) {
     const scrollPos = asideEl.value.scrollTop;
     localStorage.setItem("asideScrollPos", scrollPos);
-    console.log("Saved scroll position on unmount:", scrollPos); // Debug
+    // console.log("Saved scroll position on unmount:", scrollPos);
   }
 });
 </script>

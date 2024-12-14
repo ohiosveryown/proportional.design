@@ -191,8 +191,15 @@ figure {
   border-radius: var(--border-radius--md);
   border: var(--border);
   width: 100%;
-  padding: 6.4rem 0;
+  padding: 2.2rem 2rem;
   background: rgba(0, 0, 0, 0.32);
+  @include breakpoint(md) {
+    padding: 4.4rem 4rem;
+  }
+  @include breakpoint(lg) {
+    padding: 10rem;
+  }
+
   img {
     pointer-events: none;
   }
@@ -202,10 +209,12 @@ img.hero,
 video.hero {
   border-radius: var(--border-radius--sm);
   border: var(--border);
-  max-width: calc(100% - 12rem);
-  max-height: 77rem;
   box-shadow: var(--shadow);
   object-fit: contain;
+  // @include breakpoint(md) {
+  //   max-width: calc(100% - 12rem);
+  //   max-height: 77rem;
+  // }
 }
 
 section {
