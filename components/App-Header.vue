@@ -124,7 +124,7 @@ section {
 }
 
 .logotype {
-  width: 42%;
+  width: 46%;
   @include breakpoint(md) {
     width: 64%;
   }

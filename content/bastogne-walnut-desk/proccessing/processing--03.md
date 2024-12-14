@@ -12,4 +12,4 @@ tags:
   - walnut
 ---
 
-I also don't have a planer or wide belt sander that would flatten the slab after glue up, so I first started with a scrub plane, then a № 7, then a smoothing plane – though not really necessary. Because the grain was so crazy and change direction so much, I had a few cases of tearout.
+I don't have a planer or wide belt sander that would flatten the slab after glue up, so I first started with a scrub plane, then a № 7, then a smoothing plane – though not really necessary. Because the grain was so crazy and changed direction so much, I had a few cases of tearout, but nothing too dramatic.
