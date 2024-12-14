@@ -98,7 +98,7 @@ header {
   border-bottom: var(--border);
   padding: 1.3rem 1.2rem 1.4rem;
   background: var(--bg--dark);
-  backdrop-filter: blur(56px);
+  backdrop-filter: blur(12px);
 }
 
 menu {

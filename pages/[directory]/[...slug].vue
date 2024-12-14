@@ -65,9 +65,11 @@
 
                 <details open>
                   <summary>tags</summary>
-                  <span class="tags">{{
-                    doc.tags ? doc.tags.join(", ") : "No tags"
-                  }}</span>
+                  <ul class="tags">
+                    <li v-for="tag in doc.tags" :key="tag" class="tag">
+                      {{ tag }}
+                    </li>
+                  </ul>
                 </details>
               </div>
 
@@ -297,6 +299,25 @@ summary {
 
 :deep(.footnotes a:hover) {
   text-decoration: underline;
+}
+
+.tags {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.tag {
+  margin: 0.4rem 0.3rem 0 0;
+  width: max-content;
+  font-weight: 500;
+  font-size: 1.2rem;
+  text-shadow: none;
+  border-radius: var(--border-radius--sm);
+  border: var(--border--light);
+  padding: 0.2rem 0.3rem;
+  background: var(--bg--vdark);
+  background: rgb(255, 255, 255, 0.08);
+  color: rgb(255, 255, 255, 0.88);
 }
 </style>
 
