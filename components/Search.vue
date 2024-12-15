@@ -81,7 +81,6 @@ dialog {
   z-index: var(--z2);
   border-radius: var(--border-radius--lg);
   border: var(--border--light);
-  border: none;
   width: 56rem;
   padding: 1.6rem 0;
   color: var(--color--primary);
@@ -153,18 +152,16 @@ section.suggestions {
 .thumbnails {
   position: relative;
   display: flex;
-  // gap: 1rem;
   &:before {
     border: 2px soild red;
     content: "";
     position: fixed;
-    // position: absolute;
     z-index: var(9999);
     inset: 0;
     height: 100%;
     background: rgba(255, 255, 255, 0.01);
     backdrop-filter: blur(24px);
-    mask: linear-gradient(90deg, transparent 40%, black 80%);
+    mask: linear-gradient(90deg, transparent 40%, black 72%);
     pointer-events: none;
   }
 }
@@ -185,28 +182,57 @@ section.suggestions {
 
 <script setup>
 import { queryContent } from "#imports";
+
 const searchDialog = ref(null);
 const randomPosts = ref([]);
 const hoveredTitle = ref("");
+const route = useRoute();
 
 const fetchRandomPosts = async () => {
   const allPosts = await queryContent().find();
   const filteredPosts = allPosts.filter((post) => post._path !== "/");
-  randomPosts.value = filteredPosts.sort(() => 0.5 - Math.random()).slice(0, 7);
+  randomPosts.value = filteredPosts.sort(() => 0.5 - Math.random()).slice(0, 6);
 };
 
-const openDialog = () => {
+const openDialog = async () => {
+  await fetchRandomPosts();
   if (searchDialog.value) {
     searchDialog.value.showModal();
   }
 };
 
-onMounted(fetchRandomPosts);
+const closeDialog = () => {
+  if (searchDialog.value) {
+    searchDialog.value.close();
+  }
+};
 
-// rm
+const handleKeydown = (event) => {
+  if (event.key === "Escape") {
+    closeDialog();
+  }
+  if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+    openDialog();
+  }
+};
+
+// Fetch random posts on mount
 onMounted(() => {
+  fetchRandomPosts();
+  window.addEventListener("keydown", handleKeydown);
+
+  // rm
   if (searchDialog.value) {
     searchDialog.value.showModal();
   }
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeydown);
+});
+
+// Watch for route changes to close the dialog
+watch(route, () => {
+  closeDialog();
 });
 </script>
