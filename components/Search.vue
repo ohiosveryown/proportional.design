@@ -85,8 +85,9 @@ dialog {
   padding: 1.6rem 0;
   color: var(--color--primary);
   background: var(--bg);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   box-shadow: var(--shadow);
+  transform: translateY(-4rem);
 }
 
 dialog::backdrop {
@@ -96,6 +97,11 @@ dialog::backdrop {
   width: 100dvw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.64);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.64) 80%
+  );
 }
 
 header.input {
@@ -116,12 +122,16 @@ input {
 }
 
 :deep input[type="search"] {
-  background: transparent !important;
-  color: var(--color--primary);
+  margin-left: -0.8rem;
   border: 1px solid var(--border--light);
   border-radius: var(--border-radius--sm);
-  font-size: 1.5rem;
+  color: var(--color--primary);
+  font-size: 1.6rem;
+  background: transparent !important;
   outline: none;
+  @include breakpoint(md) {
+    margin-left: 0;
+  }
 
   &::placeholder {
     color: var(--color--primary);
@@ -153,6 +163,7 @@ section.suggestions {
   position: relative;
   display: flex;
   &:before {
+    display: none;
     border: 2px soild red;
     content: "";
     position: fixed;
@@ -163,11 +174,21 @@ section.suggestions {
     backdrop-filter: blur(24px);
     mask: linear-gradient(90deg, transparent 40%, black 72%);
     pointer-events: none;
+    @include breakpoint(md) {
+      display: inherit;
+    }
+  }
+}
+
+.thumbnails li:nth-last-child(-n + 2) {
+  display: none;
+  @include breakpoint(md) {
+    display: inherit;
   }
 }
 
 .thumbnails img {
-  margin-right: 1rem;
+  margin-right: 1.4rem;
   border: 1.5px solid #fff;
   border-radius: var(--border-radius--md);
   width: 5.6rem;

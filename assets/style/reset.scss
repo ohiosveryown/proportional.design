@@ -50,7 +50,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility !important;
   height: 100vh;
-  background: #000;
+  background: #0f0f0f;
   // overscroll-behavior: none;
 }
 
@@ -59,12 +59,6 @@ body {
   font: normal 1.5rem/1.5 var(--system-font);
   color: var(--color--primary);
   background: #0f0f0f;
-// background: linear-gradient(180deg, #232325 0%, #000 100%);
-  // background:
-  //     linear-gradient(rgba(0, 0, 0, 0.4),
-  //       rgba(0, 0, 0, 0.2)),
-  //     url('https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733444492/proportional.design-3.0/bg-01_kaaqx9.webp') no-repeat center center fixed;
-  // background-size: cover;
   text-rendering: optimizeSpeed;
 }
 
