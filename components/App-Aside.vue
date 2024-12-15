@@ -15,7 +15,7 @@
             href="https://www.notion.so/1599d0f43b9881238f64e3211d43c345?pvs=106"
             target="_blank"
           >
-            <button>Contact</button>
+            <button class="contact">Contact</button>
           </a>
         </li>
         <li>
@@ -107,6 +107,7 @@ menu li:nth-of-type(2) {
 }
 
 menu button {
+  margin-top: 0.4rem;
   font-size: 1.4rem;
 }
 

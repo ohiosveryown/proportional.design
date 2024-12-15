@@ -26,7 +26,13 @@
 
     <dialog ref="searchDialog">
       <header class="input">
-        <input placeholder="Search..." type="search" />
+        <input
+          v-model="query"
+          type="search"
+          placeholder="Search..."
+          class="search-input"
+        />
+
         <span class="divider" />
         <form method="dialog">
           <button>
@@ -65,6 +71,27 @@
           </li>
         </ul>
       </section>
+
+      <!-- Search results -->
+      <section v-if="searchResults.length" class="search-results">
+        <NuxtLink
+          v-for="result in searchResults"
+          :key="result._id"
+          :to="result._path"
+          class="search-result"
+        >
+          <img
+            v-if="result.icon"
+            :src="result.icon"
+            :alt="result.title"
+            class="result-thumb"
+          />
+          <div class="result-content">
+            <h3>{{ result.title }}</h3>
+            <p>{{ result.description }}</p>
+          </div>
+        </NuxtLink>
+      </section>
     </dialog>
   </div>
 </template>
@@ -77,17 +104,20 @@
 }
 
 dialog {
-  position: relative;
+  margin: 0 auto;
   z-index: var(--z2);
   border-radius: var(--border-radius--lg);
   border: var(--border--light);
   width: 56rem;
-  padding: 1.6rem 0;
+  padding: 1.6rem 0 0;
   color: var(--color--primary);
   background: var(--bg);
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow);
-  transform: translateY(-4rem);
+  transform: translateY(12vh);
+  @include breakpoint(md) {
+    transform: translateY(24vh);
+  }
 }
 
 dialog::backdrop {
@@ -113,7 +143,7 @@ header.input {
 }
 
 svg.icon--close {
-  transform: translateY(0.2rem);
+  transform: translateY(0.7rem);
 }
 
 input {
@@ -122,17 +152,13 @@ input {
 }
 
 :deep input[type="search"] {
-  margin-left: -0.8rem;
+  margin-left: -1.6rem;
   border: 1px solid var(--border--light);
   border-radius: var(--border-radius--sm);
   color: var(--color--primary);
   font-size: 1.6rem;
   background: transparent !important;
   outline: none;
-  @include breakpoint(md) {
-    margin-left: 0;
-  }
-
   &::placeholder {
     color: var(--color--primary);
     opacity: 0.6;
@@ -149,8 +175,8 @@ span.divider {
 }
 
 section.suggestions {
-  margin: 1.6rem 0 0;
-  padding: 0 1.6rem;
+  margin: 1.6rem 0;
+  padding: 0 1.5rem;
   header {
     margin-bottom: 1.2rem;
     font-size: 1.4rem;
@@ -187,27 +213,109 @@ section.suggestions {
   }
 }
 
-.thumbnails img {
+.thumbnails img,
+.result-thumb {
   margin-right: 1.4rem;
   border: 1.5px solid #fff;
-  border-radius: var(--border-radius--md);
+  border-radius: var(--border-radius--sm);
   width: 5.6rem;
   height: 5.6rem;
   object-fit: cover;
   transition: transform 0.2s ease-in-out;
-  // &:hover {
-  //   transform: rotate(4deg);
-  // }
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 16px;
+  border-radius: var(--border-radius--sm);
+  border: var(--border);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--color--primary);
+}
+
+.search-results {
+  position: relative;
+  inset: 0;
+  margin-top: 1.6rem;
+  border-top: var(--border);
+  max-height: 32rem;
+  overflow-y: auto;
+}
+
+.search-results .search-result:last-child {
+  border-bottom: none;
+}
+
+.search-result {
+  position: relative;
+  z-index: var(--zmax);
+  display: flex;
+  gap: 1.2rem;
+  padding: 1.2rem 1.6rem;
+  border-bottom: var(--border);
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.result-thumb {
+  margin-right: 0.2rem;
+  min-width: 5.6rem;
+  min-height: 5.6rem;
+}
+
+.result-content {
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  p {
+    font-size: 1.3rem;
+    line-height: 1.4;
+    opacity: 0.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 </style>
 
 <script setup>
 import { queryContent } from "#imports";
+import { useDebounceFn } from "@vueuse/core";
 
 const searchDialog = ref(null);
 const randomPosts = ref([]);
 const hoveredTitle = ref("");
 const route = useRoute();
+const query = ref("");
+const searchResults = ref([]);
+
+const debouncedSearch = useDebounceFn(async () => {
+  if (!query.value) {
+    searchResults.value = [];
+    return;
+  }
+  try {
+    const results = await queryContent()
+      .where({
+        $or: [
+          { title: { $contains: query.value } },
+          { tags: { $contains: query.value } },
+        ],
+      })
+      .find();
+    searchResults.value = results;
+  } catch (error) {
+    searchResults.value = [];
+  }
+}, 300);
+watch(query, () => {
+  debouncedSearch();
+});
 
 const fetchRandomPosts = async () => {
   const allPosts = await queryContent().find();
@@ -241,11 +349,6 @@ const handleKeydown = (event) => {
 onMounted(() => {
   fetchRandomPosts();
   window.addEventListener("keydown", handleKeydown);
-
-  // rm
-  if (searchDialog.value) {
-    searchDialog.value.showModal();
-  }
 });
 
 onUnmounted(() => {
