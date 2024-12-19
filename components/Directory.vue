@@ -1,7 +1,13 @@
 <template>
   <ClientOnly>
+    <select v-model="sortBy" @change="handleSort">
+      <option value="updated">Sort: Last Updated</option>
+      <option value="asc">Sort: A-Z</option>
+      <option value="desc">Sort: Z-A</option>
+    </select>
+
     <details
-      v-for="(items, directory) in groupedPosts"
+      v-for="(items, directory) in sortedPosts"
       :key="directory"
       :open="openStates[directory]"
       @toggle="(e) => handleToggle(directory, e.target.open)"
@@ -87,6 +93,56 @@
 
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
+
+select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0.8rem 0;
+  border-radius: var(--border-radius--sm);
+  border: none;
+  padding: 1.4rem 1.6rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color--primary);
+  text-transform: uppercase;
+  opacity: 0.76;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.32);
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 1;
+  }
+
+  &:focus:not(:hover) {
+    outline: none;
+    background: transparent;
+    opacity: 0.76;
+  }
+}
+
+option {
+  background: var(--bg--vdark);
+  color: var(--color--primary);
+  padding: 0.8rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &:checked {
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
 
 details {
   &[open] {
@@ -273,6 +329,46 @@ const { data: posts } = await useAsyncData("posts", () =>
   queryContent().where({ _partial: false }).find()
 );
 
+// Sorting
+const STORAGE_KEY = "directory-sort-preference";
+const sortBy = ref("updated");
+const sortedPosts = computed(() => {
+  const sorted = { ...groupedPosts.value };
+
+  // Convert to array of [directory, posts] pairs for sorting
+  const entries = Object.entries(sorted);
+
+  // Sort directories
+  const sortedEntries = entries.sort(([dirA], [dirB]) => {
+    switch (sortBy.value) {
+      case "updated":
+        // Get latest post date from each directory
+        const latestA = Math.max(
+          ...sorted[dirA].map((post) => new Date(post.date))
+        );
+        const latestB = Math.max(
+          ...sorted[dirB].map((post) => new Date(post.date))
+        );
+        return latestB - latestA;
+      case "asc":
+        return dirA.localeCompare(dirB);
+      case "desc":
+        return dirB.localeCompare(dirA);
+      default:
+        return 0;
+    }
+  });
+
+  // Convert back to object
+  return Object.fromEntries(sortedEntries);
+});
+
+const handleSort = () => {
+  localStorage.setItem(STORAGE_KEY, sortBy.value);
+  // Trigger re-render
+  nextTick();
+};
+
 const route = useRoute();
 
 // Add isActive computed property
@@ -287,6 +383,11 @@ onMounted(() => {
   const saved = localStorage.getItem("directoryStates");
   if (saved) {
     openStates.value = JSON.parse(saved);
+  }
+
+  const savedSort = localStorage.getItem(STORAGE_KEY);
+  if (savedSort) {
+    sortBy.value = savedSort;
   }
 });
 

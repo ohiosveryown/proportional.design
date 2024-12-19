@@ -125,7 +125,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  margin: 0 1.2rem 1.6rem;
+  margin: 0 1.2rem 1rem;
   border-bottom: var(--border);
   padding: 2.4rem 0 2rem;
 }
