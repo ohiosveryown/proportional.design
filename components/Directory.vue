@@ -1,6 +1,33 @@
 <template>
   <ClientOnly>
-    <Filter :posts="groupedPosts" @update:sorted="sortedPosts = $event" />
+    <div class="filter-tags">
+      <button
+        v-for="tag in availableTags"
+        :key="tag"
+        @click="toggleTag(tag)"
+        :class="{ active: selectedTags.includes(tag) }"
+        class="tag-button"
+      >
+        {{ tag }}
+        <svg
+          v-if="selectedTags.includes(tag)"
+          class="icon--remove"
+          width="12"
+          height="12"
+          fill="none"
+          viewBox="0 0 12 12"
+          @click.stop="removeTag(tag)"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            d="M3 3l6 6M9 3L3 9"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <Filter v-model="sortBy" @update:modelValue="handleSort" />
     <details
       v-for="(items, directory) in sortedPosts"
       :key="directory"
@@ -88,6 +115,46 @@
 
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
+
+.filter-tags {
+  position: relative;
+}
+
+.icon--remove {
+  position: relative;
+  z-index: var(--zmax);
+  transform: rotate(12deg);
+  cursor: grab;
+}
+
+.tag-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.2rem;
+  color: var(--color--primary);
+  opacity: 0.7;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--border-radius--sm);
+  border: var(--border--light);
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.16);
+    opacity: 1;
+  }
+
+  .icon--close {
+    opacity: 0.56;
+  }
+}
 
 details {
   &[open] {
@@ -194,7 +261,7 @@ section header {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-left: 0.3rem;
+  margin-left: 1.4rem;
   padding: 1.1rem 3rem;
   opacity: 0.76;
 }
@@ -217,7 +284,7 @@ li a {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  margin: 0 0.8rem 0 2rem;
+  margin: 0 0.8rem 0 3.2rem;
   border-radius: var(--border-radius--sm);
   padding: 0.9rem 0.8rem 0.5rem 0.7rem;
   font-size: 1.6rem;
@@ -265,7 +332,7 @@ a {
 
 .active {
   background: rgba(0, 0, 0, 0.32);
-  pointer-events: none;
+  // pointer-events: none;
 }
 </style>
 
@@ -276,9 +343,14 @@ const { data: posts } = await useAsyncData("posts", () =>
 
 // Sorting & Filtering
 import Filter from "~/components/Filter.vue";
-const sortedPosts = ref({});
+const sortBy = ref("updated"); // Add this line
 
 const route = useRoute();
+
+const handleSort = (value) => {
+  sortBy.value = value;
+  localStorage.setItem("directory-sort", value);
+};
 
 // Add isActive computed property
 const isActiveLink = (path) => {
@@ -289,6 +361,10 @@ const openStates = ref({});
 
 // Load saved states on mount
 onMounted(() => {
+  const savedSort = localStorage.getItem("directory-sort");
+  if (savedSort) {
+    sortBy.value = savedSort;
+  }
   const saved = localStorage.getItem("directoryStates");
   if (saved) {
     openStates.value = JSON.parse(saved);
@@ -304,21 +380,101 @@ const handleToggle = (directory, isOpen) => {
 const groupedPosts = computed(() => {
   if (!posts.value) return {};
 
-  return posts.value.reduce((acc, post) => {
+  const filtered = selectedTags.value.length
+    ? posts.value.filter((post) =>
+        selectedTags.value.every((tag) => post.tags?.includes(tag))
+      )
+    : posts.value;
+
+  return filtered.reduce((acc, post) => {
     const directory = post._path.split("/")[1];
-
-    // Skip if directory is empty, undefined, or root
     if (!directory || directory === "root" || directory === "") return acc;
-
-    if (!acc[directory]) {
-      acc[directory] = [];
-    }
+    if (!acc[directory]) acc[directory] = [];
     acc[directory].push(post);
     return acc;
   }, {});
 });
 
+const sortedPosts = computed(() => {
+  const sorted = { ...groupedPosts.value };
+
+  // Convert to array of [directory, posts] pairs for sorting
+  const entries = Object.entries(sorted);
+
+  // Sort directories based on sortBy value
+  const sortedEntries = entries.sort(([dirA], [dirB]) => {
+    switch (sortBy.value) {
+      case "updated":
+        // Get latest post date from each directory
+        const latestA = Math.max(
+          ...sorted[dirA].map((post) => new Date(post.date))
+        );
+        const latestB = Math.max(
+          ...sorted[dirB].map((post) => new Date(post.date))
+        );
+        return latestB - latestA;
+      case "asc":
+        return dirA.localeCompare(dirB);
+      case "desc":
+        return dirB.localeCompare(dirA);
+      default:
+        return 0;
+    }
+  });
+
+  // Convert back to object
+  return Object.fromEntries(sortedEntries);
+});
+
 const getStatusGroup = (items, status) => {
   return items.filter((item) => item.status === status);
+};
+
+// tags
+
+const STORAGE_KEY = "selected-tags";
+const selectedTags = ref([]);
+
+// Load saved tags
+onMounted(() => {
+  const savedTags = localStorage.getItem(STORAGE_KEY);
+  if (savedTags) {
+    selectedTags.value = JSON.parse(savedTags);
+  }
+});
+
+// Update storage when tags change
+watch(
+  selectedTags,
+  (newTags) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newTags));
+  },
+  { deep: true }
+);
+
+const removeTag = (tag) => {
+  selectedTags.value = selectedTags.value.filter((t) => t !== tag);
+};
+
+const toggleTag = (tag) => {
+  const index = selectedTags.value.indexOf(tag);
+  if (index === -1) {
+    selectedTags.value.push(tag);
+  } else {
+    removeTag(tag);
+  }
+};
+
+const availableTags = computed(() => {
+  if (!posts.value) return [];
+  const tags = posts.value.flatMap((post) => post.tags || []);
+  return [...new Set(tags)];
+});
+
+const Tag = (tag) => {
+  const index = selectedTags.value.indexOf(tag);
+  if (index !== -1) {
+    selectedTags.value.splice(index, 1);
+  }
 };
 </script>
