@@ -14,4 +14,4 @@ tags:
 ---
 
 The Maruni Hiroshima chair is a renowned piece of furniture designed by Naoto Fukasawa for the Japanese company Maruni. Known for its minimalist aesthetic and exquisite craftsmanship, the chair exemplifies a seamless blend of traditional Japanese woodworking techniques with modern design sensibilities.
-Its clean lines and gentle curves create a sense of simplicity and elegance, making it a versatile addition to various interior styles.
+Its clean lines and gentle curves create a sense of simplicity and elegance, making it a versatile addition to various interior styles. Update this.

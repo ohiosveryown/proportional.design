@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div class="filter-tags">
+    <!-- <div class="filter-tags">
       <button
         v-for="tag in availableTags"
         :key="tag"
@@ -27,7 +27,10 @@
       </button>
     </div>
 
-    <Filter v-model="sortBy" @update:modelValue="handleSort" />
+    <Filter v-model="sortBy" @update:modelValue="handleSort" /> -->
+
+    <Controls @sort="handleSort" />
+
     <details
       v-for="(items, directory) in sortedPosts"
       :key="directory"
