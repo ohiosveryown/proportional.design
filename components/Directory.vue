@@ -344,23 +344,10 @@ const { data: posts } = await useAsyncData("posts", () =>
   queryContent().where({ _partial: false }).find()
 );
 
-// Sorting & Filtering
-import Filter from "~/components/Filter.vue";
-const sortBy = ref("updated"); // Add this line
-
 const route = useRoute();
-
-const handleSort = (value) => {
-  sortBy.value = value;
-  localStorage.setItem("directory-sort", value);
-};
-
-// Add isActive computed property
-const isActiveLink = (path) => {
-  return route.path === path;
-};
-
+const sortBy = ref("updated");
 const openStates = ref({});
+const selectedTags = ref([]);
 
 // Load saved states on mount
 onMounted(() => {
@@ -368,17 +355,27 @@ onMounted(() => {
   if (savedSort) {
     sortBy.value = savedSort;
   }
-  const saved = localStorage.getItem("directoryStates");
-  if (saved) {
-    openStates.value = JSON.parse(saved);
+  const savedStates = localStorage.getItem("directoryStates");
+  if (savedStates) {
+    openStates.value = JSON.parse(savedStates);
+  }
+  const savedTags = localStorage.getItem("selected-tags");
+  if (savedTags) {
+    selectedTags.value = JSON.parse(savedTags);
   }
 });
 
-// Handle details toggle
+const handleSort = (value) => {
+  sortBy.value = value;
+  localStorage.setItem("directory-sort", value);
+};
+
 const handleToggle = (directory, isOpen) => {
   openStates.value[directory] = isOpen;
   localStorage.setItem("directoryStates", JSON.stringify(openStates.value));
 };
+
+const isActiveLink = (path) => route.path === path;
 
 const groupedPosts = computed(() => {
   if (!posts.value) return {};
@@ -398,86 +395,26 @@ const groupedPosts = computed(() => {
   }, {});
 });
 
-const sortedPosts = computed(() => {
-  const sorted = { ...groupedPosts.value };
-
-  // Convert to array of [directory, posts] pairs for sorting
-  const entries = Object.entries(sorted);
-
-  // Sort directories based on sortBy value
-  const sortedEntries = entries.sort(([dirA], [dirB]) => {
-    switch (sortBy.value) {
-      case "updated":
-        // Get latest post date from each directory
-        const latestA = Math.max(
-          ...sorted[dirA].map((post) => new Date(post.date))
-        );
-        const latestB = Math.max(
-          ...sorted[dirB].map((post) => new Date(post.date))
-        );
-        return latestB - latestA;
-      case "asc":
-        return dirA.localeCompare(dirB);
-      case "desc":
-        return dirB.localeCompare(dirA);
-      default:
-        return 0;
-    }
-  });
-
-  // Convert back to object
-  return Object.fromEntries(sortedEntries);
-});
-
 const getStatusGroup = (items, status) => {
   return items.filter((item) => item.status === status);
 };
 
-// tags
+const sortedPosts = computed(() => {
+  const entries = Object.entries(groupedPosts.value);
 
-const STORAGE_KEY = "selected-tags";
-const selectedTags = ref([]);
-
-// Load saved tags
-onMounted(() => {
-  const savedTags = localStorage.getItem(STORAGE_KEY);
-  if (savedTags) {
-    selectedTags.value = JSON.parse(savedTags);
-  }
+  return Object.fromEntries(
+    entries.sort(([dirA], [dirB]) => {
+      switch (sortBy.value) {
+        case "updated":
+          return dirB.localeCompare(dirA);
+        case "asc":
+          return dirA.localeCompare(dirB);
+        case "desc":
+          return dirB.localeCompare(dirA);
+        default:
+          return 0;
+      }
+    })
+  );
 });
-
-// Update storage when tags change
-watch(
-  selectedTags,
-  (newTags) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newTags));
-  },
-  { deep: true }
-);
-
-const removeTag = (tag) => {
-  selectedTags.value = selectedTags.value.filter((t) => t !== tag);
-};
-
-const toggleTag = (tag) => {
-  const index = selectedTags.value.indexOf(tag);
-  if (index === -1) {
-    selectedTags.value.push(tag);
-  } else {
-    removeTag(tag);
-  }
-};
-
-const availableTags = computed(() => {
-  if (!posts.value) return [];
-  const tags = posts.value.flatMap((post) => post.tags || []);
-  return [...new Set(tags)];
-});
-
-const Tag = (tag) => {
-  const index = selectedTags.value.indexOf(tag);
-  if (index !== -1) {
-    selectedTags.value.splice(index, 1);
-  }
-};
 </script>
