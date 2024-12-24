@@ -1,36 +1,6 @@
 <template>
   <ClientOnly>
-    <!-- <div class="filter-tags">
-      <button
-        v-for="tag in availableTags"
-        :key="tag"
-        @click="toggleTag(tag)"
-        :class="{ active: selectedTags.includes(tag) }"
-        class="tag-button"
-      >
-        {{ tag }}
-        <svg
-          v-if="selectedTags.includes(tag)"
-          class="icon--remove"
-          width="12"
-          height="12"
-          fill="none"
-          viewBox="0 0 12 12"
-          @click.stop="removeTag(tag)"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            d="M3 3l6 6M9 3L3 9"
-          />
-        </svg>
-      </button>
-    </div>
-
-    <Filter v-model="sortBy" @update:modelValue="handleSort" /> -->
-
     <Controls @sort="handleSort" />
-
     <details
       v-for="(items, directory) in sortedPosts"
       :key="directory"
@@ -403,10 +373,28 @@ const sortedPosts = computed(() => {
   const entries = Object.entries(groupedPosts.value);
 
   return Object.fromEntries(
-    entries.sort(([dirA], [dirB]) => {
+    entries.sort(([dirA, postsA], [dirB, postsB]) => {
       switch (sortBy.value) {
-        case "updated":
-          return dirB.localeCompare(dirA);
+        case "newest": {
+          // Get the most recent post date from each directory
+          const latestA = Math.max(
+            ...postsA.map((post) => new Date(post.date || 0))
+          );
+          const latestB = Math.max(
+            ...postsB.map((post) => new Date(post.date || 0))
+          );
+          return latestB - latestA; // Sort newest first
+        }
+        case "oldest": {
+          // Get the oldest post date from each directory
+          const oldestA = Math.min(
+            ...postsA.map((post) => new Date(post.date || 0))
+          );
+          const oldestB = Math.min(
+            ...postsB.map((post) => new Date(post.date || 0))
+          );
+          return oldestA - oldestB; // Sort oldest first
+        }
         case "asc":
           return dirA.localeCompare(dirB);
         case "desc":

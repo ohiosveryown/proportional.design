@@ -11,6 +11,7 @@ tags:
   - inlay
   - process
   - walnut
+  - counter
 ---
 
 The Maruni Hiroshima chair is a renowned piece of furniture designed by Naoto Fukasawa for the Japanese company Maruni. Known for its minimalist aesthetic and exquisite craftsmanship, the chair exemplifies a seamless blend of traditional Japanese woodworking techniques with modern design sensibilities.
