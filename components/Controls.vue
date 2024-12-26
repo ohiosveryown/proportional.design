@@ -66,10 +66,17 @@
       </form>
 
       <!-- filters -->
-      <form>
-        <div>
-          <input type="checkbox" name="filter" value="all" id="all" />
-          <label for="all">All</label>
+      <form class="filters">
+        <div class="filter-checkbox" v-for="tag in availableTags" :key="tag">
+          <input
+            type="checkbox"
+            name="filter"
+            :value="tag"
+            :id="tag"
+            v-model="selectedTags"
+            @change="handleTagChange"
+          />
+          <label :for="tag">{{ tag }}</label>
         </div>
       </form>
     </div>
@@ -84,16 +91,23 @@ menu {
 }
 
 .popover {
-  position: absolute;
+  position: fixed;
   z-index: var(--z1);
-  top: 90%;
-  left: 1.1rem;
+  top: 23.3rem;
+  left: 2.4rem;
   border-radius: var(--border-radius--md);
   border: var(--border);
-  min-width: 16rem;
+  min-width: 18rem;
+  max-height: 32rem;
   padding: 1rem 0.8rem;
   background: #0a0a0a;
   box-shadow: var(--shadow);
+  overflow-y: auto;
+
+  // position: absolute;
+  // top: 90%;
+  // left: 1.1rem;
+  // max-height: 22.5rem;
 }
 
 .menu-trigger {
@@ -129,7 +143,8 @@ label {
   }
 }
 
-.sort-radio {
+.sort-radio,
+.filter-checkbox {
   display: flex;
   align-items: center;
   border-radius: var(--border-radius--sm);
@@ -172,21 +187,91 @@ input[type="radio"] {
     }
   }
 }
+
+.filters {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  margin-right: 6px;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 2px solid red;
+
+  &:checked {
+    background-color: red;
+
+    &::after {
+      content: "✓";
+      color: green;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+    }
+
+    & + label {
+      opacity: 1;
+    }
+  }
+}
 </style>
 
 <script setup>
-// Sorting logic
-const STORAGE_KEY = "selected-sort";
-const emit = defineEmits(["sort"]);
-const selectedSort = ref(localStorage.getItem(STORAGE_KEY) || "newest");
+import { ref, onMounted } from "vue";
 
+const STORAGE_KEY = "selected-sort";
+const TAGS_STORAGE_KEY = "selected-tags";
+
+const emit = defineEmits(["sort", "filter"]);
+const selectedSort = ref(localStorage.getItem(STORAGE_KEY) || "newest");
+const selectedTags = ref(
+  JSON.parse(localStorage.getItem(TAGS_STORAGE_KEY) || "[]")
+);
+const availableTags = ref([]);
+
+// Get all unique tags from content
+const fetchTags = async () => {
+  const posts = await queryContent().find();
+  const tags = new Set();
+
+  posts.forEach((post) => {
+    if (post.tags) {
+      post.tags.forEach((tag) => tags.add(tag));
+    }
+  });
+
+  availableTags.value = Array.from(tags).sort();
+};
+
+const handleTagChange = () => {
+  // If no tags selected, show all posts
+  updateTags();
+};
+
+const updateTags = () => {
+  localStorage.setItem(TAGS_STORAGE_KEY, JSON.stringify(selectedTags.value));
+  emit("filter", selectedTags.value);
+};
+
+// Existing sort handler
 const handleSort = (e) => {
   selectedSort.value = e.target.value;
   localStorage.setItem(STORAGE_KEY, e.target.value);
   emit("sort", selectedSort.value);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await fetchTags();
   emit("sort", selectedSort.value);
+  emit("filter", selectedTags.value);
 });
 </script>

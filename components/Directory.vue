@@ -1,7 +1,14 @@
 <template>
   <ClientOnly>
-    <Controls @sort="handleSort" />
+    <Controls @sort="handleSort" @filter="handleFilter" />
+
+    <!-- No results message -->
+    <p v-if="Object.keys(filteredPosts).length === 0" class="no-results">
+      No posts match the selected filters
+    </p>
+
     <details
+      v-else
       v-for="(items, directory) in sortedPosts"
       :key="directory"
       :open="openStates[directory]"
@@ -307,6 +314,14 @@ a {
   background: rgba(0, 0, 0, 0.32);
   // pointer-events: none;
 }
+
+.no-results {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-text);
+  opacity: 0.7;
+  font-size: 1.4rem;
+}
 </style>
 
 <script setup>
@@ -317,7 +332,7 @@ const { data: posts } = await useAsyncData("posts", () =>
 const route = useRoute();
 const sortBy = ref("updated");
 const openStates = ref({});
-const selectedTags = ref([]);
+const selectedTags = ref(["all"]);
 
 // Load saved states on mount
 onMounted(() => {
@@ -405,4 +420,29 @@ const sortedPosts = computed(() => {
     })
   );
 });
+
+const filteredPosts = computed(() => {
+  // If no tags selected, show all posts
+  if (selectedTags.value.length === 0) {
+    return groupedPosts.value;
+  }
+
+  // Filter by selected tags
+  return Object.fromEntries(
+    Object.entries(groupedPosts.value)
+      .map(([dir, posts]) => [
+        dir,
+        posts.filter(
+          (post) =>
+            post.tags &&
+            post.tags.some((tag) => selectedTags.value.includes(tag))
+        ),
+      ])
+      .filter(([_, posts]) => posts.length > 0)
+  );
+});
+
+const handleFilter = (tags) => {
+  selectedTags.value = tags;
+};
 </script>
