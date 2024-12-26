@@ -132,15 +132,9 @@ menu {
 label {
   margin-left: 0.4rem;
   width: 100%;
-
   font-size: 1.5rem;
   font-weight: 500;
-  opacity: 0.76;
   transform: translateY(-0.1rem);
-
-  &:hover {
-    opacity: 1;
-  }
 }
 
 .sort-radio,
@@ -149,10 +143,21 @@ label {
   align-items: center;
   border-radius: var(--border-radius--sm);
   padding: 0.4rem;
+  opacity: 0.76;
+  transition: background 200ms ease, opacity 200ms ease;
 
   &:hover {
     background: var(--bg--light);
+    opacity: 1;
   }
+
+  &:has(input:checked) {
+    opacity: 1;
+  }
+}
+
+.sort-radio label {
+  transform: translate(0.4rem, -0.1rem);
 }
 
 input[type="radio"] {
@@ -165,7 +170,6 @@ input[type="radio"] {
   width: 16px;
   height: 16px;
   background: transparent;
-  cursor: pointer;
 
   &:checked::after {
     content: "";
@@ -203,19 +207,22 @@ input[type="checkbox"] {
   position: relative;
   cursor: pointer;
   flex-shrink: 0;
-  border: 2px solid red;
+  border: none;
+  background: transparent;
 
   &:checked {
-    background-color: red;
-
     &::after {
       content: "✓";
-      color: green;
+      color: transparent;
       position: absolute;
       top: 50%;
       left: 50%;
+      font-size: 14px;
       transform: translate(-50%, -50%);
-      font-size: 12px;
+
+      background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735221728/proportional.design-3.0/checkbox_ls5w2x.svg")
+        no-repeat center center;
+      background-size: cover;
     }
 
     & + label {
