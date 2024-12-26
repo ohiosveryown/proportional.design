@@ -1,6 +1,7 @@
 <template>
   <div class="app">
     <App-Aside class="aside" />
+
     <main class="main">
       <ClientOnly>
         <ContentDoc :path="contentPath">

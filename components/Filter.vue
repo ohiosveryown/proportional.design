@@ -119,7 +119,7 @@ menu {
   gap: 0.4rem;
   margin: 0 0.8rem 0.6rem;
   border-radius: var(--border-radius--sm);
-  padding: 1rem 1.6rem;
+  padding: 0.6rem 1.6rem;
   color: rgb(255, 255, 255, 0.72);
   cursor: pointer;
 
@@ -164,12 +164,14 @@ menu {
   opacity: 0;
   overflow-y: auto;
   pointer-events: none;
-  transform: translateY(-1rem);
+  transform: translateY(-1rem) scale(0.92);
+  transform-origin: top;
   transition: opacity 200ms ease, transform 200ms ease;
+  will-change: opacity, transform;
 
   &.is-open {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     pointer-events: auto;
   }
 }
@@ -186,8 +188,8 @@ span.header {
 label {
   margin-left: 0.4rem;
   width: 100%;
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: 1.4rem;
+  font-weight: 400;
   transform: translateY(-0.1rem);
   text-transform: capitalize;
 }
@@ -295,7 +297,6 @@ input[type="checkbox"] {
 const isOpen = ref(false);
 const STORAGE_KEY = "selected-sort";
 const TAGS_STORAGE_KEY = "selected-tags";
-
 const emit = defineEmits(["sort", "filter"]);
 const selectedSort = ref(localStorage.getItem(STORAGE_KEY) || "newest");
 const selectedTags = ref(
