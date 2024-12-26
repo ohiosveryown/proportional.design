@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <Controls @sort="handleSort" @filter="handleFilter" />
+    <Filter @sort="handleSort" @filter="handleFilter" />
 
     <!-- No results message -->
     <p v-if="Object.keys(filteredPosts).length === 0" class="no-results">
