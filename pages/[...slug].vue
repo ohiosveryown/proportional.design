@@ -9,7 +9,7 @@
             <header>
               <img
                 class="thumbnail"
-                src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1734304570/proportional.design-3.0/hiro--01/IMG_4051_jdqdfh.webp"
+                src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735233114/proportional.design-3.0/icons/console_3x_cochb0.webp"
                 alt="markdown icon"
               />
               <div class="title">
@@ -42,8 +42,8 @@
                 <p v-else>Loading commits...</p>
                 <img
                   class="updates-thumbnail"
-                  src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735231748/proportional.design-3.0/index-thumbnails/01_2x_bhheme.webp"
-                  alt=""
+                  :src="randomThumbnail"
+                  alt="Thumbnail image"
                 />
               </div>
             </section>
@@ -105,7 +105,7 @@ header:after {
 
 .thumbnail {
   border-radius: var(--border-radius--xs);
-  border: 1.5px solid #fff;
+  // border: 1.5px solid #fff;
   box-shadow: var(--shadow--sm);
   width: 3rem;
   height: 2.4rem;
@@ -180,8 +180,12 @@ img.updates-thumbnail {
   box-shadow: var(--shadow);
 }
 
+li.commits:first-of-type {
+  margin-top: 0.4rem;
+}
+
 li.commits {
-  margin-top: 0.8rem;
+  margin-top: 1.3rem;
   // max-width: 72ch;
   line-height: 1.3;
 }
@@ -202,4 +206,17 @@ const path = computed(() => {
 
 import { useGithubCommits } from "~/composables/updates";
 const { commits, loading } = useGithubCommits();
+
+const thumbnails = [
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232373/proportional.design-3.0/index-thumbnails/00_tjgzn7.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735231748/proportional.design-3.0/index-thumbnails/01_2x_bhheme.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232374/proportional.design-3.0/index-thumbnails/02_lvzqot.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232376/proportional.design-3.0/index-thumbnails/03_sa9wcp.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232463/proportional.design-3.0/index-thumbnails/04_y6rpgd.webp",
+];
+
+const randomThumbnail = computed(() => {
+  const randomIndex = Math.floor(Math.random() * thumbnails.length);
+  return thumbnails[randomIndex];
+});
 </script>
