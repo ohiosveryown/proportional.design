@@ -1,24 +1,40 @@
 <template>
   <menu>
-    <div class="menu-trigger">
+    <div
+      class="menu-trigger"
+      @click="isOpen = !isOpen"
+      @click.stop="togglePopover"
+      ref="triggerRef"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
         fill="none"
       >
-        <circle cx="10" cy="10" r="7.5" stroke="#fff" />
+        <circle cx="10" cy="10" r="7.5" stroke="#c4c4c4" />
         <path
-          stroke="#fff"
+          stroke="#c4c4c4"
           stroke-linecap="round"
           d="M6 8h8M6.8 10.4h6.4M8 12.8h4"
         />
       </svg>
-      Filters
+      Filter
+      <span class="dot" :class="{ 'is-active': hasActiveFilters }" />
     </div>
 
-    <div class="popover">
+    <div
+      class="popover"
+      :class="{ 'is-open': isOpen }"
+      ref="popoverRef"
+      tabindex="-1"
+      @keydown.esc="closePopover"
+      @mouseleave="handleMouseLeave"
+      @click.stop
+      @scroll.stop
+    >
       <!-- sorting -->
+      <span class="header">Sort by</span>
       <form @change="handleSort">
         <div class="sort-radio">
           <input
@@ -28,7 +44,7 @@
             id="newest"
             :checked="selectedSort === 'newest'"
           />
-          <label for="newest">Newest First</label>
+          <label for="newest">Newest first</label>
         </div>
 
         <div class="sort-radio">
@@ -39,7 +55,7 @@
             id="oldest"
             :checked="selectedSort === 'oldest'"
           />
-          <label for="oldest">Oldest First</label>
+          <label for="oldest">Oldest first</label>
         </div>
 
         <div class="sort-radio">
@@ -67,6 +83,7 @@
 
       <!-- filters -->
       <form class="filters">
+        <span class="header">Filter by</span>
         <div class="filter-checkbox" v-for="tag in availableTags" :key="tag">
           <input
             type="checkbox"
@@ -80,14 +97,56 @@
         </div>
       </form>
     </div>
+    <div class="hr" />
   </menu>
 </template>
 
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
+.hr {
+  border-bottom: 0.5px solid rgb(255, 255, 255, 0.2);
+  margin: 0 1.2rem 1.2rem;
+}
+
 menu {
   position: relative;
+}
+
+.menu-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0.8rem 0.6rem;
+  border-radius: var(--border-radius--sm);
+  padding: 1rem 1.6rem;
+  color: rgb(255, 255, 255, 0.72);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--bg--dark);
+    opacity: 1;
+  }
+}
+
+.menu-trigger svg {
+  transform: translateY(0.03rem);
+}
+
+.dot {
+  border-radius: 100px;
+  width: 0.7rem;
+  height: 0.7rem;
+  background: none;
+  transform: translate(0.2rem, 0.1rem);
+  @include breakpoint(md) {
+    transform: translate(0.2rem, 0.15rem);
+  }
+
+  &.is-active {
+    opacity: 1;
+    background: #e75656;
+  }
 }
 
 .popover {
@@ -97,36 +156,31 @@ menu {
   left: 2.4rem;
   border-radius: var(--border-radius--md);
   border: var(--border);
-  min-width: 18rem;
-  max-height: 32rem;
+  min-width: 19.2rem;
+  max-height: 33.7rem;
   padding: 1rem 0.8rem;
   background: #0a0a0a;
   box-shadow: var(--shadow);
+  opacity: 0;
   overflow-y: auto;
+  pointer-events: none;
+  transform: translateY(-1rem);
+  transition: opacity 200ms ease, transform 200ms ease;
 
-  // position: absolute;
-  // top: 90%;
-  // left: 1.1rem;
-  // max-height: 22.5rem;
-}
-
-.menu-trigger {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin: 0 0.8rem;
-  border-radius: var(--border-radius--sm);
-  padding: 1rem 1.6rem;
-  opacity: 0.76;
-
-  &:hover {
-    background: var(--bg--dark);
+  &.is-open {
     opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 }
 
-.menu-trigger svg {
-  transform: translateY(0.05rem);
+span.header {
+  display: block;
+  margin: 0.2rem 0 0.4rem 0.6rem;
+  opacity: 0.6;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 label {
@@ -135,6 +189,7 @@ label {
   font-size: 1.5rem;
   font-weight: 500;
   transform: translateY(-0.1rem);
+  text-transform: capitalize;
 }
 
 .sort-radio,
@@ -196,6 +251,10 @@ input[type="radio"] {
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border-color);
+
+  &:last-of-type {
+    border-top: 1px solid var(--bg--light);
+  }
 }
 
 input[type="checkbox"] {
@@ -233,8 +292,7 @@ input[type="checkbox"] {
 </style>
 
 <script setup>
-import { ref, onMounted } from "vue";
-
+const isOpen = ref(false);
 const STORAGE_KEY = "selected-sort";
 const TAGS_STORAGE_KEY = "selected-tags";
 
@@ -244,8 +302,9 @@ const selectedTags = ref(
   JSON.parse(localStorage.getItem(TAGS_STORAGE_KEY) || "[]")
 );
 const availableTags = ref([]);
+const popoverRef = ref(null);
+const triggerRef = ref(null);
 
-// Get all unique tags from content
 const fetchTags = async () => {
   const posts = await queryContent().find();
   const tags = new Set();
@@ -260,7 +319,6 @@ const fetchTags = async () => {
 };
 
 const handleTagChange = () => {
-  // If no tags selected, show all posts
   updateTags();
 };
 
@@ -276,9 +334,50 @@ const handleSort = (e) => {
   emit("sort", selectedSort.value);
 };
 
+const handleKeyPress = (event) => {
+  if (event.key.toLowerCase() === "f") {
+    isOpen.value = !isOpen.value;
+  }
+};
+
+const handleMouseLeave = () => {
+  setTimeout(() => {
+    isOpen.value = false;
+  }, 300);
+};
+
+const hasActiveFilters = computed(() => {
+  return selectedTags.value.length > 0;
+});
+
+const handleClickOutside = (e) => {
+  if (
+    popoverRef.value &&
+    !popoverRef.value.contains(e.target) &&
+    !triggerRef.value.contains(e.target)
+  ) {
+    isOpen.value = false;
+  }
+};
+
+const handleScroll = (e) => {
+  if (popoverRef.value && !popoverRef.value.contains(e.target)) {
+    isOpen.value = false;
+  }
+};
+
 onMounted(async () => {
   await fetchTags();
   emit("sort", selectedSort.value);
   emit("filter", selectedTags.value);
+  window.addEventListener("keydown", handleKeyPress);
+  document.addEventListener("click", handleClickOutside);
+  document.addEventListener("scroll", handleScroll, true);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeyPress);
+  document.removeEventListener("click", handleClickOutside);
+  document.removeEventListener("scroll", handleScroll, true);
 });
 </script>
