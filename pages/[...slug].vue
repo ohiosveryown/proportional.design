@@ -125,6 +125,10 @@ header:after {
   gap: 0.4rem;
 }
 
+// main {
+//   height: 100vh;
+// }
+
 h1,
 h2 {
   text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.32);
@@ -178,6 +182,7 @@ img.updates-thumbnail {
   height: 14rem;
   object-fit: cover;
   box-shadow: var(--shadow);
+  pointer-events: none;
 }
 
 li.commits:first-of-type {
