@@ -1,11 +1,12 @@
 <template>
   <div class="table-wrapper">
     <h4>
-      Filters
+      <span class="op-7">All files ({{ filteredPosts.length }})</span>
       <span class="dot" :class="{ 'is-active': selectedTags.length > 0 }" />
     </h4>
 
     <div class="tag-filters">
+      <span class="op-7">Filters:</span>
       <button
         v-for="tag in allTags"
         :key="tag"
@@ -17,13 +18,18 @@
       </button>
     </div>
 
-    <table>
+    <p v-if="filteredPosts.length === 0" class="no-results">
+      Looks like we came up empty. Try removing some filters to see more content
+      👍.
+    </p>
+
+    <table v-else>
       <thead>
         <tr>
           <th>Name</th>
           <th>Directory</th>
           <th>Date</th>
-          <th>Tags</th>
+          <th class="col-tags">Tags</th>
         </tr>
       </thead>
       <tbody>
@@ -36,7 +42,7 @@
           </td>
           <td>{{ getDirectory(post._path) }}</td>
           <td>{{ formatDate(post.date) }}</td>
-          <td class="tags">
+          <td class="tags col-tags">
             <span v-for="tag in post.tags" :key="tag" class="tag">
               {{ tag }}
             </span>
@@ -55,6 +61,11 @@
   overflow-x: auto;
 }
 
+.count {
+  margin-right: 0.4rem;
+  text-transform: capitalize;
+}
+
 h4 {
   font-weight: 600;
   font-size: 1.2rem;
@@ -69,21 +80,26 @@ h4 {
   height: 0.7rem;
   background: #e75656;
   opacity: 0;
-  transform: translate(0.3rem, -0.05rem) scale(0.9);
+  transform: translate(0.5rem, -0.05rem) scale(0.9);
   transition: all 300ms ease;
 
   &.is-active {
     opacity: 1;
     background: #e75656;
-    transform: translate(0.3rem, -0.05rem) scale(1);
+    transform: translate(0.5rem, -0.05rem) scale(1);
   }
 }
 
 .tag-filters {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.8rem;
-  margin: 0.8rem 0 1rem;
+  margin: 0.8rem 0 0.4rem;
+}
+
+.tag-filters span {
+  font-size: 1.2rem;
 }
 
 .tag-filter {
@@ -152,15 +168,6 @@ table tr:last-of-type td {
   border-bottom: none;
 }
 
-a {
-  color: var(--color-text);
-  text-decoration: none;
-
-  &:hover {
-    color: var(--color--primary);
-  }
-}
-
 .title-td {
   border-radius: var(--border-radius--md) 0 0 var(--border-radius--md);
   font-weight: 500;
@@ -169,6 +176,13 @@ a {
 
 .title-td a {
   text-shadow: var(--shadow--text);
+}
+
+.col-tags {
+  display: none;
+  @include breakpoint(lg) {
+    display: table-cell;
+  }
 }
 
 .tags {
@@ -186,7 +200,6 @@ a {
   height: 2.4rem;
   object-fit: cover;
   object-position: top;
-  // transform: translate(0.5rem, -0.2rem);
   box-shadow: var(--shadow--sm);
 }
 
@@ -203,11 +216,27 @@ a {
     margin-left: 0;
   }
 }
+
+.no-results {
+  padding: 3.2rem 0 1.5rem;
+  text-align: center;
+  color: var(--color-primary);
+  opacity: 0.76;
+  font-size: 1.3rem;
+}
+
+.op-7 {
+  opacity: 0.76;
+}
 </style>
 
 <script setup>
 const { data: posts } = await useAsyncData("posts", () =>
   queryContent().find()
+);
+
+const totalPosts = computed(
+  () => posts.value.filter((post) => post._path !== "/").length
 );
 
 const sortedPosts = computed(() => {
@@ -256,7 +285,7 @@ const toggleTag = (tag) => {
   }
 };
 
-// Filter posts by selected tags
+// Filter posts by selected tags (AND logic)
 const filteredPosts = computed(() => {
   const filtered = posts.value.filter((post) => post._path !== "/");
 
@@ -267,7 +296,8 @@ const filteredPosts = computed(() => {
   return filtered
     .filter(
       (post) =>
-        post.tags && post.tags.some((tag) => selectedTags.value.includes(tag))
+        // Check if post has tags and includes ALL selected tags
+        post.tags && selectedTags.value.every((tag) => post.tags.includes(tag))
     )
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 });

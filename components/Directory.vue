@@ -2,10 +2,10 @@
   <ClientOnly>
     <Filter @sort="handleSort" @filter="handleFilter" />
 
-    <div class="expand-controls">
+    <!-- <div class="expand-controls">
       <button @click="expandAll">Expand all</button>
       <button @click="collapseAll">Collapse all</button>
-    </div>
+    </div> -->
 
     <!-- No results message -->
     <p v-if="Object.keys(filteredPosts).length === 0" class="no-results">
@@ -488,4 +488,9 @@ const collapseAll = () => {
   });
   localStorage.setItem("directoryStates", JSON.stringify(openStates.value));
 };
+
+provide("directoryControls", {
+  expandAll,
+  collapseAll,
+});
 </script>

@@ -208,7 +208,7 @@ header {
   align-items: center;
   gap: 1rem;
   position: sticky;
-  z-index: var(--z2);
+  z-index: var(--z3);
   top: 0;
   margin-bottom: 0.8rem;
 }
@@ -299,15 +299,19 @@ a {
   align-items: top;
 }
 
-.updates-wrapper ul {
-  flex: 1;
+.updates-wrapper ul,
+.updates-wrapper p {
+  min-width: grid-width(7.5);
+  width: grid-width(7.5);
 }
 
 img.updates-thumbnail {
   border-radius: var(--border-radius--md);
   border: 1.5px solid var(--color--primary);
   margin-left: grid-width(1);
+  min-width: grid-width(3.5);
   width: grid-width(3.5);
+  min-height: 14rem;
   height: 14rem;
   object-fit: cover;
   box-shadow: var(--shadow);

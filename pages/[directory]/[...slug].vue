@@ -323,11 +323,35 @@ summary {
 </style>
 
 <script setup>
+import { onMounted, onUnmounted } from "vue";
 const route = useRoute();
+const router = useRouter();
 
 const contentPath = computed(() => {
   const directory = route.params.directory;
   const slug = route.params.slug;
   return `/${directory}/${slug ? slug.join("/") : ""}`;
+});
+
+// Handle escape key
+const handleKeydown = (event) => {
+  if (event.key === "Escape") {
+    // Check if any dialog is open
+    const openDialog = document.querySelector("dialog[open]");
+
+    // Only navigate if no dialog is open
+    if (!openDialog) {
+      router.push("/");
+    }
+  }
+};
+
+// Add and remove event listeners
+onMounted(() => {
+  document.addEventListener("keydown", handleKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", handleKeydown);
 });
 </script>
