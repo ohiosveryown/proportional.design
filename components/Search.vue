@@ -29,7 +29,7 @@
         <input
           v-model="query"
           type="search"
-          placeholder="Search..."
+          placeholder="Search media..."
           class="search-input"
         />
 

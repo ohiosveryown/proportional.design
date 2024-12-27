@@ -152,7 +152,7 @@ menu {
 .popover {
   position: fixed;
   z-index: var(--z1);
-  top: 23.3rem;
+  top: 22.5rem;
   left: 2.4rem;
   border-radius: var(--border-radius--md);
   border: var(--border);
@@ -164,7 +164,7 @@ menu {
   opacity: 0;
   overflow-y: auto;
   pointer-events: none;
-  transform: translateY(-1rem) scale(0.92);
+  transform: translateY(-1rem) scale(0.95);
   transform-origin: top;
   transition: opacity 200ms ease, transform 200ms ease;
   will-change: opacity, transform;

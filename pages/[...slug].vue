@@ -5,11 +5,11 @@
     <main class="main">
       <ClientOnly>
         <ContentDoc :path="path">
-          <template #default="{ doc }">
+          <template #empty>
             <header>
               <img
                 class="thumbnail"
-                src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735233114/proportional.design-3.0/icons/console_3x_cochb0.webp"
+                src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735235844/proportional.design-3.0/icons/md_rufxgs.webp"
                 alt="markdown icon"
               />
               <div class="title">
@@ -24,6 +24,13 @@
             <section class="contact">
               <h4>Contact</h4>
               <p>hello@proportional.design</p>
+            </section>
+
+            <section class="inquiry">
+              <button>
+                <h4>Project Inquiry</h4>
+                <span class="email">Get in touch</span>
+              </button>
             </section>
 
             <section class="updates">
@@ -48,28 +55,27 @@
               </div>
             </section>
 
-            <section class="inquiry">
-              <h4>Project Inquiry</h4>
-              <button class="email">Get in touch</button>
-            </section>
-
             <section class="social">
-              <h4>Social</h4>
-              <a href="#" target="_blank">proportional.design</a>
+              <div class="avatar-wrapper">
+                <img
+                  class="avatar"
+                  src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733875450/proportional.design-3.0/avatar_w_3x_j45unb.webp"
+                  alt="proportional.design avatar"
+                />
+              </div>
+              <div class="social-content">
+                <h4>Social</h4>
+                <a
+                  href="http://instagram.com/proportional.design"
+                  target="_blank"
+                  >proportional.design</a
+                >
+              </div>
             </section>
 
-            <article>
-              <ContentRenderer :value="doc" />
-            </article>
-          </template>
-          <template #not-found>
-            <h1>Hellloooooo</h1>
-          </template>
-          <template #loading>
-            <p>Loading...</p>
-          </template>
-          <template #error="{ error }">
-            <h1>Error: {{ error.message }}</h1>
+            <section>
+              <Table />
+            </section>
           </template>
         </ContentDoc>
       </ClientOnly>
@@ -80,12 +86,129 @@
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
+main {
+  display: none;
+  @include breakpoint(md) {
+    display: initial;
+    //   height: 100vh;
+  }
+}
+
+section.inquiry {
+  padding: 0.4rem 0;
+}
+
+.inquiry button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  border-radius: var(--border-radius--md);
+  width: 100%;
+  height: 100%;
+  padding: 1rem 0;
+}
+
+.inquiry button:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: var(--border-radius--md);
+  width: 101.5%;
+  height: 100%;
+  z-index: var(--z1);
+}
+
+.inquiry:hover {
+  button:after {
+    background: var(--bg--dark);
+  }
+}
+
+.inquiry h4 {
+  position: relative;
+  z-index: var(--z2);
+  transform: translateY(0rem);
+}
+
+.inquiry span {
+  position: relative;
+  z-index: var(--z2);
+  border-radius: 100px;
+  border: 1px solid #df8559;
+  padding: 0.4rem 0.8rem 0.5rem;
+  font-weight: 600;
+  font-size: 1.3rem;
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(180deg, #f46b27 21.5%, #ef621b 100%);
+  box-shadow: var(--shadow);
+  transition: transform 300ms ease;
+
+  &:hover {
+    transform: rotate(2deg);
+  }
+}
+
+.social {
+  display: flex;
+  align-items: center;
+}
+
+.social img {
+  display: block;
+  position: relative;
+  z-index: 1;
+  margin-right: 1rem;
+  border-radius: 100px;
+  border: 3px solid var(--bg--mdark);
+  width: 4rem;
+  height: 4rem;
+}
+
+@keyframes rotate {
+  from {
+    transform: scale(1.08) rotate(0deg);
+  }
+  to {
+    transform: scale(1.08) rotate(360deg);
+  }
+}
+
+.avatar-wrapper {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100px;
+    transform: scale(1.08);
+    animation: rotate 2s linear infinite;
+    background: linear-gradient(
+      228deg,
+      #c904ff 10.31%,
+      #d8066b 49%,
+      #ff941a 91.77%
+    );
+  }
+}
+
+.social-content h4 {
+  line-height: 1;
+}
+
 header {
   display: flex;
   align-items: center;
   gap: 1rem;
   position: sticky;
-  z-index: var(--z1);
+  z-index: var(--z2);
   top: 0;
   margin-bottom: 0.8rem;
 }
@@ -105,12 +228,13 @@ header:after {
 
 .thumbnail {
   border-radius: var(--border-radius--xs);
-  // border: 1.5px solid #fff;
-  box-shadow: var(--shadow--sm);
   width: 3rem;
   height: 2.4rem;
   object-fit: cover;
   object-position: top;
+  box-shadow: var(--shadow--sm);
+  content-visibility: auto;
+  contain-intrinsic-size: 800px 600px;
 }
 
 .title {
@@ -124,10 +248,6 @@ header:after {
   align-items: center;
   gap: 0.4rem;
 }
-
-// main {
-//   height: 100vh;
-// }
 
 h1,
 h2 {
@@ -152,6 +272,11 @@ section {
   padding: 1.8rem 0;
 }
 
+section:last-of-type {
+  border: none;
+  padding-bottom: 0;
+}
+
 h4 {
   font-weight: 600;
   font-size: 1.2rem;
@@ -174,6 +299,10 @@ a {
   align-items: top;
 }
 
+.updates-wrapper ul {
+  flex: 1;
+}
+
 img.updates-thumbnail {
   border-radius: var(--border-radius--md);
   border: 1.5px solid var(--color--primary);
@@ -183,16 +312,17 @@ img.updates-thumbnail {
   object-fit: cover;
   box-shadow: var(--shadow);
   pointer-events: none;
+  transform: translateY(-1rem);
 }
 
 li.commits:first-of-type {
-  margin-top: 0.4rem;
+  margin-top: 0.6rem;
 }
 
 li.commits {
-  margin-top: 1.3rem;
-  // max-width: 72ch;
+  margin-top: 0.8rem;
   line-height: 1.3;
+  // max-width: 72ch;
 }
 
 .commit-date {

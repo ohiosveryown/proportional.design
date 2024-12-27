@@ -2,6 +2,11 @@
   <ClientOnly>
     <Filter @sort="handleSort" @filter="handleFilter" />
 
+    <div class="expand-controls">
+      <button @click="expandAll">Expand all</button>
+      <button @click="collapseAll">Collapse all</button>
+    </div>
+
     <!-- No results message -->
     <p v-if="Object.keys(filteredPosts).length === 0" class="no-results">
       No posts match the selected filters
@@ -95,6 +100,28 @@
 
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
+
+.expand-controls {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.8rem;
+
+  button {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--border-radius--sm);
+    border: var(--border--light);
+    background: transparent;
+    color: var(--color--primary);
+    opacity: 0.76;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+}
 
 .filter-tags {
   position: relative;
@@ -444,5 +471,21 @@ const filteredPosts = computed(() => {
 
 const handleFilter = (tags) => {
   selectedTags.value = tags;
+};
+
+const expandAll = () => {
+  const directories = Object.keys(sortedPosts.value);
+  directories.forEach((directory) => {
+    openStates.value[directory] = true;
+  });
+  localStorage.setItem("directoryStates", JSON.stringify(openStates.value));
+};
+
+const collapseAll = () => {
+  const directories = Object.keys(sortedPosts.value);
+  directories.forEach((directory) => {
+    openStates.value[directory] = false;
+  });
+  localStorage.setItem("directoryStates", JSON.stringify(openStates.value));
 };
 </script>

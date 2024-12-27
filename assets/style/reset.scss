@@ -25,9 +25,11 @@
   --border-radius--md: 7px;
   --border-radius--lg: 11px;
   // bg
+  --bg--vlight: rgba(255, 255, 255, 0.32);
   --bg--light: rgba(255, 255, 255, 0.2);
   --bg:rgba(255, 255, 255, 0.1);
   --bg--dark: rgba(0, 0, 0, 0.32);
+  --bg--mdark: rgba(0, 0, 0, 0.72);
   --bg--vdark: rgba(0, 0, 0, 0.88);
   // shadow
   --shadow--inset: 0px -1px 0px 0px #000 inset,
