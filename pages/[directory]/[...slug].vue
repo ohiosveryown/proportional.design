@@ -98,13 +98,6 @@
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
-.aside {
-  display: none;
-  @include breakpoint(md) {
-    display: initial;
-  }
-}
-
 header {
   display: flex;
   align-items: center;
