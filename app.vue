@@ -11,10 +11,14 @@
 
 .app {
   display: flex;
+  flex-direction: column-reverse;
   gap: var(--unit);
   margin: 0 auto;
   max-width: 180rem;
   padding: var(--unit);
+  @include breakpoint(md) {
+    flex-direction: row;
+  }
 }
 
 .main {

@@ -24,10 +24,15 @@
           </section>
 
           <section class="inquiry">
-            <button>
-              <h4>Project Inquiry</h4>
-              <span class="email">Get in touch</span>
-            </button>
+            <a
+              href="https://caramel-plaster-82f.notion.site/1599d0f43b9881238f64e3211d43c345?pvs=105"
+              target="_blank"
+            >
+              <button>
+                <h4>Project Inquiry</h4>
+                <span class="email">Get in touch</span>
+              </button>
+            </a>
           </section>
 
           <section class="updates">
@@ -86,6 +91,10 @@ main {
 
 section.inquiry {
   padding: 0.4rem 0;
+}
+
+.inquiry a {
+  text-decoration: none;
 }
 
 .inquiry button {

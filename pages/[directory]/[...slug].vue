@@ -91,7 +91,10 @@
           <h1>Error: {{ error.message }}</h1>
         </template>
       </ContentDoc>
+      <LikeButton :post-id="route.path" />
     </ClientOnly>
+
+    <!-- <LikeButton /> -->
   </main>
 </template>
 
