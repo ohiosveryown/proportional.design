@@ -1,86 +1,76 @@
 <template>
-  <div class="app">
-    <App-Aside class="aside" />
+  <main class="main">
+    <ClientOnly>
+      <ContentDoc :path="path">
+        <template #empty>
+          <header>
+            <img
+              class="thumbnail"
+              src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735235844/proportional.design-3.0/icons/md_rufxgs.webp"
+              alt="markdown icon"
+            />
+            <div class="title">
+              <h1>index.md</h1>
+              <h2>December 20, 2024</h2>
+            </div>
+            <div class="meta">
+              <h3>Markdown</h3>
+            </div>
+          </header>
 
-    <main class="main">
-      <ClientOnly>
-        <ContentDoc :path="path">
-          <template #empty>
-            <header>
+          <section class="contact">
+            <h4>Contact</h4>
+            <p>hello@proportional.design</p>
+          </section>
+
+          <section class="inquiry">
+            <button>
+              <h4>Project Inquiry</h4>
+              <span class="email">Get in touch</span>
+            </button>
+          </section>
+
+          <section class="updates">
+            <h4>Recent updates</h4>
+            <div class="updates-wrapper">
+              <ul v-if="!loading">
+                <li class="commits" v-for="commit in commits" :key="commit.sha">
+                  <span class="commit-message">{{ commit.message }}</span>
+                  <span class="commit-date">{{ commit.date }}</span>
+                </li>
+              </ul>
+              <p v-else>Loading commits...</p>
               <img
-                class="thumbnail"
-                src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735235844/proportional.design-3.0/icons/md_rufxgs.webp"
-                alt="markdown icon"
+                class="updates-thumbnail"
+                :src="randomThumbnail"
+                alt="Thumbnail image"
               />
-              <div class="title">
-                <h1>index.md</h1>
-                <h2>December 20, 2024</h2>
-              </div>
-              <div class="meta">
-                <h3>Markdown</h3>
-              </div>
-            </header>
+            </div>
+          </section>
 
-            <section class="contact">
-              <h4>Contact</h4>
-              <p>hello@proportional.design</p>
-            </section>
+          <section class="social">
+            <div class="avatar-wrapper">
+              <img
+                class="avatar"
+                src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733875450/proportional.design-3.0/avatar_w_3x_j45unb.webp"
+                alt="proportional.design avatar"
+              />
+            </div>
+            <div class="social-content">
+              <h4>Social</h4>
+              <a href="http://instagram.com/proportional.design" target="_blank"
+                >proportional.design</a
+              >
+            </div>
+          </section>
 
-            <section class="inquiry">
-              <button>
-                <h4>Project Inquiry</h4>
-                <span class="email">Get in touch</span>
-              </button>
-            </section>
-
-            <section class="updates">
-              <h4>Recent updates</h4>
-              <div class="updates-wrapper">
-                <ul v-if="!loading">
-                  <li
-                    class="commits"
-                    v-for="commit in commits"
-                    :key="commit.sha"
-                  >
-                    <span class="commit-message">{{ commit.message }}</span>
-                    <span class="commit-date">{{ commit.date }}</span>
-                  </li>
-                </ul>
-                <p v-else>Loading commits...</p>
-                <img
-                  class="updates-thumbnail"
-                  :src="randomThumbnail"
-                  alt="Thumbnail image"
-                />
-              </div>
-            </section>
-
-            <section class="social">
-              <div class="avatar-wrapper">
-                <img
-                  class="avatar"
-                  src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733875450/proportional.design-3.0/avatar_w_3x_j45unb.webp"
-                  alt="proportional.design avatar"
-                />
-              </div>
-              <div class="social-content">
-                <h4>Social</h4>
-                <a
-                  href="http://instagram.com/proportional.design"
-                  target="_blank"
-                  >proportional.design</a
-                >
-              </div>
-            </section>
-
-            <section>
-              <Table />
-            </section>
-          </template>
-        </ContentDoc>
-      </ClientOnly>
-    </main>
-  </div>
+          <section>
+            <Table />
+          </section>
+        </template>
+      </ContentDoc>
+    </ClientOnly>
+  </main>
 </template>
 
 <style lang="scss" scoped>
@@ -338,6 +328,10 @@ li.commits {
 </style>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "default",
+});
+
 const route = useRoute();
 const path = computed(() => {
   return route.params.slug ? `/${route.params.slug.join("/")}` : "/";

@@ -1,5 +1,8 @@
 <template>
-  <NuxtPage />
+  <div class="app">
+    <App-Aside />
+    <NuxtPage />
+  </div>
 </template>
 
 <style lang="scss">

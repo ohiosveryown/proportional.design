@@ -59,10 +59,12 @@ aside {
   overflow-y: scroll;
   @include breakpoint(md) {
     flex: inherit;
+    min-width: 32rem;
     width: 32rem;
     max-height: calc(100vh - 2.4rem);
   }
   @include breakpoint(lg) {
+    min-width: 40rem;
     width: 40rem;
     opacity: 1;
   }

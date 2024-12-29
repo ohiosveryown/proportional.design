@@ -1,102 +1,98 @@
 <template>
-  <div class="app">
-    <App-Aside class="aside" />
-
-    <main class="main">
-      <ClientOnly>
-        <ContentDoc :path="contentPath">
-          <template #default="{ doc }">
-            <header>
-              <img class="thumbnail" :src="doc.icon" :alt="doc.title" />
-              <div class="title">
-                <h1>{{ doc.title }}</h1>
-                <h2>{{ doc.date }}</h2>
-              </div>
-              <div class="meta">
-                <h3>{{ doc.type }} –</h3>
-                <h4>{{ doc.size }}</h4>
-                <NuxtLink to="/" class="close">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="17"
-                    height="14.5"
-                    fill="none"
+  <main class="main">
+    <ClientOnly>
+      <ContentDoc :path="contentPath">
+        <template #default="{ doc }">
+          <header>
+            <img class="thumbnail" :src="doc.icon" :alt="doc.title" />
+            <div class="title">
+              <h1>{{ doc.title }}</h1>
+              <h2>{{ doc.date }}</h2>
+            </div>
+            <div class="meta">
+              <h3>{{ doc.type }} –</h3>
+              <h4>{{ doc.size }}</h4>
+              <NuxtLink to="/" class="close">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="17"
+                  height="14.5"
+                  fill="none"
+                >
+                  <g
+                    stroke="#fff"
+                    stroke-linecap="round"
+                    stroke-width="1.5"
+                    opacity=".56"
                   >
-                    <g
-                      stroke="#fff"
-                      stroke-linecap="round"
-                      stroke-width="1.5"
-                      opacity=".56"
-                    >
-                      <path d="m4.637 4 8 8M12.637 4l-8 8" />
-                    </g>
-                  </svg>
-                </NuxtLink>
-              </div>
-            </header>
+                    <path d="m4.637 4 8 8M12.637 4l-8 8" />
+                  </g>
+                </svg>
+              </NuxtLink>
+            </div>
+          </header>
 
-            <figure>
-              <img
-                v-if="doc.type === 'photo'"
-                class="hero"
-                :src="doc.icon"
-                :alt="doc.title"
-              />
-              <video
-                v-else-if="doc.type === 'mp4'"
-                class="hero"
-                :src="doc.icon"
-                controls
-                muted
-                loop
-              ></video>
-            </figure>
+          <figure>
+            <img
+              v-if="doc.type === 'photo'"
+              class="hero"
+              :src="doc.icon"
+              :alt="doc.title"
+            />
+            <video
+              v-else-if="doc.type === 'mp4'"
+              class="hero"
+              :src="doc.icon"
+              controls
+              muted
+              loop
+            ></video>
+          </figure>
 
-            <section>
-              <div class="details">
-                <details open>
-                  <summary>project</summary>
-                  <span class="project">{{ doc.project }}</span>
-                </details>
-
-                <details open>
-                  <summary>date</summary>
-                  <span class="date">{{ doc.date }}</span>
-                </details>
-
-                <details open>
-                  <summary>tags</summary>
-                  <ul class="tags">
-                    <li v-for="tag in doc.tags" :key="tag" class="tag">
-                      {{ tag }}
-                    </li>
-                  </ul>
-                </details>
-              </div>
-
-              <details class="comments" open>
-                <summary>comments</summary>
-                <article :class="`${route.params.directory}-content`">
-                  <ContentRenderer :value="doc" />
-                </article>
+          <section>
+            <div class="details">
+              <details open>
+                <summary>project</summary>
+                <span class="project">{{ doc.project }}</span>
               </details>
-            </section>
-          </template>
 
-          <!-- misc templates -->
-          <template #not-found>
-            <h1>Content not found</h1>
-          </template>
-          <template #loading>
-            <p>Loading...</p>
-          </template>
-          <template #error="{ error }">
-            <h1>Error: {{ error.message }}</h1>
-          </template>
-        </ContentDoc>
-      </ClientOnly>
-    </main>
-  </div>
+              <details open>
+                <summary>date</summary>
+                <span class="date">{{ doc.date }}</span>
+              </details>
+
+              <details open>
+                <summary>tags</summary>
+                <ul class="tags">
+                  <li v-for="tag in doc.tags" :key="tag" class="tag">
+                    {{ tag }}
+                  </li>
+                </ul>
+              </details>
+            </div>
+
+            <details class="comments" open>
+              <summary>comments</summary>
+              <article :class="`${route.params.directory}-content`">
+                <ContentRenderer :value="doc" />
+              </article>
+            </details>
+          </section>
+        </template>
+
+        <!-- misc templates -->
+        <template #not-found>
+          <h1>Content not found</h1>
+        </template>
+        <template #loading>
+          <p>Loading...</p>
+        </template>
+        <template #error="{ error }">
+          <h1>Error: {{ error.message }}</h1>
+        </template>
+      </ContentDoc>
+    </ClientOnly>
+  </main>
 </template>
 
 <style lang="scss" scoped>
