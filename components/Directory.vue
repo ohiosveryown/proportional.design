@@ -2,11 +2,10 @@
   <ClientOnly>
     <Filter @sort="handleSort" @filter="handleFilter" />
 
-    <!-- <ExpandControl /> -->
-
     <!-- No results message -->
     <p v-if="Object.keys(filteredPosts).length === 0" class="no-results">
-      No posts match the selected filters
+      Looks like we came up empty. Try removing some filters to see more content
+      👍.
     </p>
 
     <details
