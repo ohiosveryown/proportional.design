@@ -2,12 +2,7 @@
   <ClientOnly>
     <Filter @sort="handleSort" @filter="handleFilter" />
 
-    <!-- <div class="expand-controls">
-      <button @click="expandAll">Expand all</button>
-      <button @click="collapseAll">Collapse all</button>
-    </div> -->
-
-    <ExpandControl />
+    <!-- <ExpandControl /> -->
 
     <!-- No results message -->
     <p v-if="Object.keys(filteredPosts).length === 0" class="no-results">

@@ -346,6 +346,7 @@ const thumbnails = [
   "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232374/proportional.design-3.0/index-thumbnails/02_lvzqot.webp",
   "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232376/proportional.design-3.0/index-thumbnails/03_sa9wcp.webp",
   "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232463/proportional.design-3.0/index-thumbnails/04_y6rpgd.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735449108/proportional.design-3.0/index-thumbnails/proprotional.design_httpss.mj.run8u_CeAZHM1E_can_you_place_a__05a055af-be2c-4ee5-a722-ff3af8fd827e_1_vqeojd.webp",
 ];
 
 const randomThumbnail = computed(() => {

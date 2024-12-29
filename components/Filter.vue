@@ -25,7 +25,9 @@
         <span class="dot" :class="{ 'is-active': hasActiveFilters }" />
       </div>
 
-      <button
+      <ExpandControl />
+
+      <!-- <button
         class="expand-all"
         @click="directoryControls.expandAll"
         title="Expand"
@@ -50,9 +52,9 @@
             clip-rule="evenodd"
           />
         </svg>
-      </button>
+      </button> -->
 
-      <button
+      <!-- <button
         class="collapse-all"
         @click="directoryControls.collapseAll"
         title="Collapse"
@@ -77,7 +79,7 @@
             clip-rule="evenodd"
           />
         </svg>
-      </button>
+      </button> -->
     </div>
 
     <div
@@ -164,6 +166,7 @@
 .tools {
   display: flex;
   align-items: center;
+  gap: 0.2rem;
   margin-bottom: 0.7rem;
   width: 100%;
   padding-right: 1.1rem;

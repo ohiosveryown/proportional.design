@@ -30,18 +30,19 @@
 <style lang="scss" scoped>
 .segmented-control {
   display: inline-flex;
-  background: var(--bg--dark);
-  padding: 0.4rem;
-  border-radius: 100px;
+  padding: 0.5rem;
   gap: 0.4rem;
+  border-radius: 100px;
+  background: var(--bg--dark);
 
   button {
-    padding: 0.6rem 1.2rem;
+    border: 0.5px solid transparent;
     border-radius: 100px;
-    border: none;
+    padding: 0.2rem 0.6rem 0.3rem;
     background: transparent;
-    color: var(--color-text);
-    font-size: 1.4rem;
+    color: var(--color--primary);
+    font-weight: 400;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.2s ease;
     opacity: 0.76;
@@ -51,6 +52,7 @@
     }
 
     &.active {
+      border: var(--border);
       background: var(--bg--light);
       opacity: 1;
     }
