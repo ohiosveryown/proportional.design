@@ -43,7 +43,7 @@
     color: var(--color--primary);
     font-weight: 400;
     font-size: 1.2rem;
-    letter-spacing: -0.01rem;
+    letter-spacing: -0rem;
     cursor: pointer;
     transition: all 0.2s ease;
     opacity: 0.76;
