@@ -24,6 +24,7 @@
         <span class="op-7">Filter</span>
         <span class="dot" :class="{ 'is-active': hasActiveFilters }" />
       </div>
+      <SegmentedControl />
     </div>
 
     <div
