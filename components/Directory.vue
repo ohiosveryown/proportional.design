@@ -1,6 +1,11 @@
 <template>
   <ClientOnly>
-    <Filter @sort="handleSort" @filter="handleFilter" />
+    <Filter
+      @sort="handleSort"
+      @filter="handleFilter"
+      :directoryControls="{ expandAll, collapseAll }"
+      :isCollapsed="isCollapsed"
+    />
 
     <!-- No results message -->
     <p v-if="Object.keys(filteredPosts).length === 0" class="no-results">
@@ -346,7 +351,6 @@ a {
   font-size: 1.4rem;
 }
 </style>
-
 <script setup>
 const { data: posts } = await useAsyncData("posts", () =>
   queryContent().where({ _partial: false }).find()
@@ -356,7 +360,6 @@ const route = useRoute();
 const sortBy = ref("updated");
 const openStates = ref({});
 const selectedTags = ref(["all"]);
-const expandState = ref("mixed");
 
 // Load saved states on mount
 onMounted(() => {
@@ -470,44 +473,25 @@ const handleFilter = (tags) => {
   selectedTags.value = tags;
 };
 
+const isCollapsed = ref(false);
+
 const expandAll = () => {
-  expandState.value = "expanded";
-  Object.keys(openStates.value).forEach((directory) => {
+  const directories = Object.keys(sortedPosts.value);
+  directories.forEach((directory) => {
     openStates.value[directory] = true;
   });
   localStorage.setItem("directoryStates", JSON.stringify(openStates.value));
 };
 
 const collapseAll = () => {
-  expandState.value = "collapsed";
-  Object.keys(openStates.value).forEach((directory) => {
+  const directories = Object.keys(sortedPosts.value);
+  directories.forEach((directory) => {
     openStates.value[directory] = false;
   });
   localStorage.setItem("directoryStates", JSON.stringify(openStates.value));
 };
 
-// Watch for changes in openStates
-watch(
-  openStates,
-  (newStates) => {
-    const stateValues = Object.values(newStates);
-
-    // Only update if we have some states to check
-    if (stateValues.length > 0) {
-      if (stateValues.every((state) => state === true)) {
-        expandState.value = "expanded";
-      } else if (stateValues.every((state) => state === false)) {
-        expandState.value = "collapsed";
-      } else {
-        expandState.value = "mixed";
-      }
-    }
-  },
-  { deep: true }
-);
-
 provide("directoryControls", {
-  expandState,
   expandAll,
   collapseAll,
 });

@@ -24,7 +24,61 @@
         <span class="op-7">Filter</span>
         <span class="dot" :class="{ 'is-active': hasActiveFilters }" />
       </div>
-      <SegmentedControl />
+
+      <button
+        class="expand-all"
+        @click="directoryControls.expandAll"
+        title="Expand"
+        aria-label="Expand"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+        >
+          <path
+            stroke="#fff"
+            stroke-linecap="round"
+            stroke-width="1.5"
+            d="M10 8V3M7.5 5 10 2.5 12.5 5M10 12v5M7.5 15l2.5 2.5 2.5-2.5"
+          />
+          <path
+            fill="#fff"
+            fill-rule="evenodd"
+            d="M15 5.5h1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-1V16h1a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1v1.5Zm-10 0V4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h1v-1.5H4a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 .5-.5h1Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+
+      <button
+        class="collapse-all"
+        :class="{ 'expand-all--active': isCollapsed }"
+        @click="directoryControls.collapseAll"
+        title="Collapse"
+        aria-label="Collapse"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+        >
+          <path
+            stroke="#fff"
+            stroke-linecap="round"
+            stroke-width="1.5"
+            d="M10 2.5v5M7.5 5.5 10 8l2.5-2.5M10 17.5v-5M7.5 14.5 10 12l2.5 2.5"
+          />
+          <path
+            fill="#fff"
+            fill-rule="evenodd"
+            d="M15 5.5h1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-1V16h1a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1v1.5Zm-10 0V4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h1v-1.5H4a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 .5-.5h1Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
     </div>
 
     <div
@@ -108,10 +162,13 @@
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
+.expand-all--active {
+  border: 1px solid red !important;
+}
+
 .tools {
   display: flex;
   align-items: center;
-  gap: 0.2rem;
   margin-bottom: 0.7rem;
   width: 100%;
   padding-right: 1.1rem;
@@ -183,6 +240,12 @@ menu {
       transform: translate(0.2rem, 0.15rem) scale(1);
     }
   }
+}
+
+button.expand-all,
+button.collapse-all {
+  display: grid;
+  place-items: center;
 }
 
 .popover {
@@ -327,6 +390,28 @@ input[type="checkbox"] {
     }
   }
 }
+
+.expand-all,
+.collapse-all {
+  position: relative;
+
+  &:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.4rem 0.4rem;
+    background: var(--bg--dark);
+    border: var(--border--light);
+    border-radius: var(--border-radius--sm);
+    font-size: 1.2rem;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+  }
+}
 </style>
 
 <script setup>
@@ -403,6 +488,17 @@ const handleScroll = (e) => {
     isOpen.value = false;
   }
 };
+
+const props = defineProps({
+  directoryControls: {
+    type: Object,
+    required: true,
+  },
+  isCollapsed: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 onMounted(async () => {
   await fetchTags();

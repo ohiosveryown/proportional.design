@@ -323,7 +323,7 @@ li.commits:first-of-type {
 }
 
 li.commits {
-  margin-top: 0.8rem;
+  margin-top: 1.2rem;
   line-height: 1.3;
   // max-width: 72ch;
 }
