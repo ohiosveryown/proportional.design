@@ -1,6 +1,6 @@
 <template>
   <div>
-    <details v-for="(posts, directory) in groupedPosts" :key="directory">
+    <details v-for="(posts, directory) in sortedPosts" :key="directory">
       <summary>
         <span class="folder" />
         <h3>{{ directory }}</h3>
@@ -81,7 +81,7 @@ summary {
   gap: 0.4rem;
   margin: 0 calc(var(--unit) * 0.5);
   border-radius: var(--radius-md);
-  padding: 0.5rem 1.1rem 0.5rem 0.4rem;
+  padding: 0.5rem 1.1rem 0.5rem 0.5rem;
   overflow: hidden;
   transition: background var(--ease);
 }
@@ -171,11 +171,17 @@ interface Post {
   title: string;
   status: "finished" | "wip";
   icon?: string;
+  date?: number;
 }
 
-const { data: posts } = useAsyncData<Post[]>("posts", () =>
-  queryContent<Post>().find()
-);
+const { data: posts } = useAsyncData<Post[]>("posts", async () => {
+  const posts = await queryContent<Post>().find();
+
+  return posts.map((post) => ({
+    ...post,
+    date: post.date ? Date.parse(post.date) : 0,
+  }));
+});
 
 // Group posts by directory and status
 const groupedPosts = computed(() => {
@@ -193,5 +199,47 @@ const groupedPosts = computed(() => {
   });
 
   return groups;
+});
+
+// Add sort method prop
+const props = defineProps<{
+  sortMethod: string;
+}>();
+
+// Modify the computed property to include sorting
+const sortedPosts = computed(() => {
+  const groups = groupedPosts.value;
+  const entries = Object.entries(groups);
+
+  const sorted = entries.sort(([dirA], [dirB]) => {
+    switch (props.sortMethod) {
+      case "za":
+        return dirB.localeCompare(dirA);
+      case "newest":
+        const postsA = groups[dirA].finished.concat(groups[dirA].wip);
+        const postsB = groups[dirB].finished.concat(groups[dirB].wip);
+        const newestA = Math.max(...postsA.map((p) => p.date || 0));
+        const newestB = Math.max(...postsB.map((p) => p.date || 0));
+        return newestB - newestA;
+      case "oldest":
+        const oldestA = Math.min(
+          ...groups[dirA].finished
+            .concat(groups[dirA].wip)
+            .map((p) => p.date || 0)
+        );
+        const oldestB = Math.min(
+          ...groups[dirB].finished
+            .concat(groups[dirB].wip)
+            .map((p) => p.date || 0)
+        );
+        return oldestA - oldestB;
+      case "az":
+      default:
+        return dirA.localeCompare(dirB);
+    }
+  });
+
+  // Convert back to object
+  return Object.fromEntries(sorted);
 });
 </script>

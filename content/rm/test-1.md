@@ -1,6 +1,7 @@
 ---
 title: test--01.jpg
-date: "december 22, 2024"
+# date: "december 22, 2024"
+date: 2024-03-20
 type: "photo"
 size: "0.25 mb"
 project: "hiro chair #1"

@@ -173,6 +173,9 @@ article li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: var(--z1);
   border-bottom: var(--border);
   padding: var(--unit);
   background-color: var(--bg-vdark);

@@ -41,7 +41,14 @@
       </h2>
     </header>
 
-    <Directory />
+    <Filter
+      @toggle="toggleAll"
+      :is-expanded="allExpanded"
+      :is-collapsed="allCollapsed"
+      :sort="sortMethod"
+      @update:sort="sortMethod = $event"
+    />
+    <Directory :sort-method="sortMethod" />
   </aside>
 </template>
 
@@ -60,11 +67,6 @@ aside.container {
     width: 40rem;
     opacity: 1;
   }
-}
-
-nav {
-  position: sticky;
-  top: 0;
 }
 
 nav .logo {
@@ -114,6 +116,10 @@ nav menu button {
   opacity: 0.48;
 }
 
+nav menu a.contact {
+  margin-top: -0.3rem;
+}
+
 nav menu a.contact::before {
   content: "View contact page";
   position: absolute;
@@ -161,4 +167,32 @@ nav ~ header h2 {
 }
 </style>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// segmented controls
+const allExpanded = ref(false);
+const allCollapsed = ref(true);
+const updateButtonStates = () => {
+  const details = document.querySelectorAll("details");
+  allExpanded.value = Array.from(details).every((detail) => detail.open);
+  allCollapsed.value = Array.from(details).every((detail) => !detail.open);
+};
+const toggleAll = (expanded: boolean) => {
+  document.querySelectorAll("details").forEach((detail) => {
+    detail.open = expanded;
+  });
+  updateButtonStates();
+};
+
+onMounted(() => {
+  // segmented controls
+  document.addEventListener("toggle", updateButtonStates, true);
+});
+
+onUnmounted(() => {
+  // segmented controls
+  document.removeEventListener("toggle", updateButtonStates, true);
+});
+
+// Sorting
+const sortMethod = ref("newest");
+</script>
