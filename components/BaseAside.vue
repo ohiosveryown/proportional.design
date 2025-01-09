@@ -1,6 +1,6 @@
 <template>
   <aside class="container">
-    <header>
+    <nav class="">
       <nuxt-link to="/">
         <div class="logo" />
       </nuxt-link>
@@ -24,9 +24,9 @@
           </svg>
         </button>
       </menu>
-    </header>
+    </nav>
 
-    <section>
+    <header>
       <h1>
         <title>proportional.design</title>
         <img
@@ -39,7 +39,7 @@
         A small-fry studio based in Atlanta, Ga building functional objects
         🎨🍑🪑.
       </h2>
-    </section>
+    </header>
 
     <Directory />
   </aside>
@@ -47,12 +47,27 @@
 
 <style lang="scss">
 @use "/assets/style/grid.scss" as *;
+
 aside.container {
-  max-width: 40rem;
-  width: 40rem;
+  @include breakpoint(md) {
+    flex: inherit;
+    min-width: 32rem;
+    width: 32rem;
+    max-height: calc(100vh - 2rem);
+  }
+  @include breakpoint(lg) {
+    min-width: 40rem;
+    width: 40rem;
+    opacity: 1;
+  }
 }
 
-header .logo {
+nav {
+  position: sticky;
+  top: 0;
+}
+
+nav .logo {
   display: block;
   position: relative;
   border-radius: var(--radius-md);
@@ -75,12 +90,12 @@ header .logo {
   background: #1dda0f;
 }
 
-header menu {
+nav menu {
   display: flex;
   align-items: center;
 }
 
-header menu a {
+nav menu a {
   position: relative;
   border-right: 0.5px solid rgba(255, 255, 255, 1);
   margin-right: calc(var(--unit) * 1.25);
@@ -89,17 +104,17 @@ header menu a {
   opacity: 0.56;
 }
 
-header menu a:hover {
+nav menu a:hover {
   opacity: 1;
   transition: opacity 0.2s ease;
 }
 
-header menu button {
+nav menu button {
   padding-right: calc(var(--unit) * 0.5);
   opacity: 0.48;
 }
 
-header menu a.contact::before {
+nav menu a.contact::before {
   content: "View contact page";
   position: absolute;
   bottom: 0;
@@ -116,13 +131,13 @@ header menu a.contact::before {
   transform: translate(-50%, 3rem);
 }
 
-header menu a.contact:hover::before {
+nav menu a.contact:hover::before {
   opacity: 0.76;
   transform: translate(-50%, 4rem);
   transition: all 0.2s ease;
 }
 
-section {
+nav ~ header {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -131,7 +146,7 @@ section {
   padding: 2.4rem 0 2rem;
 }
 
-section .logotype {
+nav ~ header .logotype {
   width: 46%;
   @include breakpoint(md) {
     width: 64%;
@@ -141,7 +156,7 @@ section .logotype {
   }
 }
 
-section h2 {
+nav ~ header h2 {
   opacity: 0.76;
 }
 </style>

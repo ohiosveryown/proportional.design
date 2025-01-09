@@ -2,29 +2,67 @@
   <div>
     <details v-for="(posts, directory) in groupedPosts" :key="directory">
       <summary>
+        <span class="folder" />
         <h3>{{ directory }}</h3>
+        <svg
+          class="chevron"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+        >
+          <path
+            stroke="#fff"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.25"
+            d="m7.75 5.5 4.5 4.5-4.5 4.5"
+          />
+        </svg>
       </summary>
 
       <section v-if="posts.finished.length" class="media-finished">
         <header>
+          <svg width="20" height="20" fill="none">
+            <path
+              fill="#fff"
+              fill-rule="evenodd"
+              d="M1.5 4.75c0-.69.56-1.25 1.25-1.25h6.5c.69 0 1.25.56 1.25 1.25v3.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-3.5ZM12.75 5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h4.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25h-4.5Zm-3.5 5.5c.69 0 1.25.56 1.25 1.25v2.5c0 .69-.56 1.25-1.25 1.25H3.6c-.69 0-1.25-.56-1.25-1.25v-2.5c0-.69.56-1.25 1.25-1.25h5.65Z"
+              clip-rule="evenodd"
+            />
+          </svg>
           <h4>Finished media</h4>
         </header>
 
         <ul>
           <li v-for="post in posts.finished" :key="post._path">
-            <NuxtLink :to="post._path">{{ post.title }}</NuxtLink>
+            <NuxtLink :to="post._path">
+              <img class="thumbnail" :src="post.icon" :alt="post.title" />
+              <span class="title">{{ post.title }}</span>
+            </NuxtLink>
           </li>
         </ul>
       </section>
 
       <section v-if="posts.wip.length" class="media-in-progress">
         <header>
+          <svg width="20" height="20" fill="none">
+            <path
+              fill="#fff"
+              fill-rule="evenodd"
+              d="M1.5 4.75c0-.69.56-1.25 1.25-1.25h6.5c.69 0 1.25.56 1.25 1.25v3.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-3.5ZM12.75 5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h4.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25h-4.5Zm-3.5 5.5c.69 0 1.25.56 1.25 1.25v2.5c0 .69-.56 1.25-1.25 1.25H3.6c-.69 0-1.25-.56-1.25-1.25v-2.5c0-.69.56-1.25 1.25-1.25h5.65Z"
+              clip-rule="evenodd"
+            />
+          </svg>
           <h4>WIP media</h4>
         </header>
 
         <ul>
           <li v-for="post in posts.wip" :key="post._path">
-            <NuxtLink :to="post._path">{{ post.title }}</NuxtLink>
+            <NuxtLink :to="post._path">
+              <img class="thumbnail" :src="post.icon" :alt="post.title" />
+              <span class="title">{{ post.title }}</span>
+            </NuxtLink>
           </li>
         </ul>
       </section>
@@ -32,13 +70,107 @@
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 calc(var(--unit) * 0.5);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1.1rem 0.5rem 0.4rem;
+  overflow: hidden;
+  transition: background var(--ease);
+}
+
+summary:hover,
+a:hover {
+  background: var(--bg-vdark);
+}
+
+details .folder {
+  width: 3.6rem;
+  height: 2.8rem;
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733929950/folder-sprite_3x_ajronm.webp")
+    no-repeat 0.75px -0.5px;
+  background-size: cover;
+}
+
+details[open] .folder {
+  width: 3.6rem;
+  height: 2.8rem;
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733929950/folder-sprite_3x_ajronm.webp")
+    no-repeat -35px -0.5px;
+  background-size: cover;
+}
+
+details .chevron {
+  opacity: 0.88;
+}
+
+details[open] .chevron {
+  transform: rotate(90deg);
+}
+
+summary h3,
+span.title {
+  flex: 1;
+  font-size: var(--font);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+summary svg {
+  margin-top: 0.16rem;
+}
+
+section header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0 0.7rem 5rem;
+  opacity: 0.76;
+}
+
+section h4 {
+  font-size: var(--font-xs);
+  text-transform: uppercase;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+a {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0.8rem;
+  margin: 0 calc(var(--unit) * 0.5);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 1.1rem 0.7rem 4rem;
+  font-size: var(--font-sm);
+  overflow: hidden;
+  transition: background var(--ease);
+}
+
+.thumbnail {
+  width: 3rem;
+  height: 2.4rem;
+  border-radius: var(--radius-xs);
+  border: 1.5px solid var(--color-font);
+  object-fit: cover;
+  box-shadow: var(--shadow-sm);
+}
+</style>
 
 <script setup lang="ts">
 interface Post {
   _path: string;
   title: string;
   status: "finished" | "wip";
+  icon?: string;
 }
 
 const { data: posts } = useAsyncData<Post[]>("posts", () =>

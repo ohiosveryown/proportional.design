@@ -1,8 +1,8 @@
 <template>
   <main class="main">
-    <header>
+    <nav class="">
       <h1>Main</h1>
-    </header>
+    </nav>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
     </p>
