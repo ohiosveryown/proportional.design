@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '/': { prerender: true }
   },
     // global styles
-  css: ["./assets/style/reset.scss", "./assets/style/type.scss"],
+  css: ["./assets/style/reset.scss"],
   // content
   content: {
     documentDriven: true,
