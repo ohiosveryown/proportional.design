@@ -19,4 +19,10 @@
     flex-direction: row;
   }
 }
+
+.container {
+  @include breakpoint(md) {
+    max-height: calc(100vh - 2.4rem);
+  }
+}
 </style>

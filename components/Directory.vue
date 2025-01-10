@@ -1,6 +1,11 @@
 <template>
   <div>
-    <details v-for="(posts, directory) in sortedPosts" :key="directory">
+    <details
+      v-for="(posts, directory) in sortedPosts"
+      :key="directory"
+      :open="openDirectories[directory]"
+      @toggle="toggleDirectory(directory, $event)"
+    >
       <summary>
         <span class="folder" />
         <h3>{{ directory }}</h3>
@@ -35,7 +40,11 @@
         </header>
 
         <ul>
-          <li v-for="post in posts.finished" :key="post._path">
+          <li
+            v-for="post in posts.finished"
+            :key="post._path"
+            :class="{ active: $route.path === post._path }"
+          >
             <NuxtLink :to="post._path">
               <img class="thumbnail" :src="post.icon" :alt="post.title" />
               <span class="title">{{ post.title }}</span>
@@ -58,7 +67,11 @@
         </header>
 
         <ul>
-          <li v-for="post in posts.wip" :key="post._path">
+          <li
+            v-for="post in posts.wip"
+            :key="post._path"
+            :class="{ active: $route.path === post._path }"
+          >
             <NuxtLink :to="post._path">
               <img class="thumbnail" :src="post.icon" :alt="post.title" />
               <span class="title">{{ post.title }}</span>
@@ -165,6 +178,10 @@ a {
   object-fit: cover;
   box-shadow: var(--shadow-sm);
 }
+
+li.active a {
+  background: var(--bg-light);
+}
 </style>
 
 <script setup lang="ts">
@@ -266,4 +283,31 @@ const sortedPosts = computed(() => {
   // Convert back to object
   return Object.fromEntries(sorted);
 });
+
+// Add state management for open directories
+const openDirectories = useState("directory-state", () => ({}));
+
+onMounted(() => {
+  const stored = localStorage.getItem("directory-state");
+  if (stored) {
+    openDirectories.value = JSON.parse(stored);
+  }
+});
+
+// Handle directory toggling
+function toggleDirectory(directory: string, event: Event) {
+  const isOpen = (event.target as HTMLDetailsElement).open;
+
+  openDirectories.value = {
+    ...openDirectories.value,
+    [directory]: isOpen,
+  };
+
+  if (process.client) {
+    localStorage.setItem(
+      "directory-state",
+      JSON.stringify(openDirectories.value)
+    );
+  }
+}
 </script>

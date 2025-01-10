@@ -171,7 +171,7 @@ article li {
   padding-bottom: 0.7rem;
   height: max-content;
   background: var(--bg-vdark);
-  box-shadow: var(--shadow-inset), var(--shadow-heavy);
+  box-shadow: var(--shadow-inset);
   overflow-y: scroll;
 }
 
@@ -185,7 +185,7 @@ article li {
   border-bottom: var(--border);
   padding: var(--unit);
   background: rgb(0,0,0,0.2);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(50px);
 }
 
 // a11y

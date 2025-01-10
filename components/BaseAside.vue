@@ -6,23 +6,44 @@
       </nuxt-link>
 
       <menu>
-        <a
-          class="contact"
-          href="https://www.notion.so/1599d0f43b9881238f64e3211d43c345?pvs=106"
-          target="_blank"
-          >Contact</a
-        >
-
         <button class="search">
           <svg width="16" height="16" fill="none">
             <path
               fill="#fff"
               fill-rule="evenodd"
-              d="M12.933 9.99a4.898 4.898 0 1 1-7.062-6.787 4.898 4.898 0 0 1 7.062 6.788Zm-8.005 1.228a6.529 6.529 0 1 0-.146-.146l-.504-.504L.24 14.607a.815.815 0 1 0 1.154 1.154l4.04-4.04-.505-.503Z"
+              d="M11.392 9.369A3.366 3.366 0 0 1 5.873 5.7a3.367 3.367 0 1 1 5.519 3.668Zm-5.504.843a4.488 4.488 0 1 0-.1-.1l-.347-.347-2.777 2.777a.56.56 0 1 0 .794.794l2.777-2.777-.347-.347Z"
               clip-rule="evenodd"
+              opacity=".5"
             />
           </svg>
+          <span>Search</span>
         </button>
+
+        <a
+          href="https://www.notion.so/1599d0f43b9881238f64e3211d43c345?pvs=106"
+          target="_blank"
+        >
+          <button class="contact">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g opacity="0.5">
+                <path
+                  d="M2.33325 4L7.38532 8.2544C7.75919 8.5692 8.30592 8.56767 8.67799 8.2506L13.6666 4M2.83325 13.1667H13.1666C13.7189 13.1667 14.1666 12.7189 14.1666 12.1667V4.5C14.1666 3.94771 13.7189 3.5 13.1666 3.5H2.83325C2.28097 3.5 1.83325 3.94771 1.83325 4.5V12.1667C1.83325 12.7189 2.28097 13.1667 2.83325 13.1667Z"
+                  stroke="#E6E6E6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </svg>
+
+            <span>Contact</span>
+          </button>
+        </a>
       </menu>
     </nav>
 
@@ -36,7 +57,7 @@
         />
       </h1>
       <h2>
-        A small-fry studio based in Atlanta, Ga building functional objects
+        A small-fry studio based in Atlanta, Ga building functional furniture
         🎨🍑🪑.
       </h2>
     </header>
@@ -62,7 +83,7 @@ aside.container {
     flex: inherit;
     min-width: 32rem;
     width: 32rem;
-    max-height: calc(100vh - 2rem);
+    max-height: calc(100vh - 2.4rem);
   }
   @include breakpoint(lg) {
     min-width: 40rem;
@@ -99,50 +120,34 @@ nav menu {
   align-items: center;
 }
 
-nav menu a {
-  position: relative;
-  border-right: 0.5px solid rgba(255, 255, 255, 1);
-  margin-right: calc(var(--unit) * 1.25);
-  padding-right: calc(var(--unit) * 1.25);
+menu button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0rem;
+  border-radius: var(--radius-xl);
+  padding: 0.6rem 1.7rem 0.7rem 1rem;
+  cursor: default;
+}
+
+menu button span {
+  font-size: var(--font-xs);
   font-weight: 500;
-  opacity: 0.56;
+  letter-spacing: -0.025rem;
 }
 
-nav menu a:hover {
-  opacity: 1;
-  transition: opacity 0.2s ease;
+menu button.contact {
+  background: var(--bg-vdark);
+  transition: box-shadow 300ms ease;
+  box-shadow: rgba(134, 143, 151, 0.2) 0px 0px 0px 0.25px inset,
+    rgba(134, 143, 151, 0.72) 1px 1px 0px -0.5px inset,
+    rgba(134, 143, 151, 0.72) -1px -1px 0px -0.5px inset;
 }
 
-nav menu button {
-  padding-right: calc(var(--unit) * 0.5);
-  opacity: 0.48;
-}
-
-nav menu a.contact {
-  margin-top: -0.3rem;
-}
-
-nav menu a.contact::before {
-  content: "View contact page";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  border-radius: var(--radius-sm);
-  padding: 0.4rem 0.75rem 0.5rem;
-  font-size: var(--font-sm);
-  font-weight: 400;
-  background: var(--bg);
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  box-shadow: var(--shadow);
-  transform: translate(-50%, 3rem);
-}
-
-nav menu a.contact:hover::before {
-  opacity: 0.76;
-  transform: translate(-50%, 4rem);
-  transition: all 0.2s ease;
+menu button.contact:hover {
+  box-shadow: rgba(134, 143, 151, 0.7) 0px 0px 0px 0.25px inset,
+    rgba(134, 143, 151, 0.9) 1px 1px 0px -0.5px inset,
+    rgba(134, 143, 151, 0.9) -1px -1px 0px -0.5px inset;
 }
 
 nav ~ header {
