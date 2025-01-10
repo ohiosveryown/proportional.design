@@ -88,7 +88,7 @@ summary {
 
 summary:hover,
 a:hover {
-  background: var(--bg-vdark);
+  background: var(--bg-dark);
 }
 
 details .folder {
@@ -174,6 +174,7 @@ interface Post {
   status: "finished" | "wip";
   icon?: string;
   date?: number;
+  tags?: string[];
 }
 
 const { data: posts } = useAsyncData<Post[]>("posts", async () => {
@@ -206,14 +207,35 @@ const groupedPosts = computed(() => {
 // Add sort method prop
 const props = defineProps<{
   sortMethod: string;
+  selectedFilters: string[];
 }>();
 
-// Modify the computed property to include sorting
+// Modify the computed property to include filtering
 const sortedPosts = computed(() => {
   const groups = groupedPosts.value;
   const entries = Object.entries(groups);
 
-  const sorted = entries.sort(([dirA], [dirB]) => {
+  // Filter posts first
+  const filteredEntries = entries
+    .map(([dir, group]) => {
+      const filtered = {
+        finished: group.finished.filter(
+          (post) =>
+            props.selectedFilters.length === 0 ||
+            post.tags?.some((tag) => props.selectedFilters.includes(tag))
+        ),
+        wip: group.wip.filter(
+          (post) =>
+            props.selectedFilters.length === 0 ||
+            post.tags?.some((tag) => props.selectedFilters.includes(tag))
+        ),
+      };
+      return [dir, filtered];
+    })
+    .filter(([_, group]) => group.finished.length > 0 || group.wip.length > 0);
+
+  // Then sort the filtered entries
+  const sorted = filteredEntries.sort(([dirA], [dirB]) => {
     switch (props.sortMethod) {
       case "za":
         return dirB.localeCompare(dirA);

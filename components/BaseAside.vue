@@ -46,9 +46,11 @@
       :is-expanded="allExpanded"
       :is-collapsed="allCollapsed"
       :sort="sortMethod"
+      :selected-filters="selectedFilters"
       @update:sort="sortMethod = $event"
+      @update:selected-filters="selectedFilters = $event"
     />
-    <Directory :sort-method="sortMethod" />
+    <Directory :sort-method="sortMethod" :selected-filters="selectedFilters" />
   </aside>
 </template>
 
@@ -195,4 +197,6 @@ onUnmounted(() => {
 
 // Sorting
 const sortMethod = ref("newest");
+
+const selectedFilters = ref<string[]>([]);
 </script>
