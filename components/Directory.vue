@@ -78,7 +78,7 @@ summary::-webkit-details-marker {
 summary {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   margin: 0 calc(var(--unit) * 0.5);
   border-radius: var(--radius-md);
   padding: 0.5rem 1.1rem 0.5rem 0.5rem;
@@ -92,19 +92,21 @@ a:hover {
 }
 
 details .folder {
-  width: 3.6rem;
+  width: 2.8rem;
   height: 2.8rem;
-  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733929950/folder-sprite_3x_ajronm.webp")
-    no-repeat 0.75px -0.5px;
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1736467584/proportional.design-3.0/icons/folders_yrn157.webp")
+    no-repeat -28px 0px;
   background-size: cover;
+  transform: scale(1.24);
 }
 
 details[open] .folder {
-  width: 3.6rem;
+  width: 2.8rem;
   height: 2.8rem;
-  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733929950/folder-sprite_3x_ajronm.webp")
-    no-repeat -35px -0.5px;
+  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1736467584/proportional.design-3.0/icons/folders_yrn157.webp")
+    no-repeat 0px 0px;
   background-size: cover;
+  transform: scale(1.24);
 }
 
 details .chevron {

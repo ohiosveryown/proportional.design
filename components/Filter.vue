@@ -1,13 +1,15 @@
 <template>
   <div class="controls">
-    <!-- filters -->
-    <div class="sort-controls">
-      <select v-model="sortMethod" @change="$emit('update:sort', sortMethod)">
-        <option value="newest">Newest First</option>
-        <option value="oldest">Oldest First</option>
-        <option value="az">A to Z</option>
-        <option value="za">Z to A</option>
-      </select>
+    <!-- sort controls -->
+    <div class="segmented-controls">
+      <button
+        v-for="option in sortOptions"
+        :key="option.value"
+        @click="$emit('update:sort', option.value)"
+        :class="{ active: sort === option.value }"
+      >
+        {{ option.label }}
+      </button>
     </div>
     <!-- segmented controls -->
     <div class="segmented-controls">
@@ -87,6 +89,7 @@
 const props = defineProps<{
   isExpanded: boolean;
   isCollapsed: boolean;
+  sort: string;
 }>();
 
 const isMixed = computed(() => !props.isExpanded && !props.isCollapsed);
@@ -94,4 +97,11 @@ const emit = defineEmits(["toggle", "update:sort"]);
 
 // Add sort method ref
 const sortMethod = ref("newest");
+
+const sortOptions = [
+  { value: "newest", label: "Newest" },
+  { value: "oldest", label: "Oldest" },
+  { value: "az", label: "A-Z" },
+  { value: "za", label: "Z-A" },
+];
 </script>
