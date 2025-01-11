@@ -104,6 +104,10 @@ a:hover {
   background: var(--bg-dark);
 }
 
+details[open] {
+  margin-bottom: 0.8rem;
+}
+
 details .folder {
   width: 2.8rem;
   height: 2.8rem;
