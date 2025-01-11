@@ -1,6 +1,6 @@
 <template>
   <div class="fob">
-    <router-link v-if="prevPost" :to="prevPost._path" class="prev">
+    <NuxtLink v-if="prevPost" :to="prevPost._path" class="prev">
       <img
         v-if="prevPost.icon"
         :src="prevPost.icon"
@@ -11,11 +11,11 @@
         <span class="label">Previous</span>
         <span class="key">J</span>
       </span>
-    </router-link>
+    </NuxtLink>
 
     <span class="divider" :class="{ hidden: !prevPost || !nextPost }" />
 
-    <router-link v-if="nextPost" :to="nextPost._path" class="next">
+    <NuxtLink v-if="nextPost" :to="nextPost._path" class="next">
       <img
         v-if="nextPost.icon"
         :src="nextPost.icon"
@@ -26,7 +26,7 @@
         <span class="label">Next</span>
         <span class="key">K</span>
       </span>
-    </router-link>
+    </NuxtLink>
   </div>
 </template>
 
@@ -100,10 +100,12 @@ a:not(:hover) {
 }
 
 .tooltip {
+  display: flex;
+  align-items: center;
   position: absolute;
   bottom: 100%;
   left: 50%;
-  padding: 0.24rem 0.32rem 0.4rem 0.64rem;
+  padding: 0.24rem 0.32rem 0.32rem 0.64rem;
   background: var(--bg);
   border: var(--border-light);
   border-radius: var(--radius-md);
@@ -124,7 +126,7 @@ a:hover .tooltip {
 }
 
 .label {
-  margin-right: 0.6rem;
+  margin-right: 0.5rem;
   font-size: var(--font-xxs);
   font-weight: 600;
   letter-spacing: -0.02rem;

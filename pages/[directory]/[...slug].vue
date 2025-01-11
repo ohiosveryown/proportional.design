@@ -12,25 +12,27 @@
             <h3>{{ doc.type }} –</h3>
             <h4>{{ doc.size }}</h4>
 
-            <BaseTooltip position="left" content="ESC" :delay="500">
-              <NuxtLink to="/" class="close">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="17"
-                  height="14.5"
-                  fill="none"
+            <NuxtLink to="/" class="close">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="17"
+                height="14.5"
+                fill="none"
+              >
+                <g
+                  stroke="#fff"
+                  stroke-linecap="round"
+                  stroke-width="1.5"
+                  opacity=".56"
                 >
-                  <g
-                    stroke="#fff"
-                    stroke-linecap="round"
-                    stroke-width="1.5"
-                    opacity=".56"
-                  >
-                    <path d="m4.637 4 8 8M12.637 4l-8 8" />
-                  </g>
-                </svg>
-              </NuxtLink>
-            </BaseTooltip>
+                  <path d="m4.637 4 8 8M12.637 4l-8 8" />
+                </g>
+              </svg>
+              <span class="tooltip">
+                <span class="label">Close</span>
+                <span class="key">Esc</span>
+              </span>
+            </NuxtLink>
           </div>
         </nav>
 
@@ -143,6 +145,7 @@ h4 {
 }
 
 .close {
+  position: relative;
   margin-left: 1rem;
   border-left: var(--border);
   padding: 0 0.5rem 0 1rem;
@@ -285,6 +288,47 @@ summary {
   background: var(--bg-vdark);
   background: rgb(255, 255, 255, 0.08);
   color: var(--text-light);
+}
+
+.tooltip {
+  position: absolute;
+  right: calc(100% - 1rem);
+  top: 44%;
+  padding: 0.4rem 0.4rem 0.4rem 0.64rem;
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-xs);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-50%) translateX(0.5rem);
+  transition: all 200ms ease;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.label {
+  margin-right: 0.6rem;
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  letter-spacing: -0.02rem;
+  color: color-mix(in srgb, var(--color-font) 72%, transparent);
+}
+
+.key {
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.7rem;
+  background: var(--bg-light);
+  border: var(--border);
+  text-align: center;
+}
+
+.close:hover .tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(-0.25rem);
+  transition: all 300ms ease 400ms;
 }
 </style>
 
