@@ -51,6 +51,38 @@
               loop
             ></video>
           </figure>
+
+          <section>
+            <div class="details">
+              <details open>
+                <summary>project</summary>
+                <span class="project">{{ doc.project }}</span>
+              </details>
+
+              <details open>
+                <summary>date</summary>
+                <span class="date">{{ doc.date }}</span>
+              </details>
+
+              <details open>
+                <summary>tags</summary>
+                <ul class="tags">
+                  <li v-for="tag in doc.tags" :key="tag" class="tag">
+                    {{ tag }}
+                  </li>
+                </ul>
+              </details>
+            </div>
+
+            <details class="comments" open>
+              <summary>comments</summary>
+              <article :class="`${route.params.directory}-content`">
+                <ContentRenderer :value="doc" />
+              </article>
+            </details>
+          </section>
+
+          <Fob :prev-post="'/posts/previous'" :next-post="'/posts/next'" />
         </main>
       </template>
     </ContentDoc>
@@ -157,6 +189,102 @@ video.hero {
   // @include breakpoint(lg) {
   //   max-height: 120rem;
   // }
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 2rem 0.8rem 1rem;
+  @include breakpoint(mdl) {
+    flex-direction: row;
+    gap: 0;
+  }
+}
+
+section .details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  @include breakpoint(mdl) {
+    margin-right: grid-width(1);
+    width: grid-width(4);
+  }
+}
+
+section .comments {
+  width: 100%;
+  @include breakpoint(mdl) {
+    width: grid-width(6.5);
+  }
+}
+
+details span,
+details article {
+  // font-weight: 500;
+  text-shadow: var(--shadow-text);
+}
+
+details span {
+  text-transform: capitalize;
+}
+
+:deep(p) {
+  padding-bottom: 0.6rem;
+  line-height: 1.55;
+}
+
+:deep(p:last-of-type) {
+  padding-bottom: 0;
+}
+
+summary {
+  opacity: 0.72;
+  font-weight: 600;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  text-shadow: var(--shadow-text);
+  cursor: context-menu;
+}
+
+:deep(sup) {
+  opacity: 0.8;
+}
+
+:deep(#footnote-label) {
+  display: none;
+}
+
+:deep(.footnotes ol) {
+  border-top: var(--border);
+  padding: 1.2rem 0 0 0;
+  font-size: 1.3rem;
+  opacity: 0.8;
+}
+
+:deep(.footnotes a:hover) {
+  text-decoration: underline;
+}
+
+.tags {
+  display: flex;
+  gap: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+.tag {
+  margin: 0.4rem 0.3rem 0 0;
+  width: max-content;
+  font-weight: 500;
+  font-size: 1.2rem;
+  text-shadow: none;
+  border-radius: var(--radius-sm);
+  border: var(--border-light);
+  padding: 0.2rem 0.5rem;
+  background: var(--bg-vdark);
+  background: rgb(255, 255, 255, 0.08);
+  color: var(--text-light);
 }
 </style>
 
