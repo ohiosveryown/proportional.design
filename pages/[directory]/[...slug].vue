@@ -38,16 +38,6 @@
 
         <main>
           <figure>
-            <div class="like-container">
-              <button
-                @click="handleLike"
-                :disabled="loading"
-                class="like-button"
-              >
-                <span class="heart">♥</span>
-                <span class="count">{{ count }}</span>
-              </button>
-            </div>
             <img
               v-if="doc.type === 'photo'"
               class="hero"
@@ -84,6 +74,18 @@
                   </li>
                 </ul>
               </details>
+
+              <details class="like-container" open>
+                <summary>Likes</summary>
+                <button
+                  @click="handleLike"
+                  :disabled="loading"
+                  class="like-button"
+                >
+                  <span class="heart">♥</span>
+                  <span class="count">{{ count }}</span>
+                </button>
+              </details>
             </div>
 
             <details class="comments" open>
@@ -93,14 +95,6 @@
               </article>
             </details>
           </section>
-
-          <details class="like-container" open>
-            <summary>Likes</summary>
-            <button @click="handleLike" :disabled="loading" class="like-button">
-              <span class="heart">♥</span>
-              <span class="count">{{ count }}</span>
-            </button>
-          </details>
 
           <Fob :prev-post="'/posts/previous'" :next-post="'/posts/next'" />
         </main>
@@ -351,35 +345,19 @@ summary {
 }
 
 .like-container {
-  position: absolute;
-  bottom: 1rem;
-  right: 2.8rem;
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
-  @include breakpoint(md) {
-    bottom: 3.2rem;
-    right: 4.8rem;
-  }
-
-  @include breakpoint(mdl) {
-    bottom: 4.4rem;
-    right: 6.4rem;
-  }
-
-  @include breakpoint(xl) {
-    bottom: 6.1rem;
-    right: 8rem;
-  }
+  // margin: 2rem 0;
 }
 
 .like-button {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.2rem 0.8rem 0.3rem 0.7rem;
+  margin-top: 0.28rem;
   border: var(--border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-md);
+  padding: 0.2rem 0.72rem 0.3rem 0.6rem;
   background: var(--bg-dark);
   box-shadow: var(--shadow-sm);
   transition: all 200ms ease;
