@@ -38,6 +38,16 @@
 
         <main>
           <figure>
+            <div class="like-container">
+              <button
+                @click="handleLike"
+                :disabled="loading"
+                class="like-button"
+              >
+                <span class="heart">♥</span>
+                <span class="count">{{ count }}</span>
+              </button>
+            </div>
             <img
               v-if="doc.type === 'photo'"
               class="hero"
@@ -83,6 +93,14 @@
               </article>
             </details>
           </section>
+
+          <details class="like-container" open>
+            <summary>Likes</summary>
+            <button @click="handleLike" :disabled="loading" class="like-button">
+              <span class="heart">♥</span>
+              <span class="count">{{ count }}</span>
+            </button>
+          </details>
 
           <Fob :prev-post="'/posts/previous'" :next-post="'/posts/next'" />
         </main>
@@ -160,6 +178,7 @@ main {
 figure {
   display: grid;
   place-items: center;
+  position: relative;
   border-radius: var(--radius-md);
   border: var(--border);
   width: 100%;
@@ -330,11 +349,63 @@ summary {
   transform: translateY(-50%) translateX(-0.25rem);
   transition: all 300ms ease 400ms;
 }
+
+.like-container {
+  position: absolute;
+  bottom: 1rem;
+  right: 2.8rem;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  @include breakpoint(md) {
+    bottom: 3.2rem;
+    right: 4.8rem;
+  }
+
+  @include breakpoint(mdl) {
+    bottom: 4.4rem;
+    right: 6.4rem;
+  }
+
+  @include breakpoint(xl) {
+    bottom: 6.1rem;
+    right: 8rem;
+  }
+}
+
+.like-button {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.8rem 0.3rem 0.7rem;
+  border: var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--bg-dark);
+  box-shadow: var(--shadow-sm);
+  transition: all 200ms ease;
+
+  &:hover {
+    background: var(--bg-vdark);
+  }
+}
+
+.heart {
+  color: #ff4646;
+  font-size: 1.6rem;
+}
+
+.count {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  text-align: right;
+}
 </style>
 
 <script setup lang="ts">
 const router = useRouter();
 const route = useRoute();
+const { count, loading, getLikes, incrementLike } = useLikes();
+
 const contentPath = computed(() => {
   const directory = route.params.directory;
   const slug = Array.isArray(route.params.slug)
@@ -343,9 +414,10 @@ const contentPath = computed(() => {
   return `/${directory}/${slug}`;
 });
 
-// Add keyboard event listener
+// Get the current post's likes when mounted
 onMounted(() => {
   window.addEventListener("keydown", handleKeydown);
+  getLikes(contentPath.value);
 });
 
 onUnmounted(() => {
@@ -357,4 +429,9 @@ function handleKeydown(event: KeyboardEvent) {
     router.push("/");
   }
 }
+
+// Add like handler
+const handleLike = async () => {
+  await incrementLike(contentPath.value);
+};
 </script>
