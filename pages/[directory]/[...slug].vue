@@ -30,7 +30,7 @@
               </svg>
               <span class="tooltip">
                 <span class="label">Close</span>
-                <span class="key">Esc</span>
+                <span class="key">X</span>
               </span>
             </NuxtLink>
           </div>
@@ -403,7 +403,7 @@ onUnmounted(() => {
 });
 
 function handleKeydown(event: KeyboardEvent) {
-  if (event.key === "Escape") {
+  if (event.key === "x" || event.key === "X") {
     router.push("/");
   }
 }

@@ -6,18 +6,7 @@
       </nuxt-link>
 
       <menu>
-        <button class="search">
-          <svg width="16" height="16" fill="none">
-            <path
-              fill="#fff"
-              fill-rule="evenodd"
-              d="M11.392 9.369A3.366 3.366 0 0 1 5.873 5.7a3.367 3.367 0 1 1 5.519 3.668Zm-5.504.843a4.488 4.488 0 1 0-.1-.1l-.347-.347-2.777 2.777a.56.56 0 1 0 .794.794l2.777-2.777-.347-.347Z"
-              clip-rule="evenodd"
-              opacity=".5"
-            />
-          </svg>
-          <span>Search</span>
-        </button>
+        <Search />
 
         <a
           href="https://www.notion.so/1599d0f43b9881238f64e3211d43c345?pvs=106"
@@ -118,6 +107,7 @@ nav .logo {
 nav menu {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 menu button {
