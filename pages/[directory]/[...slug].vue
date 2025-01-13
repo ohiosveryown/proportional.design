@@ -82,7 +82,20 @@
                   :disabled="loading"
                   class="like-button detail-content"
                 >
-                  <span class="heart">♥</span>
+                  <svg
+                    class="heart"
+                    :class="{ animate: isAnimating }"
+                    width="16"
+                    height="16"
+                    fill="none"
+                  >
+                    <path
+                      fill="#FF4646"
+                      fill-rule="evenodd"
+                      d="M2.07 3.32a3.652 3.652 0 0 1 5.165 0L8 4.085l.765-.765a3.652 3.652 0 1 1 5.165 5.165L8.354 14.06a.5.5 0 0 1-.708 0L2.07 8.485a3.652 3.652 0 0 1 0-5.165Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                   <span class="count">{{ count }}</span>
                 </button>
               </div>
@@ -357,7 +370,7 @@ summary {
   margin-top: 0.28rem;
   border: var(--border);
   border-radius: var(--radius-md);
-  padding: 0.2rem 0.72rem 0.3rem 0.6rem;
+  padding: 0.3rem 0.72rem 0.4rem 0.6rem;
   background: var(--bg-dark);
   box-shadow: var(--shadow-sm);
   transition: all 200ms ease;
@@ -368,8 +381,24 @@ summary {
 }
 
 .heart {
-  color: #ff4646;
-  font-size: 1.6rem;
+  margin-top: 0.05rem;
+  transform-origin: center;
+
+  &.animate {
+    animation: pop 400ms ease;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .count {
@@ -435,8 +464,18 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 
-// Add like handler
+// Add ref for animation state
+const isAnimating = ref(false);
+
+// Update like handler
 const handleLike = async () => {
-  await incrementLike(contentPath.value);
+  if (!loading.value) {
+    isAnimating.value = true;
+    await incrementLike(contentPath.value);
+    // Reset animation after it completes
+    setTimeout(() => {
+      isAnimating.value = false;
+    }, 400);
+  }
 };
 </script>

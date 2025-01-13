@@ -121,13 +121,12 @@
 dialog {
   margin: 0 auto;
   z-index: var(--z2);
-  border-radius: var(--radius--lg);
+  border-radius: var(--radius-lg);
   border: var(--border-light);
   width: 56rem;
   padding: 1.6rem 0 0;
   color: var(--color-font);
   background: var(--bg);
-  backdrop-filter: blur(10px);
   box-shadow: var(--shadow);
   transform: translateY(12vh);
   @include breakpoint(md) {
@@ -141,7 +140,7 @@ dialog::backdrop {
   inset: 0;
   width: 100dvw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.64);
+  backdrop-filter: blur(2px);
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.9) 0%,
@@ -458,6 +457,8 @@ const debouncedSearch = useDebounceFn(async () => {
           { tags: { $contains: query.value } },
         ],
       })
+      .only(["_id", "_path", "title", "icon", "description"])
+      .limit(10)
       .find();
     searchResults.value = results;
   } catch (error) {
@@ -477,13 +478,13 @@ const shuffleArray = (array) => {
   return array;
 };
 
-const fetchRandomPosts = async () => {
+const prefetchPosts = async () => {
   try {
     const posts = await queryContent()
       .where({ _path: { $ne: "/" } })
+      .only(["_id", "_path", "title", "icon"])
       .find();
 
-    // Shuffle the posts before storing them
     allPosts.value = shuffleArray([...posts]);
     updateDisplayedPosts();
   } catch (error) {
@@ -503,8 +504,7 @@ const updateDisplayedPosts = () => {
   displayedPosts.value = duplicatedPosts;
 };
 
-const openDialog = async () => {
-  await fetchRandomPosts();
+const openDialog = () => {
   if (searchDialog.value) {
     searchDialog.value.showModal();
   }
@@ -532,9 +532,9 @@ const handleKeydown = (event) => {
   }
 };
 
-// Fetch random posts on mount
+// Prefetch on mount
 onMounted(() => {
-  fetchRandomPosts();
+  prefetchPosts();
   window.addEventListener("keydown", handleKeydown);
 });
 
