@@ -31,6 +31,11 @@
             </svg>
 
             <span>Contact</span>
+            <span class="tooltip">
+              <span class="label">Contact</span>
+              <span class="key">⌘</span>
+              <span class="key key-secondary">C</span>
+            </span>
           </button>
         </a>
       </menu>
@@ -64,7 +69,7 @@
   </aside>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
 aside.container {
@@ -117,7 +122,7 @@ menu button {
   margin-left: 0rem;
   border-radius: var(--radius-xl);
   padding: 0.6rem 1.7rem 0.7rem 1rem;
-  cursor: default;
+  cursor: pointer;
 }
 
 menu button span {
@@ -127,6 +132,7 @@ menu button span {
 }
 
 menu button.contact {
+  position: relative;
   background: var(--bg-vdark);
   transition: box-shadow 300ms ease;
   box-shadow: rgba(134, 143, 151, 0.2) 0px 0px 0px 0.25px inset,
@@ -162,6 +168,56 @@ nav ~ header .logotype {
 nav ~ header h2 {
   opacity: 0.76;
 }
+
+.tooltip {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 116%;
+  left: 50%;
+  padding: 0.24rem 0.32rem 0.32rem 0.64rem;
+  background: var(--bg);
+  border: var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px) scale(0.8);
+  transform-origin: top;
+  transition: all 200ms ease;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+}
+
+button:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(1px) scale(0.9);
+  transition: all 200ms ease 400ms;
+}
+
+.label {
+  margin-right: 0.5rem;
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  letter-spacing: 0rem;
+  color: color-mix(in srgb, var(--color-font) 72%, transparent);
+}
+
+.key {
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.7rem;
+  background: var(--bg-light);
+  border: var(--border);
+  text-align: center;
+}
+
+.key-secondary {
+  display: block;
+  margin-left: 0.4rem;
+}
 </style>
 
 <script setup lang="ts">
@@ -180,14 +236,32 @@ const toggleAll = (expanded: boolean) => {
   updateButtonStates();
 };
 
+// Add contact link handler
+const handleKeydown = (event: KeyboardEvent) => {
+  if (
+    (event.metaKey || event.ctrlKey) &&
+    (event.key === "c" || event.key === "C")
+  ) {
+    event.preventDefault();
+    window.open(
+      "https://www.notion.so/1599d0f43b9881238f64e3211d43c345?pvs=106",
+      "_blank"
+    );
+  }
+};
+
 onMounted(() => {
   // segmented controls
   document.addEventListener("toggle", updateButtonStates, true);
+  // Add keyboard listener
+  window.addEventListener("keydown", handleKeydown);
 });
 
 onUnmounted(() => {
   // segmented controls
   document.removeEventListener("toggle", updateButtonStates, true);
+  // Remove keyboard listener
+  window.removeEventListener("keydown", handleKeydown);
 });
 
 // Sorting

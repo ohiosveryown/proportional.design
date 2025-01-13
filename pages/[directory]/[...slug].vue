@@ -90,9 +90,7 @@
 
             <div class="comments detail-item">
               <h5 class="detail-header">comments</h5>
-              <article
-                :class="`${route.params.directory}-content detail-content`"
-              >
+              <article :class="`${route.params.directory}-content`">
                 <ContentRenderer :value="doc" />
               </article>
             </div>
@@ -401,6 +399,10 @@ summary {
 
 .detail-content.date {
   font-weight: 400;
+}
+
+.detail-content article {
+  text-transform: none;
 }
 </style>
 

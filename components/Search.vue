@@ -11,6 +11,11 @@
         />
       </svg>
       <span>Search</span>
+      <span class="tooltip">
+        <span class="label">Search</span>
+        <span class="key">⌘</span>
+        <span class="key">S</span>
+      </span>
     </button>
 
     <dialog ref="searchDialog">
@@ -88,6 +93,7 @@
 @use "/assets/style/grid.scss" as *;
 
 .trigger {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -286,6 +292,57 @@ section.suggestions {
     overflow: hidden;
   }
 }
+
+.tooltip {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 116%;
+  left: 50%;
+  padding: 0.24rem 0.32rem 0.32rem 0.64rem;
+  background: var(--bg);
+  border: var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px) scale(0.8);
+  transform-origin: top;
+  transition: all 200ms ease;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+  gap: 0.3rem;
+}
+
+.trigger:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(1px) scale(0.9);
+  transition: all 200ms ease 400ms;
+}
+
+.label {
+  margin-right: 0.5rem;
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  letter-spacing: -0.02rem;
+  color: color-mix(in srgb, var(--color-font) 72%, transparent);
+}
+
+.key {
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.7rem;
+  background: var(--bg-light);
+  border: var(--border);
+  text-align: center;
+  min-width: 2rem;
+}
+
+.tooltip span + span {
+  margin-left: 0.1rem;
+}
 </style>
 
 <script setup>
@@ -348,7 +405,10 @@ const handleKeydown = (event) => {
     event.preventDefault();
     closeDialog();
   }
-  if (event.key === "s" || event.key === "S") {
+  if (
+    (event.metaKey || event.ctrlKey) &&
+    (event.key === "s" || event.key === "S")
+  ) {
     event.preventDefault();
     if (!searchDialog.value?.open) {
       openDialog();
