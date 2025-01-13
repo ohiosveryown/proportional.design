@@ -29,7 +29,7 @@
 
         <span class="divider" />
         <form method="dialog">
-          <button>
+          <button class="close">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="17"
@@ -40,7 +40,7 @@
                 stroke="#fff"
                 stroke-linecap="round"
                 stroke-width="1.5"
-                opacity="1"
+                opacity=".76"
               >
                 <path d="m4.637 4 8 8M12.637 4l-8 8" />
               </g>
@@ -50,19 +50,23 @@
       </header>
 
       <section class="suggestions">
-        <header>{{ hoveredTitle || "Suggested media" }}</header>
-        <ul class="thumbnails">
-          <li
-            v-for="post in randomPosts"
-            :key="post._id"
-            @mouseover="hoveredTitle = post.title"
-            @mouseleave="hoveredTitle = ''"
-          >
-            <NuxtLink :to="post._path">
-              <img :src="post.icon" :alt="post.title" />
-            </NuxtLink>
-          </li>
-        </ul>
+        <!-- <header>{{ hoveredTitle || "Suggested media" }}</header> -->
+        <header>Suggested media</header>
+        <div class="scroll-container">
+          <ul class="thumbnails" ref="thumbnailsContainer">
+            <li
+              v-for="(post, index) in displayedPosts"
+              :key="`${post._id}-${index}`"
+              @mouseover="hoveredTitle = post.title"
+              @mouseleave="hoveredTitle = ''"
+            >
+              <NuxtLink :to="post._path">
+                <img :src="post.icon" :alt="post.title" />
+                <span>{{ post.title }}</span>
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
       </section>
 
       <!-- Search results -->
@@ -185,6 +189,10 @@ span.divider {
   margin: 0 1.2rem;
 }
 
+button.close {
+  transform: translateY(0.7rem);
+}
+
 section.suggestions {
   margin: 1.6rem 0;
   padding: 0 1.5rem;
@@ -196,24 +204,81 @@ section.suggestions {
   }
 }
 
-.thumbnails {
+.scroll-container {
   position: relative;
-  display: flex;
-  &:before {
-    display: none;
-    border: 2px soild red;
+  overflow: hidden;
+
+  &::before,
+  &::after {
     content: "";
-    position: fixed;
-    z-index: var(--zmax);
-    inset: 0;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.01);
-    backdrop-filter: blur(24px);
-    mask: linear-gradient(90deg, transparent 40%, black 72%);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: 1;
     pointer-events: none;
-    @include breakpoint(md) {
-      display: inherit;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg), transparent);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg), transparent);
+  }
+}
+
+.thumbnails {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.5rem 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  animation: scroll 60s linear infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translate3d(0, 0, 0);
     }
+    100% {
+      transform: translate3d(-200%, 0, 0);
+    }
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: 0.8rem;
+    border: var(--border);
+    border-radius: var(--radius-xl);
+    padding: 0.55rem 0.88rem 0.55rem 0.55rem;
+    background: var(--bg-light);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: background 200ms ease;
+  }
+
+  li:hover {
+    background: var(--bg-dark);
+  }
+
+  img {
+    margin-right: 0;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -224,7 +289,18 @@ section.suggestions {
   }
 }
 
-.thumbnails img,
+.thumbnails img {
+  border-radius: var(--radius-md);
+  border: 1.5px solid #fff;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.thumbnails img ~ span {
+  font-weight: 600;
+  font-size: var(--font-xs);
+}
+
 .result-thumb {
   margin-right: 1rem;
   border: 1.5px solid #fff;
@@ -343,6 +419,14 @@ section.suggestions {
 .tooltip span + span {
   margin-left: 0.1rem;
 }
+
+.thumbnails li a {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
 </style>
 
 <script setup>
@@ -357,6 +441,9 @@ const hoveredTitle = ref("");
 const route = useRoute();
 const query = ref("");
 const searchResults = ref([]);
+const thumbnailsContainer = ref(null);
+const displayedPosts = ref([]);
+const allPosts = ref([]);
 
 const debouncedSearch = useDebounceFn(async () => {
   if (!query.value) {
@@ -381,10 +468,39 @@ watch(query, () => {
   debouncedSearch();
 });
 
+// Add shuffle function
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 const fetchRandomPosts = async () => {
-  const allPosts = await queryContent().find();
-  const filteredPosts = allPosts.filter((post) => post._path !== "/");
-  randomPosts.value = filteredPosts.sort(() => 0.5 - Math.random()).slice(0, 6);
+  try {
+    const posts = await queryContent()
+      .where({ _path: { $ne: "/" } })
+      .find();
+
+    // Shuffle the posts before storing them
+    allPosts.value = shuffleArray([...posts]);
+    updateDisplayedPosts();
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    allPosts.value = [];
+  }
+};
+
+const updateDisplayedPosts = () => {
+  // Duplicate posts 4 times instead of just once
+  const duplicatedPosts = [
+    ...allPosts.value,
+    ...allPosts.value,
+    ...allPosts.value,
+    ...allPosts.value,
+  ];
+  displayedPosts.value = duplicatedPosts;
 };
 
 const openDialog = async () => {
