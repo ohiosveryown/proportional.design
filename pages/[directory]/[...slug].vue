@@ -56,44 +56,46 @@
 
           <section>
             <div class="details">
-              <details open>
-                <summary>project</summary>
-                <span class="project">{{ doc.project }}</span>
-              </details>
+              <div class="detail-item">
+                <h5 class="detail-header">project</h5>
+                <p class="detail-content">{{ doc.project }}</p>
+              </div>
 
-              <details open>
-                <summary>date</summary>
-                <span class="date">{{ doc.date }}</span>
-              </details>
+              <div class="detail-item">
+                <h5 class="detail-header">date</h5>
+                <p class="detail-content date">{{ doc.date }}</p>
+              </div>
 
-              <details open>
-                <summary>tags</summary>
-                <ul class="tags">
+              <div class="detail-item">
+                <h5 class="detail-header">tags</h5>
+                <ul class="tags detail-content">
                   <li v-for="tag in doc.tags" :key="tag" class="tag">
                     {{ tag }}
                   </li>
                 </ul>
-              </details>
+              </div>
 
-              <details class="like-container" open>
-                <summary>Likes</summary>
+              <div class="detail-item">
+                <h5 class="detail-header">Likes</h5>
                 <button
                   @click="handleLike"
                   :disabled="loading"
-                  class="like-button"
+                  class="like-button detail-content"
                 >
                   <span class="heart">♥</span>
                   <span class="count">{{ count }}</span>
                 </button>
-              </details>
+              </div>
             </div>
 
-            <details class="comments" open>
-              <summary>comments</summary>
-              <article :class="`${route.params.directory}-content`">
+            <div class="comments detail-item">
+              <h5 class="detail-header">comments</h5>
+              <article
+                :class="`${route.params.directory}-content detail-content`"
+              >
                 <ContentRenderer :value="doc" />
               </article>
-            </details>
+            </div>
           </section>
 
           <Fob :prev-post="'/posts/previous'" :next-post="'/posts/next'" />
@@ -376,6 +378,29 @@ summary {
   font-size: var(--font-sm);
   font-weight: 600;
   text-align: right;
+}
+
+.detail-item {
+  margin-bottom: 0.8rem;
+}
+
+.detail-header {
+  opacity: 0.72;
+  font-weight: 600;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  text-shadow: var(--shadow-text);
+  margin-bottom: 0.2rem;
+}
+
+.detail-content {
+  font-weight: 500;
+  text-shadow: var(--shadow-text);
+  text-transform: capitalize;
+}
+
+.detail-content.date {
+  font-weight: 400;
 }
 </style>
 
