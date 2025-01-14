@@ -201,7 +201,7 @@ span.popover-trigger:hover {
   max-height: 30rem;
   min-width: 19.2rem;
   padding: 1rem 0.8rem;
-  opacity: 1;
+  opacity: 0;
   overflow-y: auto;
   transform: translateY(-1rem) scale(0.95);
   transform-origin: top;
