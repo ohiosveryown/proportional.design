@@ -90,13 +90,32 @@
                     fill="none"
                   >
                     <path
-                      fill="#FF4646"
+                      fill="url(#a)"
                       fill-rule="evenodd"
-                      d="M2.07 3.32a3.652 3.652 0 0 1 5.165 0L8 4.085l.765-.765a3.652 3.652 0 1 1 5.165 5.165L8.354 14.06a.5.5 0 0 1-.708 0L2.07 8.485a3.652 3.652 0 0 1 0-5.165Z"
+                      d="M2.07 3.32a3.652 3.652 0 0 1 5.165 0L8 4.085l.765-.765a3.652 3.652 0 1 1 5.165 5.165l-5.223 5.223a1 1 0 0 1-1.414 0L2.07 8.485a3.652 3.652 0 0 1 0-5.165Z"
                       clip-rule="evenodd"
                     />
+                    <defs>
+                      <linearGradient
+                        id="a"
+                        x1="8"
+                        x2="8"
+                        y1="2.25"
+                        y2="14.415"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop stop-color="#FF7A7A" />
+                        <stop offset=".145" stop-color="#FF4646" />
+                        <stop offset="1" stop-color="#C73A3A" />
+                      </linearGradient>
+                    </defs>
                   </svg>
+                  <div class="divider" />
                   <span class="count">{{ count }}</span>
+                  <span class="tooltip">
+                    <span class="label">Like</span>
+                    <span class="key">L</span>
+                  </span>
                 </button>
               </div>
             </div>
@@ -317,20 +336,29 @@ summary {
 }
 
 .tooltip {
+  display: flex;
+  align-items: center;
   position: absolute;
-  right: calc(100% - 1rem);
-  top: 44%;
-  padding: 0.4rem 0.4rem 0.4rem 0.64rem;
+  top: 116%;
+  left: 50%;
+  padding: 0.24rem 0.32rem 0.32rem 0.64rem;
   background: var(--bg);
-  border: var(--border);
+  border: var(--border-light);
   border-radius: var(--radius-md);
   font-size: var(--font-xs);
+  font-weight: 600;
   white-space: nowrap;
   opacity: 0;
-  transform: translateY(-50%) translateX(0.5rem);
+  transform: translateX(-50%) translateY(-8px) scale(0.8);
+  transform-origin: top;
   transition: all 200ms ease;
   pointer-events: none;
   box-shadow: var(--shadow-sm);
+  gap: 0.3rem;
+
+  @media (pointer: coarse) {
+    display: none;
+  }
 }
 
 .label {
@@ -364,13 +392,14 @@ summary {
 }
 
 .like-button {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.3rem;
   margin-top: 0.28rem;
   border: var(--border);
   border-radius: var(--radius-md);
-  padding: 0.3rem 0.72rem 0.4rem 0.6rem;
+  padding: 0.3rem 0.72rem 0.4rem 0.5rem;
   background: var(--bg-dark);
   box-shadow: var(--shadow-sm);
   transition: all 200ms ease;
@@ -389,6 +418,14 @@ summary {
   }
 }
 
+.divider {
+  margin: 0 0.3rem 0rem 0.2rem;
+  width: 0.1rem;
+  height: 1.2rem;
+  background: var(--color-font);
+  opacity: 0.4;
+}
+
 @keyframes pop {
   0% {
     transform: scale(1);
@@ -405,6 +442,7 @@ summary {
   font-size: var(--font-sm);
   font-weight: 600;
   text-align: right;
+  transform: translateY(-0.05rem);
 }
 
 .detail-item {
@@ -432,6 +470,12 @@ summary {
 
 .detail-content article {
   text-transform: none;
+}
+
+.like-button:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(1px) scale(0.9);
+  transition: all 200ms ease 400ms;
 }
 </style>
 
@@ -461,6 +505,8 @@ onUnmounted(() => {
 function handleKeydown(event: KeyboardEvent) {
   if (event.key === "x" || event.key === "X") {
     router.push("/");
+  } else if (event.key === "l" || event.key === "L") {
+    handleLike();
   }
 }
 

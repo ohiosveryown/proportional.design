@@ -16,7 +16,8 @@
             clip-rule="evenodd"
           />
         </svg>
-        Configure
+        <span class="label-filter">Filter & Sort</span>
+        <span class="label-configure">Configure</span>
         <span
           class="popover-trigger-indicator"
           :class="{ active: hasActiveFilters }"
@@ -85,6 +86,25 @@
 
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
+
+.label-filter {
+  @include breakpoint(md) {
+    display: none;
+  }
+  @include breakpoint(lg) {
+    display: block;
+  }
+}
+
+.label-configure {
+  display: none;
+  @include breakpoint(md) {
+    display: block;
+  }
+  @include breakpoint(lg) {
+    display: none;
+  }
+}
 
 .controls {
   display: flex;
@@ -173,7 +193,7 @@ span.popover-trigger:hover {
   flex-direction: column;
   background: var(--bg);
   position: fixed;
-  top: 22.75rem;
+  top: 31.8rem;
   left: 2rem;
   border: var(--border-dark);
   border-radius: var(--radius-md);
@@ -189,6 +209,9 @@ span.popover-trigger:hover {
   transition: opacity 0.2s ease, transform 0.2s ease;
   will-change: opacity, transform;
   z-index: var(--z1);
+  @include breakpoint(md) {
+    top: 23rem;
+  }
 }
 
 .popover menu.is-open {
