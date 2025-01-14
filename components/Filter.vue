@@ -87,6 +87,14 @@
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.4rem 0 1.6rem 0;
+  padding: 0 1.2rem 0 1rem;
+}
+
 .label-filter {
   @include breakpoint(md) {
     display: none;
@@ -104,14 +112,6 @@
   @include breakpoint(lg) {
     display: none;
   }
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0.4rem 0 1.6rem 0;
-  padding: 0 1.2rem 0 1rem;
 }
 
 span.popover-trigger {
@@ -193,15 +193,15 @@ span.popover-trigger:hover {
   flex-direction: column;
   background: var(--bg);
   position: fixed;
-  top: 31.8rem;
+  top: 34rem;
   left: 2rem;
   border: var(--border-dark);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow);
-  max-height: 33.7rem;
+  max-height: 30rem;
   min-width: 19.2rem;
   padding: 1rem 0.8rem;
-  opacity: 0;
+  opacity: 1;
   overflow-y: auto;
   transform: translateY(-1rem) scale(0.95);
   transform-origin: top;
@@ -211,6 +211,7 @@ span.popover-trigger:hover {
   z-index: var(--z1);
   @include breakpoint(md) {
     top: 23rem;
+    max-height: 33.7rem;
   }
 }
 
