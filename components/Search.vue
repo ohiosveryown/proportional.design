@@ -14,7 +14,7 @@
       <span class="tooltip">
         <span class="label">Search</span>
         <span class="key">⌘</span>
-        <span class="key">S</span>
+        <span class="key">K</span>
       </span>
     </button>
 
@@ -523,7 +523,7 @@ const handleKeydown = (event) => {
   }
   if (
     (event.metaKey || event.ctrlKey) &&
-    (event.key === "s" || event.key === "S")
+    (event.key === "k" || event.key === "K")
   ) {
     event.preventDefault();
     if (!searchDialog.value?.open) {
