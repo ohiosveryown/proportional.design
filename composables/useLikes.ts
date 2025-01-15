@@ -1,34 +1,26 @@
 import { ref as vueRef } from 'vue'
-import { ref as dbRef, get, set } from 'firebase/database'
+import { ref as dbRef, onValue, increment, set } from 'firebase/database'
 import { useFirebase } from './firebase'
 
 export const useLikes = () => {
-  const { database } = useFirebase()
+  const { db } = useFirebase()
   const count = vueRef(0)
   const loading = vueRef(false)
 
-  const getLikes = async (path: string) => {
-    loading.value = true
-    try {
-      const likesRef = dbRef(database, `likes${path}`)
-      const snapshot = await get(likesRef)
+  const getLikes = (id: string) => {
+    const likesRef = dbRef(db, `likes/${id}`)
+    onValue(likesRef, (snapshot) => {
       count.value = snapshot.val() || 0
-    } catch (error) {
-      console.error('Error getting likes:', error)
-    } finally {
-      loading.value = false
-    }
+    })
   }
 
-  const incrementLike = async (path: string) => {
+  const incrementLike = async (id: string) => {
     loading.value = true
     try {
-      const likesRef = dbRef(database, `likes${path}`)
-      const newCount = count.value + 1
-      await set(likesRef, newCount)
-      count.value = newCount
+      const likesRef = dbRef(db, `likes/${id}`)
+      await set(likesRef, increment(1))
     } catch (error) {
-      console.error('Error incrementing like:', error)
+      console.error('Error incrementing likes:', error)
     } finally {
       loading.value = false
     }
