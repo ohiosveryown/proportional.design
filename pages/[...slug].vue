@@ -52,6 +52,40 @@
       </a>
     </section>
 
+    <section class="updates spacing">
+      <h2>Recent updates</h2>
+      <div class="updates-content">
+        <ul>
+          <li class="commits" v-for="commit in commits" :key="commit.sha">
+            <span class="commit-message">• {{ commit.message }}</span>
+            <span class="commit-date">{{ commit.date }}</span>
+          </li>
+        </ul>
+
+        <img
+          class="updates-thumbnail"
+          :src="randomThumbnail"
+          alt="Thumbnail image"
+        />
+      </div>
+    </section>
+
+    <section class="social spacing">
+      <div class="avatar-wrapper">
+        <img
+          class="avatar"
+          src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733875450/proportional.design-3.0/avatar_w_3x_j45unb.webp"
+          alt="proportional.design avatar"
+        />
+      </div>
+      <div class="social-content">
+        <h2>Social</h2>
+        <a href="http://instagram.com/proportional.design" target="_blank"
+          >proportional.design</a
+        >
+      </div>
+    </section>
+
     <!-- <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
     </p> -->
@@ -135,8 +169,7 @@ section h2 {
     border: var(--border);
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05)),
-      var(--bg-url) no-repeat center center;
+    background: var(--bg-url) no-repeat center center;
     background-size: 100%;
     box-shadow: var(--shadow-sm);
     transition: background-size 500ms ease;
@@ -188,7 +221,7 @@ svg {
   margin-right: 0.5rem;
   font-size: var(--font-xxs);
   font-weight: 600;
-  letter-spacing: 0rem;
+  letter-spacing: 0;
   color: color-mix(in srgb, var(--color-font) 72%, transparent);
 }
 
@@ -206,9 +239,109 @@ svg {
   display: block;
   margin-left: 0.4rem;
 }
+
+.updates-content {
+  display: flex;
+  gap: var(--unit);
+  margin-top: 0.8rem;
+}
+
+.updates ul {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  min-width: grid-width(6);
+}
+
+.commits {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.commit-message {
+  font-size: var(--font-sm);
+}
+
+.commit-date {
+  margin-left: 0.9rem;
+  font-size: var(--font-xs);
+  opacity: 0.76;
+}
+
+.updates-thumbnail {
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-font);
+  width: grid-width(3.5);
+  height: 14rem;
+  object-fit: cover;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+}
+
+.social img {
+  display: block;
+  position: relative;
+  z-index: 1;
+  margin-right: 1rem;
+  border-radius: 100px;
+  border: 3px solid var(--bg);
+  width: 4rem;
+  height: 4rem;
+}
+
+@keyframes rotate {
+  from {
+    transform: scale(1.08) rotate(0deg);
+  }
+  to {
+    transform: scale(1.08) rotate(360deg);
+  }
+}
+
+.avatar-wrapper {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100px;
+    transform: scale(1.08);
+    animation: rotate 2s linear infinite;
+    background: linear-gradient(
+      228deg,
+      #c904ff 10.31%,
+      #d8066b 49%,
+      #ff941a 91.77%
+    );
+  }
+}
+
+.social-content {
+  transform: translateY(-0.1rem);
+}
+
+.social-content a {
+  display: block;
+  margin-top: -0.4rem;
+  text-decoration: underline;
+}
 </style>
 
 <script setup lang="ts">
+import { useGithubCommits } from "~/composables/updates";
+const { commits, loading } = useGithubCommits();
+
 // Add contact link handler
 const handleKeydown = (event: KeyboardEvent) => {
   if (
@@ -237,8 +370,23 @@ const backgroundUrls = [
   "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1736967397/proportional.design-3.0/icons/btn-bg-03_2x_icshbx.webp",
 ];
 
-// Randomly select one URL
+// Random button bg
 const randomBgUrl = computed(() => {
   return backgroundUrls[Math.floor(Math.random() * backgroundUrls.length)];
+});
+
+// Random thumbnail
+const thumbnails = [
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232373/proportional.design-3.0/index-thumbnails/00_tjgzn7.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735231748/proportional.design-3.0/index-thumbnails/01_2x_bhheme.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232374/proportional.design-3.0/index-thumbnails/02_lvzqot.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232376/proportional.design-3.0/index-thumbnails/03_sa9wcp.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735232463/proportional.design-3.0/index-thumbnails/04_y6rpgd.webp",
+  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735449108/proportional.design-3.0/index-thumbnails/proprotional.design_httpss.mj.run8u_CeAZHM1E_can_you_place_a__05a055af-be2c-4ee5-a722-ff3af8fd827e_1_vqeojd.webp",
+];
+
+const randomThumbnail = computed(() => {
+  const randomIndex = Math.floor(Math.random() * thumbnails.length);
+  return thumbnails[randomIndex];
 });
 </script>
