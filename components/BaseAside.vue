@@ -121,7 +121,7 @@ menu button {
   gap: 0.5rem;
   margin-left: 0rem;
   border-radius: var(--radius-xl);
-  padding: 0.6rem 1.7rem 0.7rem 1rem;
+  padding: 0.6rem 1.6rem 0.7rem 1.2rem;
   cursor: pointer;
 }
 
