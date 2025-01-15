@@ -22,10 +22,7 @@
         href="https://www.notion.so/1599d0f43b9881238f64e3211d43c345?pvs=106"
         target="_blank"
       >
-        <button
-          class="contact-button"
-          :style="`--bg-url: url('${randomBgUrl}')`"
-        >
+        <button class="contact-button">
           <svg
             width="16"
             height="16"
@@ -55,18 +52,20 @@
     <section class="updates spacing">
       <h2>Recent updates</h2>
       <div class="updates-content">
-        <ul>
-          <li class="commits" v-for="commit in commits" :key="commit.sha">
-            <span class="commit-message">• {{ commit.message }}</span>
-            <span class="commit-date">{{ commit.date }}</span>
-          </li>
-        </ul>
-
-        <img
-          class="updates-thumbnail"
-          :src="randomThumbnail"
-          alt="Thumbnail image"
-        />
+        <template v-if="!loading">
+          <ul>
+            <li class="commits" v-for="commit in commits" :key="commit.sha">
+              <span class="commit-message">☻ {{ commit.message }}</span>
+              <span class="commit-date">{{ commit.date }}</span>
+            </li>
+          </ul>
+          <img
+            class="updates-thumbnail"
+            :src="randomThumbnail"
+            alt="Thumbnail image"
+          />
+        </template>
+        <span class="loading" v-else />
       </div>
     </section>
 
@@ -86,9 +85,7 @@
       </div>
     </section>
 
-    <!-- <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-    </p> -->
+    <Table />
   </main>
 </template>
 
@@ -158,7 +155,7 @@ section h2 {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.5rem 1rem 0.65rem 1.2rem;
+  padding: 0.5rem 1rem 0.65rem 1.1rem;
 
   &::before {
     content: "";
@@ -250,7 +247,6 @@ svg {
 .commits {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
 }
 
 .commit-message {
@@ -258,14 +254,16 @@ svg {
 }
 
 .commit-date {
-  margin-left: 0.9rem;
+  margin-top: -0.1rem;
+  margin-left: 1.4rem;
   font-size: var(--font-xs);
+  font-weight: 500;
   opacity: 0.76;
 }
 
 .updates-thumbnail {
-  border-radius: var(--radius-md);
-  border: 1.5px solid var(--color-font);
+  border-radius: var(--radius-sm);
+  // border: 1.5px solid var(--color-font);
   width: grid-width(3.5);
   height: 14rem;
   object-fit: cover;
@@ -328,6 +326,10 @@ svg {
   display: block;
   margin-top: -0.4rem;
   text-decoration: underline;
+}
+
+.social-content a:hover {
+  text-decoration: none;
 }
 </style>
 
