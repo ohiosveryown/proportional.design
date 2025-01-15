@@ -169,17 +169,10 @@ section h2 {
     border: var(--border);
     width: 100%;
     height: 100%;
-    background: var(--bg-url) no-repeat center center;
-    background-size: 100%;
+    background: linear-gradient(180deg, #3b3a3a 0%, #2f2e2e 80%);
     box-shadow: var(--shadow-sm);
-    transition: background-size 500ms ease;
     overflow: hidden;
     will-change: background-size;
-  }
-
-  &:hover::before {
-    background-size: 160%;
-    transition: background-size 5s ease;
   }
 }
 
@@ -362,17 +355,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener("keydown", handleKeydown);
-});
-
-// Array of background image URLs
-const backgroundUrls = [
-  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1736965327/proportional.design-3.0/icons/btn-bg-01_2x_e5rq3a.webp",
-  "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1736967397/proportional.design-3.0/icons/btn-bg-03_2x_icshbx.webp",
-];
-
-// Random button bg
-const randomBgUrl = computed(() => {
-  return backgroundUrls[Math.floor(Math.random() * backgroundUrls.length)];
 });
 
 // Random thumbnail
