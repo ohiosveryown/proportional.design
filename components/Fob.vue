@@ -9,7 +9,7 @@
       />
       <span class="tooltip">
         <span class="label">Previous</span>
-        <span class="key">J</span>
+        <span class="key">[</span>
       </span>
     </NuxtLink>
 
@@ -24,7 +24,7 @@
       />
       <span class="tooltip">
         <span class="label">Next</span>
-        <span class="key">K</span>
+        <span class="key">]</span>
       </span>
     </NuxtLink>
   </div>
@@ -187,13 +187,13 @@ onMounted(() => {
     }
 
     switch (e.key.toLowerCase()) {
-      case "j":
+      // case "j":
       case "[":
         if (prevPost) {
           router.push(prevPost._path);
         }
         break;
-      case "k":
+      // case "k":
       case "]":
         if (nextPost) {
           router.push(nextPost._path);
