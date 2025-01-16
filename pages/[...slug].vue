@@ -148,10 +148,16 @@ section.spacing {
   padding-bottom: var(--unit);
 }
 
-section h2 {
+section h2,
+:deep(th) {
   font-size: var(--font-sm);
   opacity: 0.76;
   text-transform: capitalize;
+}
+
+:deep(th) {
+  font-weight: 600;
+  font-size: var(--font-xs);
 }
 
 .contact {
