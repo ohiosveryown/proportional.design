@@ -88,11 +88,16 @@
 @use "/assets/style/grid.scss" as *;
 
 .controls {
+  position: sticky;
+  z-index: var(--z1);
+  top: 5.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0.4rem 0 1.6rem 0;
-  padding: 0 1.2rem 0 1rem;
+  margin-bottom: 0.4rem;
+  padding: 1.2rem 1.2rem 1rem;
+  background: var(--bg-vdark);
+  box-shadow: var(--shadow-sm);
 }
 
 .label-filter {

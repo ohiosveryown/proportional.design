@@ -150,7 +150,7 @@ nav ~ header {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  margin: 0 1.2rem 0.65rem;
+  margin: 0 1.2rem;
   border-bottom: var(--border);
   padding: 2.4rem 0 2rem;
 }
