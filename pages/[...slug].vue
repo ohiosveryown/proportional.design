@@ -325,6 +325,7 @@ svg {
     border-radius: 100px;
     transform: scale(1.08);
     animation: rotate 2s linear infinite;
+    will-change: transform;
     background: linear-gradient(
       228deg,
       #c904ff 10.31%,

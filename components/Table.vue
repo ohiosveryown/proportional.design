@@ -1,17 +1,23 @@
 <template>
   <section>
-    <div class="header-row">
+    <!-- <div class="header-row">
+      <button class="view-toggle" @click="toggleView">
+        {{ isGridView ? "⊞" : "≣" }}
+      </button>
+
       <h2>
         <span class="op-7">All files ({{ filteredPosts.length }})</span>
         <span class="dot" :class="{ 'is-active': selectedTags.length > 0 }" />
       </h2>
+    </div> -->
+
+    <div class="toolbar">
       <button class="view-toggle" @click="toggleView">
         {{ isGridView ? "⊞" : "≣" }}
       </button>
-    </div>
 
-    <div class="tag-filters">
-      <span class="op-7">Filters:</span>
+      <h2 class="toolbar-label op-7">Filters:</h2>
+
       <button
         v-for="tag in allTags"
         :key="tag"
@@ -81,8 +87,8 @@
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
+h2,
 h2 span {
-  padding-left: 1.4rem;
   font-size: var(--font-sm);
   font-weight: 500;
   opacity: 0.76;
@@ -106,37 +112,42 @@ h2 span {
   }
 }
 
-.tag-filters {
+.toolbar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.8rem;
-  margin: 0.8rem 0 0.4rem;
+  gap: 0.6rem;
+  margin: 2rem 0 0.4rem;
+  padding-left: 1.4rem;
 }
 
-.tag-filters span {
-  font-size: 1.2rem;
+.toolbar span {
+  font-size: var(--font-xs);
+}
+
+.toolbar-label {
+  margin-right: 0.2rem;
 }
 
 .tag-filter {
   display: inline-block;
-  border-radius: 100px;
-  border: var(--border-light);
+  border-radius: var(--radius-xl);
+  border: var(--border);
   padding: 0.4rem 0.8rem 0.5rem;
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: var(--font-xs);
   color: var(--color-font);
-  background: var(--bg);
+  background: var(--bg-light);
+  text-shadow: none;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: var(--bg-light);
+    background: var(--bg-vlight);
   }
 
   &.is-active {
-    border: 0.5px solid rgb(255, 255, 255, 0.5);
-    // background: var(--bg-vlight);
+    background: var(--bg-vvlight);
   }
 }
 
@@ -256,16 +267,17 @@ td a {
 
 .header-row {
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
   // margin-bottom: 2rem;
+  padding-left: 1.4rem;
 }
 
 .view-toggle {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.8rem;
+  // padding: 0.8rem;
   border-radius: var(--radius-sm);
   color: var(--color-font);
   opacity: 0.7;
