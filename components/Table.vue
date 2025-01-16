@@ -1,11 +1,17 @@
 <template>
   <section>
-    <h4>
-      <span class="op-7">All files ({{ filteredPosts.length }})</span>
-      <span class="dot" :class="{ 'is-active': selectedTags.length > 0 }" />
-    </h4>
+    <div class="header-row">
+      <h4>
+        <span class="op-7">All files ({{ filteredPosts.length }})</span>
+        <span class="dot" :class="{ 'is-active': selectedTags.length > 0 }" />
+      </h4>
+      <button class="view-toggle" @click="toggleView">
+        {{ isGridView ? "⊞" : "≣" }}
+      </button>
+    </div>
 
-    <table>
+    <!-- Table View -->
+    <table v-if="!isGridView">
       <thead>
         <tr>
           <th class="col-name">Name</th>
@@ -32,6 +38,25 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Grid View -->
+    <div v-else class="grid-view">
+      <div v-for="post in filteredPosts" :key="post._path" class="grid-item">
+        <NuxtLink :to="post._path" class="grid-card">
+          <img class="icon-file" :src="post.icon" :alt="post.title" />
+          <div class="grid-content">
+            <h3>{{ post.title }}</h3>
+            <p class="directory op-7">{{ getDirectory(post._path) }}</p>
+            <p class="date op-7">{{ formatDate(post.date) }}</p>
+            <div class="tags">
+              <span v-for="tag in post.tags" :key="tag" class="tag">
+                {{ tag }}
+              </span>
+            </div>
+          </div>
+        </NuxtLink>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -141,10 +166,77 @@ td a {
 .op-7 {
   opacity: 0.76;
 }
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.view-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.8rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-font);
+  opacity: 0.7;
+  transition: all 0.2s ease;
+  font-size: 2rem;
+  line-height: 1;
+
+  &:hover {
+    opacity: 1;
+    background: var(--bg-dark);
+  }
+}
+
+.grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.grid-card {
+  display: block;
+  background: var(--bg-light);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  transition: all 0.2s ease;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: var(--bg-dark);
+  }
+
+  .icon-file {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+
+  .directory,
+  .date {
+    font-size: 1.3rem;
+    margin: 0.5rem 0;
+  }
+
+  .tags {
+    margin-top: 1.5rem;
+  }
+}
 </style>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 
 // Fetch posts directly in the component
 const { data: posts } = await useAsyncData("posts", () =>
@@ -189,5 +281,22 @@ const formatDate = (date) => {
     month: "short",
     day: "numeric",
   });
+};
+
+const isGridView = ref(false);
+
+// Use onMounted to handle localStorage after initial render
+onMounted(() => {
+  const savedView = localStorage.getItem("isGridView");
+  if (savedView !== null) {
+    isGridView.value = savedView === "true";
+  }
+});
+
+const toggleView = () => {
+  isGridView.value = !isGridView.value;
+  if (process.client) {
+    localStorage.setItem("isGridView", isGridView.value.toString());
+  }
 };
 </script>
