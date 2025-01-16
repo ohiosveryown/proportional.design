@@ -1,22 +1,40 @@
 <template>
   <section>
     <div class="header-row">
-      <h4>
+      <h2>
         <span class="op-7">All files ({{ filteredPosts.length }})</span>
         <span class="dot" :class="{ 'is-active': selectedTags.length > 0 }" />
-      </h4>
+      </h2>
       <button class="view-toggle" @click="toggleView">
         {{ isGridView ? "⊞" : "≣" }}
       </button>
     </div>
 
+    <div class="tag-filters">
+      <span class="op-7">Filters:</span>
+      <button
+        v-for="tag in allTags"
+        :key="tag"
+        class="tag-filter"
+        :class="{ 'is-active': selectedTags.includes(tag) }"
+        @click="toggleTag(tag)"
+      >
+        {{ tag }}
+      </button>
+    </div>
+
+    <p v-if="filteredPosts.length === 0" class="no-results">
+      Looks like we came up empty. Try removing some filters to see more content
+      👍.
+    </p>
+
     <!-- Table View -->
-    <table v-if="!isGridView">
+    <table v-else-if="!isGridView">
       <thead>
         <tr>
           <th class="col-name">Name</th>
-          <th>Directory</th>
-          <th>Date</th>
+          <th class="col-directory">Directory</th>
+          <th class="col-date">Date</th>
           <th class="col-tags">Tags</th>
         </tr>
       </thead>
@@ -30,7 +48,7 @@
           </td>
           <td class="op-7">{{ getDirectory(post._path) }}</td>
           <td class="op-7">{{ formatDate(post.date) }}</td>
-          <td class="tags col-tags">
+          <td class="tags">
             <span v-for="tag in post.tags" :key="tag" class="tag">
               {{ tag }}
             </span>
@@ -63,6 +81,65 @@
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
+h2 span {
+  padding-left: 1.4rem;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  opacity: 0.76;
+  text-transform: capitalize;
+}
+
+.dot {
+  display: inline-block;
+  border-radius: 100px;
+  width: 0.7rem;
+  height: 0.7rem;
+  background: #e75656;
+  opacity: 0;
+  transform: translate(0.5rem, -0.05rem) scale(0.9);
+  transition: all 300ms ease;
+
+  &.is-active {
+    opacity: 1;
+    background: #e75656;
+    transform: translate(0.5rem, -0.05rem) scale(1);
+  }
+}
+
+.tag-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0.8rem 0 0.4rem;
+}
+
+.tag-filters span {
+  font-size: 1.2rem;
+}
+
+.tag-filter {
+  display: inline-block;
+  border-radius: 100px;
+  border: var(--border-light);
+  padding: 0.4rem 0.8rem 0.5rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: var(--color-font);
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--bg-light);
+  }
+
+  &.is-active {
+    border: 0.5px solid rgb(255, 255, 255, 0.5);
+    // background: var(--bg-vlight);
+  }
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -78,6 +155,7 @@ table {
   }
 
   thead tr {
+    content-visibility: visible;
     &:hover {
       background: none;
     }
@@ -93,7 +171,7 @@ table {
   th {
     font-weight: 500;
     color: var(--color-font);
-    opacity: 0.76;
+    opacity: 1;
   }
 
   td {
@@ -119,8 +197,6 @@ td a {
 }
 
 .col-name {
-  position: sticky;
-  top: 5.6rem;
   padding-left: 1.5rem;
 }
 
@@ -129,6 +205,17 @@ td a {
   @include breakpoint(lg) {
     display: table-cell;
   }
+}
+
+.col-directory,
+.col-name,
+.col-tags,
+.col-date {
+  position: sticky;
+  z-index: var(--z1);
+  top: 5.4rem;
+  background: color-mix(in srgb, var(--bg-vdark) 80%, transparent);
+  backdrop-filter: blur(10px);
 }
 
 .tags {
@@ -171,7 +258,7 @@ td a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  // margin-bottom: 2rem;
 }
 
 .view-toggle {
@@ -233,6 +320,12 @@ td a {
     margin-top: 1.5rem;
   }
 }
+
+.no-results {
+  text-align: center;
+  padding: 4rem 0;
+  opacity: 0.7;
+}
 </style>
 
 <script setup lang="ts">
@@ -245,16 +338,43 @@ const { data: posts } = await useAsyncData("posts", () =>
 
 const selectedTags = ref<string[]>([]);
 
-// Update filteredPosts to use posts.value
+// Get all unique tags from posts
+const allTags = computed(() => {
+  if (!posts.value) return [];
+
+  const tags = new Set<string>();
+  posts.value.forEach((post) => {
+    post.tags?.forEach((tag) => tags.add(tag));
+  });
+  return Array.from(tags).sort();
+});
+
+// Toggle tag selection
+const toggleTag = (tag: string) => {
+  const index = selectedTags.value.indexOf(tag);
+  if (index === -1) {
+    selectedTags.value.push(tag);
+  } else {
+    selectedTags.value.splice(index, 1);
+  }
+};
+
+// Update filteredPosts to include sorting by date
 const filteredPosts = computed(() => {
   if (!posts.value) return [];
 
-  const filtered = posts.value.filter((post) => post._path !== "/");
+  const filtered = posts.value
+    .filter((post) => post._path !== "/")
+    .sort((a, b) => {
+      return new Date(b.date) - new Date(a.date); // Most recent first
+    });
 
-  if (selectedTags.value.length === 0) return filtered;
+  if (selectedTags.value.length === 0) {
+    return filtered;
+  }
 
   return filtered.filter((post) =>
-    post.tags?.some((tag: string) => selectedTags.value.includes(tag))
+    post.tags?.some((tag) => selectedTags.value.includes(tag))
   );
 });
 

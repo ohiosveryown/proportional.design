@@ -97,7 +97,9 @@
   margin-bottom: 0.4rem;
   padding: 1.2rem 1.2rem 1rem 0.9rem;
   background: var(--bg-vdark);
-  box-shadow: var(--shadow-sm);
+  @include breakpoint(md) {
+    box-shadow: var(--shadow-sm);
+  }
 }
 
 .label-filter {
