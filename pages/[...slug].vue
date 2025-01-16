@@ -65,7 +65,17 @@
             alt="Thumbnail image"
           />
         </template>
-        <span class="loading" v-else />
+        <template v-else>
+          <ul class="skeleton-list">
+            <li class="commits skeleton" v-for="n in 3" :key="n">
+              <div class="skeleton-content">
+                <span class="commit-message-skeleton"></span>
+                <span class="commit-date-skeleton"></span>
+              </div>
+            </li>
+          </ul>
+          <div class="updates-thumbnail skeleton" />
+        </template>
       </div>
     </section>
 
@@ -265,7 +275,7 @@ svg {
   border-radius: var(--radius-sm);
   // border: 1.5px solid var(--color-font);
   width: grid-width(3.5);
-  height: 14rem;
+  height: 15.1rem;
   object-fit: cover;
   box-shadow: var(--shadow);
   pointer-events: none;
@@ -330,6 +340,74 @@ svg {
 
 .social-content a:hover {
   text-decoration: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+ul.skeleton-list {
+  gap: 0.8rem;
+}
+
+.skeleton {
+  padding: 0 1rem;
+  background: var(--bg-light);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.9rem 0;
+}
+
+.commit-message-skeleton {
+  height: 1.2rem;
+  width: 80%;
+  background: linear-gradient(
+    90deg,
+    var(--bg-light) 25%,
+    color-mix(in srgb, var(--bg-light) 80%, transparent) 50%,
+    var(--bg-light) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: var(--radius-sm);
+}
+
+.commit-date-skeleton {
+  height: 0.9rem;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    var(--bg-light) 25%,
+    color-mix(in srgb, var(--bg-light) 80%, transparent) 50%,
+    var(--bg-light) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: var(--radius-sm);
+}
+
+.updates-thumbnail.skeleton {
+  width: grid-width(3.5);
+  height: 15.1rem;
+  background: linear-gradient(
+    90deg,
+    var(--bg-light) 25%,
+    color-mix(in srgb, var(--bg-light) 80%, transparent) 50%,
+    var(--bg-light) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite linear;
 }
 </style>
 
