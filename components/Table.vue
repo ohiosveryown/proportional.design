@@ -13,7 +13,82 @@
 
     <div class="toolbar">
       <button class="view-toggle" @click="toggleView">
-        {{ isGridView ? "⊞" : "≣" }}
+        <!-- {{ isGridView ? "⊞" : "≣" }} -->
+        <svg
+          v-if="isGridView"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+        >
+          <mask id="a" fill="#fff">
+            <rect width="5" height="5" x="4" y="4" rx=".5" />
+          </mask>
+          <rect
+            width="5"
+            height="5"
+            x="4"
+            y="4"
+            stroke="#fff"
+            stroke-width="1.5"
+            mask="url(#a)"
+            rx=".5"
+          />
+          <mask id="b" fill="#fff">
+            <rect width="5" height="5" x="4" y="11" rx=".5" />
+          </mask>
+          <rect
+            width="5"
+            height="5"
+            x="4"
+            y="11"
+            stroke="#fff"
+            stroke-width="1.5"
+            mask="url(#b)"
+            rx=".5"
+          />
+          <mask id="c" fill="#fff">
+            <rect width="5" height="5" x="11" y="4" rx=".5" />
+          </mask>
+          <rect
+            width="5"
+            height="5"
+            x="11"
+            y="4"
+            stroke="#fff"
+            stroke-width="1.5"
+            mask="url(#c)"
+            rx=".5"
+          />
+          <mask id="d" fill="#fff">
+            <rect width="5" height="5" x="11" y="11" rx=".5" />
+          </mask>
+          <rect
+            width="5"
+            height="5"
+            x="11"
+            y="11"
+            stroke="#fff"
+            stroke-width="1.5"
+            mask="url(#d)"
+            rx=".5"
+          />
+        </svg>
+
+        <svg
+          v-else
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+        >
+          <path
+            fill="#fff"
+            fill-rule="evenodd"
+            d="M16 6a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11A.5.5 0 0 0 16 6ZM16 10a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5ZM16 14a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5Z"
+            clip-rule="evenodd"
+          />
+        </svg>
       </button>
 
       <h2 class="toolbar-label op-7">Filters:</h2>
@@ -116,7 +191,7 @@ h2 span {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.2rem;
   margin: 2rem 0 0.4rem;
   padding-left: 1.4rem;
 }
@@ -126,11 +201,13 @@ h2 span {
 }
 
 .toolbar-label {
-  margin-right: 0.2rem;
+  border-left: var(--border-vdark);
+  padding-left: 0.8rem;
 }
 
 .tag-filter {
   display: inline-block;
+  margin-left: 0.3rem;
   border-radius: var(--radius-xl);
   border: var(--border);
   padding: 0.4rem 0.8rem 0.5rem;
@@ -140,7 +217,7 @@ h2 span {
   background: var(--bg-light);
   text-shadow: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease;
 
   &:hover {
     background: var(--bg-vlight);
@@ -225,7 +302,7 @@ td a {
   position: sticky;
   z-index: var(--z1);
   top: 5.4rem;
-  background: color-mix(in srgb, var(--bg-vdark) 80%, transparent);
+  background: color-mix(in srgb, var(--bg-vdark) 76%, transparent);
   backdrop-filter: blur(10px);
 }
 
@@ -267,23 +344,22 @@ td a {
 
 .header-row {
   display: flex;
-  // justify-content: space-between;
   align-items: center;
-  // margin-bottom: 2rem;
   padding-left: 1.4rem;
 }
 
 .view-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  // padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.4rem;
   border-radius: var(--radius-sm);
   color: var(--color-font);
-  opacity: 0.7;
+  background: var(--bg-vdark);
+  opacity: 0.76;
+  transform: translateY(0.05rem);
   transition: all 0.2s ease;
-  font-size: 2rem;
-  line-height: 1;
+  cursor: pointer;
 
   &:hover {
     opacity: 1;
