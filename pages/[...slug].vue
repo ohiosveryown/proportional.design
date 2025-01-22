@@ -95,7 +95,30 @@
       </div>
     </section>
 
-    <Table />
+    <section class="most-recent spacing">
+      <!-- <h2>Most recent</h2> -->
+      <ContentList
+        path="/"
+        :query="{
+          where: [{ _path: { $ne: '/' } }, { featured: { $eq: true } }],
+          limit: 1,
+        }"
+        v-slot="{ list }"
+      >
+        <div v-if="list.length" class="recent-post">
+          <img
+            v-if="list[0].icon"
+            class="icon"
+            :src="list[0].icon"
+            :alt="`${list[0].title} icon`"
+          />
+          <h2 class="recent-title">{{ list[0].title }}</h2>
+          <p>{{ list[0].description }}</p>
+          <!-- <NuxtLink :to="list[0]._path">Read more →</NuxtLink> -->
+        </div>
+      </ContentList>
+    </section>
+    <!-- <Table /> -->
   </main>
 </template>
 
@@ -415,6 +438,48 @@ ul.skeleton-list {
   );
   background-size: 200% 100%;
   animation: shimmer 2s infinite linear;
+}
+
+.most-recent {
+  margin-bottom: 0.6rem !important;
+  border: var(--border) !important;
+  border-radius: var(--radius-md);
+  padding: 4rem;
+  background: rgba(0, 0, 0, 0.2);
+
+  .recent-post {
+    margin-top: 0.8rem;
+
+    .icon {
+      // width: 2.4rem;
+      // height: 2.4rem;
+      border-radius: var(--radius-sm);
+      border: var(--border);
+      object-fit: cover;
+    }
+
+    h2 {
+      margin: 1.6rem 0 0.1rem;
+      font-size: var(--font-sm);
+      text-transform: none;
+      opacity: 1;
+    }
+
+    p {
+      font-size: var(--font-sm);
+      opacity: 0.76;
+      margin-bottom: 0.8rem;
+    }
+
+    a {
+      font-size: var(--font-sm);
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
 }
 </style>
 

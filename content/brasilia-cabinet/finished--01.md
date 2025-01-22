@@ -1,4 +1,5 @@
 ---
+featured: true
 title: finished--01.jpg
 date: "september 9, 2022"
 type: "photo"

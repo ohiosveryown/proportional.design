@@ -1,70 +1,84 @@
 <template>
   <section>
     <div class="toolbar">
-      <button class="view-toggle" @click="toggleView">
-        <!-- {{ isGridView ? "⊞" : "≣" }} -->
-        <svg v-if="isGridView" width="20" height="20" fill="none">
-          <mask id="a" fill="#fff">
-            <rect width="5" height="5" x="4" y="4" rx=".5" />
-          </mask>
-          <rect
-            width="5"
-            height="5"
-            x="4"
-            y="4"
-            stroke="#fff"
-            stroke-width="1.5"
-            mask="url(#a)"
-            rx=".5"
-          />
-          <mask id="b" fill="#fff">
-            <rect width="5" height="5" x="4" y="11" rx=".5" />
-          </mask>
-          <rect
-            width="5"
-            height="5"
-            x="4"
-            y="11"
-            stroke="#fff"
-            stroke-width="1.5"
-            mask="url(#b)"
-            rx=".5"
-          />
-          <mask id="c" fill="#fff">
-            <rect width="5" height="5" x="11" y="4" rx=".5" />
-          </mask>
-          <rect
-            width="5"
-            height="5"
-            x="11"
-            y="4"
-            stroke="#fff"
-            stroke-width="1.5"
-            mask="url(#c)"
-            rx=".5"
-          />
-          <mask id="d" fill="#fff">
-            <rect width="5" height="5" x="11" y="11" rx=".5" />
-          </mask>
-          <rect
-            width="5"
-            height="5"
-            x="11"
-            y="11"
-            stroke="#fff"
-            stroke-width="1.5"
-            mask="url(#d)"
-            rx=".5"
-          />
-        </svg>
+      <div class="button-container">
+        <div class="tooltip">
+          <span class="label">Switch view</span>
+          <span class="key">⌘</span>
+          <span class="key key-secondary">V</span>
+        </div>
+        <button class="view-toggle" @click="toggleView">
+          <!-- {{ isGridView ? "⊞" : "≣" }} -->
+          <svg v-if="isGridView" width="20" height="20" fill="none">
+            <mask id="a" fill="#fff">
+              <rect width="5" height="5" x="4" y="4" rx=".5" />
+            </mask>
+            <rect
+              width="5"
+              height="5"
+              x="4"
+              y="4"
+              stroke="#fff"
+              stroke-width="1.5"
+              mask="url(#a)"
+              rx=".5"
+            />
+            <mask id="b" fill="#fff">
+              <rect width="5" height="5" x="4" y="11" rx=".5" />
+            </mask>
+            <rect
+              width="5"
+              height="5"
+              x="4"
+              y="11"
+              stroke="#fff"
+              stroke-width="1.5"
+              mask="url(#b)"
+              rx=".5"
+            />
+            <mask id="c" fill="#fff">
+              <rect width="5" height="5" x="11" y="4" rx=".5" />
+            </mask>
+            <rect
+              width="5"
+              height="5"
+              x="11"
+              y="4"
+              stroke="#fff"
+              stroke-width="1.5"
+              mask="url(#c)"
+              rx=".5"
+            />
+            <mask id="d" fill="#fff">
+              <rect width="5" height="5" x="11" y="11" rx=".5" />
+            </mask>
+            <rect
+              width="5"
+              height="5"
+              x="11"
+              y="11"
+              stroke="#fff"
+              stroke-width="1.5"
+              mask="url(#d)"
+              rx=".5"
+            />
+          </svg>
 
-        <svg v-else width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <rect x="4.25" y="5" width="3" height="3" rx="0.5" stroke="white" />
-          <path d="M10.25 6.5H15.75" stroke="white" stroke-linecap="round" />
-          <rect x="4.25" y="12" width="3" height="3" rx="0.5" stroke="white" />
-          <path d="M10.25 13.5H15.75" stroke="white" stroke-linecap="round" />
-        </svg>
-      </button>
+          <svg v-else width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4.25" y="5" width="3" height="3" rx="0.5" stroke="white" />
+            <path d="M10.25 6.5H15.75" stroke="white" stroke-linecap="round" />
+            <rect
+              x="4.25"
+              y="12"
+              width="3"
+              height="3"
+              rx="0.5"
+              stroke="white"
+            />
+            <path d="M10.25 13.5H15.75" stroke="white" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
 
       <h2 class="count-label">
         <span class="op-7">All files ({{ filteredPosts.length }})</span>
@@ -189,6 +203,36 @@ h2 span {
 .toolbar-label {
   border-left: var(--border-vdark);
   padding-left: 0.8rem;
+}
+
+.button-container {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  top: 40%;
+  left: 0%;
+  z-index: var(--z1);
+  padding: 0.24rem 0.32rem 0.32rem 0.64rem;
+  background: var(--bg);
+  border: var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(2rem) translateY(-40%) scale(0.8);
+  transform-origin: center left;
+  transition: all 200ms ease;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.button-container:hover .tooltip {
+  opacity: 1;
+  transform: translateX(2.6rem) translateY(-40%) scale(0.9);
+  transition: all 200ms ease 400ms;
 }
 
 .tag-filter {
@@ -340,6 +384,7 @@ td a {
   align-items: center;
   justify-content: center;
   position: relative;
+  z-index: var(--z2);
   margin-right: 0.4rem;
   border-radius: var(--radius-sm);
   color: var(--color-font);
@@ -425,7 +470,6 @@ td a {
 }
 
 .key-secondary {
-  display: block;
   margin-left: 0.4rem;
 }
 </style>
