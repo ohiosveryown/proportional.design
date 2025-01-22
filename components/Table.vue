@@ -1,26 +1,9 @@
 <template>
   <section>
-    <!-- <div class="header-row">
-      <button class="view-toggle" @click="toggleView">
-        {{ isGridView ? "⊞" : "≣" }}
-      </button>
-
-      <h2>
-        <span class="op-7">All files ({{ filteredPosts.length }})</span>
-        <span class="dot" :class="{ 'is-active': selectedTags.length > 0 }" />
-      </h2>
-    </div> -->
-
     <div class="toolbar">
       <button class="view-toggle" @click="toggleView">
         <!-- {{ isGridView ? "⊞" : "≣" }} -->
-        <svg
-          v-if="isGridView"
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          fill="none"
-        >
+        <svg v-if="isGridView" width="20" height="20" fill="none">
           <mask id="a" fill="#fff">
             <rect width="5" height="5" x="4" y="4" rx=".5" />
           </mask>
@@ -75,21 +58,18 @@
           />
         </svg>
 
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          fill="none"
-        >
-          <path
-            fill="#fff"
-            fill-rule="evenodd"
-            d="M16 6a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11A.5.5 0 0 0 16 6ZM16 10a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5ZM16 14a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5Z"
-            clip-rule="evenodd"
-          />
+        <svg v-else width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="4.25" y="5" width="3" height="3" rx="0.5" stroke="white" />
+          <path d="M10.25 6.5H15.75" stroke="white" stroke-linecap="round" />
+          <rect x="4.25" y="12" width="3" height="3" rx="0.5" stroke="white" />
+          <path d="M10.25 13.5H15.75" stroke="white" stroke-linecap="round" />
         </svg>
       </button>
+
+      <h2 class="count-label">
+        <span class="op-7">All files ({{ filteredPosts.length }})</span>
+        <span class="dot" :class="{ 'is-active': selectedTags.length > 0 }" />
+      </h2>
 
       <h2 class="toolbar-label op-7">Filters:</h2>
 
@@ -172,17 +152,18 @@ h2 span {
 
 .dot {
   display: inline-block;
-  border-radius: 100px;
+  margin-right: 1rem;
+  border-radius: var(--radius-lg);
   width: 0.7rem;
   height: 0.7rem;
-  background: #e75656;
-  opacity: 0;
-  transform: translate(0.5rem, -0.05rem) scale(0.9);
+  background: var(--bg-vlight);
+  opacity: 1;
+  transform: translate(0.5rem, -0.05rem) scale(0.8);
   transition: all 300ms ease;
 
   &.is-active {
     opacity: 1;
-    background: #e75656;
+    background: var(--color-active);
     transform: translate(0.5rem, -0.05rem) scale(1);
   }
 }
@@ -191,13 +172,18 @@ h2 span {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.2rem;
-  margin: 2rem 0 0.4rem;
+  gap: 0.3rem;
+  margin: 2rem 0 0.8rem;
   padding-left: 1.4rem;
 }
 
 .toolbar span {
   font-size: var(--font-xs);
+}
+
+.count-label {
+  border-left: var(--border-vdark);
+  padding-left: 0.8rem;
 }
 
 .toolbar-label {
@@ -211,8 +197,9 @@ h2 span {
   border-radius: var(--radius-xl);
   border: var(--border);
   padding: 0.4rem 0.8rem 0.5rem;
+  letter-spacing: 0.02rem;
   font-weight: 500;
-  font-size: var(--font-xs);
+  font-size: var(--font-xxs);
   color: var(--color-font);
   background: var(--bg-light);
   text-shadow: none;
@@ -352,6 +339,7 @@ td a {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   margin-right: 0.4rem;
   border-radius: var(--radius-sm);
   color: var(--color-font);
@@ -360,6 +348,7 @@ td a {
   transform: translateY(0.05rem);
   transition: all 0.2s ease;
   cursor: pointer;
+  position: relative;
 
   &:hover {
     opacity: 1;
@@ -371,6 +360,8 @@ td a {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 2rem;
+  margin: 2rem auto 0;
+  padding: 0 1.2rem;
 }
 
 .grid-card {
@@ -414,10 +405,33 @@ td a {
   padding: 4rem 0;
   opacity: 0.7;
 }
+
+.label {
+  margin-right: 0.5rem;
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  letter-spacing: 0rem;
+  color: color-mix(in srgb, var(--color-font) 72%, transparent);
+}
+
+.key {
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.7rem;
+  background: var(--bg-light);
+  border: var(--border);
+  text-align: center;
+}
+
+.key-secondary {
+  display: block;
+  margin-left: 0.4rem;
+}
 </style>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, onMounted, onUnmounted } from "vue";
 
 // Fetch posts directly in the component
 const { data: posts } = await useAsyncData("posts", () =>
@@ -462,7 +476,7 @@ const filteredPosts = computed(() => {
   }
 
   return filtered.filter((post) =>
-    post.tags?.some((tag) => selectedTags.value.includes(tag))
+    selectedTags.value.every((tag) => post.tags?.includes(tag))
   );
 });
 
@@ -499,6 +513,7 @@ onMounted(() => {
   if (savedView !== null) {
     isGridView.value = savedView === "true";
   }
+  window.addEventListener("keydown", handleKeydown);
 });
 
 const toggleView = () => {
@@ -507,4 +522,19 @@ const toggleView = () => {
     localStorage.setItem("isGridView", isGridView.value.toString());
   }
 };
+
+// Add keyboard shortcut handler
+const handleKeydown = (event: KeyboardEvent) => {
+  if (
+    (event.metaKey || event.ctrlKey) &&
+    (event.key === "v" || event.key === "V")
+  ) {
+    event.preventDefault();
+    toggleView();
+  }
+};
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeydown);
+});
 </script>
