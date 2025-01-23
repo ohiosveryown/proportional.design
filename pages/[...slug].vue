@@ -1,6 +1,6 @@
 <template>
   <main class="main">
-    <nav>
+    <nav class="hide-sm">
       <img
         class="thumbnail"
         src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735235844/proportional.design-3.0/icons/md_rufxgs.webp"
@@ -13,7 +13,7 @@
       <span class="filetype">Markdown</span>
     </nav>
 
-    <section class="contact spacing">
+    <section class="hide-sm contact spacing">
       <div class="contact-main">
         <h2>Contact</h2>
         <p>hello@proportional.design</p>
@@ -49,7 +49,7 @@
       </a>
     </section>
 
-    <section class="updates spacing">
+    <section class="hide-sm updates spacing">
       <h2>Recent updates</h2>
       <div class="updates-content">
         <template v-if="!loading">
@@ -79,7 +79,7 @@
       </div>
     </section>
 
-    <section class="social spacing">
+    <section class="hide-sm social spacing">
       <div class="avatar-wrapper">
         <img
           class="avatar"
@@ -95,7 +95,7 @@
       </div>
     </section>
 
-    <section class="most-recent spacing">
+    <section class="hide-sm most-recent spacing">
       <!-- <h2>Most recent</h2> -->
       <ContentList
         path="/"
@@ -480,6 +480,9 @@ ul.skeleton-list {
       }
     }
   }
+}
+
+.hide-sm {
 }
 </style>
 

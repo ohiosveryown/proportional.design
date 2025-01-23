@@ -112,7 +112,7 @@
                   </svg>
                   <div class="divider" />
                   <span class="count">{{ count }}</span>
-                  <span class="tooltip">
+                  <span class="tooltip-like">
                     <span class="label">Like</span>
                     <span class="key">L</span>
                   </span>
@@ -339,8 +339,8 @@ summary {
   display: flex;
   align-items: center;
   position: absolute;
-  top: 116%;
-  left: 50%;
+  top: 50%;
+  right: 0%;
   padding: 0.24rem 0.32rem 0.32rem 0.64rem;
   background: var(--bg);
   border: var(--border-light);
@@ -349,8 +349,8 @@ summary {
   font-weight: 600;
   white-space: nowrap;
   opacity: 0;
-  transform: translateX(-50%) translateY(-8px) scale(0.8);
-  transform-origin: top;
+  transform: translateX(-20%) translateY(-50%) scale(0.8);
+  transform-origin: right center;
   transition: all 200ms ease;
   pointer-events: none;
   box-shadow: var(--shadow-sm);
@@ -359,6 +359,12 @@ summary {
   @media (pointer: coarse) {
     display: none;
   }
+}
+
+.close:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-30%) translateY(-50%) scale(0.9);
+  transition: all 300ms ease 400ms;
 }
 
 .label {
@@ -377,12 +383,6 @@ summary {
   background: var(--bg-light);
   border: var(--border);
   text-align: center;
-}
-
-.close:hover .tooltip {
-  opacity: 1;
-  transform: translateY(-50%) translateX(-0.25rem);
-  transition: all 300ms ease 400ms;
 }
 
 .like-container {
@@ -472,7 +472,33 @@ summary {
   text-transform: none;
 }
 
-.like-button:hover .tooltip {
+.tooltip-like {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 116%;
+  left: 50%;
+  padding: 0.24rem 0.32rem 0.32rem 0.64rem;
+  background: var(--bg);
+  border: var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px) scale(0.8);
+  transform-origin: top;
+  transition: all 200ms ease;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+  gap: 0.3rem;
+
+  @media (pointer: coarse) {
+    display: none;
+  }
+}
+
+.like-button:hover .tooltip-like {
   opacity: 1;
   transform: translateX(-50%) translateY(1px) scale(0.9);
   transition: all 200ms ease 400ms;
