@@ -18,6 +18,13 @@
   @include breakpoint(md) {
     flex-direction: row;
   }
+
+  .index-container {
+    display: none;
+    @include breakpoint(md) {
+      display: inherit;
+    }
+  }
 }
 
 .container {

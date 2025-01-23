@@ -1,5 +1,5 @@
 <template>
-  <main class="main">
+  <main class="main index-container">
     <nav class="hide-sm">
       <img
         class="thumbnail"
