@@ -21,10 +21,12 @@
     <dialog ref="searchDialog">
       <header class="input">
         <input
+          ref="searchInput"
           v-model="query"
           type="search"
           placeholder="Search media..."
           class="search-input"
+          @keydown="handleInputKeydown"
         />
 
         <span class="divider" />
@@ -428,11 +430,12 @@ section.suggestions {
 }
 </style>
 
-<script setup>
+<script setup lang="ts">
 import { queryContent } from "#imports";
 import { useDebounceFn } from "@vueuse/core";
 import { ref, onMounted, onUnmounted, watch } from "vue";
 import { useRoute } from "vue-router";
+import { useSearchDialog } from "../composables/useSearchDialog";
 
 const searchDialog = ref(null);
 const randomPosts = ref([]);
@@ -443,6 +446,7 @@ const searchResults = ref([]);
 const thumbnailsContainer = ref(null);
 const displayedPosts = ref([]);
 const allPosts = ref([]);
+const { isSearchOpen, setSearchOpen } = useSearchDialog();
 
 const debouncedSearch = useDebounceFn(async () => {
   if (!query.value) {
@@ -507,12 +511,14 @@ const updateDisplayedPosts = () => {
 const openDialog = () => {
   if (searchDialog.value) {
     searchDialog.value.showModal();
+    setSearchOpen(true);
   }
 };
 
 const closeDialog = () => {
   if (searchDialog.value) {
     searchDialog.value.close();
+    setSearchOpen(false);
   }
 };
 
@@ -530,6 +536,16 @@ const handleKeydown = (event) => {
       openDialog();
     }
   }
+  if (
+    searchDialog.value?.open &&
+    (event.key === "l" ||
+      event.key === "L" ||
+      event.key === "x" ||
+      event.key === "X")
+  ) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 };
 
 // Prefetch on mount
@@ -546,4 +562,11 @@ onUnmounted(() => {
 watch(route, () => {
   closeDialog();
 });
+
+const handleInputKeydown = (event: KeyboardEvent) => {
+  // Only stop propagation if the dialog is open
+  if (searchDialog.value?.open && event.key !== "Escape") {
+    event.stopPropagation();
+  }
+};
 </script>
