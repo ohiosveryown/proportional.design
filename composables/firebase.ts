@@ -1,3 +1,4 @@
+// old
 import { initializeApp } from 'firebase/app'
 import { getDatabase } from 'firebase/database'
 
@@ -19,4 +20,3 @@ export const useFirebase = () => {
     db
   }
 }
-

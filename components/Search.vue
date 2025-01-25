@@ -1,43 +1,38 @@
 <template>
   <div>
     <button @click="openDialog" class="trigger">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="31"
-        height="20"
-        fill="none"
-      >
-        <g clip-path="url(#a)">
-          <path
-            fill="#fff"
-            fill-opacity=".4"
-            fill-rule="evenodd"
-            d="M21.608 11.65a4.88 4.88 0 1 1-6.9-6.9 4.88 4.88 0 0 1 6.9 6.9Zm-7.977 1.223a6.506 6.506 0 1 0-.146-.146l-.502-.502-4.025 4.025a.813.813 0 1 0 1.15 1.15l4.025-4.025-.502-.502Z"
-            clip-rule="evenodd"
-          />
-        </g>
-        <defs>
-          <clipPath id="a">
-            <path fill="#fff" d="M.858 0h30v20h-30z" />
-          </clipPath>
-        </defs>
+      <svg width="16" height="16" fill="none">
+        <path
+          fill="#fff"
+          fill-rule="evenodd"
+          d="M11.392 9.369A3.366 3.366 0 0 1 5.873 5.7a3.367 3.367 0 1 1 5.519 3.668Zm-5.504.843a4.488 4.488 0 1 0-.1-.1l-.347-.347-2.777 2.777a.56.56 0 1 0 .794.794l2.777-2.777-.347-.347Z"
+          clip-rule="evenodd"
+          opacity=".5"
+        />
       </svg>
+      <span>Search</span>
+      <span class="tooltip">
+        <span class="label">Search</span>
+        <span class="key">⌘</span>
+        <span class="key">K</span>
+      </span>
     </button>
 
     <dialog ref="searchDialog">
       <header class="input">
         <input
+          ref="searchInput"
           v-model="query"
           type="search"
           placeholder="Search media..."
           class="search-input"
+          @keydown="handleInputKeydown"
         />
 
         <span class="divider" />
         <form method="dialog">
-          <button>
+          <button class="close">
             <svg
-              class="icon--close"
               xmlns="http://www.w3.org/2000/svg"
               width="17"
               height="14.5"
@@ -47,7 +42,7 @@
                 stroke="#fff"
                 stroke-linecap="round"
                 stroke-width="1.5"
-                opacity=".56"
+                opacity=".76"
               >
                 <path d="m4.637 4 8 8M12.637 4l-8 8" />
               </g>
@@ -57,19 +52,23 @@
       </header>
 
       <section class="suggestions">
-        <header>{{ hoveredTitle || "Suggested media" }}</header>
-        <ul class="thumbnails">
-          <li
-            v-for="post in randomPosts"
-            :key="post._id"
-            @mouseover="hoveredTitle = post.title"
-            @mouseleave="hoveredTitle = ''"
-          >
-            <NuxtLink :to="post._path">
-              <img :src="post.icon" :alt="post.title" />
-            </NuxtLink>
-          </li>
-        </ul>
+        <!-- <header>{{ hoveredTitle || "Suggested media" }}</header> -->
+        <header>Suggested media</header>
+        <div class="scroll-container">
+          <ul class="thumbnails" ref="thumbnailsContainer">
+            <li
+              v-for="(post, index) in displayedPosts"
+              :key="`${post._id}-${index}`"
+              @mouseover="hoveredTitle = post.title"
+              @mouseleave="hoveredTitle = ''"
+            >
+              <NuxtLink :to="post._path">
+                <img :src="post.icon" :alt="post.title" />
+                <span>{{ post.title }}</span>
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
       </section>
 
       <!-- Search results -->
@@ -99,20 +98,37 @@
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
-.trigger svg {
-  transform: translateY(0.3rem);
+.trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0;
+  border-radius: var(--radius-xl);
+  padding: 0.6rem 1.7rem 0.7rem 1rem;
+  cursor: pointer;
+  transition: background 200ms ease;
+
+  span {
+    font-size: var(--font-xs);
+    font-weight: 500;
+    letter-spacing: -0.025rem;
+  }
+}
+
+.trigger:hover {
+  background: var(--bg-dark);
 }
 
 dialog {
   margin: 0 auto;
   z-index: var(--z2);
-  border-radius: var(--border-radius--lg);
-  border: var(--border--light);
+  border-radius: var(--radius-lg);
+  border: var(--border-light);
   width: 56rem;
   padding: 1.6rem 0 0;
-  color: var(--color--primary);
+  color: var(--color-font);
   background: var(--bg);
-  backdrop-filter: blur(10px);
   box-shadow: var(--shadow);
   transform: translateY(12vh);
   @include breakpoint(md) {
@@ -126,7 +142,7 @@ dialog::backdrop {
   inset: 0;
   width: 100dvw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.64);
+  backdrop-filter: blur(2px);
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.9) 0%,
@@ -151,16 +167,16 @@ input {
   background: transparent;
 }
 
-:deep input[type="search"] {
+:deep(input[type="search"]) {
   margin-left: -1.6rem;
-  border: 1px solid var(--border--light);
-  border-radius: var(--border-radius--sm);
-  color: var(--color--primary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  color: var(--color-font);
   font-size: 1.6rem;
   background: transparent !important;
   outline: none;
   &::placeholder {
-    color: var(--color--primary);
+    color: var(--color-font);
     opacity: 0.6;
   }
 }
@@ -174,35 +190,96 @@ span.divider {
   margin: 0 1.2rem;
 }
 
+button.close {
+  transform: translateY(0.7rem);
+}
+
 section.suggestions {
   margin: 1.6rem 0;
   padding: 0 1.5rem;
   header {
-    margin-bottom: 1.2rem;
-    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    font-size: var(--font-xs);
     font-weight: 600;
     opacity: 0.72;
   }
 }
 
-.thumbnails {
+.scroll-container {
   position: relative;
-  display: flex;
-  &:before {
-    display: none;
-    border: 2px soild red;
+  overflow: hidden;
+
+  &::before,
+  &::after {
     content: "";
-    position: fixed;
-    z-index: var(9999);
-    inset: 0;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.01);
-    backdrop-filter: blur(24px);
-    mask: linear-gradient(90deg, transparent 40%, black 72%);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: 1;
     pointer-events: none;
-    @include breakpoint(md) {
-      display: inherit;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg), transparent);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg), transparent);
+  }
+}
+
+.thumbnails {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.5rem 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  animation: scroll 60s linear infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translate3d(0, 0, 0);
     }
+    100% {
+      transform: translate3d(-200%, 0, 0);
+    }
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: 0.8rem;
+    border: var(--border);
+    border-radius: var(--radius-xl);
+    padding: 0.55rem 0.88rem 0.55rem 0.55rem;
+    background: var(--bg-light);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: background 200ms ease;
+  }
+
+  li:hover {
+    background: var(--bg-dark);
+  }
+
+  img {
+    margin-right: 0;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -213,11 +290,22 @@ section.suggestions {
   }
 }
 
-.thumbnails img,
-.result-thumb {
-  margin-right: 1.4rem;
+.thumbnails img {
+  border-radius: var(--radius-md);
   border: 1.5px solid #fff;
-  border-radius: var(--border-radius--sm);
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.thumbnails img ~ span {
+  font-weight: 600;
+  font-size: var(--font-xs);
+}
+
+.result-thumb {
+  margin-right: 1rem;
+  border: 1.5px solid #fff;
+  border-radius: var(--radius-md);
   width: 5.6rem;
   height: 5.6rem;
   object-fit: cover;
@@ -227,10 +315,10 @@ section.suggestions {
 .search-input {
   width: 100%;
   padding: 8px 16px;
-  border-radius: var(--border-radius--sm);
+  border-radius: var(--radius-sm);
   border: var(--border);
   background: rgba(0, 0, 0, 0.2);
-  color: var(--color--primary);
+  color: var(--color-font);
 }
 
 .search-results {
@@ -281,11 +369,73 @@ section.suggestions {
     overflow: hidden;
   }
 }
+
+.tooltip {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 116%;
+  left: 50%;
+  padding: 0.24rem 0.32rem 0.32rem 0.64rem;
+  background: var(--bg);
+  border: var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px) scale(0.8);
+  transform-origin: top;
+  transition: all 200ms ease;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+  gap: 0.3rem;
+}
+
+.trigger:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(1px) scale(0.9);
+  transition: all 200ms ease 400ms;
+}
+
+.label {
+  margin-right: 0.5rem;
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  letter-spacing: -0.02rem;
+  color: color-mix(in srgb, var(--color-font) 72%, transparent);
+}
+
+.key {
+  font-size: var(--font-xxs);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.7rem;
+  background: var(--bg-light);
+  border: var(--border);
+  text-align: center;
+  min-width: 2rem;
+}
+
+.tooltip span + span {
+  margin-left: 0.1rem;
+}
+
+.thumbnails li a {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
 </style>
 
-<script setup>
+<script setup lang="ts">
 import { queryContent } from "#imports";
 import { useDebounceFn } from "@vueuse/core";
+import { ref, onMounted, onUnmounted, watch } from "vue";
+import { useRoute } from "vue-router";
+import { useSearchDialog } from "../composables/useSearchDialog";
 
 const searchDialog = ref(null);
 const randomPosts = ref([]);
@@ -293,6 +443,10 @@ const hoveredTitle = ref("");
 const route = useRoute();
 const query = ref("");
 const searchResults = ref([]);
+const thumbnailsContainer = ref(null);
+const displayedPosts = ref([]);
+const allPosts = ref([]);
+const { isSearchOpen, setSearchOpen } = useSearchDialog();
 
 const debouncedSearch = useDebounceFn(async () => {
   if (!query.value) {
@@ -307,6 +461,8 @@ const debouncedSearch = useDebounceFn(async () => {
           { tags: { $contains: query.value } },
         ],
       })
+      .only(["_id", "_path", "title", "icon", "description"])
+      .limit(10)
       .find();
     searchResults.value = results;
   } catch (error) {
@@ -317,37 +473,84 @@ watch(query, () => {
   debouncedSearch();
 });
 
-const fetchRandomPosts = async () => {
-  const allPosts = await queryContent().find();
-  const filteredPosts = allPosts.filter((post) => post._path !== "/");
-  randomPosts.value = filteredPosts.sort(() => 0.5 - Math.random()).slice(0, 6);
+// Add shuffle function
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 };
 
-const openDialog = async () => {
-  await fetchRandomPosts();
+const prefetchPosts = async () => {
+  try {
+    const posts = await queryContent()
+      .where({ _path: { $ne: "/" } })
+      .only(["_id", "_path", "title", "icon"])
+      .find();
+
+    allPosts.value = shuffleArray([...posts]);
+    updateDisplayedPosts();
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    allPosts.value = [];
+  }
+};
+
+const updateDisplayedPosts = () => {
+  // Duplicate posts 4 times instead of just once
+  const duplicatedPosts = [
+    ...allPosts.value,
+    ...allPosts.value,
+    ...allPosts.value,
+    ...allPosts.value,
+  ];
+  displayedPosts.value = duplicatedPosts;
+};
+
+const openDialog = () => {
   if (searchDialog.value) {
     searchDialog.value.showModal();
+    setSearchOpen(true);
   }
 };
 
 const closeDialog = () => {
   if (searchDialog.value) {
     searchDialog.value.close();
+    setSearchOpen(false);
   }
 };
 
 const handleKeydown = (event) => {
-  if (event.key === "Escape") {
+  if (event.key === "Escape" && searchDialog.value?.open) {
+    event.preventDefault();
     closeDialog();
   }
-  if ((event.metaKey || event.ctrlKey) && event.key === "k") {
-    openDialog();
+  if (
+    (event.metaKey || event.ctrlKey) &&
+    (event.key === "k" || event.key === "K")
+  ) {
+    event.preventDefault();
+    if (!searchDialog.value?.open) {
+      openDialog();
+    }
+  }
+  if (
+    searchDialog.value?.open &&
+    (event.key === "l" ||
+      event.key === "L" ||
+      event.key === "x" ||
+      event.key === "X")
+  ) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 };
 
-// Fetch random posts on mount
+// Prefetch on mount
 onMounted(() => {
-  fetchRandomPosts();
+  prefetchPosts();
   window.addEventListener("keydown", handleKeydown);
 });
 
@@ -359,4 +562,11 @@ onUnmounted(() => {
 watch(route, () => {
   closeDialog();
 });
+
+const handleInputKeydown = (event: KeyboardEvent) => {
+  // Only stop propagation if the dialog is open
+  if (searchDialog.value?.open && event.key !== "Escape") {
+    event.stopPropagation();
+  }
+};
 </script>

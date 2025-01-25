@@ -1,324 +1,278 @@
 <template>
-  <menu>
-    <div class="tools">
-      <div
-        class="menu-trigger"
+  <div class="controls">
+    <div class="popover">
+      <span
+        class="popover-trigger"
         @click="isOpen = !isOpen"
         @click.stop="togglePopover"
+        @click.outside="handleClickOutside"
         ref="triggerRef"
       >
-        <svg
-          class="op-7"
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          fill="none"
-        >
-          <circle cx="10" cy="10" r="7.5" stroke="#fff" />
-          <path
-            stroke="#fff"
-            stroke-linecap="round"
-            d="M6 8h8M6.8 10.4h6.4M8 12.8h4"
-          />
-        </svg>
-        <span class="op-7">Filter</span>
-        <span class="dot" :class="{ 'is-active': hasActiveFilters }" />
-      </div>
-
-      <button
-        class="expand-all"
-        @click="directoryControls.expandAll"
-        title="Expand"
-        aria-label="Expand"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          fill="none"
-        >
-          <path
-            stroke="#fff"
-            stroke-linecap="round"
-            stroke-width="1.5"
-            d="M10 8V3M7.5 5 10 2.5 12.5 5M10 12v5M7.5 15l2.5 2.5 2.5-2.5"
-          />
+        <svg width="20" height="20" fill="none">
           <path
             fill="#fff"
             fill-rule="evenodd"
-            d="M15 5.5h1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-1V16h1a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1v1.5Zm-10 0V4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h1v-1.5H4a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 .5-.5h1Z"
+            d="M13.13 7.477a.995.995 0 0 0-.014-.977 1 1 0 1 0 .013.977Zm1.057.023a2 2 0 0 1-3.874 0H4.5a.5.5 0 0 1 0-1h5.813a2 2 0 0 1 3.874 0H15.5a.5.5 0 0 1 0 1h-1.313Zm-7.303 6a1 1 0 1 0 1.731-1 1 1 0 0 0-1.731 1Zm-1.071-1H4.5a.5.5 0 0 0 0 1h1.313a2 2 0 0 0 3.874 0H15.5a.5.5 0 0 0 0-1H9.687a2 2 0 0 0-3.874 0Z"
             clip-rule="evenodd"
           />
         </svg>
-      </button>
+        <span class="label-filter">Filter & Sort</span>
+        <span class="label-configure">Configure</span>
+        <span
+          class="popover-trigger-indicator"
+          :class="{ active: hasActiveFilters }"
+        />
+      </span>
 
-      <button
-        class="collapse-all"
-        :class="{ 'expand-all--active': isCollapsed }"
-        @click="directoryControls.collapseAll"
-        title="Collapse"
-        aria-label="Collapse"
+      <menu
+        :class="{ 'is-open': isOpen }"
+        ref="popoverRef"
+        tabindex="-1"
+        @keydown.esc="closePopover"
+        @mouseleave="handleMouseLeave"
+        @click.stop
+        @scroll.stop
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          fill="none"
-        >
-          <path
-            stroke="#fff"
-            stroke-linecap="round"
-            stroke-width="1.5"
-            d="M10 2.5v5M7.5 5.5 10 8l2.5-2.5M10 17.5v-5M7.5 14.5 10 12l2.5 2.5"
-          />
-          <path
-            fill="#fff"
-            fill-rule="evenodd"
-            d="M15 5.5h1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-1V16h1a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1v1.5Zm-10 0V4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h1v-1.5H4a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 .5-.5h1Z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <!-- sort controls -->
+        <section>
+          <header>Sort by</header>
+          <label
+            v-for="option in sortOptions"
+            :key="option.value"
+            :class="{ active: sort === option.value }"
+          >
+            <input
+              type="radio"
+              :value="option.value"
+              :checked="sort === option.value"
+              @change="$emit('update:sort', option.value)"
+              name="sort-option"
+            />
+            {{ option.label }}
+          </label>
+        </section>
+
+        <section>
+          <header>Filter by</header>
+          <label
+            v-for="filter in filterOptions"
+            :key="filter.value"
+            :class="{ active: selectedFilters.includes(filter.value) }"
+          >
+            <input
+              type="checkbox"
+              :value="filter.value"
+              :checked="selectedFilters.includes(filter.value)"
+              @change="toggleFilter(filter.value)"
+            />
+            {{ filter.label }}
+          </label>
+        </section>
+      </menu>
+    </div>
+
+    <!-- segmented controls -->
+    <div class="segmented-controls">
+      <button @click="$emit('toggle', false)" :class="{ active: isCollapsed }">
+        Collapse
+      </button>
+      <button :class="['mixed', { active: isMixed }]">Mixed</button>
+      <button @click="$emit('toggle', true)" :class="{ active: isExpanded }">
+        Expand
       </button>
     </div>
-
-    <div
-      class="popover"
-      :class="{ 'is-open': isOpen }"
-      ref="popoverRef"
-      tabindex="-1"
-      @keydown.esc="closePopover"
-      @mouseleave="handleMouseLeave"
-      @click.stop
-      @scroll.stop
-    >
-      <!-- sorting -->
-      <span class="header">Sort by</span>
-      <form @change="handleSort">
-        <div class="sort-radio">
-          <input
-            type="radio"
-            name="sort"
-            value="newest"
-            id="newest"
-            :checked="selectedSort === 'newest'"
-          />
-          <label for="newest">Newest first</label>
-        </div>
-
-        <div class="sort-radio">
-          <input
-            type="radio"
-            name="sort"
-            value="oldest"
-            id="oldest"
-            :checked="selectedSort === 'oldest'"
-          />
-          <label for="oldest">Oldest first</label>
-        </div>
-
-        <div class="sort-radio">
-          <input
-            type="radio"
-            name="sort"
-            value="asc"
-            id="asc"
-            :checked="selectedSort === 'asc'"
-          />
-          <label for="asc">A–Z</label>
-        </div>
-
-        <div class="sort-radio">
-          <input
-            type="radio"
-            name="sort"
-            value="desc"
-            id="desc"
-            :checked="selectedSort === 'desc'"
-          />
-          <label for="desc">Z–A</label>
-        </div>
-      </form>
-
-      <!-- filters -->
-      <form class="filters">
-        <span class="header">Filter by</span>
-        <div class="filter-checkbox" v-for="tag in availableTags" :key="tag">
-          <input
-            type="checkbox"
-            name="filter"
-            :value="tag"
-            :id="tag"
-            v-model="selectedTags"
-            @change="handleTagChange"
-          />
-          <label :for="tag">{{ tag }}</label>
-        </div>
-      </form>
-    </div>
-    <div class="hr" />
-  </menu>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 @use "/assets/style/grid.scss" as *;
 
-.expand-all--active {
-  border: 1px solid red !important;
-}
-
-.tools {
+.controls {
+  position: sticky;
+  z-index: var(--z1);
+  top: 5.2rem;
   display: flex;
   align-items: center;
-  margin-bottom: 0.7rem;
-  width: 100%;
-  padding-right: 1.1rem;
-}
-
-.tools button {
-  border-radius: var(--border-radius--sm);
-  padding: 0.7rem 0.7rem;
-  transition: background 300ms ease;
-  opacity: 0.56;
-  &:hover {
-    background: var(--bg--dark);
-    opacity: 1;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+  padding: 1.2rem 1.2rem 1rem 0.9rem;
+  background: var(--bg-vdark);
+  @include breakpoint(md) {
+    box-shadow: var(--shadow-sm);
   }
 }
 
-.hr {
-  border-bottom: 0.5px solid rgb(255, 255, 255, 0.2);
-  margin: 0 1.2rem 1.2rem;
+.label-filter {
+  @include breakpoint(md) {
+    display: none;
+  }
+  @include breakpoint(lg) {
+    display: block;
+  }
 }
 
-menu {
+.label-configure {
+  display: none;
+  @include breakpoint(md) {
+    display: block;
+  }
+  @include breakpoint(lg) {
+    display: none;
+  }
+}
+
+span.popover-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
   position: relative;
-}
-
-.menu-trigger {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex: 1;
-  margin-right: 0.2rem;
-  margin-left: 0.8rem;
-  border-radius: var(--border-radius--sm);
-  padding: 0.6rem 1.6rem 0.6rem 1.7rem;
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.8rem 0.5rem 0.5rem;
+  font-size: var(--font-sm);
+  font-weight: 500;
   cursor: pointer;
-
-  .op-7 {
-    opacity: 0.64;
-  }
-
-  &:hover {
-    background: var(--bg--dark);
-    .op-7 {
-      opacity: 1;
-    }
-  }
+  transition: all 200ms ease;
 }
 
-.menu-trigger svg {
-  transform: translateY(0.03rem);
+span.popover-trigger:hover {
+  background: var(--bg-light);
 }
 
-.dot {
-  border-radius: 100px;
+span.popover-trigger-indicator {
+  margin-top: 0.2rem;
+  margin-left: 0.4rem;
   width: 0.7rem;
   height: 0.7rem;
-  background: none;
-  transition: all 300ms ease;
-  transform: translate(0.2rem, 0.1rem) scale(0.9);
-  @include breakpoint(md) {
-    transform: translate(0.2rem, 0.15rem) scale(0.9);
-  }
-
-  &.is-active {
-    opacity: 1;
-    background: #e75656;
-    transform: translate(0.2rem, 0.1rem) scale(0.9);
-    @include breakpoint(md) {
-      transform: translate(0.2rem, 0.15rem) scale(1);
-    }
-  }
+  background: var(--color-active);
+  border-radius: var(--radius-xl);
+  opacity: 0;
+  transition: opacity 300ms ease;
 }
 
-button.expand-all,
-button.collapse-all {
-  display: grid;
-  place-items: center;
+span.popover-trigger-indicator.active {
+  opacity: 1;
 }
 
-.popover {
-  position: fixed;
-  z-index: var(--z1);
-  top: 22.5rem;
-  left: 2.4rem;
-  border-radius: var(--border-radius--md);
+span.popover-trigger:hover {
+  opacity: 1;
+}
+
+.segmented-controls {
+  display: flex;
+  gap: 0.4rem;
+  border-radius: var(--radius-md);
+  padding: 0.24rem 0.24rem 0.28rem;
+  width: max-content;
+  background-color: var(--bg-light);
+}
+
+.segmented-controls button {
+  border-radius: 0.7rem;
+  padding: 0.5rem 0.9rem 0.55rem;
+  font-size: var(--font-xs);
+  font-weight: 500;
+  opacity: 0.76;
+}
+
+.segmented-controls button:hover {
+  background-color: var(--bg-dark);
+  opacity: 1;
+}
+
+.segmented-controls .active {
   border: var(--border);
-  min-width: 19.2rem;
-  max-height: 33.7rem;
-  padding: 1rem 0.8rem;
-  background: #0a0a0a;
+  background-color: var(--bg-vdark);
+  box-shadow: var(--shadow-sm);
+  text-shadow: none;
+  opacity: 1;
+}
+
+.segmented-controls .active:hover {
+  background-color: var(--bg-vdark);
+}
+
+.segmented-controls .mixed {
+  pointer-events: none;
+}
+
+.popover menu {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  position: fixed;
+  top: 34rem;
+  left: 2rem;
+  border: var(--border-dark);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow);
+  max-height: 30rem;
+  min-width: 19.2rem;
+  padding: 1rem 0.8rem;
   opacity: 0;
   overflow-y: auto;
-  pointer-events: none;
   transform: translateY(-1rem) scale(0.95);
   transform-origin: top;
-  transition: opacity 200ms ease, transform 200ms ease;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
   will-change: opacity, transform;
-
-  &.is-open {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    pointer-events: auto;
+  z-index: var(--z1);
+  @include breakpoint(md) {
+    top: 23rem;
+    max-height: 33.7rem;
   }
 }
 
-span.header {
-  display: block;
-  margin: 0.2rem 0 0.4rem 0.6rem;
-  opacity: 0.6;
-  font-size: 1.2rem;
-  font-weight: 600;
+.popover menu.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+menu header {
+  gap: 0.6rem;
+  padding: 0.24rem 0 0.4rem 0.5rem;
+  opacity: 0.56;
+  font-size: var(--font-xxs);
   text-transform: uppercase;
+  font-weight: 600;
+  pointer-events: none;
 }
 
-label {
-  margin-left: 0.4rem;
-  width: 100%;
-  font-size: 1.4rem;
-  font-weight: 400;
-  transform: translateY(-0.1rem);
-  text-transform: capitalize;
+menu section {
+  border-bottom: var(--border-dark);
+  padding-bottom: 1rem;
 }
 
-.sort-radio,
-.filter-checkbox {
+menu section:last-child {
+  border-bottom: none;
+  padding: 1rem 0 0;
+}
+
+.popover menu label {
   display: flex;
   align-items: center;
-  border-radius: var(--border-radius--sm);
-  padding: 0.4rem;
+  gap: 0.6rem;
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.3rem 0.4rem;
+  font-size: var(--font-sm);
+  font-weight: 500;
   opacity: 0.76;
-  transition: background 200ms ease, opacity 200ms ease;
-
-  &:hover {
-    background: var(--bg--light);
-    opacity: 1;
-  }
-
-  &:has(input:checked) {
-    opacity: 1;
-  }
+  transition: background 0.2s ease, opacity 0.2s ease;
 }
 
-.sort-radio label {
-  transform: translate(0.4rem, -0.1rem);
+.popover menu label:has(input:checked) {
+  opacity: 1;
+}
+
+.popover menu label:hover {
+  background: var(--bg-dark);
+  opacity: 1;
 }
 
 input[type="radio"] {
   position: relative;
   appearance: none;
+  margin-top: 0.4rem;
   border-radius: 100px;
   border: none;
   min-width: 16px;
@@ -335,26 +289,16 @@ input[type="radio"] {
     border-radius: 50%;
     width: 7px;
     height: 7px;
-    background: var(--color--primary);
+    background: var(--color-font);
     transform: translate(-50%, -50%);
   }
 
   &:checked {
-    border: 0.5px solid rgba(255, 255, 255, 0.32);
-    background: var(--bg--light);
+    border: var(--border-dark);
+    background: var(--bg-dark);
     & + label {
       opacity: 1;
     }
-  }
-}
-
-.filters {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
-
-  &:last-of-type {
-    border-top: 1px solid var(--bg--light);
   }
 }
 
@@ -377,9 +321,9 @@ input[type="checkbox"] {
       position: absolute;
       top: 50%;
       left: 50%;
+      margin-left: 0.2rem;
       font-size: 14px;
       transform: translate(-50%, -50%);
-
       background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1735221728/proportional.design-3.0/checkbox_ls5w2x.svg")
         no-repeat center center;
       background-size: cover;
@@ -390,88 +334,24 @@ input[type="checkbox"] {
     }
   }
 }
-
-.expand-all,
-.collapse-all {
-  position: relative;
-
-  &:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.4rem 0.4rem;
-    background: var(--bg--dark);
-    border: var(--border--light);
-    border-radius: var(--border-radius--sm);
-    font-size: 1.2rem;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-  }
-}
 </style>
 
-<script setup>
-const directoryControls = inject("directoryControls");
-const isOpen = ref(false);
-const STORAGE_KEY = "selected-sort";
-const TAGS_STORAGE_KEY = "selected-tags";
-const emit = defineEmits(["sort", "filter"]);
-const selectedSort = ref(localStorage.getItem(STORAGE_KEY) || "newest");
-const selectedTags = ref(
-  JSON.parse(localStorage.getItem(TAGS_STORAGE_KEY) || "[]")
-);
-const availableTags = ref([]);
+<script setup lang="ts">
+const props = defineProps<{
+  isExpanded: boolean;
+  isCollapsed: boolean;
+  sort: string;
+  selectedFilters: string[];
+}>();
+
 const popoverRef = ref(null);
 const triggerRef = ref(null);
+const isOpen = ref(false);
 
-const fetchTags = async () => {
-  const posts = await queryContent().find();
-  const tags = new Set();
-
-  posts.forEach((post) => {
-    if (post.tags) {
-      post.tags.forEach((tag) => tags.add(tag));
-    }
-  });
-
-  availableTags.value = Array.from(tags).sort();
-};
-
-const handleTagChange = () => {
-  updateTags();
-};
-
-const updateTags = () => {
-  localStorage.setItem(TAGS_STORAGE_KEY, JSON.stringify(selectedTags.value));
-  emit("filter", selectedTags.value);
-};
-
-// Existing sort handler
-const handleSort = (e) => {
-  selectedSort.value = e.target.value;
-  localStorage.setItem(STORAGE_KEY, e.target.value);
-  emit("sort", selectedSort.value);
-};
-
-const handleKeyPress = (event) => {
-  if (event.key.toLowerCase() === "f") {
-    isOpen.value = !isOpen.value;
-  }
-};
-
+// menu
 const handleMouseLeave = () => {
-  setTimeout(() => {
-    isOpen.value = false;
-  }, 300);
+  isOpen.value = false;
 };
-
-const hasActiveFilters = computed(() => {
-  return selectedTags.value.length > 0;
-});
 
 const handleClickOutside = (e) => {
   if (
@@ -489,28 +369,49 @@ const handleScroll = (e) => {
   }
 };
 
-const props = defineProps({
-  directoryControls: {
-    type: Object,
-    required: true,
-  },
-  isCollapsed: {
-    type: Boolean,
-    default: false,
-  },
+const isMixed = computed(() => !props.isExpanded && !props.isCollapsed);
+const emit = defineEmits(["toggle", "update:sort", "update:selectedFilters"]);
+
+// Add sort method ref
+const sortMethod = ref("newest");
+
+const sortOptions = [
+  { value: "newest", label: "Newest" },
+  { value: "oldest", label: "Oldest" },
+  { value: "az", label: "A-Z" },
+  { value: "za", label: "Z-A" },
+];
+
+// filtering
+const { data: allTags } = useAsyncData("tags", async () => {
+  const posts = await queryContent().find();
+  const tags = new Set(posts.flatMap((post) => post.tags || []));
+  return Array.from(tags).sort();
 });
 
+const filterOptions = computed(() =>
+  (allTags.value || []).map((tag) => ({
+    value: tag,
+    label: tag.charAt(0).toUpperCase() + tag.slice(1),
+  }))
+);
+
+const toggleFilter = (value: string) => {
+  const newFilters = props.selectedFilters.includes(value)
+    ? props.selectedFilters.filter((f) => f !== value)
+    : [...props.selectedFilters, value];
+  emit("update:selectedFilters", newFilters);
+};
+
+const hasActiveFilters = computed(() => props.selectedFilters.length > 0);
+
+// event listeners
 onMounted(async () => {
-  await fetchTags();
-  emit("sort", selectedSort.value);
-  emit("filter", selectedTags.value);
-  window.addEventListener("keydown", handleKeyPress);
   document.addEventListener("click", handleClickOutside);
   document.addEventListener("scroll", handleScroll, true);
 });
 
 onUnmounted(() => {
-  window.removeEventListener("keydown", handleKeyPress);
   document.removeEventListener("click", handleClickOutside);
   document.removeEventListener("scroll", handleScroll, true);
 });

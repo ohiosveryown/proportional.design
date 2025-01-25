@@ -5,7 +5,7 @@
   --unit: 1.2rem;
   --max-width: 2100rem;
   --ease: 200ms ease;
-  --ease--qubic: 700ms cubic-bezier(0.8, 0, 0.16, 1);
+  --ease-qubic: 700ms cubic-bezier(0.8, 0, 0.16, 1);
   // z-index
   --zmax: 9999;
   --z5: 5;
@@ -16,28 +16,47 @@
   --z0: -1;
   --zmin: -9999;
   // color
-  --color--primary: #fff;
+  --color-font: #fff;
+  --color-active: #e75656;
+  --text-light: rgba(255, 255, 255, 0.76);
+  // --bg-vlight: rgba(255, 255, 255, 0.32);
+  // --bg-light: rgba(255, 255, 255, 0.2);
+  // --bg: rgba(255, 255, 255, 0.1);
+  // --bg-dark: rgba(0, 0, 0, 0.32);
+  // --bg-mdark: rgba(0, 0, 0, 0.72);
+  // --bg-vdark: rgba(0, 0, 0, 0.88);
+  --bg-vvlight: rgba(255, 255, 255, 0.3);
+  --bg-vlight: rgba(255, 255, 255, 0.2);
+  --bg-light: rgba(255, 255, 255, 0.1);
+  --bg: #0f0f0f;
+  --bg-dark: #2f2e2e;
+  --bg-vdark: #222121;
   // border
+  --border-vdark: 0.5px solid rgba(255, 255, 255, 0.56);
+  --border-dark: 0.5px solid rgba(255, 255, 255, 0.24);
   --border: 0.5px solid rgba(255, 255, 255, 0.2);
-  --border--light: 0.5px solid rgba(255, 255, 255, 0.1);
-  --border-radius--xs: 2px;
-  --border-radius--sm: 5px;
-  --border-radius--md: 7px;
-  --border-radius--lg: 11px;
-  // bg
-  --bg--vlight: rgba(255, 255, 255, 0.32);
-  --bg--light: rgba(255, 255, 255, 0.2);
-  --bg:rgba(255, 255, 255, 0.1);
-  --bg--dark: rgba(0, 0, 0, 0.32);
-  --bg--mdark: rgba(0, 0, 0, 0.72);
-  --bg--vdark: rgba(0, 0, 0, 0.88);
+  --border-light: 0.5px solid rgba(255, 255, 255, 0.1);
+  --radius-xs: 2px;
+  --radius-sm: 5px;
+  --radius-md: 9px;
+  --radius-lg: 11px;
+  --radius-xl: 15px;
+  // font
+  --font-xxs: 1.1rem;
+  --font-xs: 1.2rem;
+  --font-sm: 1.4rem;
+  --font: 1.5rem;
+  --font-md: 1.6rem;
+
   // shadow
-  --shadow--inset: 0px -1px 0px 0px #000 inset,
-    0px 1px 1px 0px rgba(255, 255, 255, 0.12) inset;
-  --shadow--sm: 0px 2px 8px 0px rgba(0, 0, 0, 0.4);
+  --shadow-inset: 0px -1px 0px 0px #000 inset,
+    0px 1px 1px 0px rgba(255, 255, 255, 0.2) inset;
+  --shadow-sm: 0px 2px 8px 0px rgba(0, 0, 0, 0.4);
   --shadow: 0 18px 60px 0px rgba(0, 0, 0, 0.4),
     0px 4px 8px 0px rgba(0, 0, 0, 0.2);
-  --shadow--text: 0px 2px 3px rgba(0, 0, 0, 0.32);
+  --shadow-heavy: 0 18px 60px 0px rgba(0, 0, 0, 0.9),
+          0px 4px 8px 0px rgba(0, 0, 0, 0.8);
+  --shadow-text: 0px 2px 3px rgba(0, 0, 0, 0.64);
 }
 
 *,
@@ -54,26 +73,15 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility !important;
   height: 100vh;
-  background: #0f0f0f;
+  background: var(--bg);
   // overscroll-behavior: none;
 }
 
 body {
   min-height: 100vh;
-  font: normal 1.5rem/1.5 var(--system-font);
-  color: var(--color--primary);
-  background: #0f0f0f;
+  font: normal var(--font)/1.5 var(--system-font);
+  background: var(--bg);
   text-rendering: optimizeSpeed;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-button {
-  color: var(--color--primary);
 }
 
 body,
@@ -100,6 +108,15 @@ menu,
 footer {
   margin: 0;
   padding: 0;
+  font-weight: normal;
+  color: var(--color-font);
+  text-shadow: var(--shadow-text);
+}
+
+h2 {
+  font-size: var(--font-md);
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 li {
@@ -112,18 +129,8 @@ a {
   cursor: pointer;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: normal;
-}
-
 button {
   border: none;
-  font-size: 1.3rem;
   background: none;
   cursor: pointer;
 }
@@ -151,19 +158,48 @@ ul {
   -webkit-margin-after: 0;
 }
 
-article li {
-list-style: circle;
+th {
+  font-weight: normal;
 }
 
-// debug
+// article li {
+//   list-style: circle;
+// }
+
+// helpers
 .debug {
   border: 2px solid hotpink;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-radius: var(--radius-md);
+  border: var(--border-light);
+  padding-bottom: 0.7rem;
+  height: max-content;
+  background: var(--bg-vdark);
+  box-shadow: var(--shadow-inset);
+  overflow-y: scroll;
+}
+
+.container nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: var(--z2);
+  border-bottom: var(--border);
+  padding: var(--unit);
+  background: rgb(0,0,0,0.2);
+  backdrop-filter: blur(50px);
+}
 
 // a11y
 :focus {
-  outline: 1px solid rgba(0, 0, 0, 0.2);
+  // outline: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 @media (prefers-reduced-motion: reduce) {
