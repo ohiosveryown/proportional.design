@@ -70,7 +70,7 @@ useHead({
 
 <style lang="scss" scoped>
 .furniture-gallery {
-  padding: 0 2rem;
+  // padding-left: 2rem;
   // max-width: 1200px;
   // margin: 0 auto;
 }
@@ -104,6 +104,13 @@ header {
 .furniture-grid {
   display: flex;
   gap: 2rem;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 }
 
 .furniture-card {

@@ -1,11 +1,9 @@
 <template>
   <div class="furniture-detail">
-    <div v-if="pending" class="loading">
-      Loading furniture details...
-    </div>
+    <div v-if="pending" class="loading">Loading furniture details...</div>
 
     <div v-else-if="error" class="error">
-      <p>{{ error.statusMessage || 'Furniture piece not found' }}</p>
+      <p>{{ error.statusMessage || "Furniture piece not found" }}</p>
       <NuxtLink to="/" class="back-link">← Back to Collection</NuxtLink>
     </div>
 
@@ -19,16 +17,14 @@
       <div class="furniture-content">
         <div class="images-section">
           <div class="main-image">
-            <img 
-              v-if="data.images?.[0]" 
-              :src="data.images[0]" 
+            <img
+              v-if="data.images?.[0]"
+              :src="data.images[0]"
               :alt="data.title"
             />
-            <div v-else class="no-image">
-              No Image Available
-            </div>
+            <div v-else class="no-image">No Image Available</div>
           </div>
-          
+
           <div v-if="data.images?.length > 1" class="image-thumbnails">
             <button
               v-for="(image, index) in data.images"
@@ -60,8 +56,8 @@
           <div v-if="data.materials?.length" class="materials">
             <h3>Materials</h3>
             <div class="material-list">
-              <span 
-                v-for="material in data.materials" 
+              <span
+                v-for="material in data.materials"
                 :key="material"
                 class="material-tag"
               >
@@ -82,45 +78,53 @@
 </template>
 
 <script setup>
-const route = useRoute()
-const slug = route.params.slug
+const route = useRoute();
+const slug = route.params.slug;
 
 // Fetch individual furniture piece with caching
 const { data, pending, error } = await useFetch(`/api/furniture/${slug}`, {
   key: `furniture-${slug}`,
   server: true,
-  default: () => null
-})
+  default: () => null,
+});
 
 // State for image gallery
-const selectedImageIndex = ref(0)
+const selectedImageIndex = ref(0);
 
 // Watch for changes in images to reset selected index
-watch(() => data?.images, () => {
-  selectedImageIndex.value = 0
-}, { immediate: true })
+watch(
+  () => data?.images,
+  () => {
+    selectedImageIndex.value = 0;
+  },
+  { immediate: true }
+);
 
 // Update main image when thumbnail is selected
 const selectedImage = computed(() => {
-  return data?.images?.[selectedImageIndex.value] || data?.images?.[0]
-})
+  return data?.images?.[selectedImageIndex.value] || data?.images?.[0];
+});
 
 // Date formatting
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-}
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
 
 // Set page meta
 useHead({
-  title: () => data ? `${data.title} - proportional.design` : 'Furniture Detail',
+  title: () =>
+    data ? `${data.title} - proportional.design` : "Furniture Detail",
   meta: [
-    { name: 'description', content: () => data?.description || 'Handcrafted furniture piece' }
-  ]
-})
+    {
+      name: "description",
+      content: () => data?.description || "Handcrafted furniture piece",
+    },
+  ],
+});
 </script>
 
 <style lang="scss" scoped>
@@ -130,7 +134,8 @@ useHead({
   margin: 0 auto;
 }
 
-.loading, .error {
+.loading,
+.error {
   text-align: center;
   padding: 3rem;
   font-size: 1.2rem;
@@ -138,13 +143,13 @@ useHead({
 
 .error {
   color: #e74c3c;
-  
+
   .back-link {
     display: inline-block;
     margin-top: 1rem;
     color: #3498db;
     text-decoration: none;
-    
+
     &:hover {
       text-decoration: underline;
     }
@@ -154,16 +159,16 @@ useHead({
 .breadcrumb {
   margin-bottom: 2rem;
   font-size: 0.9rem;
-  
+
   a {
     color: #3498db;
     text-decoration: none;
-    
+
     &:hover {
       text-decoration: underline;
     }
   }
-  
+
   span {
     margin: 0 0.5rem;
     color: #999;
@@ -174,7 +179,7 @@ useHead({
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
-  
+
   @include breakpoint(md) {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -183,18 +188,17 @@ useHead({
 
 .images-section {
   .main-image {
-    aspect-ratio: 4/3;
     background: #f5f5f5;
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 1rem;
-    
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    
+
     .no-image {
       display: flex;
       align-items: center;
@@ -204,13 +208,13 @@ useHead({
       font-size: 1.2rem;
     }
   }
-  
+
   .image-thumbnails {
     display: flex;
     gap: 0.5rem;
     overflow-x: auto;
     padding-bottom: 0.5rem;
-    
+
     .thumbnail {
       flex-shrink: 0;
       width: 80px;
@@ -221,11 +225,11 @@ useHead({
       cursor: pointer;
       background: #f5f5f5;
       transition: border-color 0.2s ease;
-      
+
       &.active {
         border-color: #3498db;
       }
-      
+
       img {
         width: 100%;
         height: 100%;
@@ -238,58 +242,58 @@ useHead({
 .details-section {
   header {
     margin-bottom: 2rem;
-    
+
     h1 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
       font-weight: 700;
     }
-    
+
     .meta-info {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
-      
+
       .category {
         background: #f0f0f0;
         padding: 0.5rem 1rem;
         border-radius: 1.5rem;
         font-weight: 500;
       }
-      
+
       time {
         color: #666;
         font-size: 0.9rem;
       }
     }
   }
-  
+
   .description {
     margin-bottom: 2rem;
-    
+
     p {
       font-size: 1.1rem;
       line-height: 1.6;
       color: #555;
     }
   }
-  
+
   .materials {
     margin-bottom: 2rem;
-    
+
     h3 {
       font-size: 1.2rem;
       margin-bottom: 1rem;
       font-weight: 600;
     }
-    
+
     .material-list {
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
-      
+
       .material-tag {
         background: #e3f2fd;
         color: #1976d2;
@@ -299,7 +303,7 @@ useHead({
       }
     }
   }
-  
+
   .actions {
     .back-button {
       display: inline-block;
@@ -311,7 +315,7 @@ useHead({
       color: #495057;
       font-weight: 500;
       transition: all 0.2s ease;
-      
+
       &:hover {
         background: #e9ecef;
         border-color: #adb5bd;
