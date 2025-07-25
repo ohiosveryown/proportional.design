@@ -2,18 +2,21 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxt/content'],
   routeRules: {
-    '/': { prerender: true }
+    '/': { prerender: true, headers: { 'cache-control': 's-maxage=300' } },
+    '/furniture/**': { headers: { 'cache-control': 's-maxage=600' } },
+    '/api/furniture': { headers: { 'cache-control': 's-maxage=300' } },
+    '/api/furniture/**': { headers: { 'cache-control': 's-maxage=600' } }
   },
-    // global styles
   css: ["./assets/style/reset.scss"],
-  // content
-  content: {
-    documentDriven: true,
-    markdown: {
-      anchorLinks: false,
-    },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "/assets/style/grid.scss" as *;'
+        }
+      }
+    }
   },
   devServer: {
     host: '0.0.0.0',
