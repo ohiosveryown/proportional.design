@@ -7,8 +7,6 @@ const notion = new Client({
 const FURNITURE_DATABASE_ID = process.env.NOTION_FURNITURE_DB_ID
 
 export default defineEventHandler(async (event) => {
-  // Cache for 10 minutes (individual pieces change less frequently)
-  setHeader(event, 'Cache-Control', 's-maxage=600, stale-while-revalidate=1200')
   const slug = getRouterParam(event, 'slug')
   
   if (!FURNITURE_DATABASE_ID) {
@@ -26,6 +24,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
+    // First, find the page by slug
     const response = await notion.databases.query({
       database_id: FURNITURE_DATABASE_ID,
       filter: {
@@ -54,34 +53,29 @@ export default defineEventHandler(async (event) => {
     }
 
     const page: any = response.results[0]
-    const properties = page.properties
+    const currentLikes = page.properties.Likes?.number || 0
+    const newLikes = currentLikes + 1
 
-    const furniture = {
-      id: page.id,
-      title: properties.Name?.title?.[0]?.text?.content || 'Untitled',
-      description: properties.Description?.rich_text?.[0]?.text?.content || '',
-      slug: properties.Slug?.rich_text?.[0]?.text?.content || page.id,
-      materials: properties.Materials?.multi_select?.map((m: any) => m.name) || [],
-      category: properties.Category?.select?.name || 'Uncategorized',
-      likes: properties.Likes?.number || 0,
-      images: properties.Images?.files?.map((file: any) => {
-        if (file.type === 'file') {
-          return file.file.url
-        } else if (file.type === 'external') {
-          return file.external.url
+    // Update the likes count
+    await notion.pages.update({
+      page_id: page.id,
+      properties: {
+        Likes: {
+          number: newLikes
         }
-        return null
-      }).filter(Boolean) || [],
-      dateCreated: properties['Date Created']?.date?.start || page.created_time,
-      lastEdited: page.last_edited_time
+      }
+    })
+
+    return { 
+      success: true, 
+      likes: newLikes 
     }
 
-    return furniture
   } catch (error) {
-    console.error('Error fetching furniture piece:', error)
+    console.error('Error updating likes:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to fetch furniture piece'
+      statusMessage: 'Failed to update likes'
     })
   }
 })

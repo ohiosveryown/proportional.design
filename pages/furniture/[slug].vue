@@ -67,6 +67,14 @@
           </div>
 
           <div class="actions">
+            <button 
+              @click="likeItem()"
+              class="like-btn"
+              :disabled="isLiking"
+            >
+              ❤️ {{ data.likes || 0 }}
+            </button>
+            
             <NuxtLink to="/" class="back-button">
               ← Back to Collection
             </NuxtLink>
@@ -90,6 +98,8 @@ const { data, pending, error } = await useFetch(`/api/furniture/${slug}`, {
 
 // State for image gallery
 const selectedImageIndex = ref(0);
+// State for like button
+const isLiking = ref(false);
 
 // Watch for changes in images to reset selected index
 watch(
@@ -99,6 +109,35 @@ watch(
   },
   { immediate: true }
 );
+
+// Function to handle liking the item
+const likeItem = async () => {
+  if (isLiking.value || !data.value) return;
+
+  isLiking.value = true;
+  
+  // Optimistic update - update UI immediately
+  const originalLikes = data.value.likes || 0;
+  data.value.likes = originalLikes + 1;
+  
+  try {
+    // Update database in background
+    const response = await $fetch(`/api/furniture/${slug}/like`, {
+      method: "POST",
+    });
+    
+    // Sync with actual database value
+    if (response.likes) {
+      data.value.likes = response.likes;
+    }
+  } catch (error) {
+    console.error("Failed to like item:", error);
+    // Revert optimistic update on error
+    data.value.likes = originalLikes;
+  } finally {
+    isLiking.value = false;
+  }
+};
 
 // Update main image when thumbnail is selected
 const selectedImage = computed(() => {

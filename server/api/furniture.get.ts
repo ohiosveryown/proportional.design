@@ -43,6 +43,7 @@ export default defineEventHandler(async (event) => {
         slug: properties.Slug?.rich_text?.[0]?.text?.content || page.id,
         materials: properties.Materials?.multi_select?.map((m: any) => m.name) || [],
         category: properties.Category?.select?.name || 'Uncategorized',
+        likes: properties.Likes?.number || 0,
         images: properties.Images?.files?.map((file: any) => {
           if (file.type === 'file') {
             return file.file.url

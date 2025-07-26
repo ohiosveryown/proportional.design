@@ -24,14 +24,22 @@
           </figure>
 
           <footer>
-            <span>{{ item.category }}</span>
-            <ul class="tags">
+            <span class="tags">{{ item.category }}</span>
+            <!-- <ul class="tags">
               <li v-for="material in item.materials" :key="material">
                 {{ material }}
               </li>
-            </ul>
+            </ul> -->
           </footer>
         </NuxtLink>
+
+        <button
+          @click.prevent="likeItem(item.slug, item.id)"
+          class="like-btn"
+          :disabled="likingItems.has(item.id)"
+        >
+          ❤️ {{ item.likes || 0 }}
+        </button>
       </li>
     </ul>
   </main>
@@ -50,6 +58,7 @@ li.entry {
 }
 
 li.entry .title {
+  font-weight: normal;
   font-size: 2rem;
 }
 
@@ -70,14 +79,16 @@ ul.tags {
   gap: 0.5rem;
 }
 
-ul.tags li {
+ul.tags li,
+.tags {
+  border-radius: 5px;
+  padding: 0.2rem 0.5rem;
+  width: max-content;
   font-weight: 600;
   font-size: 1.2rem;
   letter-spacing: -0.75px;
   text-transform: uppercase;
   background-color: #f0f0f0;
-  padding: 0.2rem 0.5rem;
-  border-radius: 5px;
 }
 </style>
 
@@ -88,6 +99,41 @@ const { data, pending, error } = await useFetch("/api/furniture", {
   server: true,
   default: () => [],
 });
+
+// Track which items are being liked (to prevent double-clicks)
+const likingItems = ref(new Set());
+
+// Function to handle liking an item
+const likeItem = async (slug, itemId) => {
+  if (likingItems.value.has(itemId)) return;
+
+  likingItems.value.add(itemId);
+
+  // Find the item and update UI immediately (optimistic update)
+  const item = data.value?.find((item) => item.id === itemId);
+  if (item) {
+    const originalLikes = item.likes || 0;
+    item.likes = originalLikes + 1; // Update UI immediately
+    
+    try {
+      // Update database in background
+      const response = await $fetch(`/api/furniture/${slug}/like`, {
+        method: "POST",
+      });
+      
+      // Sync with actual database value (in case of discrepancy)
+      if (response.likes) {
+        item.likes = response.likes;
+      }
+    } catch (error) {
+      console.error("Failed to like item:", error);
+      // Revert optimistic update on error
+      item.likes = originalLikes;
+    } finally {
+      likingItems.value.delete(itemId);
+    }
+  }
+};
 
 // Set page meta
 useHead({
