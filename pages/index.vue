@@ -95,7 +95,7 @@ ul.tags li,
 <script setup>
 // Fetch furniture data from our API with caching
 const { data, pending, error } = await useFetch("/api/furniture", {
-  key: "furniture-list",
+  key: "furniture-global",
   server: true,
   default: () => [],
 });

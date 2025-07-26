@@ -9,7 +9,7 @@
 
     <article v-else class="furniture-article">
       <nav class="breadcrumb">
-        <NuxtLink to="/">Collection</NuxtLink>
+        <NuxtLink to="/" :prefetch="true">Collection</NuxtLink>
         <span>/</span>
         <span>{{ data.title }}</span>
       </nav>
@@ -75,7 +75,7 @@
               ❤️ {{ data.likes || 0 }}
             </button>
             
-            <NuxtLink to="/" class="back-button">
+            <NuxtLink to="/" :prefetch="true" class="back-button">
               ← Back to Collection
             </NuxtLink>
           </div>
@@ -94,6 +94,13 @@ const { data, pending, error } = await useFetch(`/api/furniture/${slug}`, {
   key: `furniture-${slug}`,
   server: true,
   default: () => null,
+});
+
+// Also prefetch the furniture list for faster back navigation
+const { data: furnitureList } = await useFetch('/api/furniture', {
+  key: 'furniture-global', // Same key as home page
+  server: false, // Only fetch client-side for prefetching
+  default: () => []
 });
 
 // State for image gallery
