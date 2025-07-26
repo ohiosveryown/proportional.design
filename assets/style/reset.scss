@@ -144,32 +144,6 @@ th {
   border: 2px solid hotpink;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  border-radius: var(--radius-md);
-  border: var(--border-light);
-  padding-bottom: 0.7rem;
-  height: max-content;
-  background: var(--bg-vdark);
-  box-shadow: var(--shadow-inset);
-  overflow-y: scroll;
-}
-
-.container nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: var(--z2);
-  border-bottom: var(--border);
-  padding: var(--unit);
-  background: rgb(0,0,0,0.2);
-  backdrop-filter: blur(50px);
-}
-
 // a11y
 :focus {
   // outline: 1px solid rgba(0, 0, 0, 0.2);

@@ -67,14 +67,10 @@
           </div>
 
           <div class="actions">
-            <button 
-              @click="likeItem()"
-              class="like-btn"
-              :disabled="isLiking"
-            >
+            <button @click="likeItem()" class="like-btn" :disabled="isLiking">
               ❤️ {{ data.likes || 0 }}
             </button>
-            
+
             <NuxtLink to="/" :prefetch="true" class="back-button">
               ← Back to Collection
             </NuxtLink>
@@ -97,10 +93,10 @@ const { data, pending, error } = await useFetch(`/api/furniture/${slug}`, {
 });
 
 // Also prefetch the furniture list for faster back navigation
-const { data: furnitureList } = await useFetch('/api/furniture', {
-  key: 'furniture-global', // Same key as home page
+const { data: furnitureList } = await useFetch("/api/furniture", {
+  key: "furniture-global", // Same key as home page
   server: false, // Only fetch client-side for prefetching
-  default: () => []
+  default: () => [],
 });
 
 // State for image gallery
@@ -122,17 +118,17 @@ const likeItem = async () => {
   if (isLiking.value || !data.value) return;
 
   isLiking.value = true;
-  
+
   // Optimistic update - update UI immediately
   const originalLikes = data.value.likes || 0;
   data.value.likes = originalLikes + 1;
-  
+
   try {
     // Update database in background
     const response = await $fetch(`/api/furniture/${slug}/like`, {
       method: "POST",
     });
-    
+
     // Sync with actual database value
     if (response.likes) {
       data.value.likes = response.likes;

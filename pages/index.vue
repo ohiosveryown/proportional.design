@@ -50,11 +50,26 @@ ul.list {
   display: flex;
   gap: 1.2rem;
   margin-top: 4rem;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 }
 
 li.entry {
   min-width: 300px;
   max-width: 300px;
+}
+
+li.entry:first-of-type {
+  padding-left: 1rem;
+}
+
+li.entry:last-of-type {
+  padding-right: 1rem;
 }
 
 li.entry .title {
@@ -114,13 +129,13 @@ const likeItem = async (slug, itemId) => {
   if (item) {
     const originalLikes = item.likes || 0;
     item.likes = originalLikes + 1; // Update UI immediately
-    
+
     try {
       // Update database in background
       const response = await $fetch(`/api/furniture/${slug}/like`, {
         method: "POST",
       });
-      
+
       // Sync with actual database value (in case of discrepancy)
       if (response.likes) {
         item.likes = response.likes;

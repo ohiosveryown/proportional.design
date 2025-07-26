@@ -4,7 +4,7 @@
       <h1>proportional.design</h1>
       <p>Handcrafted pieces built with care and attention to detail.</p>
     </header>
-    <NuxtPage class="container" />
+    <NuxtPage />
   </div>
 </template>
 

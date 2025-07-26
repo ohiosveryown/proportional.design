@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     '/api/furniture': { headers: { 'cache-control': 's-maxage=300' } },
     '/api/furniture/**': { headers: { 'cache-control': 's-maxage=600' } }
   },
-  css: ["./assets/style/reset.scss"],
+  css: ["/assets/style/reset.scss"],
   vite: {
     css: {
       preprocessorOptions: {
