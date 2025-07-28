@@ -7,40 +7,13 @@
     </div>
 
     <ul class="list" v-else>
-      <li class="entry" v-for="item in data" :key="item.id">
-        <NuxtLink :to="`/furniture/${item.slug}`" :prefetch="true">
-          <header>
-            <h2 class="title">{{ item.title }}</h2>
-          </header>
-
-          <figure>
-            <img
-              v-if="item.images?.[0]"
-              :src="item.images[0]"
-              :alt="item.title"
-              loading="lazy"
-            />
-            <figcaption v-else>No Image</figcaption>
-          </figure>
-
-          <footer>
-            <span class="tags">{{ item.category }}</span>
-            <!-- <ul class="tags">
-              <li v-for="material in item.materials" :key="material">
-                {{ material }}
-              </li>
-            </ul> -->
-          </footer>
-        </NuxtLink>
-
-        <button
-          @click.prevent="likeItem(item.slug, item.id)"
-          class="like-btn"
-          :disabled="likingItems.has(item.id)"
-        >
-          ❤️ {{ item.likes || 0 }}
-        </button>
-      </li>
+      <Entry
+        v-for="item in data"
+        :key="item.id"
+        :item="item"
+        :is-liking="likingItems.has(item.id)"
+        @like="likeItem"
+      />
     </ul>
   </main>
 </template>
@@ -57,53 +30,6 @@ ul.list {
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
-}
-
-li.entry {
-  min-width: 300px;
-  max-width: 300px;
-}
-
-li.entry:first-of-type {
-  padding-left: 1rem;
-}
-
-li.entry:last-of-type {
-  padding-right: 1rem;
-}
-
-li.entry .title {
-  font-weight: normal;
-  font-size: 2rem;
-}
-
-li.entry figure {
-  width: 100%;
-}
-
-li.entry figure img {
-  width: 100%;
-  height: 100%;
-  min-height: 300px;
-  max-height: 300px;
-  object-fit: cover;
-}
-
-ul.tags {
-  display: flex;
-  gap: 0.5rem;
-}
-
-ul.tags li,
-.tags {
-  border-radius: 5px;
-  padding: 0.2rem 0.5rem;
-  width: max-content;
-  font-weight: 600;
-  font-size: 1.2rem;
-  letter-spacing: -0.75px;
-  text-transform: uppercase;
-  background-color: #f0f0f0;
 }
 </style>
 
