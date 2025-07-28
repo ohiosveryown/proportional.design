@@ -152,7 +152,7 @@ const likeItem = async (slug, itemId) => {
 
 // Set page meta
 useHead({
-  title: "Furniture Collection - proportional.design",
+  title: "proportional.design",
   meta: [
     {
       name: "description",
