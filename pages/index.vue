@@ -21,7 +21,7 @@
 <style lang="scss" scoped>
 ul.list {
   display: flex;
-  gap: 1.2rem;
+  gap: 2rem;
   margin-top: 4rem;
   overflow-x: auto;
   scrollbar-width: none; /* Firefox */

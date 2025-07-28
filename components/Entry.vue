@@ -15,9 +15,9 @@
         <figcaption v-else>No Image</figcaption>
       </figure>
 
-      <footer>
+      <!-- <footer>
         <span class="tags">{{ item.category }}</span>
-      </footer>
+      </footer> -->
     </NuxtLink>
 
     <button
@@ -30,38 +30,34 @@
   </li>
 </template>
 
-<script setup>
-defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
-  isLiking: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-defineEmits(["like"]);
-</script>
-
 <style lang="scss" scoped>
 .entry {
   min-width: 300px;
   max-width: 300px;
 }
 
+.entry:hover .title {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.2s;
+}
+
 .entry:first-of-type {
-  padding-left: 1rem;
+  padding-left: 2rem;
 }
 
 .entry:last-of-type {
-  padding-right: 1rem;
+  padding-right: 2rem;
 }
 
 .entry .title {
-  font-weight: normal;
-  font-size: 2rem;
+  padding-bottom: 0.2rem;
+  font-weight: 500;
+  font-size: 1.6rem;
+  letter-spacing: -0.25px;
+  opacity: 0;
+  transform: translateY(0.25rem);
+  transition: opacity 0.2s ease, transform 0.01s ease 0.2s;
 }
 
 .entry figure {
@@ -100,3 +96,18 @@ defineEmits(["like"]);
   }
 }
 </style>
+
+<script setup>
+defineProps({
+  item: {
+    type: Object,
+    required: true,
+  },
+  isLiking: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+defineEmits(["like"]);
+</script>
