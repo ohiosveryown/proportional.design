@@ -11,15 +11,24 @@
         <p>Error loading furniture: {{ error.message }}</p>
       </div>
 
-      <ul class="list" v-else>
-        <Entry
-          v-for="item in data"
-          :key="item.id"
-          :item="item"
-          :is-liking="likingItems.has(item.id)"
-          @like="likeItem"
-        />
-      </ul>
+      <div v-else>
+        <div class="controls">
+          <select v-model="sortBy" class="sort-select">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="most-liked">Most Liked</option>
+          </select>
+        </div>
+
+        <ul class="list">
+          <Entry
+            v-for="item in sortedData"
+            :key="item.id"
+            :item="item"
+            @like="likeItem"
+          />
+        </ul>
+      </div>
     </main>
   </div>
 </template>
@@ -28,7 +37,7 @@
 ul.list {
   display: flex;
   gap: 2rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
   overflow-x: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
@@ -49,6 +58,29 @@ const { data, pending, error } = await useFetch("/api/furniture", {
 
 // Track which items are being liked (to prevent double-clicks)
 const likingItems = ref(new Set());
+
+// Sorting functionality
+const sortBy = ref("newest");
+
+const sortedData = computed(() => {
+  if (!data.value) return [];
+
+  const items = [...data.value];
+
+  switch (sortBy.value) {
+    case "oldest":
+      return items.sort(
+        (a, b) => new Date(a.dateCreated) - new Date(b.dateCreated)
+      );
+    case "most-liked":
+      return items.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+    case "newest":
+    default:
+      return items.sort(
+        (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
+      );
+  }
+});
 
 // Function to handle liking an item
 const likeItem = async (slug, itemId) => {
