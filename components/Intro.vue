@@ -1,7 +1,8 @@
 <template>
   <header>
+    <Logotype class="logotype" />
     <h1 class="serif">
-      <span class="start sans">proportional design</span> is an ATLANTA (GA)
+      <!-- <span class="start sans">proportional design</span> is an Atlanta (GA)
       based, small fry studio committed to building functional furniture that
       marries thoughtful design with practical living. Our approach centers on
       creating pieces that are both beautiful and purposeful—furniture that
@@ -12,7 +13,7 @@
           src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1753995214/proportional.design-4.0/fig--rm_3x_xkrtvt.webp"
           alt="fig"
         />
-      </span>
+      </span> -->
     </h1>
   </header>
 </template>
@@ -22,6 +23,15 @@ header {
   margin: 5.6rem auto 16rem;
   padding: 0 2rem;
   max-width: 200rem;
+}
+
+.logotype {
+  width: 100%;
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
 }
 
 h1 {
