@@ -1,21 +1,27 @@
 <template>
-  <main>
-    <div v-if="pending" aria-live="polite">Loading furniture collection...</div>
+  <div class="app">
+    <Intro />
 
-    <div v-else-if="error" role="alert">
-      <p>Error loading furniture: {{ error.message }}</p>
-    </div>
+    <main>
+      <div v-if="pending" aria-live="polite">
+        Loading furniture collection...
+      </div>
 
-    <ul class="list" v-else>
-      <Entry
-        v-for="item in data"
-        :key="item.id"
-        :item="item"
-        :is-liking="likingItems.has(item.id)"
-        @like="likeItem"
-      />
-    </ul>
-  </main>
+      <div v-else-if="error" role="alert">
+        <p>Error loading furniture: {{ error.message }}</p>
+      </div>
+
+      <ul class="list" v-else>
+        <Entry
+          v-for="item in data"
+          :key="item.id"
+          :item="item"
+          :is-liking="likingItems.has(item.id)"
+          @like="likeItem"
+        />
+      </ul>
+    </main>
+  </div>
 </template>
 
 <style lang="scss" scoped>

@@ -23,7 +23,6 @@
     <button
       @click.prevent="$emit('like', item.slug, item.id)"
       class="like-btn"
-      :disabled="isLiking"
     >
       ❤️ {{ item.likes || 0 }}
     </button>
@@ -33,7 +32,7 @@
 <style lang="scss" scoped>
 .entry {
   min-width: 300px;
-  max-width: 300px;
+  // max-width: 300px;
 }
 
 .entry:hover .title {
@@ -67,8 +66,8 @@
 .entry figure img {
   width: 100%;
   height: 100%;
-  min-height: 300px;
-  max-height: 300px;
+  min-height: 240px;
+  max-height: 240px;
   object-fit: cover;
 }
 
@@ -89,11 +88,6 @@
   border: none;
   cursor: pointer;
   font-size: 1rem;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
 }
 </style>
 
@@ -102,10 +96,6 @@ defineProps({
   item: {
     type: Object,
     required: true,
-  },
-  isLiking: {
-    type: Boolean,
-    default: false,
   },
 });
 

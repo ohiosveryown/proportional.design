@@ -32,6 +32,24 @@
   --font-md: 1.6rem;
 }
 
+@font-face {
+  font-family: "serif";
+  src: url("~/assets/type/serif.woff2") format("woff2");
+  font-display: block;
+}
+
+@mixin serif {
+  font-family: "serif", Georgia, "Times New Roman", Times, serif;
+}
+
+.serif {
+  @include serif;
+}
+
+.sans {
+  font-family: var(--system-font);
+}
+
 *,
 *::before,
 *::after {
