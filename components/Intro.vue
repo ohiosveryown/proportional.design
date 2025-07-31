@@ -6,7 +6,7 @@
       marries thoughtful design with practical living. Our approach centers on
       creating pieces that are both beautiful and purposeful—furniture that
       enhances daily life through careful attention to proportion, materiality,
-      and craftsmanship.
+      and&nbsp;craftsmanship.
       <span class="end">
         <img
           src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1753995214/proportional.design-4.0/fig--rm_3x_xkrtvt.webp"
