@@ -13,6 +13,17 @@
 
       <div v-else>
         <div class="controls">
+          <select v-model="filterBy" class="filter-select">
+            <option value="all">All Categories</option>
+            <option
+              v-for="category in availableCategories"
+              :key="category"
+              :value="category"
+            >
+              {{ category }}
+            </option>
+          </select>
+
           <select v-model="sortBy" class="sort-select">
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -59,14 +70,28 @@ const { data, pending, error } = await useFetch("/api/furniture", {
 // Track which items are being liked (to prevent double-clicks)
 const likingItems = ref(new Set());
 
-// Sorting functionality
+// Filtering and sorting functionality
 const sortBy = ref("newest");
+const filterBy = ref("all");
+
+// Get unique categories from the data
+const availableCategories = computed(() => {
+  if (!data.value) return [];
+  const categories = [...new Set(data.value.map((item) => item.category))];
+  return categories.filter(Boolean).sort();
+});
 
 const sortedData = computed(() => {
   if (!data.value) return [];
 
-  const items = [...data.value];
+  let items = [...data.value];
 
+  // Filter by category first
+  if (filterBy.value !== "all") {
+    items = items.filter((item) => item.category === filterBy.value);
+  }
+
+  // Then sort the filtered items
   switch (sortBy.value) {
     case "oldest":
       return items.sort(
