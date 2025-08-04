@@ -51,6 +51,7 @@ ul.list {
   display: flex;
   gap: 2rem;
   margin-top: 2rem;
+  padding-bottom: 4rem;
   overflow-x: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
