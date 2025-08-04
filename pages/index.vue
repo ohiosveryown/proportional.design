@@ -12,7 +12,8 @@
       </div>
 
       <div v-else>
-        <div class="controls">
+        <!-- sorting & filtering -->
+        <!-- <div class="controls">
           <select v-model="filterBy" class="filter-select">
             <option value="all">All Categories</option>
             <option
@@ -29,13 +30,14 @@
             <option value="oldest">Oldest First</option>
             <option value="most-liked">Most Liked</option>
           </select>
-        </div>
+        </div> -->
 
         <ul class="list">
           <Entry
-            v-for="item in sortedData"
+            v-for="(item, index) in sortedData"
             :key="item.id"
             :item="item"
+            :index="index"
             @like="likeItem"
           />
         </ul>
