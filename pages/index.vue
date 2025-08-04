@@ -64,11 +64,14 @@ ul.list {
 
 <script setup>
 // Fetch furniture data from our API with caching
-const { data, pending, error } = await useFetch("/api/furniture", {
+const { data: fetchedData, pending, error } = await useFetch("/api/furniture", {
   key: "furniture-global",
   server: true,
   default: () => [],
 });
+
+// Make data reactive for optimistic updates
+const data = ref(fetchedData.value);
 
 // Track which items are being liked (to prevent double-clicks)
 const likingItems = ref(new Set());

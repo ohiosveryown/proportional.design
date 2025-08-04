@@ -7,11 +7,13 @@
 
     <NuxtLink :to="`/furniture/${item.slug}`" :prefetch="true">
       <figure>
-        <button
-          class="button-like"
-          @click.prevent="$emit('like', item.slug, item.id)"
-        >
-          <svg width="18" height="14" fill="none">
+        <button class="button-like" @click.prevent="handleLike">
+          <svg
+            width="18"
+            height="14"
+            fill="none"
+            :class="{ 'heart-animate': isAnimating }"
+          >
             <path
               fill="var(--bg)"
               fill-rule="evenodd"
@@ -90,12 +92,22 @@
 
 .button-like {
   position: absolute;
-  right: 2rem;
-  bottom: 4.8rem;
+  right: 1.2rem;
+  bottom: 4.4rem;
   z-index: var(--z1);
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  padding: 0.8rem 1.2rem;
+  cursor: cell;
+}
+
+.button-like svg {
+  transition: transform 0.1s ease;
+}
+
+.button-like:active svg {
+  transform: scale(0.9);
 }
 
 .button-like .likes {
@@ -104,12 +116,28 @@
   color: var(--bg);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.648);
 }
+
+.heart-animate {
+  animation: heartBeat 0.3s ease-in-out;
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 </style>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 
-defineProps({
+const props = defineProps({
   item: {
     type: Object,
     required: true,
@@ -120,9 +148,21 @@ defineProps({
   },
 });
 
-defineEmits(["like"]);
+const emit = defineEmits(["like"]);
 
 const entryRef = ref(null);
+const isAnimating = ref(false);
+
+const handleLike = () => {
+  // Trigger animation
+  isAnimating.value = true;
+  setTimeout(() => {
+    isAnimating.value = false;
+  }, 300);
+
+  // Emit the like event
+  emit("like", props.item.slug, props.item.id);
+};
 
 onMounted(() => {
   const observer = new IntersectionObserver(
