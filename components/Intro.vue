@@ -1374,9 +1374,4 @@ svg {
   width: 100%;
   height: auto;
 }
-
-.img-suffix {
-  box-shadow: 0 60px 80px 0 rgba(0, 0, 0, 0.06),
-    0 14px 18px 0 rgba(0, 0, 0, 0.04), 0 4px 5px 0 rgba(0, 0, 0, 0.02);
-}
 </style>
