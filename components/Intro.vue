@@ -15,7 +15,14 @@
       careful attention to proportion, materiality, and craftsmanship.
     </h1>
 
-    <svg class="large" fill="none" viewBox="0 -12 1393 388">
+    <svg class="large" fill="none" viewBox="0 -12 1393 444">
+      <defs>
+        <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow dx="0" dy="4" stdDeviation="2" flood-opacity="0.02" />
+          <feDropShadow dx="0" dy="14" stdDeviation="9" flood-opacity="0.04" />
+          <feDropShadow dx="0" dy="30" stdDeviation="40" flood-opacity="0.06" />
+        </filter>
+      </defs>
       <image
         x="12"
         y="-12"
@@ -1323,11 +1330,13 @@
       />
       <a href="/some-link">
         <image
+          class="debug img-suffix"
           x="820"
           y="256"
           width="177"
           height="128"
           preserveAspectRatio="xMidYMid meet"
+          filter="url(#shadow)"
           href="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1753995214/proportional.design-4.0/fig--rm_3x_xkrtvt.webp"
         />
       </a>
@@ -1364,5 +1373,10 @@ svg {
   z-index: var(--z1);
   width: 100%;
   height: auto;
+}
+
+.img-suffix {
+  box-shadow: 0 60px 80px 0 rgba(0, 0, 0, 0.06),
+    0 14px 18px 0 rgba(0, 0, 0, 0.04), 0 4px 5px 0 rgba(0, 0, 0, 0.02);
 }
 </style>
