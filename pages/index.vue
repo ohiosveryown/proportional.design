@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <Intro />
+    <Intro ref="intro" class="intro" />
 
     <main>
       <div v-if="pending" aria-live="polite">
@@ -47,7 +47,22 @@
 </template>
 
 <style lang="scss" scoped>
+.intro {
+  position: sticky;
+  top: 0;
+  z-index: var(--z1);
+  transition: transform 500ms ease, opacity 500ms ease, filter 500ms ease 100ms;
+}
+
+.fade-out {
+  transform: scale(0.8) translateY(-4rem);
+  opacity: 0.2;
+  filter: blur(10px);
+}
+
 ul.list {
+  position: relative;
+  z-index: var(--z2);
   display: flex;
   gap: 2rem;
   margin-top: 2rem;
@@ -64,7 +79,11 @@ ul.list {
 
 <script setup>
 // Fetch furniture data from our API with caching
-const { data: fetchedData, pending, error } = await useFetch("/api/furniture", {
+const {
+  data: fetchedData,
+  pending,
+  error,
+} = await useFetch("/api/furniture", {
   key: "furniture-global",
   server: true,
   default: () => [],
@@ -155,6 +174,59 @@ useHead({
         "Handcrafted furniture pieces built with care and attention to detail.",
     },
   ],
+});
+
+// Scroll-based intro animation
+const scrollpos = ref(0);
+const intro = ref(null);
+const scrollThreshold = 50; // Fixed pixel value
+
+// Throttling variables
+let ticking = false;
+let lastScrollY = 0;
+
+const addClassOnScroll = () => {
+  if (intro.value && intro.value.$el && intro.value.$el.classList) {
+    intro.value.$el.classList.add("fade-out");
+  }
+};
+
+const removeClassOnScroll = () => {
+  if (intro.value && intro.value.$el && intro.value.$el.classList) {
+    intro.value.$el.classList.remove("fade-out");
+  }
+};
+
+const updateScrollClass = () => {
+  if (scrollpos.value >= scrollThreshold) {
+    addClassOnScroll();
+  } else {
+    removeClassOnScroll();
+  }
+  ticking = false;
+};
+
+const handleScroll = () => {
+  scrollpos.value = window.scrollY;
+
+  // Only update if we haven't already scheduled an update
+  if (!ticking) {
+    requestAnimationFrame(updateScrollClass);
+    ticking = true;
+  }
+};
+
+// Set up scroll listener when component mounts
+onMounted(async () => {
+  // Wait for the next tick to ensure DOM is ready
+  await nextTick();
+
+  window.addEventListener("scroll", handleScroll);
+});
+
+// Clean up scroll listener when component unmounts
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 

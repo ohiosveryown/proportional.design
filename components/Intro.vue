@@ -1347,8 +1347,8 @@
 <style lang="scss" scoped>
 header {
   position: relative;
-  margin: 5.6rem auto 8rem;
-  padding: 0 3.2rem;
+  margin: 0 auto 8rem;
+  padding: 5.6rem 3.2rem 0;
   max-width: 200rem;
 }
 

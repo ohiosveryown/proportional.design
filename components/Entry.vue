@@ -39,11 +39,15 @@
 .entry {
   flex: 0 0 auto;
   width: max-content;
-  max-width: 64vw;
+  max-width: 44vw;
   content-visibility: auto;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.entry:hover .button-like {
+  opacity: 1;
 }
 
 .entry.visible {
@@ -53,26 +57,28 @@
 
 .entry header {
   display: flex;
-  gap: 4rem;
+  gap: 0.8rem;
   align-items: baseline;
   padding: 0 0.8rem;
 }
 
 .entry header .key {
   font-weight: 500;
+  font-size: 1.2rem;
 }
 
 .entry header .title {
   flex: 1;
+  font-size: 1.9rem;
   -webkit-text-stroke: 0.2px #1e1d1d;
 }
 
 .entry:first-of-type {
-  padding-left: 2rem;
+  padding-left: 3.2rem;
 }
 
 .entry:last-of-type {
-  padding-right: 2rem;
+  padding-right: 3.2rem;
 }
 
 .entry figure {
@@ -86,20 +92,22 @@
 .entry figure img {
   border-radius: 9px;
   width: auto;
-  height: 80vh;
+  height: 60vh;
   object-fit: cover;
 }
 
 .button-like {
   position: absolute;
   right: 1.2rem;
-  bottom: 4.4rem;
+  bottom: 3.8rem;
   z-index: var(--z1);
   display: flex;
   align-items: center;
   gap: 0.6rem;
   padding: 0.8rem 1.2rem;
   cursor: cell;
+  opacity: 1;
+  transition: opacity 0.2s ease;
 }
 
 .button-like svg {
