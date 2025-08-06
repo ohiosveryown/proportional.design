@@ -17,7 +17,7 @@
   --zmin: -9999;
   // color
   --primary: #FBECC3;
-  --secondary: #46725E;
+  --secondary: #467460;
   --bg: #1F2C26;
   // border
   --radius-xs: 2px;
@@ -34,14 +34,14 @@
 }
 
 @font-face {
-  font-family: "serif";
-  src: url("~/assets/type/serif.woff2") format("woff2");
+  font-family: "sans";
+  src: url("~/assets/type/sans.woff2") format("woff2");
   font-display: block;
 }
 
 @font-face {
-  font-family: "sans";
-  src: url("~/assets/type/sans.woff2") format("woff2");
+  font-family: "serif";
+  src: url("~/assets/type/serif.woff2") format("woff2");
   font-display: block;
 }
 
@@ -51,6 +51,7 @@
 
 .serif {
   font-family: "serif", Georgia, "Times New Roman", Times, serif;
+  -webkit-text-stroke: 0.24px var(--secondary);
 }
 
 *,
