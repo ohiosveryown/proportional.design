@@ -11,9 +11,11 @@
         <p>Error loading furniture: {{ error.message }}</p>
       </div>
 
-      <div v-else>
+      <div class="container" v-else>
         <!-- sorting & filtering -->
-        <!-- <div class="controls">
+        <aside>
+          <header>All Pieces</header>
+
           <select v-model="filterBy" class="filter-select">
             <option value="all">All Categories</option>
             <option
@@ -30,9 +32,9 @@
             <option value="oldest">Oldest First</option>
             <option value="most-liked">Most Liked</option>
           </select>
-        </div> -->
+        </aside>
 
-        <!-- <ul class="list">
+        <ul class="list">
           <Entry
             v-for="(item, index) in sortedData"
             :key="item.id"
@@ -40,22 +42,47 @@
             :index="index"
             @like="likeItem"
           />
-        </ul> -->
+        </ul>
       </div>
     </main>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.app {
-  padding-bottom: 100vh;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @include breakpoint(md) {
+    margin: 0 auto;
+    max-width: 200rem;
+    width: 92vw;
+    padding: 0 6.4em;
+    align-items: flex-start;
+    flex-direction: row;
+  }
+}
+
+aside {
+  @include breakpoint(md) {
+    position: sticky;
+    top: 2rem;
+    margin-right: grid-width(0.5);
+    width: grid-width(5);
+  }
+}
+
+.list {
+  @include breakpoint(md) {
+    width: grid-width(6.5);
+  }
 }
 
 .intro {
-  position: sticky;
-  top: 0;
-  z-index: var(--z1);
-  transition: transform 500ms ease, opacity 500ms ease, filter 500ms ease 100ms;
+  // position: sticky;
+  // top: 0;
+  // z-index: var(--z1);
+  // transition: transform 500ms ease, opacity 500ms ease, filter 500ms ease 100ms;
 }
 
 .fade-out {
@@ -64,21 +91,21 @@
   // filter: blur(10px);
 }
 
-ul.list {
-  position: relative;
-  z-index: var(--z2);
-  display: flex;
-  gap: 2rem;
-  margin-top: 2rem;
-  padding-bottom: 4rem;
-  overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+// ul.list {
+//   position: relative;
+//   z-index: var(--z2);
+//   display: flex;
+//   gap: 2rem;
+//   margin-top: 2rem;
+//   padding-bottom: 4rem;
+//   overflow-x: auto;
+//   scrollbar-width: none; /* Firefox */
+//   -ms-overflow-style: none; /* IE and Edge */
 
-  &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
-}
+//   &::-webkit-scrollbar {
+//     display: none; /* Chrome, Safari, Opera */
+//   }
+// }
 </style>
 
 <script setup>

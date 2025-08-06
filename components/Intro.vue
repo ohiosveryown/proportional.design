@@ -51,6 +51,15 @@ header {
   text-transform: uppercase;
 }
 
+.xl {
+  @include breakpoint(md) {
+    margin-bottom: 4rem;
+    font-size: 8rem;
+    line-height: 0.96;
+    letter-spacing: -0.15rem;
+  }
+}
+
 .lg {
   @include breakpoint(md) {
     margin-bottom: 4rem;
@@ -110,7 +119,7 @@ header {
   left: -1.2rem;
   width: 28px;
   height: 28px;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .underline {
@@ -135,6 +144,7 @@ header {
 
 .atlanta {
   position: relative;
+  z-index: var(--z1);
 }
 
 .atlanta:after {
