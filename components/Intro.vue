@@ -2,7 +2,8 @@
   <header>
     <h1 class="sans lg">
       <span class="row row-one">
-        Proportional Design is a <span class="sm">(small-fry)</span></span
+        <span class="underline">Proportional.design</span> is a
+        <span class="sm">(small-fry)</span></span
       >
       <span class="row row-two"
         >studio based in
@@ -88,11 +89,44 @@ header {
   transform: scaleX(-1);
 }
 
+.underline {
+  position: relative;
+}
+
+.underline:hover:after {
+  opacity: 0.4;
+}
+
+.underline:after {
+  content: "";
+  position: absolute;
+  bottom: 1.8rem;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dotted var(--primary);
+  transition: opacity 0.3s ease;
+}
+
 .atlanta {
+  position: relative;
+}
+
+.atlanta:after {
+  border-radius: 100px;
+  content: "";
+  position: absolute;
+  z-index: var(--z0);
+  top: 0.4rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
   background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1754493058/proportional.design-4.0/atl-2_2x_hlqegf.webp")
-    no-repeat;
-  background-size: 100% 50%;
-  background-position: 0 0.4rem;
+    no-repeat center center;
+  background-size: cover;
+  overflow: hidden;
 }
 
 .row {
