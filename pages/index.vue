@@ -47,6 +47,10 @@
 </template>
 
 <style lang="scss" scoped>
+.app {
+  padding-bottom: 100vh;
+}
+
 .intro {
   position: sticky;
   top: 0;
@@ -55,9 +59,9 @@
 }
 
 .fade-out {
-  transform: scale(0.8) translateY(-4rem);
-  opacity: 0.2;
-  filter: blur(10px);
+  // transform: scale(0.8) translateY(-4rem);
+  // opacity: 0.2;
+  // filter: blur(10px);
 }
 
 ul.list {

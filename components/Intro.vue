@@ -2,6 +2,9 @@
   <header>
     <h1 class="sans lg">
       <span class="row row-one">
+        <span class="monogram">
+          <Monogram fillColor="var(--secondary)" />
+        </span>
         <span class="underline">Proportional.design</span> is a
         <span class="sm">(small-fry)</span></span
       >
@@ -21,6 +24,16 @@
       Our craftsmanship aims to honor both woodworking heritage, and our
       responsibility to the environment.
     </p>
+
+    <section>
+      <button class="primary-btn">Contact</button>
+      <img
+        class="carpenter"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1754495959/proportional.design-4.0/carpenter-01_2x_i8rifn.webp"
+        alt="carpenter"
+      />
+      <span class="arrow" />
+    </section>
   </header>
 </template>
 
@@ -54,6 +67,7 @@ header {
   color: var(--secondary);
 
   @include breakpoint(md) {
+    margin-bottom: 6.4rem;
     max-width: 47ch;
     font-size: 4rem;
     line-height: 1.1;
@@ -63,6 +77,7 @@ header {
 
 .sm {
   color: var(--secondary);
+  opacity: 0.8;
   @include breakpoint(md) {
     font-size: 4.8rem;
   }
@@ -89,8 +104,18 @@ header {
   transform: scaleX(-1);
 }
 
+.monogram {
+  position: absolute;
+  top: -4.8rem;
+  left: -1.2rem;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+}
+
 .underline {
   position: relative;
+  cursor: alias;
 }
 
 .underline:hover:after {
@@ -129,7 +154,30 @@ header {
   overflow: hidden;
 }
 
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5.2rem;
+}
+
+.carpenter {
+  width: 5.2rem;
+  height: auto;
+  pointer-events: none;
+}
+
+.arrow {
+  width: 0.5px;
+  height: 11.2rem;
+  background: var(--secondary);
+}
+
 .row {
   display: block;
+}
+
+.row-one {
+  position: relative;
 }
 </style>
