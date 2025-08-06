@@ -39,17 +39,18 @@
   font-display: block;
 }
 
-@mixin serif {
-  font-family: "serif", Georgia, "Times New Roman", Times, serif;
-}
-
-.serif {
-  @include serif;
-  letter-spacing: -0.05rem;
+@font-face {
+  font-family: "sans";
+  src: url("~/assets/type/sans.woff2") format("woff2");
+  font-display: block;
 }
 
 .sans {
-  font-family: var(--system-font);
+  font-family: "sans", var(--system-font);
+}
+
+.serif {
+  font-family: "serif", Georgia, "Times New Roman", Times, serif;
 }
 
 *,

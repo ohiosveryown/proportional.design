@@ -32,7 +32,7 @@
           </select>
         </div> -->
 
-        <ul class="list">
+        <!-- <ul class="list">
           <Entry
             v-for="(item, index) in sortedData"
             :key="item.id"
@@ -40,7 +40,7 @@
             :index="index"
             @like="likeItem"
           />
-        </ul>
+        </ul> -->
       </div>
     </main>
   </div>
