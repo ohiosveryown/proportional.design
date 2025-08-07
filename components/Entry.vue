@@ -52,7 +52,7 @@
 
 <style lang="scss" scoped>
 li.entry {
-  border-bottom: 0.5px solid var(--secondary);
+  border-bottom: 1px solid rgba(251, 236, 195, 0.2);
   padding-bottom: 8rem;
 }
 

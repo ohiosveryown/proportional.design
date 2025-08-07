@@ -14,24 +14,59 @@
       <div class="container" v-else>
         <!-- sorting & filtering -->
         <aside>
-          <header>All Pieces</header>
+          <header>{{ headerText }}</header>
 
-          <select v-model="filterBy" class="filter-select">
-            <option value="all">All Categories</option>
-            <option
+          <div class="category-filters">
+            <button
+              @click="handleFilterClick('all', $event)"
+              :class="{ active: isFilterActive('all') }"
+              class="filter-button"
+            >
+              ALL
+            </button>
+            <button
               v-for="category in availableCategories"
               :key="category"
-              :value="category"
+              @click="handleFilterClick(category, $event)"
+              :class="{ active: isFilterActive(category) }"
+              class="filter-button"
             >
-              {{ category }}
-            </option>
-          </select>
+              {{ category.toUpperCase() }}
+            </button>
+          </div>
 
-          <select v-model="sortBy" class="sort-select">
+          <!-- <select v-model="sortBy" class="sort-select">
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
             <option value="most-liked">Most Liked</option>
-          </select>
+          </select> -->
+
+          <footer class="aside-footer">
+            <div class="brand-text">
+              PROPORTIONAL
+              <img
+                class="carpenter-icon"
+                src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1754495959/proportional.design-4.0/carpenter-01_2x_i8rifn.webp"
+                alt="carpenter"
+              />
+              DESIGN
+            </div>
+            <div class="footer-actions">
+              <button class="primary-btn contact-btn">Contact</button>
+              <a
+                href="https://instagram.com/proportional.design"
+                target="_blank"
+                class="instagram-link"
+              >
+                <div class="instagram-avatar">
+                  <img
+                    src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733875450/proportional.design-3.0/avatar_w_3x_j45unb.webp"
+                    alt="instagram"
+                  />
+                </div>
+              </a>
+            </div>
+          </footer>
         </aside>
 
         <ul class="list">
@@ -64,11 +99,146 @@
 }
 
 aside {
+  display: flex;
+  flex-direction: column;
+  min-height: 50vh;
+
   @include breakpoint(md) {
     position: sticky;
     top: 2rem;
     margin-right: grid-width(0.5);
     width: grid-width(5);
+  }
+}
+
+aside header {
+  color: var(--primary);
+  font-size: 2.4rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.filter-button {
+  background: none;
+  border: none;
+  color: rgba(251, 236, 195, 0.6);
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: -0.025rem;
+  margin-right: 1.2rem;
+  margin-bottom: 1rem;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: rgba(251, 236, 195, 0.8);
+  }
+
+  &.active {
+    color: var(--primary);
+    font-weight: 500;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.aside-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2.4rem;
+  border-block: 1px solid rgba(251, 236, 195, 0.2);
+  padding-block: 1.2rem;
+
+  .brand-text {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: -0.025rem;
+  }
+
+  .carpenter-icon {
+    width: 2.4rem;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .contact-btn {
+    transform: scale(0.9);
+  }
+
+  .contact-btn:hover {
+    transform: scale(0.94);
+  }
+
+  .contact-btn:active {
+    transform: scale(0.88);
+  }
+
+  .instagram-link {
+    display: block;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .instagram-avatar {
+    position: relative;
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 100px;
+      background: linear-gradient(
+        45deg,
+        #f09433 0%,
+        #e6683c 25%,
+        #dc2743 50%,
+        #cc2366 75%,
+        #bc1888 100%
+      );
+      animation: instagram-ring-rotate 3s linear infinite;
+      z-index: 0;
+    }
+
+    img {
+      border: 2px solid var(--bg);
+      width: 4rem;
+      height: 4rem;
+      object-fit: cover;
+      border-radius: 100px;
+      position: relative;
+      z-index: 1;
+    }
+  }
+}
+
+@keyframes instagram-ring-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -131,7 +301,7 @@ const likingItems = ref(new Set());
 
 // Filtering and sorting functionality
 const sortBy = ref("newest");
-const filterBy = ref("all");
+const filterBy = ref(["all"]); // Now an array for multi-select
 
 // Get unique categories from the data
 const availableCategories = computed(() => {
@@ -146,8 +316,8 @@ const sortedData = computed(() => {
   let items = [...data.value];
 
   // Filter by category first
-  if (filterBy.value !== "all") {
-    items = items.filter((item) => item.category === filterBy.value);
+  if (!filterBy.value.includes("all")) {
+    items = items.filter((item) => filterBy.value.includes(item.category));
   }
 
   // Then sort the filtered items
@@ -163,6 +333,54 @@ const sortedData = computed(() => {
       return items.sort(
         (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
       );
+  }
+});
+
+// Filter handling functions
+const handleFilterClick = (category, event) => {
+  const isCommandKey = event.metaKey || event.ctrlKey; // metaKey for Mac, ctrlKey for Windows/Linux
+
+  if (category === "all") {
+    // Clicking "ALL" always resets to show all
+    filterBy.value = ["all"];
+    return;
+  }
+
+  if (!isCommandKey) {
+    // Regular click - single select
+    filterBy.value = [category];
+  } else {
+    // Cmd+click - multi-select
+    const currentFilters = [...filterBy.value];
+
+    // Remove "all" if it's currently selected
+    const withoutAll = currentFilters.filter((f) => f !== "all");
+
+    if (withoutAll.includes(category)) {
+      // Remove this category
+      const newFilters = withoutAll.filter((f) => f !== category);
+      // If no categories left, default to "all"
+      filterBy.value = newFilters.length ? newFilters : ["all"];
+    } else {
+      // Add this category
+      filterBy.value = [...withoutAll, category];
+    }
+  }
+};
+
+const isFilterActive = (category) => {
+  return filterBy.value.includes(category);
+};
+
+// Dynamic header text based on active filters
+const headerText = computed(() => {
+  if (filterBy.value.includes("all") || filterBy.value.length === 0) {
+    return "All Pieces";
+  } else if (filterBy.value.length === 1) {
+    return filterBy.value[0];
+  } else {
+    // Multiple filters selected
+    return filterBy.value.join(" + ");
   }
 });
 
