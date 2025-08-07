@@ -7,6 +7,11 @@
       </span>
       <span class="title-date-likes">
         <span class="title-date">
+          <img
+            class="folder"
+            src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1754594907/proportional.design-4.0/i_2x_fxaiui.webp"
+            alt="Folder icon"
+          />
           <h2 class="serif">{{ item.title }}</h2>
           <span class="date system">{{
             new Date(item.dateCreated).getFullYear()
@@ -47,12 +52,28 @@
 
 <style lang="scss" scoped>
 li.entry {
-  margin-bottom: 16rem;
+  border-bottom: 0.5px solid var(--secondary);
+  padding-bottom: 8rem;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.folder {
+  width: 4.8rem;
+  height: auto;
+  object-fit: cover;
 }
 
 .meta,
 .date {
   opacity: 0.72;
+}
+
+.meta {
+  margin-left: 5.9rem;
 }
 
 .title-date-likes {
@@ -155,8 +176,8 @@ figure {
 
 img {
   height: 100%;
-  width: 100%;
-  object-fit: cover;
+  width: auto;
+  object-fit: contain;
 }
 </style>
 

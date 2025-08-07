@@ -73,7 +73,10 @@ aside {
 }
 
 .list {
+  display: flex;
+  flex-direction: column;
   @include breakpoint(md) {
+    gap: 5.6rem;
     width: grid-width(6.5);
   }
 }
