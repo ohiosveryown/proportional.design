@@ -92,7 +92,7 @@
     margin: 0 auto;
     max-width: 200rem;
     width: 92vw;
-    padding: 0 6.4em;
+    padding: 0 4em;
     align-items: flex-start;
     flex-direction: row;
   }
@@ -106,8 +106,8 @@ aside {
   @include breakpoint(md) {
     position: sticky;
     top: 2rem;
-    margin-right: grid-width(0.5);
-    width: grid-width(5);
+    margin-right: grid-width(1);
+    width: grid-width(4.5);
   }
 }
 
