@@ -15,10 +15,14 @@
   --z1: 1;
   --z0: -1;
   --zmin: -9999;
-  // color
+
+  // rm
   --primary: #FBECC3;
   --secondary: #467460;
   --bg: #1F2C26;
+
+  // color
+  --base-000: #1C2822;
   // border
   --radius-xs: 2px;
   --radius-sm: 5px;
@@ -72,14 +76,14 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility !important;
   height: 100vh;
-  background: var(--bg);
+  background: var(--base-000);
   // overscroll-behavior: none;
 }
 
 body {
   min-height: 100vh;
   font: normal var(--font)/1.5 var(--system-font);
-  background: var(--bg);
+  background: var(--base-000);
   text-rendering: optimizeSpeed;
 }
 
