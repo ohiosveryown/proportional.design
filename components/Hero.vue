@@ -23,13 +23,13 @@
 .follow-btn {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
   position: absolute;
   z-index: var(--z1);
   border-radius: 100px;
   border: none;
-  padding: 0.6rem 0.6rem 0.6rem 2rem;
-  font-size: 1.5rem;
+  padding: 0.4rem 0.4rem 0.4rem 1.6rem;
+  font-size: 1.3rem;
   text-transform: uppercase;
   color: var(--content-000);
   opacity: 0;
@@ -47,13 +47,13 @@
   display: grid;
   place-items: center;
   border-radius: 100px;
-  padding: 1.4rem;
+  padding: 1rem;
   background: var(--base-000);
   box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.64) inset;
 }
 
 .icon svg {
-  transform: scale(0.72);
+  transform: scale(0.68);
 }
 
 .hero-image-wrapper:hover .follow-btn {
