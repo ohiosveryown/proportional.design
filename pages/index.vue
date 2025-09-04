@@ -1,7 +1,8 @@
 <template>
   <div class="app">
-    <Intro ref="intro" class="intro" />
+    <Hero ref="hero" class="hero" />
 
+    <!--
     <main>
       <div v-if="pending" aria-live="polite">
         Loading furniture collection...
@@ -12,7 +13,6 @@
       </div>
 
       <div class="container" v-else>
-        <!-- sorting & filtering -->
         <aside>
           <header>{{ headerText }}</header>
 
@@ -34,12 +34,6 @@
               {{ category.toUpperCase() }}
             </button>
           </div>
-
-          <!-- <select v-model="sortBy" class="sort-select">
-            <option value="newest">Newest First</option>
-            <option value="oldest">Oldest First</option>
-            <option value="most-liked">Most Liked</option>
-          </select> -->
 
           <footer class="aside-footer">
             <div class="brand-text">
@@ -80,7 +74,7 @@
         </ul>
       </div>
     </main>
-  </div>
+  --></div>
 </template>
 
 <style lang="scss" scoped>
