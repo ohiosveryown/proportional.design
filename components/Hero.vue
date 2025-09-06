@@ -1,7 +1,6 @@
 <template>
   <section class="hero">
     <Logotype class="logotype" />
-    <!-- <div class="hero-image" /> -->
 
     <div ref="wrapper" class="hero-image-wrapper">
       <button ref="followBtn" class="follow-btn">
@@ -14,7 +13,7 @@
             /></svg
         ></span>
       </button>
-      <div class="hero-image" />
+      <div ref="threeContainer" class="three-container"></div>
     </div>
   </section>
 </template>
@@ -54,6 +53,7 @@
 
 .icon svg {
   transform: scale(0.68);
+  opacity: 0.64;
 }
 
 .hero-image-wrapper:hover .follow-btn {
@@ -78,20 +78,23 @@
   cursor: none;
 }
 
-.hero-image {
+.three-container {
   position: absolute;
   top: 0;
   right: 0;
   width: 100%;
   height: 100%;
-  background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1756947317/proportional.design-4.0/hero_2x_uajsjm.webp")
-    no-repeat center center;
-  background-size: cover;
   transform: scale(1.24);
   animation: scaleIn 1.5s ease forwards 1s;
 }
 
-.hero-image:after {
+.three-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.three-container:after {
   content: "";
   position: absolute;
   inset: 0;
@@ -100,6 +103,7 @@
   background: var(--base-000);
   animation: maskOff 1.25s cubic-bezier(0.8, 0, 0.16, 1) forwards 1s;
   transform-origin: left;
+  pointer-events: none;
 }
 
 .logotype {
@@ -134,16 +138,28 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import { useDisplacementEffect } from "~/composables/useDisplacementEffect";
 
 const followBtn = ref(null);
 const wrapper = ref(null);
+const threeContainer = ref(null);
+
+const { init: initDisplacementEffect, resize: resizeDisplacementEffect } =
+  useDisplacementEffect();
+let cleanupEffect = null;
 
 const updateButtonPosition = (e) => {
   if (followBtn.value) {
     const rect = wrapper.value.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    followBtn.value.style.transform = `translate(${x + 0}px, ${y + 0}px)`;
+    followBtn.value.style.transform = `translate(${x}px, ${y}px)`;
+  }
+};
+
+const handleResize = () => {
+  if (threeContainer.value && resizeDisplacementEffect) {
+    resizeDisplacementEffect(threeContainer.value);
   }
 };
 
@@ -151,11 +167,28 @@ onMounted(() => {
   if (wrapper.value) {
     wrapper.value.addEventListener("mousemove", updateButtonPosition);
   }
+
+  // Initialize Three.js effect after a delay to match the animation timing
+  setTimeout(() => {
+    if (threeContainer.value) {
+      const imageUrl =
+        "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1756947317/proportional.design-4.0/hero_2x_uajsjm.webp";
+      cleanupEffect = initDisplacementEffect(threeContainer.value, imageUrl);
+    }
+  }, 1000);
+
+  window.addEventListener("resize", handleResize);
 });
 
 onUnmounted(() => {
   if (wrapper.value) {
     wrapper.value.removeEventListener("mousemove", updateButtonPosition);
   }
+
+  if (cleanupEffect) {
+    cleanupEffect();
+  }
+
+  window.removeEventListener("resize", handleResize);
 });
 </script>

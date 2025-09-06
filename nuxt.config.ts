@@ -16,7 +16,8 @@ export default defineNuxtConfig({
           additionalData: '@use "/assets/style/grid.scss" as *;'
         }
       }
-    }
+    },
+    assetsInclude: ['**/*.glsl']
   },
   devServer: {
     host: '0.0.0.0',
