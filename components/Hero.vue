@@ -13,12 +13,34 @@
             /></svg
         ></span>
       </button>
-      <div ref="threeContainer" class="three-container"></div>
+      <div
+        ref="threeContainer"
+        class="three-container"
+        :class="{ rendered: isThreeRendered }"
+      />
     </div>
   </section>
 </template>
 
 <style lang="scss" scoped>
+.logotype {
+  position: relative;
+  z-index: var(--z2);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(0.16) translate(-4%, 0);
+  transform-origin: center;
+  will-change: transform;
+  animation: logotypeAnimation 1s cubic-bezier(0.8, 0, 0.48, 1) forwards 1s;
+}
+
+@keyframes logotypeAnimation {
+  to {
+    transform: scale(0.5) translate(-48%, -48%);
+  }
+}
+
 .follow-btn {
   display: flex;
   align-items: center;
@@ -106,23 +128,6 @@
   pointer-events: none;
 }
 
-.logotype {
-  position: relative;
-  z-index: var(--z2);
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transform: scale(0.8) translate(-2%, 1%);
-  transform-origin: center;
-  animation: logotypeAnimation 1.25s cubic-bezier(0.8, 0, 0.16, 1) forwards 1s;
-}
-
-@keyframes logotypeAnimation {
-  to {
-    transform: scale(0.5) translate(-48%, -50%);
-  }
-}
-
 @keyframes scaleIn {
   to {
     transform: scale(1);
@@ -143,6 +148,7 @@ import { useDisplacementEffect } from "~/composables/useDisplacementEffect";
 const followBtn = ref(null);
 const wrapper = ref(null);
 const threeContainer = ref(null);
+const isThreeRendered = ref(false);
 
 const { init: initDisplacementEffect, resize: resizeDisplacementEffect } =
   useDisplacementEffect();
@@ -169,14 +175,13 @@ onMounted(() => {
     wrapper.value.addEventListener("mousemove", updateButtonPosition);
   }
 
-  // Initialize Three.js effect after a delay to match the animation timing
-  setTimeout(() => {
-    if (threeContainer.value) {
-      const imageUrl =
-        "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1756947317/proportional.design-4.0/hero_2x_uajsjm.webp";
-      cleanupEffect = initDisplacementEffect(threeContainer.value, imageUrl);
-    }
-  }, 1000);
+  // Initialize Three.js effect immediately
+  if (threeContainer.value) {
+    const imageUrl =
+      "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1756947317/proportional.design-4.0/hero_2x_uajsjm.webp";
+    cleanupEffect = initDisplacementEffect(threeContainer.value, imageUrl);
+    isThreeRendered.value = true;
+  }
 
   window.addEventListener("resize", handleResize);
 });
