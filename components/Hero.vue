@@ -97,7 +97,6 @@
   border-radius: 9px;
   margin: 0.8rem;
   overflow: hidden;
-  cursor: none;
 }
 
 .three-container {
@@ -149,6 +148,10 @@ const followBtn = ref(null);
 const wrapper = ref(null);
 const threeContainer = ref(null);
 const isThreeRendered = ref(false);
+let targetX = 0;
+let targetY = 0;
+let currentX = 0;
+let currentY = 0;
 
 const { init: initDisplacementEffect, resize: resizeDisplacementEffect } =
   useDisplacementEffect();
@@ -158,10 +161,34 @@ const updateButtonPosition = (e) => {
   if (followBtn.value) {
     const rect = wrapper.value.getBoundingClientRect();
     const buttonRect = followBtn.value.getBoundingClientRect();
+    targetX = e.clientX - rect.left - buttonRect.width / 2;
+    targetY = e.clientY - rect.top - buttonRect.height / 2;
+  }
+};
+
+const handleMouseEnter = (e) => {
+  if (followBtn.value) {
+    const rect = wrapper.value.getBoundingClientRect();
+    const buttonRect = followBtn.value.getBoundingClientRect();
     const x = e.clientX - rect.left - buttonRect.width / 2;
     const y = e.clientY - rect.top - buttonRect.height / 2;
+
+    // Initialize current position to target position
+    currentX = targetX = x;
+    currentY = targetY = y;
     followBtn.value.style.transform = `translate(${x}px, ${y}px)`;
   }
+};
+
+const animateButton = () => {
+  currentX += (targetX - currentX) * 0.1;
+  currentY += (targetY - currentY) * 0.1;
+
+  if (followBtn.value) {
+    followBtn.value.style.transform = `translate(${currentX}px, ${currentY}px)`;
+  }
+
+  requestAnimationFrame(animateButton);
 };
 
 const handleResize = () => {
@@ -173,7 +200,11 @@ const handleResize = () => {
 onMounted(() => {
   if (wrapper.value) {
     wrapper.value.addEventListener("mousemove", updateButtonPosition);
+    wrapper.value.addEventListener("mouseenter", handleMouseEnter);
   }
+
+  // Start button animation
+  animateButton();
 
   // Initialize Three.js effect immediately
   if (threeContainer.value) {
@@ -189,6 +220,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (wrapper.value) {
     wrapper.value.removeEventListener("mousemove", updateButtonPosition);
+    wrapper.value.removeEventListener("mouseenter", handleMouseEnter);
   }
 
   if (cleanupEffect) {
