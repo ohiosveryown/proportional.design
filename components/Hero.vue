@@ -151,8 +151,9 @@ let cleanupEffect = null;
 const updateButtonPosition = (e) => {
   if (followBtn.value) {
     const rect = wrapper.value.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const buttonRect = followBtn.value.getBoundingClientRect();
+    const x = e.clientX - rect.left - buttonRect.width / 2;
+    const y = e.clientY - rect.top - buttonRect.height / 2;
     followBtn.value.style.transform = `translate(${x}px, ${y}px)`;
   }
 };

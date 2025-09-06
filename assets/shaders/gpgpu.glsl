@@ -8,12 +8,15 @@ void main()
 
   vec4 color=texture(uGrid,uv);
 
+  // Smoother distance calculation with larger falloff
   float dist=distance(uv,uMouse);
-  dist=1.-(smoothstep(0.,.22,dist));
+  dist=1.-(smoothstep(0.,.4,dist));
 
-  color.rg+=uDeltaMouse*dist;
+  // Apply smoother displacement with less aggressive falloff
+  color.rg+=uDeltaMouse*dist*.8;
 
-  float uRelaxation=.965;
+  // Slower relaxation for more fluid movement
+  float uRelaxation=.98;
   color.rg*=uRelaxation;
 
   gl_FragColor=color;

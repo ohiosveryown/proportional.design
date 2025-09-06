@@ -57,7 +57,7 @@ export class GPGPU {
     this.variable.material.uniforms.uMouseMove.value = 1
 
     const current = this.variable.material.uniforms.uMouse.value.clone()
-    const delta = uv.clone().sub(current).multiplyScalar(40)
+    const delta = uv.clone().sub(current).multiplyScalar(25)
 
     this.variable.material.uniforms.uDeltaMouse.value = delta
     this.variable.material.uniforms.uMouse.value = uv
@@ -69,8 +69,8 @@ export class GPGPU {
   }
 
   render() {
-    this.variable.material.uniforms.uMouseMove.value *= 0.95
-    this.variable.material.uniforms.uDeltaMouse.value.multiplyScalar(0.965)
+    this.variable.material.uniforms.uMouseMove.value *= 0.98
+    this.variable.material.uniforms.uDeltaMouse.value.multiplyScalar(0.98)
 
     this.gpgpuRenderer.compute()
   }
