@@ -1,7 +1,5 @@
 <template>
-  <section class="hero">
-    <Logotype class="logotype" />
-
+  <div class="parent">
     <div ref="wrapper" class="hero-image-wrapper">
       <button ref="followBtn" class="follow-btn">
         Get in touch
@@ -19,26 +17,14 @@
         :class="{ rendered: isThreeRendered }"
       />
     </div>
-  </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.logotype {
+.parent {
   position: relative;
-  z-index: var(--z2);
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transform: scale(0.16) translate(-4%, 0);
-  transform-origin: center;
-  will-change: transform;
-  animation: logotypeAnimation 1s cubic-bezier(0.8, 0, 0.48, 1) forwards 1s;
-}
-
-@keyframes logotypeAnimation {
-  to {
-    transform: scale(0.5) translate(-48%, -48%);
-  }
+  height: 100dvh;
 }
 
 .follow-btn {
@@ -82,17 +68,11 @@
   opacity: 1;
 }
 
-.hero {
-  position: relative;
-  width: 100vw;
-  height: 100dvh;
-}
-
 .hero-image-wrapper {
   position: absolute;
   top: 0;
   right: 0;
-  width: 46%;
+  width: 100%;
   height: calc(100% - 1.6rem);
   border-radius: 9px;
   margin: 0.8rem;
@@ -105,7 +85,7 @@
   right: 0;
   width: 100%;
   height: 100%;
-  transform: scale(1.24);
+  transform: scale(1.32);
   animation: scaleIn 1.5s ease forwards 1s;
 }
 
@@ -123,7 +103,7 @@
   height: 100%;
   background: var(--base-000);
   animation: maskOff 1.25s cubic-bezier(0.8, 0, 0.16, 1) forwards 1s;
-  transform-origin: left;
+  transform-origin: right;
   pointer-events: none;
 }
 
