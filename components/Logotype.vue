@@ -29,6 +29,8 @@
         alt="furniture illustration"
       />
     </div>
+
+    <Previews class="container-previews" />
   </div>
 </template>
 
@@ -110,6 +112,12 @@
   top: 61.5%;
   right: -1rem;
   width: 8vw;
+}
+
+.container-previews {
+  position: absolute;
+  top: 91%;
+  left: 3.6%;
 }
 
 // animations
