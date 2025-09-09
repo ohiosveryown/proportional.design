@@ -64,22 +64,31 @@
 
 .container-video {
   position: absolute;
-  top: 52%;
-  left: -0.12rem;
-  padding: 1.8rem;
-  width: 19vw;
+  top: 53.5%;
+  left: 1rem;
+  border-radius: 32px;
+  border: 5px solid rgba(149, 140, 116, 0.24);
+  width: 17vw;
+  box-shadow: 0 8px 42px 0 rgba(0, 0, 0, 0.48);
+  overflow: hidden;
+}
+
+.container-video:hover {
+  .video-thumbnail {
+    transform: scale(1.08);
+  }
 }
 
 .video-thumbnail {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 32px;
-  border: 8px solid rgba(149, 140, 116, 0.24);
+  transition: transform 300ms ease;
 }
 
 .play-btn {
   position: absolute;
+  z-index: var(--z1);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
