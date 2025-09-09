@@ -9,6 +9,14 @@
       </svg>
     </div>
     <div class="container-video">
+      <button class="primary-btn play-btn">
+        <svg width="20" height="20" fill="none">
+          <path
+            fill="#fff"
+            d="M16.456 8.888c.794.529.794 1.695 0 2.225L5.204 18.614a1.337 1.337 0 0 1-2.079-1.112V2.498a1.337 1.337 0 0 1 2.079-1.112l11.252 7.502Z"
+          />
+        </svg>
+      </button>
       <img
         class="video-thumbnail"
         src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757347453/proportional.design-4.0/thumbnail_thmiyf.webp"
@@ -70,9 +78,27 @@
   border: 8px solid rgba(149, 140, 116, 0.24);
 }
 
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1.2rem 2.4rem 1rem;
+  box-shadow: 0 4px 42px 0 rgba(0, 0, 0, 0.24);
+  transition: transform 300ms ease;
+}
+
+.play-btn:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.play-btn:active {
+  transform: translate(-50%, -50%) scale(0.96);
+}
+
 .container-illustration {
   position: absolute;
-  top: 62%;
+  top: 61.5%;
   right: -1rem;
   width: 8vw;
 }
