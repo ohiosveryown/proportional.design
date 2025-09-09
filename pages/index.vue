@@ -1,24 +1,27 @@
 <template>
   <div class="app">
     <div class="container-intro">
-      <Intro />
-      <Hero />
+      <Intro class="intro" />
+      <Hero class="hero" />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.app {
-  margin: 0 auto;
-  width: 98vw;
-}
+// .app {
+//   margin: 0 auto;
+//   width: 98vw;
+// }
 
 .container-intro {
   display: flex;
   flex-direction: column-reverse;
   gap: 2rem;
-  * {
+  .intro {
     flex: 1;
+  }
+  .hero {
+    flex: 0.88;
   }
   @include breakpoint(mdl) {
     align-items: flex-start;
