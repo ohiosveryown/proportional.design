@@ -38,19 +38,20 @@
   );
   backdrop-filter: blur(16px);
   transition: transform 0.2s ease;
+  transform: scale(0.9);
   will-change: transform;
 }
 
 .cta-btn:hover {
-  transform: scale(1.02);
+  transform: scale(0.92);
 }
 
 .cta-btn:hover .icon {
-  transform: scale(0.9);
+  transform: scale(0.88);
 }
 
 .cta-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.9);
 }
 
 .availability {
@@ -81,9 +82,9 @@
 }
 
 footer {
-  margin-top: 0.7rem;
+  margin-top: 0.6rem;
   text-align: center;
-  font-weight: 500;
+  letter-spacing: 0.15px;
   font-size: 1.2rem;
   color: #fff;
   opacity: 0.5;

@@ -1,6 +1,7 @@
 <template>
-  <div class="container-hero">
+  <section class="container-hero">
     <div ref="wrapper" class="hero-image-wrapper">
+      <span class="subtitle serif">Banco Bench</span>
       <button ref="followBtn" class="follow-btn sans-medium">
         Get in touch
         <span class="icon"
@@ -17,7 +18,7 @@
         :class="{ rendered: isThreeRendered }"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
@@ -25,6 +26,18 @@
   position: relative;
   width: 100%;
   height: 100dvh;
+}
+
+.subtitle {
+  position: absolute;
+  z-index: var(--z1);
+  bottom: 1rem;
+  left: 1.6rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  color: #fff;
+  opacity: 0.72;
 }
 
 .follow-btn {
@@ -96,9 +109,10 @@
   object-fit: cover;
 }
 
-.three-container:after {
+.three-container:before {
   content: "";
   position: absolute;
+  z-index: var(--z2);
   inset: 0;
   width: 100%;
   height: 100%;

@@ -3,11 +3,11 @@
     <h1 class="reader-only">proportional.design</h1>
     <Logotype class="logotype" />
 
-    <img
+    <!-- <img
       class="saint-illustration"
       src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757515092/proportional.design-4.0/saint-01_2x_zqnadq.webp"
       alt="woodworking saint illustration"
-    />
+    /> -->
 
     <div class="container-description">
       <img
@@ -28,6 +28,7 @@
     </div>
 
     <CTA class="cta" />
+    <span class="arrow" />
   </header>
 </template>
 
@@ -85,6 +86,7 @@ h2 .sm {
   align-items: center;
   justify-content: space-between;
   position: relative;
+  margin: 3.2rem 0 4rem;
   padding: 3.2rem;
 }
 
@@ -119,7 +121,13 @@ h2 .sm {
   transform: scaleX(-1);
 }
 
-.cta {
+.arrow {
   margin-top: 4rem;
+  width: 1px;
+  height: 20rem;
+  background: var(
+    --gradient-02,
+    linear-gradient(180deg, rgba(70, 114, 94, 0) 0%, #46725e 40%)
+  );
 }
 </style>
