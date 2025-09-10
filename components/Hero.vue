@@ -1,7 +1,7 @@
 <template>
-  <div class="parent">
+  <div class="container-hero">
     <div ref="wrapper" class="hero-image-wrapper">
-      <button ref="followBtn" class="follow-btn">
+      <button ref="followBtn" class="follow-btn sans-medium">
         Get in touch
         <span class="icon"
           ><svg width="16" height="16" fill="none">
@@ -21,7 +21,7 @@
 </template>
 
 <style lang="scss" scoped>
-.parent {
+.container-hero {
   position: relative;
   width: 100%;
   height: 100dvh;

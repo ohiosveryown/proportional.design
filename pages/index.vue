@@ -1,9 +1,9 @@
 <template>
   <div class="app">
-    <div class="container-intro">
+    <section class="section-first">
       <Intro class="intro" />
       <Hero class="hero" />
-    </div>
+    </section>
   </div>
 </template>
 
@@ -13,7 +13,7 @@
 //   width: 98vw;
 // }
 
-.container-intro {
+.section-first {
   display: flex;
   flex-direction: column-reverse;
   gap: 2rem;

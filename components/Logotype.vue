@@ -51,7 +51,7 @@
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
+  height: 101%;
   background: var(--base-000);
   animation: maskOff 1.25s cubic-bezier(0.8, 0, 0.16, 1) forwards 1s;
   transform-origin: right;
@@ -80,11 +80,11 @@
     transform: scale(1.08);
   }
   .play-btn {
-    transform: translate(-50%, -50%) scale(0.96);
+    transform: translate(-50%, -50%) scale(0.92);
   }
 
   .play-btn:active {
-    transform: translate(-50%, -50%) scale(0.92);
+    transform: translate(-50%, -50%) scale(0.88);
   }
 }
 
@@ -116,7 +116,7 @@
 .container-previews {
   position: absolute;
   top: 91%;
-  left: 3.6%;
+  left: 3.4%;
 }
 
 // animations

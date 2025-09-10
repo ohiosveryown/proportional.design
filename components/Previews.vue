@@ -30,7 +30,7 @@
         alt=""
       />
     </div>
-    <div class="label primary-btn">
+    <div class="label primary-btn sans-medium">
       <span class="plus">+</span>
       more
     </div>
@@ -77,13 +77,16 @@
   justify-content: center;
   margin-left: -1vw;
   border: 0.32vw solid var(--base-000);
-  padding: 0 1.2vw 0.05vw 1vw;
+  padding: 0 1.5vw 0.05vw 1vw;
   height: 3.2vw;
-  font-weight: 500;
   font-size: 1.3rem;
   font-size: 1vw;
   text-transform: uppercase;
-  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+
+.label:hover {
+  transform: scale(1.08);
 }
 
 .label .plus {

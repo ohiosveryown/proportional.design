@@ -139,6 +139,7 @@
   // color
   --base-000: #1C2822;
   --content-000: #FFF3D2;
+  --content-100: #46725E;
   // border
   --radius-xs: 2px;
   --radius-sm: 5px;
@@ -154,8 +155,14 @@
 }
 
 @font-face {
-  font-family: "sans";
-  src: url("~/assets/type/sans.woff2") format("woff2");
+  font-family: "sans-regular";
+  src: url("~/assets/type/sans-regular.woff2") format("woff2");
+  font-display: block;
+}
+
+@font-face {
+  font-family: "sans-medium";
+  src: url("~/assets/type/sans-medium.woff2") format("woff2");
   font-display: block;
 }
 
@@ -165,8 +172,12 @@
   font-display: block;
 }
 
-.sans {
-  font-family: "sans", var(--system-font);
+.sans-regular {
+  font-family: "sans-regular", var(--system-font);
+}
+
+.sans-medium {
+  font-family: "sans-medium", var(--system-font);
 }
 
 .serif {
