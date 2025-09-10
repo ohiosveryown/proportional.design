@@ -102,7 +102,7 @@
   width: 100%;
   height: 100%;
   background: var(--base-000);
-  animation: maskOff 1.25s cubic-bezier(0.8, 0, 0.16, 1) forwards 1s;
+  animation: maskOff 1.25s cubic-bezier(0.8, 0, 0.16, 1) forwards 1.25s;
   transform-origin: right;
   pointer-events: none;
 }

@@ -79,6 +79,13 @@
   .video-thumbnail {
     transform: scale(1.08);
   }
+  .play-btn {
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+
+  .play-btn:active {
+    transform: translate(-50%, -50%) scale(0.92);
+  }
 }
 
 .video-thumbnail {
@@ -97,14 +104,6 @@
   padding: 1.2rem 2.4rem 1rem;
   box-shadow: 0 4px 42px 0 rgba(0, 0, 0, 0.24);
   transition: transform 300ms ease;
-}
-
-.play-btn:hover {
-  transform: translate(-50%, -50%) scale(1.08);
-}
-
-.play-btn:active {
-  transform: translate(-50%, -50%) scale(0.96);
 }
 
 .container-illustration {

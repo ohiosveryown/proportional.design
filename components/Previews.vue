@@ -63,7 +63,7 @@
   }
 
   &:hover {
-    transform: rotate(45deg) translate(-0.2rem, -0.2rem);
+    transform: rotate(35deg) translate(-0.3rem, -0.3rem);
   }
 }
 
