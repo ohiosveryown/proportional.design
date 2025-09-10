@@ -26,6 +26,8 @@
         class="laurel-right"
       />
     </div>
+
+    <CTA class="cta" />
   </header>
 </template>
 
@@ -33,6 +35,7 @@
 header {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 4vh 1rem 0;
 }
 
@@ -57,7 +60,7 @@ header {
 
 .saint-illustration {
   margin: 0 auto;
-  padding: 4rem 0;
+  padding: 1.2rem 0 4.4rem;
   width: 2.8rem;
   height: auto;
 }
@@ -71,7 +74,6 @@ h2 {
 }
 
 h2 .sm {
-  // font-size: 2rem;
   font-size: 1.2vw;
   color: var(--content-100);
 }
@@ -109,12 +111,15 @@ h2 .sm {
 
 .laurel-left,
 .laurel-right {
-  // width: 2rem;
   width: 1.2vw;
   height: auto;
 }
 
 .laurel-right {
   transform: scaleX(-1);
+}
+
+.cta {
+  margin-top: 4rem;
 }
 </style>
