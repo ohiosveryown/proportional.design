@@ -33,7 +33,7 @@
 header {
   display: flex;
   flex-direction: column;
-  margin: 2.4rem 1rem 0;
+  margin: 4vh 1rem 0;
 }
 
 .logotype {
@@ -58,7 +58,7 @@ header {
 .saint-illustration {
   margin: 0 auto;
   padding: 4rem 0;
-  width: 3.2rem;
+  width: 2.8rem;
   height: auto;
 }
 
@@ -110,7 +110,7 @@ h2 .sm {
 .laurel-left,
 .laurel-right {
   // width: 2rem;
-  width: 1.32vw;
+  width: 1.2vw;
   height: auto;
 }
 

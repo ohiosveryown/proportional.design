@@ -42,6 +42,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
+  will-change: opacity, transform;
   background: linear-gradient(
     180deg,
     rgba(149, 140, 116, 0.3) 0%,

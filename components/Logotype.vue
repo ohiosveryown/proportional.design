@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-parent">
     <div class="container-logotype">
       <svg class="logotype" viewBox="0 0 1399 753" fill="none">
         <path
@@ -35,7 +35,7 @@
 </template>
 
 <style lang="scss" scoped>
-.container {
+.container-parent {
   position: relative;
   width: 100%;
   height: 100%;
@@ -46,9 +46,10 @@
   position: relative; /* Create positioning context for the video */
 }
 
-.container:after {
+.container-parent:after {
   content: "";
   position: absolute;
+  z-index: var(--z1);
   inset: 0;
   width: 100%;
   height: 101%;
@@ -59,18 +60,19 @@
 }
 
 .logotype {
+  display: block;
+  opacity: 0.98;
   transform: scale(0.88);
   animation: scaleIn 1.5s ease forwards 1s;
-  display: block;
 }
 
 .container-video {
   position: absolute;
   top: 53.5%;
-  left: 1rem;
-  border-radius: 32px;
-  border: 5px solid rgba(149, 140, 116, 0.24);
-  width: 17vw;
+  left: 2rem;
+  border-radius: 23px;
+  // border: 5px solid rgba(149, 140, 116, 0.24);
+  width: 16vw;
   box-shadow: 0 8px 42px 0 rgba(0, 0, 0, 0.48);
   overflow: hidden;
 }
@@ -108,22 +110,22 @@
 
 .container-illustration {
   position: absolute;
-  top: 61.5%;
-  right: -1rem;
+  top: 60.5%;
+  right: -0.8rem;
   width: 8vw;
 }
 
 .container-previews {
   position: absolute;
-  top: 91%;
-  left: 3.4%;
+  top: 87%;
+  left: 4.4%;
 }
 
 // animations
 
 @keyframes scaleIn {
   to {
-    transform: scale(1);
+    transform: scale(0.96);
   }
 }
 

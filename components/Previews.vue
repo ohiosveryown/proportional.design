@@ -49,8 +49,8 @@
 .diamond-image {
   border-radius: 0.88vw;
   border: 0.32vw solid var(--base-000);
-  width: 2.8vw;
-  height: 2.8vw;
+  width: 2.5vw;
+  height: 2.5vw;
   transform: rotate(45deg);
   overflow: hidden;
   transition: transform 0.3s ease;
@@ -68,7 +68,7 @@
 }
 
 .diamond-image:not(:first-child) {
-  margin-left: -1.2vw;
+  margin-left: -1vw;
 }
 
 .label {
