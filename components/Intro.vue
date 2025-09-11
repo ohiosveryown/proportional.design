@@ -86,7 +86,7 @@ h2 .sm {
   align-items: center;
   justify-content: space-between;
   position: relative;
-  margin: 3.2rem 0 4rem;
+  margin: 4rem 0 4.8rem;
   padding: 3.2rem;
 }
 
@@ -122,7 +122,7 @@ h2 .sm {
 }
 
 .arrow {
-  margin-top: 4rem;
+  margin-top: 3.2rem;
   width: 1px;
   height: 20rem;
   background: var(

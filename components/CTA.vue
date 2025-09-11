@@ -22,8 +22,8 @@
   gap: 1.2rem;
   z-index: var(--z1);
   border-radius: 100px;
-  padding: 0.67vw 0.67vw 0.67vw 1.44vw;
-  font-size: 1vw;
+  padding: 0.6vw 0.6vw 0.6vw 1.36vw;
+  font-size: 0.9vw;
   text-transform: uppercase;
   color: var(--content-000);
   -webkit-text-stroke: 0.15px var(--content-000);
@@ -82,10 +82,10 @@
 }
 
 footer {
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
   text-align: center;
-  letter-spacing: 0.15px;
-  font-size: 1.2rem;
+  letter-spacing: 0.1px;
+  font-size: 0.8vw;
   color: #fff;
   opacity: 0.5;
 }
