@@ -4,6 +4,7 @@
       <Intro class="intro" />
       <Hero class="hero" />
     </section>
+    <Marquee class="marquee" />
   </div>
 </template>
 
@@ -12,6 +13,11 @@
 //   margin: 0 auto;
 //   width: 98vw;
 // }
+
+/* remove */
+.app {
+  padding-bottom: 4rem;
+}
 
 .section-first {
   display: flex;
