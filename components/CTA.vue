@@ -63,6 +63,7 @@
   box-shadow: 0 0 12px 4px rgba(177, 232, 71, 0.64);
   transition: transform 0.6s ease;
   will-change: transform;
+  animation: pulse 5s ease-in-out infinite;
 }
 
 .icon {
@@ -88,5 +89,17 @@ footer {
   font-size: 0.8vw;
   color: #fff;
   opacity: 0.5;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.25);
+  }
 }
 </style>
