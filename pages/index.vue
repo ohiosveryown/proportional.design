@@ -5,14 +5,23 @@
       <Hero class="hero" />
     </section>
     <Marquee class="marquee" />
-    <section class="portfolio">
+    <section class="section-portfolio">
+      <Filter 
+        class="aside-filtering" 
+        :selectedStage="selectedStage"
+        :selectedCategories="selectedCategories"
+        :availableCategories="availableCategories"
+        @stageFilter="handleStageFilter"
+        @categoryFilter="handleCategoryFilter"
+      />
       <ul class="entries-list">
-        <Entry 
-          v-for="(item, index) in fetchedData" 
-          :key="item.id || item.slug" 
-          :item="item" 
+        <Entry
+          v-for="(item, index) in filteredData"
+          :key="item.id || item.slug"
+          :item="item"
           :index="index"
           @like="handleLike"
+          class="entry"
         />
       </ul>
     </section>
@@ -46,17 +55,38 @@
   }
 }
 
-.portfolio {
-  margin-top: 4rem;
+.section-portfolio {
+  margin: 8rem auto 0;
+  width: 100%;
+  padding: 0 4.4rem;
+  @include breakpoint(mdl) {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+}
+
+.aside-filtering {
+  @include breakpoint(mdl) {
+    flex: 0 0 40%;
+  }
 }
 
 .entries-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  @include breakpoint(mdl) {
+    flex: 0 0 55%;
+  }
+}
+
+.entry {
+  width: 100%;
 }
 </style>
 
@@ -77,26 +107,59 @@ const {
   data: fetchedData,
   pending,
   error,
-  refresh
+  refresh,
 } = await useFetch("/api/furniture", {
   key: "furniture-global",
   server: true,
   default: () => [],
 });
 
+// Filtering
+const selectedStage = ref('ALL');
+const selectedCategories = ref(['ALL']);
+
+const availableCategories = computed(() => {
+  const categories = [...new Set(fetchedData.value.flatMap(item => item.categories || []))];
+  return categories.filter(Boolean);
+});
+
+const filteredData = computed(() => {
+  let filtered = fetchedData.value;
+  
+  if (selectedStage.value !== 'ALL') {
+    filtered = filtered.filter(item => item.stage === selectedStage.value);
+  }
+  
+  if (!selectedCategories.value.includes('ALL')) {
+    filtered = filtered.filter(item => 
+      item.categories?.some(category => selectedCategories.value.includes(category))
+    );
+  }
+  
+  return filtered;
+});
+
+const handleStageFilter = (stage) => {
+  selectedStage.value = stage;
+};
+
+const handleCategoryFilter = (categories) => {
+  selectedCategories.value = categories;
+};
+
 // Handle like functionality
 const handleLike = async (slug, id) => {
   try {
     await $fetch(`/api/furniture/${slug}/like`, {
-      method: 'POST',
-      body: { id }
+      method: "POST",
+      body: { id },
     });
-    
+
     // Refresh the fetched data to sync with server
     await refresh();
   } catch (error) {
-    console.error('Failed to like item:', error);
-    
+    console.error("Failed to like item:", error);
+
     // On error, refresh to restore correct state
     await refresh();
   }

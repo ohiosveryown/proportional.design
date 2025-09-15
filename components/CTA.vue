@@ -26,7 +26,6 @@
   font-size: 0.9vw;
   text-transform: uppercase;
   color: var(--content-000);
-  -webkit-text-stroke: 0.15px var(--content-000);
   box-shadow: 0 1.5px 0 0 rgba(255, 255, 255, 0.3) inset,
     0 4px 42px 0 rgba(0, 0, 0, 0.24);
   transition: opacity 0.2s ease;

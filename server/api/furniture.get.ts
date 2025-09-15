@@ -42,7 +42,8 @@ export default defineEventHandler(async (event) => {
         description: properties.Description?.rich_text?.[0]?.text?.content || '',
         slug: properties.Slug?.rich_text?.[0]?.text?.content || page.id,
         materials: properties.Materials?.multi_select?.map((m: any) => m.name) || [],
-        category: properties.Category?.select?.name || 'Uncategorized',
+        categories: properties.Category?.multi_select?.map((c: any) => c.name) || ['Uncategorized'],
+        stage: properties.Stage?.select?.name || 'WIP',
         likes: properties.Likes?.number || 0,
         images: properties.Images?.files?.map((file: any) => {
           if (file.type === 'file') {

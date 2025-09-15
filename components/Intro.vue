@@ -3,12 +3,6 @@
     <h1 class="reader-only">proportional.design</h1>
     <Logotype class="logotype" />
 
-    <!-- <img
-      class="saint-illustration"
-      src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757515092/proportional.design-4.0/saint-01_2x_zqnadq.webp"
-      alt="woodworking saint illustration"
-    /> -->
-
     <div class="container-description">
       <img
         src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757515691/proportional.design-4.0/laurel_3x_or3qqb.webp"
@@ -16,7 +10,7 @@
         class="laurel-left"
       />
       <h2 class="serif">
-        A <span class="sm">(Small-fry)</span> studio based in Atlanta, Georgia,
+        A <span class="sm">(small-fry)</span> studio based in Atlanta, Georgia,
         building furniture & other functional objects, using locally sourced,
         sustainable materials.
       </h2>
