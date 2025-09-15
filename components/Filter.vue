@@ -40,7 +40,11 @@
         <button
           v-for="stage in stages"
           :key="stage.value"
-          :class="['filter-btn', { active: selectedStage === stage.value }]"
+          :class="[
+            'filter-btn',
+            'sans-medium',
+            { active: selectedStage === stage.value },
+          ]"
           @click="$emit('stageFilter', stage.value)"
         >
           {{ stage.label }}
@@ -50,11 +54,14 @@
 
     <section class="category-section">
       <div class="filter-title">Category:</div>
-      <div class="filter-buttons">
+      <div class="filter-buttons category-buttons">
         <button
           v-for="category in categories"
           :key="category.value"
-          :class="['filter-btn', { active: isCategoryActive(category.value) }]"
+          :class="[
+            'filter-btn category-btn sans-medium',
+            { active: isCategoryActive(category.value) },
+          ]"
           @click="handleCategoryClick(category.value, $event)"
         >
           <img
@@ -216,12 +223,42 @@ span {
   opacity: 1;
 }
 
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+}
+
+.category-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 20%;
+  border-radius: 1.8vw;
+  padding: 0.2vw 1.4vw 0.7vw;
+  background: linear-gradient(
+    180deg,
+    rgba(149, 140, 116, 0) 0%,
+    rgba(69, 112, 93, 0) 100%
+  );
+}
+
+.active {
+  background: linear-gradient(
+    180deg,
+    rgba(149, 140, 116, 0.3) 0%,
+    rgba(69, 112, 93, 0.3) 100%
+  );
+}
+
 .category-icon {
-  width: 1.2vw;
-  height: auto;
-  margin-right: 0.5rem;
-  opacity: 0.8;
-  filter: invert(1);
+  min-width: 100%;
+  // min-width: 7.6rem;
+  // width: 7.6rem;
+  // height: auto;
 }
 </style>
 
@@ -249,12 +286,17 @@ const stages = [
 
 // Category image mapping
 const categoryImages = {
-  ALL: "",
-  CABINET: "",
-  WORKBENCH: "",
-  CHAIR: "",
-  DOOR: "",
-  "NIGHT TABLE": "",
+  ALL: "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757974033/proportional.design-4.0/categories/all_3x_a79cwj.webp",
+  JOINERY:
+    "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757974034/proportional.design-4.0/categories/joinery_3x_pu3qnj.webp",
+  KEEPING:
+    "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757974279/proportional.design-4.0/categories/keeping_3x_qzigmk.webp",
+  REPOSE:
+    "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757974280/proportional.design-4.0/categories/repose_3x_kzimef.webp",
+  SEATING:
+    "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757974282/proportional.design-4.0/categories/seating_3x_gt8bfo.webp",
+  SURFACES:
+    "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757974283/proportional.design-4.0/categories/surfaces_3x_npvuey.webp",
 };
 
 const categories = computed(() => [
