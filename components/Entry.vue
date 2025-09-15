@@ -31,7 +31,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span class="likes sans">{{ item.likes || 0 }}</span>
+          <span class="likes sans">{{ displayLikes }}</span>
         </button>
       </span>
     </header>
@@ -182,7 +182,7 @@ img {
 </style>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
   item: {
@@ -199,8 +199,19 @@ const emit = defineEmits(["like"]);
 
 const entryRef = ref(null);
 const isAnimating = ref(false);
+const optimisticLikes = ref(props.item.likes || 0);
+
+const displayLikes = computed(() => optimisticLikes.value);
+
+// Watch for changes in props.item.likes to sync with server updates
+watch(() => props.item.likes, (newLikes) => {
+  optimisticLikes.value = newLikes || 0;
+});
 
 const handleLike = () => {
+  // Optimistically increment the like count
+  optimisticLikes.value += 1;
+  
   // Trigger animation
   isAnimating.value = true;
   setTimeout(() => {

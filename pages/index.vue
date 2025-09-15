@@ -5,6 +5,17 @@
       <Hero class="hero" />
     </section>
     <Marquee class="marquee" />
+    <section class="portfolio">
+      <ul class="entries-list">
+        <Entry 
+          v-for="(item, index) in fetchedData" 
+          :key="item.id || item.slug" 
+          :item="item" 
+          :index="index"
+          @like="handleLike"
+        />
+      </ul>
+    </section>
   </div>
 </template>
 
@@ -34,6 +45,19 @@
     flex-direction: row;
   }
 }
+
+.portfolio {
+  margin-top: 4rem;
+}
+
+.entries-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
 </style>
 
 <script setup>
@@ -53,9 +77,28 @@ const {
   data: fetchedData,
   pending,
   error,
+  refresh
 } = await useFetch("/api/furniture", {
   key: "furniture-global",
   server: true,
   default: () => [],
 });
+
+// Handle like functionality
+const handleLike = async (slug, id) => {
+  try {
+    await $fetch(`/api/furniture/${slug}/like`, {
+      method: 'POST',
+      body: { id }
+    });
+    
+    // Refresh the fetched data to sync with server
+    await refresh();
+  } catch (error) {
+    console.error('Failed to like item:', error);
+    
+    // On error, refresh to restore correct state
+    await refresh();
+  }
+};
 </script>
