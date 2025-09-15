@@ -6,23 +6,83 @@
     >
       <div class="marquee-item">{{ text }}</div>
       <div class="marquee-item">•</div>
-      <div class="marquee-item">{{ text }}</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
       <div class="marquee-item">•</div>
       <div class="marquee-item">{{ text }}</div>
       <div class="marquee-item">•</div>
-      <div class="marquee-item">{{ text }}</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
       <div class="marquee-item">•</div>
       <div class="marquee-item">{{ text }}</div>
       <div class="marquee-item">•</div>
-      <div class="marquee-item">{{ text }}</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
       <div class="marquee-item">•</div>
       <div class="marquee-item">{{ text }}</div>
       <div class="marquee-item">•</div>
-      <div class="marquee-item">{{ text }}</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
       <div class="marquee-item">•</div>
       <div class="marquee-item">{{ text }}</div>
       <div class="marquee-item">•</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
+      <div class="marquee-item">•</div>
       <div class="marquee-item">{{ text }}</div>
+      <div class="marquee-item">•</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
+      <div class="marquee-item">•</div>
+      <div class="marquee-item">{{ text }}</div>
+      <div class="marquee-item">•</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
+      <div class="marquee-item">•</div>
+      <div class="marquee-item">{{ text }}</div>
+      <div class="marquee-item">•</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
+      <div class="marquee-item">•</div>
+      <div class="marquee-item">{{ text }}</div>
+      <div class="marquee-item">•</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
+      <div class="marquee-item">•</div>
+      <div class="marquee-item">{{ text }}</div>
+      <div class="marquee-item">•</div>
+      <img
+        class="monogram marquee-item"
+        src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757947561/proportional.design-4.0/monogram_4x_qr8zti.webp"
+        alt=""
+      />
       <div class="marquee-item">•</div>
     </div>
   </div>
@@ -69,11 +129,18 @@
 
 .marquee-item {
   flex-shrink: 0;
-  margin-right: 1rem;
+  margin-right: 0.6rem;
   color: var(--base-000);
   text-transform: uppercase;
   letter-spacing: 0.24px;
   opacity: 0.72;
+  pointer-events: none;
+}
+
+.monogram {
+  width: 1.6rem;
+  height: auto;
+  opacity: 1;
 }
 </style>
 
