@@ -31,7 +31,7 @@
   }
 
   @else if $class ==xl {
-    @media (min-width: 2000px) {
+    @media (min-width: 1400px) {
       @content;
     }
   }

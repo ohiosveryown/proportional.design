@@ -1,19 +1,21 @@
 <template>
   <li class="entry" ref="entryRef">
-    <header>
-      <span class="meta">
-        <span class="category system">{{ item.categories?.[0] || 'ALL' }}</span>
-      </span>
-      <span class="title-date-likes">
-        <span class="title-date">
-          <h2 class="serif">{{ item.title }}</h2>
-          <!-- <span class="date system">{{
-            new Date(item.dateCreated).getFullYear()
-          }}</span> -->
+    <NuxtLink :to="`/furniture/${item.slug}`" :prefetch="true">
+      <img
+        v-if="item.images?.[0]"
+        :src="item.images[0]"
+        :alt="item.title"
+        loading="lazy"
+      />
+
+      <footer class="sans-regular">
+        <span class="category">{{ item.categories?.[0] || "ALL" }}</span>
+        <span class="center"
+          ><h3 class="title">{{ item.title }}</h3>
+          <span class="separator">•</span>
           <span class="stage">{{ item.stage }}</span>
-          <span class="category">{{ item.categories?.[0] || 'ALL' }}</span>
         </span>
-        <button class="button-like" @click.prevent="handleLike">
+        <button class="likes" @click.prevent="handleLike">
           <svg
             width="18"
             height="14"
@@ -27,154 +29,135 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span class="likes sans">{{ displayLikes }}</span>
+          <span class="">{{ displayLikes }}</span>
         </button>
-      </span>
-    </header>
-
-    <NuxtLink :to="`/furniture/${item.slug}`" :prefetch="true">
-      <figure>
-        <img
-          v-if="item.images?.[0]"
-          :src="item.images[0]"
-          :alt="item.title"
-          loading="lazy"
-        />
-        <figcaption v-else>No Image</figcaption>
-      </figure>
+      </footer>
     </NuxtLink>
   </li>
 </template>
 
 <style lang="scss" scoped>
-// li.entry {
-//   border-bottom: 1px solid rgba(251, 236, 195, 0.2);
-//   padding-bottom: 8rem;
-// }
+li a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  position: relative;
+  border-radius: 21px;
+  padding: 1.2rem;
+  background: #2b3c33;
+  overflow: hidden;
+  aspect-ratio: 1.24;
 
-// .wrapper {
-//   display: flex;
-//   align-items: center;
-// }
+  @include breakpoint(lg) {
+    aspect-ratio: 0.8;
+  }
+}
 
-// .folder {
-//   width: 4.8rem;
-//   height: auto;
-//   object-fit: cover;
-// }
+li a img {
+  border-radius: 9px;
+  width: 100%;
+  flex: 1;
+  object-fit: cover;
+  min-height: 0;
+}
 
-// .meta,
-// .date {
-//   opacity: 0.72;
-// }
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.5rem 0.2rem 0.2rem;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
 
-// .meta {
-//   margin-left: 5.9rem;
-// }
+.center {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+}
 
-// .title-date-likes {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   margin: -1.2rem 0 1.2rem;
-// }
+.category,
+.likes {
+  border-radius: 100px;
+  border: 1px solid color-mix(in srgb, var(--content-000) 40%, transparent);
+  padding: 0.3rem 0.8rem 0.2rem;
+  font-size: 1.3rem;
+  opacity: 0.72;
+}
 
-// .title-date {
-//   display: flex;
-//   gap: 1rem;
-//   align-items: center;
-//   justify-content: space-between;
-// }
+.title {
+  font-size: 1.5rem;
+  width: 100%;
+  text-align: center;
+}
 
-// h2 {
-//   color: var(--secondary);
-//   text-transform: uppercase;
-//   @include breakpoint(md) {
-//     margin-top: 0.4rem;
-//     font-size: 3.4rem;
-//     letter-spacing: -0.02rem;
-//   }
-// }
+.stage {
+  border-radius: 100px;
+  padding: 0.3rem 1.2rem;
+  background: linear-gradient(
+    180deg,
+    rgba(149, 140, 116, 0.3) 0%,
+    rgba(69, 112, 93, 0.3) 100%
+  );
+  font-size: 1.3rem;
+}
 
-// .key,
-// .category,
-// .date {
-//   text-transform: uppercase;
-//   @include breakpoint(md) {
-//     font-weight: 500;
-//     font-size: 1.3rem;
-//     letter-spacing: -0.02rem;
-//   }
-// }
+.separator {
+  opacity: 0.64;
+}
 
-// .date {
-//   @include breakpoint(md) {
-//     margin-top: -1.3rem;
-//   }
-// }
+.stage,
+.separator {
+  display: none;
+  // @include breakpoint(xl) {
+  //   display: block;
+  // }
+}
 
-// .button-like {
-//   display: flex;
-//   align-items: center;
-//   gap: 0.4rem;
-//   margin-top: 1.6rem;
-//   border: none;
-//   background: none;
-//   opacity: 0.72;
-//   cursor: cell;
-// }
+.likes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.5rem 0.9rem 0.4rem 0.6rem;
+  line-height: 1;
+}
 
-// .button-like svg {
-//   transform: scale(0.9);
-//   transition: transform 0.2s ease-in-out;
-// }
+.likes svg {
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
 
-// .button-like:hover svg {
-//   transform: scale(1);
-// }
+.likes:hover svg {
+  transform: scale(0.9) translateY(-0.05rem);
+}
 
-// .button-like:active svg {
-//   transform: scale(0.8);
-// }
+.likes:active svg {
+  transform: scale(0.8) translateY(-0.05rem);
+}
 
-// .button-like .likes {
-//   margin-top: 0.8rem;
-//   font-weight: 550;
-//   font-size: 1.5rem;
-// }
+.heart-animate {
+  animation: heartBeat 0.3s ease-in-out;
+}
 
-// .heart-animate {
-//   animation: heartBeat 0.3s ease-in-out;
-// }
-
-// @keyframes heartBeat {
-//   0% {
-//     transform: scale(1);
-//   }
-//   50% {
-//     transform: scale(1.2);
-//   }
-//   100% {
-//     transform: scale(1);
-//   }
-// }
-
-// figure {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   border-radius: 11px;
-//   max-height: 60rem;
-//   height: 60rem;
-//   background: rgba(0, 0, 0, 0.32);
-//   overflow: hidden;
-// }
-
-// img {
-//   height: 100%;
-//   width: auto;
-//   object-fit: contain;
-// }
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 </style>
 
 <script setup>

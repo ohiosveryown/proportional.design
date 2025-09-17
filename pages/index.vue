@@ -73,14 +73,19 @@
 }
 
 .entries-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
   margin: 0;
   padding: 0;
   list-style: none;
-  @include breakpoint(mdl) {
-    width: grid-width(7.25);
+
+  @include breakpoint(lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include breakpoint(xl) {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
