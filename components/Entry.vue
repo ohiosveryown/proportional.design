@@ -2,20 +2,16 @@
   <li class="entry" ref="entryRef">
     <header>
       <span class="meta">
-        <span class="key system">000{{ index + 1 }} – </span>
-        <span class="category system">{{ item.category }}</span>
+        <span class="category system">{{ item.categories?.[0] || 'ALL' }}</span>
       </span>
       <span class="title-date-likes">
         <span class="title-date">
-          <img
-            class="folder"
-            src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1754594907/proportional.design-4.0/i_2x_fxaiui.webp"
-            alt="Folder icon"
-          />
           <h2 class="serif">{{ item.title }}</h2>
-          <span class="date system">{{
+          <!-- <span class="date system">{{
             new Date(item.dateCreated).getFullYear()
-          }}</span>
+          }}</span> -->
+          <span class="stage">{{ item.stage }}</span>
+          <span class="category">{{ item.categories?.[0] || 'ALL' }}</span>
         </span>
         <button class="button-like" @click.prevent="handleLike">
           <svg
@@ -51,134 +47,134 @@
 </template>
 
 <style lang="scss" scoped>
-li.entry {
-  border-bottom: 1px solid rgba(251, 236, 195, 0.2);
-  padding-bottom: 8rem;
-}
+// li.entry {
+//   border-bottom: 1px solid rgba(251, 236, 195, 0.2);
+//   padding-bottom: 8rem;
+// }
 
-.wrapper {
-  display: flex;
-  align-items: center;
-}
+// .wrapper {
+//   display: flex;
+//   align-items: center;
+// }
 
-.folder {
-  width: 4.8rem;
-  height: auto;
-  object-fit: cover;
-}
+// .folder {
+//   width: 4.8rem;
+//   height: auto;
+//   object-fit: cover;
+// }
 
-.meta,
-.date {
-  opacity: 0.72;
-}
+// .meta,
+// .date {
+//   opacity: 0.72;
+// }
 
-.meta {
-  margin-left: 5.9rem;
-}
+// .meta {
+//   margin-left: 5.9rem;
+// }
 
-.title-date-likes {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: -1.2rem 0 1.2rem;
-}
+// .title-date-likes {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   margin: -1.2rem 0 1.2rem;
+// }
 
-.title-date {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
-}
+// .title-date {
+//   display: flex;
+//   gap: 1rem;
+//   align-items: center;
+//   justify-content: space-between;
+// }
 
-h2 {
-  color: var(--secondary);
-  text-transform: uppercase;
-  @include breakpoint(md) {
-    margin-top: 0.4rem;
-    font-size: 3.4rem;
-    letter-spacing: -0.02rem;
-  }
-}
+// h2 {
+//   color: var(--secondary);
+//   text-transform: uppercase;
+//   @include breakpoint(md) {
+//     margin-top: 0.4rem;
+//     font-size: 3.4rem;
+//     letter-spacing: -0.02rem;
+//   }
+// }
 
-.key,
-.category,
-.date {
-  text-transform: uppercase;
-  @include breakpoint(md) {
-    font-weight: 500;
-    font-size: 1.3rem;
-    letter-spacing: -0.02rem;
-  }
-}
+// .key,
+// .category,
+// .date {
+//   text-transform: uppercase;
+//   @include breakpoint(md) {
+//     font-weight: 500;
+//     font-size: 1.3rem;
+//     letter-spacing: -0.02rem;
+//   }
+// }
 
-.date {
-  @include breakpoint(md) {
-    margin-top: -1.3rem;
-  }
-}
+// .date {
+//   @include breakpoint(md) {
+//     margin-top: -1.3rem;
+//   }
+// }
 
-.button-like {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 1.6rem;
-  border: none;
-  background: none;
-  opacity: 0.72;
-  cursor: cell;
-}
+// .button-like {
+//   display: flex;
+//   align-items: center;
+//   gap: 0.4rem;
+//   margin-top: 1.6rem;
+//   border: none;
+//   background: none;
+//   opacity: 0.72;
+//   cursor: cell;
+// }
 
-.button-like svg {
-  transform: scale(0.9);
-  transition: transform 0.2s ease-in-out;
-}
+// .button-like svg {
+//   transform: scale(0.9);
+//   transition: transform 0.2s ease-in-out;
+// }
 
-.button-like:hover svg {
-  transform: scale(1);
-}
+// .button-like:hover svg {
+//   transform: scale(1);
+// }
 
-.button-like:active svg {
-  transform: scale(0.8);
-}
+// .button-like:active svg {
+//   transform: scale(0.8);
+// }
 
-.button-like .likes {
-  margin-top: 0.8rem;
-  font-weight: 550;
-  font-size: 1.5rem;
-}
+// .button-like .likes {
+//   margin-top: 0.8rem;
+//   font-weight: 550;
+//   font-size: 1.5rem;
+// }
 
-.heart-animate {
-  animation: heartBeat 0.3s ease-in-out;
-}
+// .heart-animate {
+//   animation: heartBeat 0.3s ease-in-out;
+// }
 
-@keyframes heartBeat {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+// @keyframes heartBeat {
+//   0% {
+//     transform: scale(1);
+//   }
+//   50% {
+//     transform: scale(1.2);
+//   }
+//   100% {
+//     transform: scale(1);
+//   }
+// }
 
-figure {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 11px;
-  max-height: 60rem;
-  height: 60rem;
-  background: rgba(0, 0, 0, 0.32);
-  overflow: hidden;
-}
+// figure {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: 11px;
+//   max-height: 60rem;
+//   height: 60rem;
+//   background: rgba(0, 0, 0, 0.32);
+//   overflow: hidden;
+// }
 
-img {
-  height: 100%;
-  width: auto;
-  object-fit: contain;
-}
+// img {
+//   height: 100%;
+//   width: auto;
+//   object-fit: contain;
+// }
 </style>
 
 <script setup>
@@ -204,14 +200,17 @@ const optimisticLikes = ref(props.item.likes || 0);
 const displayLikes = computed(() => optimisticLikes.value);
 
 // Watch for changes in props.item.likes to sync with server updates
-watch(() => props.item.likes, (newLikes) => {
-  optimisticLikes.value = newLikes || 0;
-});
+watch(
+  () => props.item.likes,
+  (newLikes) => {
+    optimisticLikes.value = newLikes || 0;
+  }
+);
 
 const handleLike = () => {
   // Optimistically increment the like count
   optimisticLikes.value += 1;
-  
+
   // Trigger animation
   isAnimating.value = true;
   setTimeout(() => {

@@ -6,8 +6,8 @@
     </section>
     <Marquee class="marquee" />
     <section class="section-portfolio">
-      <Filter 
-        class="aside-filtering" 
+      <Filter
+        class="aside-filtering"
         :selectedStage="selectedStage"
         :selectedCategories="selectedCategories"
         :availableCategories="availableCategories"
@@ -56,20 +56,19 @@
 }
 
 .section-portfolio {
-  margin: 8rem auto 0;
+  margin: 15rem auto 0;
   width: 100%;
-  padding: 0 4.4rem;
+  padding: 0 2.4rem;
   @include breakpoint(mdl) {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 4rem;
+    gap: grid-width(0.5);
   }
 }
 
 .aside-filtering {
   @include breakpoint(mdl) {
-    flex: 0 0 40%;
+    width: grid-width(4);
   }
 }
 
@@ -81,7 +80,7 @@
   padding: 0;
   list-style: none;
   @include breakpoint(mdl) {
-    flex: 0 0 55%;
+    width: grid-width(7.25);
   }
 }
 
@@ -115,27 +114,31 @@ const {
 });
 
 // Filtering
-const selectedStage = ref('ALL');
-const selectedCategories = ref(['ALL']);
+const selectedStage = ref("ALL");
+const selectedCategories = ref(["ALL"]);
 
 const availableCategories = computed(() => {
-  const categories = [...new Set(fetchedData.value.flatMap(item => item.categories || []))];
+  const categories = [
+    ...new Set(fetchedData.value.flatMap((item) => item.categories || [])),
+  ];
   return categories.filter(Boolean);
 });
 
 const filteredData = computed(() => {
   let filtered = fetchedData.value;
-  
-  if (selectedStage.value !== 'ALL') {
-    filtered = filtered.filter(item => item.stage === selectedStage.value);
+
+  if (selectedStage.value !== "ALL") {
+    filtered = filtered.filter((item) => item.stage === selectedStage.value);
   }
-  
-  if (!selectedCategories.value.includes('ALL')) {
-    filtered = filtered.filter(item => 
-      item.categories?.some(category => selectedCategories.value.includes(category))
+
+  if (!selectedCategories.value.includes("ALL")) {
+    filtered = filtered.filter((item) =>
+      item.categories?.some((category) =>
+        selectedCategories.value.includes(category)
+      )
     );
   }
-  
+
   return filtered;
 });
 

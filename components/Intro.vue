@@ -31,7 +31,9 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 4vh 1rem 0;
+  margin: 4.4vh 1rem 0;
+  transform: scale(0.92);
+  transform-origin: center top;
 }
 
 .logotype {

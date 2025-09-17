@@ -2,7 +2,7 @@
   <aside class="aside-filtering">
     <header>
       <div class="row">
-        <span class="brand-text sans-regular">proportional</span>
+        <span class="sans-medium">proportional</span>
         <img
           src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757515092/proportional.design-4.0/saint-01_2x_zqnadq.webp"
           alt=""
@@ -10,7 +10,7 @@
           aria-hidden="true"
         />
 
-        <span class="sans-regular">design</span>
+        <span class="sans-medium">design</span>
 
         <div class="button-group">
           <button class="primary-btn contact-btn sans-medium">contact</button>
@@ -21,7 +21,7 @@
           >
             <img
               src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1733875450/proportional.design-3.0/avatar_w_3x_j45unb.webp"
-              alt=""
+              alt="instagram avatar"
             />
           </a>
         </div>
@@ -29,7 +29,7 @@
 
       <p>
         Recent works and ongoing projects, featuring custom furniture and
-        functional objects crafted with care from 2018 to present, plus select
+        functional objects crafted with care from 2018 to present; plus select
         pieces from our earlier collections.
       </p>
     </header>
@@ -80,12 +80,12 @@
 <style lang="scss" scoped>
 aside {
   position: sticky;
-  top: 0;
+  top: -0.5rem;
 }
 
 header {
   position: relative;
-  padding: 3.2rem 0;
+  padding: 2.4rem 0;
 }
 
 header::before,
@@ -117,11 +117,16 @@ header::after,
   gap: 0.8rem;
   font-size: 1.2vw;
   text-transform: uppercase;
+  span {
+    opacity: 0.68;
+  }
 }
 
 p {
-  max-width: 47ch;
+  margin-top: 0.4rem;
+  max-width: 46ch;
   color: #fff;
+  font-weight: 300;
   font-size: 0.92vw;
   opacity: 0.5;
 }
@@ -169,20 +174,48 @@ span {
 }
 
 .social-link {
+  position: relative;
   transition: transform 0.3s ease;
   will-change: transform;
 }
 
 .social-link img {
+  position: relative;
+  z-index: var(--z2);
   border-radius: 1000px;
-  width: 2.1vw;
+  border: 3px solid var(--base-000);
+  width: 2vw;
   height: auto;
+}
+
+.social-link::after {
+  content: "";
+  position: absolute;
+  z-index: var(--z1);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1000px;
+  background: linear-gradient(228deg, #c904ff 10%, #d8066b 50%, #ff941a 92%);
+  transform: scale(1.08);
+  transform-origin: center center;
+  animation: infiniteRotate 3s linear infinite;
+}
+
+@keyframes infiniteRotate {
+  from {
+    transform: scale(1.08) rotate(0deg);
+  }
+  to {
+    transform: scale(1.08) rotate(360deg);
+  }
 }
 
 .status-section,
 .category-section {
   position: relative;
-  padding: 3.2rem 0 4rem;
+  padding: 1.8rem 0 2.8rem;
 }
 
 .filter-title {
@@ -194,17 +227,12 @@ span {
 
 .filter-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 0.4rem;
 }
 
 .filter-btn {
   padding: 0.4vw 0.8vw;
   border-radius: 100px;
-  background: linear-gradient(
-    180deg,
-    rgba(149, 140, 116, 0.3) 0%,
-    rgba(69, 112, 93, 0.3) 100%
-  );
   color: var(--content-000);
   font-size: 0.76vw;
   text-transform: uppercase;
@@ -228,6 +256,8 @@ span {
   flex-wrap: wrap;
   gap: 1rem;
   width: 100%;
+  transform: scale(0.94);
+  transform-origin: left top;
 }
 
 .category-btn {
@@ -235,15 +265,10 @@ span {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.2rem;
   width: 20%;
   border-radius: 1.8vw;
-  padding: 0.2vw 1.4vw 0.7vw;
-  background: linear-gradient(
-    180deg,
-    rgba(149, 140, 116, 0) 0%,
-    rgba(69, 112, 93, 0) 100%
-  );
+  padding: 0.05vw 1.6vw 0.8vw;
 }
 
 .active {
@@ -255,7 +280,8 @@ span {
 }
 
 .category-icon {
-  min-width: 100%;
+  transform: scale(0.9);
+  // min-width: 100%;
   // min-width: 7.6rem;
   // width: 7.6rem;
   // height: auto;

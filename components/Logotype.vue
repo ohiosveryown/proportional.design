@@ -43,7 +43,7 @@
 }
 
 .container-logotype {
-  position: relative; /* Create positioning context for the video */
+  position: relative;
 }
 
 .container-parent:after {
