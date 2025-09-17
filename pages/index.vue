@@ -20,7 +20,7 @@
           :key="item.id || item.slug"
         >
           <Entry :item="item" :index="index" @like="handleLike" class="entry" />
-          <MarketingCard v-if="index === 3" />
+          <ContactCard v-if="index === 3" />
         </template>
       </ul>
     </section>

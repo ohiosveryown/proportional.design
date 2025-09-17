@@ -184,7 +184,7 @@ span {
   position: relative;
   z-index: var(--z2);
   border-radius: 1000px;
-  border: 3px solid var(--base-000);
+  border: 2px solid var(--base-000);
   width: 2vw;
   height: auto;
 }
@@ -197,19 +197,38 @@ span {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 1000px;
+  border-radius: 2vw;
   background: linear-gradient(228deg, #c904ff 10%, #d8066b 50%, #ff941a 92%);
-  transform: scale(1.08);
+  background-size: 200% 200%;
+  transform: scale(1.1);
   transform-origin: center center;
-  animation: infiniteRotate 3s linear infinite;
+  animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 @keyframes infiniteRotate {
   from {
-    transform: scale(1.08) rotate(0deg);
+    transform: scale(1.1) rotate(0deg);
   }
   to {
-    transform: scale(1.08) rotate(360deg);
+    transform: scale(1.1) rotate(360deg);
   }
 }
 
