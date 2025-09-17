@@ -87,12 +87,12 @@ footer {
   border-radius: 100px;
   border: 1px solid color-mix(in srgb, var(--content-000) 40%, transparent);
   padding: 0.3rem 0.8rem 0.2rem;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   opacity: 0.72;
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   width: 100%;
   text-align: center;
 }

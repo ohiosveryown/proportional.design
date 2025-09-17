@@ -15,14 +15,13 @@
         @categoryFilter="handleCategoryFilter"
       />
       <ul class="entries-list">
-        <Entry
+        <template
           v-for="(item, index) in filteredData"
           :key="item.id || item.slug"
-          :item="item"
-          :index="index"
-          @like="handleLike"
-          class="entry"
-        />
+        >
+          <Entry :item="item" :index="index" @like="handleLike" class="entry" />
+          <MarketingCard v-if="index === 3" />
+        </template>
       </ul>
     </section>
   </div>

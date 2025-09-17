@@ -175,6 +175,7 @@ span {
 
 .social-link {
   position: relative;
+  width: max-content;
   transition: transform 0.3s ease;
   will-change: transform;
 }
@@ -268,7 +269,7 @@ span {
   gap: 0.2rem;
   width: 20%;
   border-radius: 1.8vw;
-  padding: 0.05vw 1.6vw 0.8vw;
+  padding: 0.1vw 0vw 0.8vw;
 }
 
 .active {
@@ -280,6 +281,8 @@ span {
 }
 
 .category-icon {
+  padding: 0 0.8vw;
+  object-fit: cover;
   transform: scale(0.9);
   // min-width: 100%;
   // min-width: 7.6rem;
