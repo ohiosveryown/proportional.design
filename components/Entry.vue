@@ -84,15 +84,19 @@ footer {
 
 .category,
 .likes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 100px;
   border: 1px solid color-mix(in srgb, var(--content-000) 40%, transparent);
-  padding: 0.3rem 0.8rem 0.2rem;
-  font-size: 1.2rem;
+  padding: 0vw 0.4vw 0vw;
+  height: 100%;
+  font-size: clamp(1.2rem, 0.76vw, 1.6rem);
   opacity: 0.72;
 }
 
 .title {
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 0.8vw, 1.8rem);
   width: 100%;
   text-align: center;
 }
@@ -125,22 +129,25 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
-  padding: 0.5rem 0.9rem 0.4rem 0.6rem;
-  line-height: 1;
+  height: 100%;
+  // padding: 0.5rem 0.9rem 0.4rem 0.6rem;
+  // padding: 0.1vw 0.4vw 0vw 0.3vw;
+  padding: 0 0.4vw 0 0.2vw;
+  line-height: 0.5;
 }
 
 .likes svg {
-  transform: scale(0.8);
+  transform: scale(0.7) translateY(0.05rem);
   transition: transform 0.3s ease;
   will-change: transform;
 }
 
 .likes:hover svg {
-  transform: scale(0.9) translateY(-0.05rem);
+  transform: scale(0.8) translateY(0.05rem);
 }
 
 .likes:active svg {
-  transform: scale(0.8) translateY(-0.05rem);
+  transform: scale(0.7) translateY(0.05rem);
 }
 
 .heart-animate {
@@ -149,13 +156,13 @@ footer {
 
 @keyframes heartBeat {
   0% {
-    transform: scale(1);
+    transform: scale(0.8);
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1);
   }
   100% {
-    transform: scale(1);
+    transform: scale(0.8);
   }
 }
 </style>

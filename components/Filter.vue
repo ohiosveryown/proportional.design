@@ -254,7 +254,8 @@ span {
   padding: 0.4vw 0.8vw;
   border-radius: 100px;
   color: var(--content-000);
-  font-size: 0.76vw;
+  // font-size: 0.76vw;
+  font-size: clamp(1.1rem, 0.76vw, 1.6rem);
   text-transform: uppercase;
   font-weight: 500;
   opacity: 0.5;
@@ -343,7 +344,7 @@ const categoryImages = {
     "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757974280/proportional.design-4.0/categories/repose_3x_kzimef.webp",
   SEATING:
     "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757974282/proportional.design-4.0/categories/seating_3x_gt8bfo.webp",
-  SURFACES:
+  SURFACE:
     "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757974283/proportional.design-4.0/categories/surfaces_3x_npvuey.webp",
 };
 
