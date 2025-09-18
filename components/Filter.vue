@@ -2,7 +2,7 @@
   <aside class="aside-filtering">
     <header>
       <div class="row">
-        <span class="sans-medium">proportional</span>
+        <!-- <span class="sans-medium">prop</span> -->
         <img
           src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757515092/proportional.design-4.0/saint-01_2x_zqnadq.webp"
           alt=""
@@ -10,7 +10,7 @@
           aria-hidden="true"
         />
 
-        <span class="sans-medium">design</span>
+        <span class="sans-medium">Portfolio</span>
 
         <div class="button-group">
           <button class="primary-btn contact-btn sans-medium">contact</button>
@@ -41,7 +41,7 @@
           v-for="stage in stages"
           :key="stage.value"
           :class="[
-            'filter-btn',
+            'stage-btn',
             'sans-medium',
             { active: selectedStage === stage.value },
           ]"
@@ -54,12 +54,12 @@
 
     <section class="category-section">
       <div class="filter-title">Category:</div>
-      <div class="filter-buttons category-buttons">
+      <div class="category-buttons">
         <button
           v-for="category in categories"
           :key="category.value"
           :class="[
-            'filter-btn category-btn sans-medium',
+            'category-btn sans-medium',
             { active: isCategoryActive(category.value) },
           ]"
           @click="handleCategoryClick(category.value, $event)"
@@ -123,11 +123,12 @@ header::after,
 }
 
 p {
-  margin-top: 0.4rem;
+  margin-top: 1.2rem;
   max-width: 46ch;
   color: #fff;
   font-weight: 300;
   font-size: 0.92vw;
+  font-size: clamp(1.3rem, 0.92vw, 1.7rem);
   opacity: 0.5;
 }
 
@@ -250,49 +251,57 @@ span {
   gap: 0.4rem;
 }
 
-.filter-btn {
-  padding: 0.4vw 0.8vw;
+.stage-btn {
   border-radius: 100px;
-  color: var(--content-000);
-  // font-size: 0.76vw;
+  padding: 0.4vw 0.8vw;
   font-size: clamp(1.1rem, 0.76vw, 1.6rem);
   text-transform: uppercase;
-  font-weight: 500;
   opacity: 0.5;
   cursor: pointer;
   transition: opacity 0.3s ease;
   will-change: opacity;
 }
 
-.filter-btn:hover {
+.stage-btn:hover {
   opacity: 0.76;
 }
 
-.filter-btn.active {
+.stage-btn.active {
   opacity: 1;
 }
 
 .category-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  width: 100%;
-  transform: scale(0.94);
-  transform-origin: left top;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  @include breakpoint(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .category-btn {
   display: flex;
+  padding: 0 1vw 0.6vw;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 0.2rem;
-  width: 20%;
-  border-radius: 1.8vw;
-  padding: 0.1vw 0vw 0.8vw;
+  gap: 0.6rem;
+  border-radius: 21px;
+  border-radius: 1.6vw;
+  font-size: clamp(1.2rem, 0.76vw, 1.6rem);
+  text-transform: uppercase;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  will-change: opacity;
+}
+
+.category-btn:hover {
+  opacity: 1;
 }
 
 .active {
+  opacity: 1;
   background: linear-gradient(
     180deg,
     rgba(149, 140, 116, 0.3) 0%,
@@ -301,13 +310,7 @@ span {
 }
 
 .category-icon {
-  padding: 0 0.8vw;
-  object-fit: cover;
-  transform: scale(0.9);
-  // min-width: 100%;
-  // min-width: 7.6rem;
-  // width: 7.6rem;
-  // height: auto;
+  padding: 0.2vw;
 }
 </style>
 

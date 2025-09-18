@@ -23,7 +23,7 @@
   z-index: var(--z1);
   border-radius: 100px;
   padding: 0.6vw 0.6vw 0.6vw 1.36vw;
-  font-size: 0.9vw;
+  font-size: clamp(1.4rem, 0.9vw, 2.8rem);
   text-transform: uppercase;
   color: var(--content-000);
   box-shadow: 0 1.5px 0 0 rgba(255, 255, 255, 0.3) inset,
@@ -56,8 +56,8 @@
 .availability {
   margin-right: 0.2rem;
   border-radius: 100px;
-  width: 0.64vw;
-  height: 0.64vw;
+  width: clamp(0.8rem, 0.64vw, 1.2rem);
+  height: clamp(0.8rem, 0.64vw, 1.2rem);
   background: #b1e847;
   box-shadow: 0 0 12px 4px rgba(177, 232, 71, 0.64);
   transition: transform 0.6s ease;
@@ -86,6 +86,7 @@ footer {
   text-align: center;
   letter-spacing: 0.1px;
   font-size: 0.8vw;
+  font-size: clamp(1.2rem, 0.8vw, 1.7rem);
   color: #fff;
   opacity: 0.5;
 }
