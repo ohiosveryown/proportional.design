@@ -1,12 +1,14 @@
 <template>
   <li class="entry" ref="entryRef">
     <NuxtLink :to="`/furniture/${item.slug}`" :prefetch="true">
-      <img
-        v-if="item.images?.[0]"
-        :src="item.images[0]"
-        :alt="item.title"
-        loading="lazy"
-      />
+      <div class="img-wrapper">
+        <img
+          v-if="item.images?.[0]"
+          :src="item.images[0]"
+          :alt="item.title"
+          loading="lazy"
+        />
+      </div>
 
       <footer class="sans-regular">
         <span class="category">{{ item.categories?.[0] || "ALL" }}</span>
@@ -47,18 +49,29 @@ li a {
   background: #2b3c33;
   overflow: hidden;
   aspect-ratio: 1.24;
-
   @include breakpoint(lg) {
     aspect-ratio: 0.8;
   }
 }
 
-li a img {
+li a .img-wrapper {
   border-radius: 9px;
   width: 100%;
   flex: 1;
-  object-fit: cover;
   min-height: 0;
+  overflow: hidden;
+}
+
+li a .img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+a:hover .img-wrapper img {
+  transform: scale(1.03);
 }
 
 footer {

@@ -116,6 +116,7 @@ header::after,
   align-items: center;
   gap: 0.8rem;
   font-size: 1.2vw;
+  font-size: clamp(1.3rem, 1.2vw, 2.2rem);
   text-transform: uppercase;
   span {
     opacity: 0.68;
@@ -243,6 +244,7 @@ span {
   margin-bottom: 1rem;
   color: var(--content-100);
   font-size: 1.1vw;
+  font-size: clamp(1.3rem, 1.1vw, 2.2rem);
   text-transform: uppercase;
 }
 
