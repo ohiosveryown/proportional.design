@@ -39,6 +39,17 @@
 </template>
 
 <style lang="scss" scoped>
+.entry {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.entry.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 li a {
   display: flex;
   flex-direction: column;
