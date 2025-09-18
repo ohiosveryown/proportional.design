@@ -1,7 +1,7 @@
 <template>
   <section class="container-hero">
     <div ref="wrapper" class="hero-image-wrapper">
-      <span class="subtitle serif">Banco Bench</span>
+      <!-- <span class="subtitle serif">Banco Bench</span> -->
       <button ref="followBtn" class="follow-btn sans-medium">
         Get in touch
         <span class="icon"
@@ -203,8 +203,17 @@ onMounted(() => {
 
   // Initialize Three.js effect immediately
   if (threeContainer.value) {
-    const imageUrl =
-      "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1756947317/proportional.design-4.0/hero_2x_uajsjm.webp";
+    // Array of hero images
+    const heroImages = [
+      "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1756947317/proportional.design-4.0/hero_2x_uajsjm.webp",
+      "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1758202585/proportional.design-4.0/IMG_1295-o_ry4ofv.webp",
+      "https://res.cloudinary.com/dn1q8h2ga/image/upload/v1758202150/proportional.design-4.0/02_wo8sg6.webp",
+    ];
+
+    // Select random image
+    const randomIndex = Math.floor(Math.random() * heroImages.length);
+    const imageUrl = heroImages[randomIndex];
+
     cleanupEffect = initDisplacementEffect(threeContainer.value, imageUrl);
     isThreeRendered.value = true;
   }
