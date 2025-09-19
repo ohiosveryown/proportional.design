@@ -227,7 +227,7 @@ onUnmounted(() => {
     wrapper.value.removeEventListener("mouseenter", handleMouseEnter);
   }
 
-  if (cleanupEffect) {
+  if (cleanupEffect && typeof cleanupEffect === 'function') {
     cleanupEffect();
   }
 

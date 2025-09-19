@@ -56,8 +56,9 @@ li a {
   gap: 0.8rem;
   position: relative;
   border-radius: 21px;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
   padding: 1.2rem;
-  background: #2b3c33;
+  background: #25342c;
   overflow: hidden;
   aspect-ratio: 1.24;
   @include breakpoint(lg) {
@@ -247,7 +248,7 @@ onMounted(() => {
     { threshold: 0.1 }
   );
 
-  if (entryRef.value) {
+  if (entryRef.value && entryRef.value instanceof Element) {
     observer.observe(entryRef.value);
   }
 
