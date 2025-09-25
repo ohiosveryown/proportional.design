@@ -57,7 +57,7 @@ li a {
   position: relative;
   border-radius: 21px;
   border: 0.5px solid rgba(255, 255, 255, 0.1);
-  padding: 1.2rem;
+  padding: 1rem;
   background: #25342c;
   overflow: hidden;
   aspect-ratio: 1.24;
@@ -67,7 +67,7 @@ li a {
 }
 
 li a .img-wrapper {
-  border-radius: 9px;
+  border-radius: 11px;
   width: 100%;
   flex: 1;
   min-height: 0;

@@ -74,7 +74,7 @@
 .entries-list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 1.3rem;
   margin: 0;
   padding: 0;
   list-style: none;
