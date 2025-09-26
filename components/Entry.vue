@@ -13,7 +13,7 @@
       <footer class="sans-regular">
         <span class="category">{{ item.categories?.[0] || "ALL" }}</span>
         <span class="center"
-          ><h3 class="title">{{ item.title }}</h3>
+          ><h3 class="title sans-medium">{{ item.title }}</h3>
           <span class="separator">•</span>
           <span class="stage">{{ item.stage }}</span>
         </span>

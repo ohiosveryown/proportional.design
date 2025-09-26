@@ -3,7 +3,7 @@
     <h1 class="reader-only">proportional.design</h1>
     <Logotype class="logotype" />
 
-    <div class="container-description">
+    <div class="container-description" ref="descriptionRef">
       <img
         src="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1757515691/proportional.design-4.0/laurel_3x_or3qqb.webp"
         alt=""
@@ -21,7 +21,9 @@
       />
     </div>
 
-    <CTA class="cta" />
+    <div class="cta" ref="ctaRef">
+      <CTA />
+    </div>
     <span class="arrow" />
   </header>
 </template>
@@ -84,6 +86,12 @@ h2 .sm {
   position: relative;
   margin: 4rem 0 4.8rem;
   padding: 3.2rem;
+  clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+  transition: clip-path 1s cubic-bezier(0.8, 0, 0.16, 1) 0.3s;
+}
+
+.container-description.revealed {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
 .container-description::before,
@@ -117,6 +125,15 @@ h2 .sm {
   transform: scaleX(-1);
 }
 
+.cta {
+  clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+  transition: clip-path 1s cubic-bezier(0.8, 0, 0.16, 1) 0.4s;
+}
+
+.cta.revealed {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
 .arrow {
   margin-top: 3.2rem;
   width: 1px;
@@ -127,3 +144,38 @@ h2 .sm {
   );
 }
 </style>
+
+<script setup>
+const descriptionRef = ref(null);
+const ctaRef = ref(null);
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+        }
+      });
+    },
+    {
+      threshold: 0,
+      rootMargin: "0px 0px -10% 0px",
+    }
+  );
+
+  nextTick(() => {
+    if (descriptionRef.value) {
+      observer.observe(descriptionRef.value);
+    }
+
+    if (ctaRef.value) {
+      observer.observe(ctaRef.value);
+    }
+  });
+
+  onUnmounted(() => {
+    observer.disconnect();
+  });
+});
+</script>
