@@ -151,7 +151,7 @@ span {
 
 .contact-btn {
   padding: 0.6vw 0.8vw;
-  font-size: 0.7vw;
+  font-size: clamp(1.2rem, 0.7vw, 1.5rem);
   text-transform: uppercase;
   background: linear-gradient(
     180deg,

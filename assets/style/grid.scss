@@ -35,6 +35,12 @@
       @content;
     }
   }
+
+  @else if $class ==xxl {
+    @media (min-width: 2000px) {
+      @content;
+    }
+  }
 }
 
 //

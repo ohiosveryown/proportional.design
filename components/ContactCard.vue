@@ -122,15 +122,15 @@
 }
 
 .marketing-card {
-  grid-column: span 2;
+  display: none;
   align-self: stretch;
   border-radius: 21px;
   border: 0.5px solid rgba(255, 255, 255, 0.1);
   padding: 1.2rem;
   background: #25342c;
   overflow: hidden;
-
   @include breakpoint(xl) {
+    display: block;
     grid-column: span 2;
   }
 }

@@ -63,6 +63,9 @@
     align-items: flex-start;
     gap: grid-width(0.5);
   }
+  @include breakpoint(xxl) {
+    width: 96vw;
+  }
 }
 
 .aside-filtering {
@@ -74,17 +77,18 @@
 .entries-list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.3rem;
+  gap: 2rem;
   margin: 0;
   padding: 0;
   list-style: none;
-
   @include breakpoint(lg) {
     grid-template-columns: repeat(2, 1fr);
   }
-
   @include breakpoint(xl) {
     grid-template-columns: repeat(3, 1fr);
+  }
+  @include breakpoint(xxl) {
+    gap: 4rem;
   }
 }
 
