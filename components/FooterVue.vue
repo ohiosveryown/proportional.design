@@ -33,6 +33,7 @@
       loop
       muted
       playsinline
+      poster="https://res.cloudinary.com/dn1q8h2ga/image/upload/v1759414977/proportional.design-4.0/footer-bg_2x_aiqa3j.webp"
       src="https://res.cloudinary.com/dn1q8h2ga/video/upload/v1759415787/proportional.design-4.0/footer-bg_tijacu.mp4"
       alt="footer-video"
       class="footer-bg"
@@ -51,11 +52,14 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.6rem;
+  justify-content: center;
+  gap: 2rem;
   position: relative;
-  margin-top: 16rem;
+  margin-top: 8rem;
   // border-radius: 2.4rem;
-  padding: 18rem 6.4rem 16rem;
+  // padding: 18rem 6.4rem 16rem;
+  max-width: 100%;
+  height: 800px;
   // min-width: 100vw;
   // width: 100vw;
   // background: url("https://res.cloudinary.com/dn1q8h2ga/image/upload/v1759414977/proportional.design-4.0/footer-bg_2x_aiqa3j.webp")
@@ -95,6 +99,8 @@ footer::after {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+  opacity: 0.56;
 }
 
 .saint-illustration,
@@ -119,6 +125,7 @@ h4 {
   text-align: center;
   font-size: clamp(1.2rem, 2.8vw, 4.2rem);
   line-height: 1.2;
+  -webkit-text-stroke: 0.24px var(--primary);
 }
 
 .cta {
