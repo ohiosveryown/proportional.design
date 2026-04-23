@@ -69,18 +69,28 @@
   const gridEl = ref(null)
   const revealed = ref(new Set())
   const observed = new WeakSet()
+  const videoObserved = new WeakSet()
   let observer = null
+  let videoObserver = null
 
   function observeAll() {
-    if (!gridEl.value || !observer) return
-    const items = gridEl.value.querySelectorAll('.photoWrap')
-    items.forEach((el) => {
-      if (observed.has(el)) return
-      const url = el.dataset.photoUrl
-      if (!url || revealed.value.has(url)) return
-      observer.observe(el)
-      observed.add(el)
-    })
+    if (!gridEl.value) return
+    if (observer) {
+      gridEl.value.querySelectorAll('.photoWrap').forEach((el) => {
+        if (observed.has(el)) return
+        const url = el.dataset.photoUrl
+        if (!url || revealed.value.has(url)) return
+        observer.observe(el)
+        observed.add(el)
+      })
+    }
+    if (videoObserver) {
+      gridEl.value.querySelectorAll('.photo video').forEach((el) => {
+        if (videoObserved.has(el)) return
+        videoObserver.observe(el)
+        videoObserved.add(el)
+      })
+    }
   }
 
   onMounted(() => {
@@ -101,6 +111,19 @@
       },
       { rootMargin: '0px 0px -5% 0px' },
     )
+    videoObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = entry.target
+          if (entry.isIntersecting) {
+            video.play().catch(() => {})
+          } else {
+            video.pause()
+          }
+        }
+      },
+      { rootMargin: '1px' },
+    )
     observeAll()
   })
 
@@ -109,7 +132,10 @@
     () => nextTick(observeAll),
   )
 
-  onBeforeUnmount(() => observer?.disconnect())
+  onBeforeUnmount(() => {
+    observer?.disconnect()
+    videoObserver?.disconnect()
+  })
 
   function itemStyle(_photo, i) {
     const delay = i < 12 ? i * 0.04 : 0
