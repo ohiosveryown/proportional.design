@@ -1164,6 +1164,7 @@
           tags,
           takenAt,
           password: editPassword.value,
+          resource_type: photo.resource_type,
         },
       })
       if (!res.success) {
@@ -1205,7 +1206,11 @@
     try {
       const res = await $fetch('/api/delete-photo', {
         method: 'DELETE',
-        body: { publicId: target.filename, password },
+        body: {
+          publicId: target.filename,
+          password,
+          resource_type: target.resource_type,
+        },
       })
       if (!res.success) {
         data.value = snapshot

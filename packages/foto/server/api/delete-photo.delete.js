@@ -8,13 +8,15 @@ cloudinary.config({
 
 export default defineEventHandler(async (event) => {
   try {
-    const { publicId, password } = await readBody(event)
+    const { publicId, password, resource_type } = await readBody(event)
 
     if (!password || password !== process.env.GALLERY_SECRET) {
       return { success: false, error: 'Incorrect password' }
     }
 
-    const result = await cloudinary.uploader.destroy(publicId)
+    const result = await cloudinary.uploader.destroy(publicId, {
+      resource_type: resource_type === 'video' ? 'video' : 'image',
+    })
 
     if (result.result !== 'ok') {
       return { success: false, error: 'Failed to delete photo' }

@@ -8,7 +8,8 @@ cloudinary.config({
 
 export default defineEventHandler(async (event) => {
   try {
-    const { publicId, caption, tags, takenAt, password } = await readBody(event)
+    const { publicId, caption, tags, takenAt, password, resource_type } =
+      await readBody(event)
 
     if (!password || password !== process.env.GALLERY_SECRET) {
       return { success: false, error: 'Incorrect password' }
@@ -19,6 +20,7 @@ export default defineEventHandler(async (event) => {
 
     await cloudinary.uploader.explicit(publicId, {
       type: 'upload',
+      resource_type: resource_type === 'video' ? 'video' : 'image',
       context,
       tags: Array.isArray(tags) ? tags : [],
     })
