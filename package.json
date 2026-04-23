@@ -2,6 +2,6 @@
   "name": "proportional-design",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/site"
   ]
 }

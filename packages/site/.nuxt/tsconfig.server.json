@@ -42,7 +42,7 @@
         "../../../node_modules/@vue/compiler-sfc"
       ],
       "unplugin-vue-router/client": [
-        "../../../node_modules/nuxt/node_modules/unplugin-vue-router/client"
+        "../../../node_modules/unplugin-vue-router/client"
       ],
       "@nuxt/schema": [
         "../../../node_modules/@nuxt/schema"
