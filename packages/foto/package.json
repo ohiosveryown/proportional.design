@@ -1,0 +1,22 @@
+{
+  "name": "install",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
+    "cloudinary": "^2.9.0",
+    "exif-reader": "^2.0.3",
+    "nuxt": "^4.4.2",
+    "sass": "^1.99.0",
+    "sharp": "^0.34.5",
+    "vue": "^3.5.32",
+    "vue-router": "^5.0.4"
+  }
+}
