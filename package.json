@@ -1,20 +1,7 @@
 {
-  "name": "nuxt-app",
+  "name": "proportional-design",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@nuxt/content": "^2.13.4",
-    "firebase": "^11.1.0",
-    "nuxt": "^3.14.1592",
-    "sass": "^1.82.0",
-    "vue": "latest",
-    "vue-router": "latest"
-  }
+  "workspaces": [
+    "packages/*"
+  ]
 }
