@@ -13,26 +13,45 @@ const PINNED_THUMB_URL =
   'https://res.cloudinary.com/dnxxsspmw/image/upload/v1776971535/foto/1776966461078-sq%402x.webp'
 
 export async function listPhotos() {
-  const result = await cloudinary.api.resources({
-    type: 'upload',
-    prefix: 'foto/',
-    max_results: 500,
-    direction: -1,
-    context: true,
-    tags: true,
-  })
+  const [images, videos] = await Promise.all([
+    cloudinary.api.resources({
+      type: 'upload',
+      resource_type: 'image',
+      prefix: 'foto/',
+      max_results: 500,
+      direction: -1,
+      context: true,
+      tags: true,
+    }),
+    cloudinary.api.resources({
+      type: 'upload',
+      resource_type: 'video',
+      prefix: 'foto/',
+      max_results: 500,
+      direction: -1,
+      context: true,
+      tags: true,
+    }),
+  ])
 
-  return result.resources
+  return [...images.resources, ...videos.resources]
     .map((r) => {
       const isPinned = r.public_id === PINNED_ID
       const url = isPinned ? PINNED_LIGHTBOX_URL : r.secure_url
       const thumbSource = isPinned ? PINNED_THUMB_URL : r.secure_url
+      const thumbUrl =
+        r.resource_type === 'video'
+          ? thumbSource
+              .replace('/video/upload/', '/video/upload/so_0/')
+              .replace(/\.\w+$/, '.jpg')
+          : thumbSource.replace(
+              '/upload/',
+              '/upload/c_limit,w_600,q_auto,f_auto/',
+            )
       return {
         url,
-        thumbUrl: thumbSource.replace(
-          '/upload/',
-          '/upload/c_limit,w_600,q_auto,f_auto/',
-        ),
+        thumbUrl,
+        resource_type: r.resource_type,
         width: r.width,
         height: r.height,
         filename: r.public_id,

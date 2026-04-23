@@ -57,7 +57,20 @@
           >
             <div class="lightboxStage">
               <div class="lightboxMedia">
+                <video
+                  v-if="isVideo(activePhoto)"
+                  :src="activePhoto.url"
+                  :poster="activePhoto.thumbUrl || undefined"
+                  class="lightboxImg lightboxVideo"
+                  :class="{ navBlur }"
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                  controls
+                />
                 <img
+                  v-else
                   :src="activePhoto.url"
                   :alt="activePhoto.filename"
                   class="lightboxImg"
@@ -573,6 +586,10 @@
     transition: none;
   }
 
+  .lightboxVideo {
+    pointer-events: auto;
+  }
+
   .lightboxMeta {
     position: absolute;
     bottom: -6px;
@@ -891,6 +908,10 @@
     )
   })
 
+  function isVideo(photo) {
+    return photo?.resource_type === 'video'
+  }
+
   function openLightbox(photo) {
     const idx = visiblePhotos.value.findIndex((p) => p.url === photo.url)
     activeIndex.value = idx >= 0 ? idx : 0
@@ -939,7 +960,7 @@
   }
 
   watch(activePhoto, (next) => {
-    if (!process.client) return
+    if (!import.meta.client) return
     document.body.style.overflow = next ? 'hidden' : ''
     editingMeta.value = false
   })

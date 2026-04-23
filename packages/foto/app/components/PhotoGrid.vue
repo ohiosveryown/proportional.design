@@ -20,7 +20,18 @@
         :style="photoStyle(photo)"
         @click="onPhotoClick(photo)"
       >
+        <video
+          v-if="isVideo(photo)"
+          :src="photo.url"
+          :poster="photo.thumbUrl || undefined"
+          muted
+          autoplay
+          loop
+          playsinline
+          preload="metadata"
+        />
         <img
+          v-else
           :src="photo.thumbUrl || photo.url"
           :alt="photo.filename"
           :width="photo.width || undefined"
@@ -107,6 +118,10 @@
     }
     if (wiggleMode.value) style.animationDelay = `${(i % 3) * 0.05}s`
     return style
+  }
+
+  function isVideo(photo) {
+    return photo.resource_type === 'video'
   }
 
   function photoStyle(photo) {
@@ -204,7 +219,8 @@
     appearance: none;
   }
 
-  .photo img {
+  .photo img,
+  .photo video {
     width: 100%;
     height: 100%;
     object-fit: cover;
