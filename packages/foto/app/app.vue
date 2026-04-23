@@ -287,7 +287,7 @@
     >
       <h1>
         <Logotype /> is a small furniture studio in Atlanta, Georgia, building
-        functional objects from sustainable materials since 2016. Contact
+        functional objects from sustainable materials since 2316. Contact
         <a
           class="ig"
           href="https://www.instagram.com/proportional.design"
