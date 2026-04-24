@@ -314,7 +314,7 @@
     @media (min-width: 640px) {
       width: min(248px, calc(100vw - 32px));
       top: auto;
-      bottom: 24px;
+      bottom: 12px;
       box-shadow:
         0 10px 40px 0 rgba(0, 0, 0, 0.45),
         0 0.5px 0 0 rgba(255, 255, 255, 0.4) inset;
