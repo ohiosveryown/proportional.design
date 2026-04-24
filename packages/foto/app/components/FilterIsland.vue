@@ -656,6 +656,43 @@
     background-size: contain;
     box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.4) inset;
     cursor: pointer;
+    position: relative;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .avatar::after {
+      content: 'Instagram';
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      padding: 6px 8px 6px 9px;
+      border-radius: 9px;
+      background: rgba(0, 0, 0, 1);
+      color: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.4) inset;
+      font-size: 13px;
+      line-height: 1;
+      white-space: nowrap;
+      pointer-events: none;
+      will-change: opacity, transform;
+      opacity: 0;
+      filter: blur(5px);
+      transition:
+        opacity 0.15s ease,
+        filter 0.15s ease,
+        transform 0.01s ease 0.15s;
+    }
+
+    .avatar:hover::after {
+      opacity: 1;
+      filter: blur(0px);
+      transform: translateX(-50%) translateY(2px);
+      transition:
+        opacity 0.3s ease 0.15s,
+        filter 0.3s ease 0.15s,
+        transform 0.3s ease 0.15s;
+    }
   }
 
   .filterInput {
