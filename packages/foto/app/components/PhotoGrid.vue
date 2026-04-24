@@ -372,9 +372,7 @@
     background: rgba(0, 0, 0, 0.32);
     backdrop-filter: blur(22px);
     -webkit-backdrop-filter: blur(22px);
-    box-shadow:
-      0 10px 40px rgba(0, 0, 0, 0.45),
-      0 0.5px 0 rgba(255, 255, 255, 0.4) inset;
+    box-shadow: 0 0.5px 0 rgba(255, 255, 255, 0.4) inset;
     opacity: 0;
     transform: translate(-50%, 8px);
     pointer-events: none;
