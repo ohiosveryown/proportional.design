@@ -112,17 +112,29 @@
         class="avatar"
         aria-label="Instagram"
       />
-      <input
-        v-model="draft"
-        type="text"
-        class="filterInput"
-        placeholder="Search or filter…"
-        :disabled="loading"
-        @focus="onInputFocus"
-        @blur="onInputBlur"
-        @click="onInputFocus"
-        @keydown.esc="$event.target.blur()"
-      />
+      <div class="inputWrap">
+        <Transition :name="placeholderTransitionName">
+          <span
+            v-if="showRotatingPlaceholder"
+            :key="placeholderText"
+            class="rotatingPlaceholder"
+            aria-hidden="true"
+          >
+            {{ placeholderText }}
+          </span>
+        </Transition>
+        <input
+          v-model="draft"
+          type="text"
+          class="filterInput"
+          placeholder=""
+          :disabled="loading"
+          @focus="onInputFocus"
+          @blur="onInputBlur"
+          @click="onInputFocus"
+          @keydown.esc="$event.target.blur()"
+        />
+      </div>
       <button
         type="button"
         class="filterBtn"
@@ -151,6 +163,9 @@
   const collapsed = ref(false)
   const focused = ref(false)
   const menuOpen = ref(false)
+  const placeholderIndex = ref(0)
+  const reduceMotion = ref(false)
+  let placeholderTimer = null
 
   const hasHistory = computed(() => props.messages.length > 0 || props.loading)
   const hasFilter = computed(() => !!props.activeFilter?.tags?.length)
@@ -165,6 +180,36 @@
   const menuTags = computed(() => {
     const active = new Set((props.activeFilter?.tags || []).map((t) => t.label))
     return props.availableTags.filter((t) => !active.has(t.label))
+  })
+
+  const placeholderOptions = computed(() => {
+    const placeholderCycle = {
+      default: 'Search or filter…',
+      cycleOne: 'Show me just chairs...',
+      cycleThree: 'Try “joinery”...',
+      cycleTwo: 'Show me only walnut...',
+      cycleFour: 'Who run this place?',
+    }
+    return Object.values(placeholderCycle).filter(Boolean)
+  })
+
+  const showRotatingPlaceholder = computed(() => {
+    if (props.loading) return false
+    if (focused.value) return false
+    if (draft.value.trim().length) return false
+    return placeholderOptions.value.length > 0
+  })
+
+  const placeholderTransitionName = computed(() =>
+    reduceMotion.value ? '' : 'ph',
+  )
+
+  const placeholderText = computed(() => {
+    const opts = placeholderOptions.value
+    if (!opts.length) return ''
+    const idx =
+      ((placeholderIndex.value % opts.length) + opts.length) % opts.length
+    return opts[idx]
   })
 
   function onSubmit() {
@@ -197,6 +242,47 @@
     menuOpen.value = false
   }
 
+  function stopPlaceholderTimer() {
+    if (placeholderTimer) clearInterval(placeholderTimer)
+    placeholderTimer = null
+  }
+
+  function startPlaceholderTimer() {
+    stopPlaceholderTimer()
+    if (!showRotatingPlaceholder.value) return
+    if (reduceMotion.value) return
+    placeholderTimer = setInterval(() => {
+      if (!showRotatingPlaceholder.value) return
+      placeholderIndex.value += 1
+    }, 3200)
+  }
+
+  onMounted(() => {
+    try {
+      reduceMotion.value =
+        typeof window !== 'undefined' &&
+        window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+    } catch {
+      reduceMotion.value = false
+    }
+    startPlaceholderTimer()
+  })
+
+  onBeforeUnmount(() => stopPlaceholderTimer())
+
+  watch(
+    () => showRotatingPlaceholder.value,
+    () => startPlaceholderTimer(),
+  )
+
+  watch(
+    () => placeholderOptions.value.length,
+    () => {
+      placeholderIndex.value = 0
+      startPlaceholderTimer()
+    },
+  )
+
   watch(
     () => [props.messages.length, props.loading],
     async ([len], [prevLen]) => {
@@ -216,7 +302,7 @@
     right: 0;
     margin: 0 auto;
     z-index: 500;
-    width: min(240px, calc(100vw - 32px));
+    width: min(248px, calc(100vw - 32px));
     display: flex;
     flex-direction: column;
     border-radius: 24px;
@@ -553,6 +639,12 @@
     padding: 4px 10px 4px 9px;
   }
 
+  .inputWrap {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+  }
+
   .avatar {
     display: block;
     flex-shrink: 0;
@@ -566,8 +658,7 @@
   }
 
   .filterInput {
-    flex: 1;
-    min-width: 0;
+    width: 100%;
     background: transparent;
     border: 0;
     color: #fff;
@@ -582,8 +673,48 @@
     }
   }
 
-  .filterInput::placeholder {
+  .rotatingPlaceholder {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scale(0.94);
+    transform-origin: left center;
     color: rgba(255, 255, 255, 0.75);
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    @media (min-width: 640px) {
+      transform: translateY(-50%) scale(1);
+      font-size: 14px;
+    }
+  }
+
+  .ph-enter-active,
+  .ph-leave-active {
+    transition:
+      opacity 800ms ease,
+      transform 800ms ease,
+      filter 800ms ease;
+  }
+
+  .ph-enter-from {
+    opacity: 0;
+    filter: blur(20px);
+    transform: translateY(calc(-50% + 12px)) scale(0.94);
+    @media (min-width: 640px) {
+      transform: translateY(calc(-50% + 12px)) scale(1);
+    }
+  }
+
+  .ph-leave-to {
+    opacity: 0;
+    filter: blur(20px);
+    transform: translateY(calc(-50% - 12px)) scale(0.94);
+    @media (min-width: 640px) {
+      transform: translateY(calc(-50% - 12px)) scale(1);
+    }
   }
 
   .filterInput:disabled {
