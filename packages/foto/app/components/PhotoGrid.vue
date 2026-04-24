@@ -10,6 +10,7 @@
       :class="{ wiggling: wiggleMode, revealed: revealed.has(photo.url) }"
       :style="itemStyle(photo, i)"
       :data-photo-url="photo.url"
+      :data-photo-index="i"
       @pointerdown="onPointerDown"
       @pointerup="onPointerUp"
       @pointermove="onPointerMove"
@@ -52,6 +53,14 @@
         –
       </button>
     </div>
+
+    <div
+      class="monthLabel"
+      :class="{ monthLabelVisible: isScrolling && !!currentMonth }"
+      aria-hidden="true"
+    >
+      {{ currentMonth }}
+    </div>
   </div>
 </template>
 
@@ -70,8 +79,45 @@
   const revealed = ref(new Set())
   const observed = new WeakSet()
   const videoObserved = new WeakSet()
+  const scanObserved = new WeakSet()
   let observer = null
   let videoObserver = null
+  let scanObserver = null
+
+  const activeIndices = new Set()
+  const currentMonth = ref('')
+  const isScrolling = ref(false)
+  let scrollIdleTimer = null
+
+  function formatMonth(iso) {
+    if (!iso) return ''
+    try {
+      return new Date(iso).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'long',
+      })
+    } catch {
+      return ''
+    }
+  }
+
+  function updateMonthLabel() {
+    if (!activeIndices.size) return
+    let min = Infinity
+    for (const i of activeIndices) if (i > 0 && i < min) min = i
+    if (min === Infinity) return
+    const photo = props.photos[min]
+    const next = formatMonth(photo?.takenAt || photo?.uploadedAt)
+    if (next && next !== currentMonth.value) currentMonth.value = next
+  }
+
+  function onScroll() {
+    isScrolling.value = true
+    if (scrollIdleTimer) clearTimeout(scrollIdleTimer)
+    scrollIdleTimer = setTimeout(() => {
+      isScrolling.value = false
+    }, 1200)
+  }
 
   function observeAll() {
     if (!gridEl.value) return
@@ -89,6 +135,13 @@
         if (videoObserved.has(el)) return
         videoObserver.observe(el)
         videoObserved.add(el)
+      })
+    }
+    if (scanObserver) {
+      gridEl.value.querySelectorAll('.photoWrap').forEach((el) => {
+        if (scanObserved.has(el)) return
+        scanObserver.observe(el)
+        scanObserved.add(el)
       })
     }
   }
@@ -124,17 +177,38 @@
       },
       { rootMargin: '1px' },
     )
+    scanObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const idx = Number(entry.target.dataset.photoIndex)
+          if (Number.isNaN(idx)) continue
+          if (entry.isIntersecting) activeIndices.add(idx)
+          else activeIndices.delete(idx)
+        }
+        updateMonthLabel()
+      },
+      { rootMargin: '-80px 0px -80% 0px' },
+    )
     observeAll()
+    window.addEventListener('scroll', onScroll, { passive: true })
   })
 
   watch(
     () => props.photos.length,
-    () => nextTick(observeAll),
+    () => {
+      activeIndices.clear()
+      nextTick(observeAll)
+    },
   )
 
   onBeforeUnmount(() => {
     observer?.disconnect()
     videoObserver?.disconnect()
+    scanObserver?.disconnect()
+    if (scrollIdleTimer) clearTimeout(scrollIdleTimer)
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('scroll', onScroll)
+    }
   })
 
   function itemStyle(_photo, i) {
@@ -282,6 +356,49 @@
     cursor: pointer;
     z-index: 10;
     padding: 0;
+  }
+
+  .monthLabel {
+    position: fixed;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    left: 50%;
+    z-index: 400;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgba(255, 255, 255, 0.88);
+    background: rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    box-shadow:
+      0 10px 40px rgba(0, 0, 0, 0.45),
+      0 0.5px 0 rgba(255, 255, 255, 0.4) inset;
+    opacity: 0;
+    transform: translate(-50%, 8px);
+    pointer-events: none;
+    transition:
+      opacity 280ms ease,
+      transform 280ms ease;
+    white-space: nowrap;
+  }
+
+  .monthLabel.monthLabelVisible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  @media (min-width: 640px) {
+    .monthLabel {
+      bottom: auto;
+      top: max(16px, env(safe-area-inset-top));
+      transform: translate(-50%, -8px);
+    }
+
+    .monthLabel.monthLabelVisible {
+      transform: translate(-50%, 0);
+    }
   }
 
   @media (max-width: 1100px) {
