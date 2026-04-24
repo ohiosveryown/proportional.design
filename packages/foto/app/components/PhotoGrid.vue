@@ -360,7 +360,7 @@
 
   .monthLabel {
     position: fixed;
-    bottom: calc(16px + env(safe-area-inset-bottom));
+    bottom: calc(8px + env(safe-area-inset-bottom));
     left: 50%;
     z-index: 400;
     padding: 8px 14px;
