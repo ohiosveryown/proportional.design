@@ -390,7 +390,7 @@
   @media (min-width: 640px) {
     .monthLabel {
       bottom: auto;
-      top: max(16px, env(safe-area-inset-top));
+      top: max(8px, env(safe-area-inset-top));
       transform: translate(-50%, -8px);
     }
 
