@@ -302,7 +302,7 @@
     right: 0;
     margin: 0 auto;
     z-index: 500;
-    width: min(248px, calc(100vw - 32px));
+    width: min(262px, calc(100vw - 32px));
     display: flex;
     flex-direction: column;
     border-radius: 24px;
@@ -312,6 +312,7 @@
     box-shadow: 0 0.5px 0 0 rgba(255, 255, 255, 0.4) inset;
     transition: width 0.3s ease;
     @media (min-width: 640px) {
+      width: min(248px, calc(100vw - 32px));
       top: auto;
       bottom: 24px;
       box-shadow:
