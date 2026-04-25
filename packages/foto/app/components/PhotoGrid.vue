@@ -26,7 +26,6 @@
           :src="photo.url"
           :poster="photo.thumbUrl || undefined"
           muted
-          autoplay
           loop
           playsinline
           preload="metadata"

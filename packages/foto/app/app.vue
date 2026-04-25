@@ -98,7 +98,7 @@
 </style>
 
 <script setup>
-  const { data, pending, error } = await useFetch('/api/photos')
+  const { data, pending, error } = useLazyFetch('/api/photos')
   const photos = computed(() => data.value?.photos || [])
 
   // Page load gating (wait for full window load, not just Suspense)
