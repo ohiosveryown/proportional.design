@@ -10,6 +10,13 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'vercel'
   },
+  routeRules: {
+    '/api/photos': {
+      headers: {
+        'cache-control': 'public, s-maxage=60, stale-while-revalidate=300'
+      }
+    }
+  },
   app: {
     head: {
       htmlAttrs: { lang: 'en' },
