@@ -277,6 +277,13 @@
     grid-template-columns: repeat(8, 1fr);
     align-items: start;
     gap: 36px 20px;
+    margin-top: 72px;
+  }
+
+  @media (min-width: 640px) {
+    .grid {
+      margin-top: 0;
+    }
   }
 
   .photoWrap {

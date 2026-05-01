@@ -82,11 +82,11 @@
   }
 
   .gallery {
-    max-width: 1400px;
     margin: 0 auto;
     @media (min-width: 640px) {
       margin-top: 40px;
       padding: 2rem 1rem;
+      max-width: 1400px;
     }
   }
 
