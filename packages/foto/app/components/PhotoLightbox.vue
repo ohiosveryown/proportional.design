@@ -5,6 +5,10 @@
         v-if="activePhoto"
         class="lightboxBackdrop"
         @click="close"
+        @touchstart.passive="onTouchStart"
+        @touchmove.passive="onTouchMove"
+        @touchend="onTouchEnd"
+        @touchcancel="onTouchCancel"
       >
         <div class="lightboxStage">
           <div class="lightboxMedia">
@@ -147,6 +151,60 @@
       e.preventDefault()
       emit('edit-request', activePhoto.value)
     }
+  }
+
+  const touchState = {
+    startX: 0,
+    startY: 0,
+    startTime: 0,
+    active: false,
+    swiped: false,
+  }
+
+  function onTouchStart(e) {
+    if (e.touches.length !== 1) {
+      touchState.active = false
+      return
+    }
+    const t = e.touches[0]
+    touchState.startX = t.clientX
+    touchState.startY = t.clientY
+    touchState.startTime = Date.now()
+    touchState.active = true
+    touchState.swiped = false
+  }
+
+  function onTouchMove(e) {
+    if (!touchState.active || touchState.swiped) return
+    if (e.touches.length !== 1) return
+    const t = e.touches[0]
+    const dx = t.clientX - touchState.startX
+    const dy = t.clientY - touchState.startY
+    const absX = Math.abs(dx)
+    const absY = Math.abs(dy)
+    if (absX >= 50 && absX > absY) {
+      touchState.swiped = true
+      if (dx < 0) goNext()
+      else goPrev()
+      return
+    }
+    if (dy >= 70 && absY > absX) {
+      touchState.swiped = true
+      close()
+    }
+  }
+
+  function onTouchEnd(e) {
+    if (touchState.swiped) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    touchState.active = false
+  }
+
+  function onTouchCancel() {
+    touchState.active = false
+    touchState.swiped = false
   }
 
   onMounted(() => window.addEventListener('keydown', onKey))
