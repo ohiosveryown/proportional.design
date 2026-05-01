@@ -223,7 +223,11 @@
 <style>
   .lightboxBackdrop {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100lvh;
     background: rgba(0, 0, 0, 0.72);
     backdrop-filter: blur(10px);
     z-index: 1000;
