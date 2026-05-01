@@ -161,7 +161,7 @@
         }
         if (changed) revealed.value = next
       },
-      { rootMargin: '0px 0px -5% 0px' },
+      { rootMargin: window.innerWidth < 640 ? '0px 0px 20% 0px' : '0px 0px -5% 0px' },
     )
     videoObserver = new IntersectionObserver(
       (entries) => {
