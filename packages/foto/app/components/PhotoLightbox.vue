@@ -228,12 +228,14 @@
     width: 100vw;
     height: 100vh;
     height: 100lvh;
-    background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     z-index: 1000;
     display: grid;
     place-items: center;
     padding: 18px;
+    overscroll-behavior: contain;
   }
 
   .lightbox-enter-active,
