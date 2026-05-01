@@ -128,6 +128,7 @@
           type="text"
           class="filterInput"
           placeholder=""
+          aria-label="Search or filter photos"
           :disabled="loading"
           @focus="onInputFocus"
           @blur="onInputBlur"

@@ -1,5 +1,5 @@
 <template>
-  <div
+  <main
     class="gallery"
     :class="{ galleryHasFilter: !!activeFilter?.tags?.length }"
     @click="onGalleryClick"
@@ -55,7 +55,7 @@
       @remove-tag="onRemoveTag"
       @apply-tag="onApplyTag"
     />
-  </div>
+  </main>
 </template>
 
 <style>

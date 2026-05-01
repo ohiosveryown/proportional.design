@@ -19,6 +19,7 @@
         type="button"
         class="photo"
         :style="photoStyle(photo)"
+        :aria-label="`Open photo ${captionNumber(i)}`"
         @click="onPhotoClick(photo)"
       >
         <video
@@ -161,7 +162,10 @@
         }
         if (changed) revealed.value = next
       },
-      { rootMargin: window.innerWidth < 640 ? '0px 0px 20% 0px' : '0px 0px -5% 0px' },
+      {
+        rootMargin:
+          window.innerWidth < 640 ? '0px 0px 20% 0px' : '0px 0px -5% 0px',
+      },
     )
     videoObserver = new IntersectionObserver(
       (entries) => {
@@ -339,7 +343,7 @@
     text-align: right;
     font-size: 12px;
     letter-spacing: -0.04em;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.46);
     font-family: ui-monospace, monospace;
     font-variant-numeric: tabular-nums;
   }
