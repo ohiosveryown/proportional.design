@@ -9,6 +9,8 @@ cloudinary.config({
 const PINNED_ID = 'foto/1776966461078-sq@2x'
 const PINNED_LIGHTBOX_URL =
   'https://res.cloudinary.com/dnxxsspmw/image/upload/v1776971496/og-image_2x_nogug8.webp'
+const PINNED_LIGHTBOX_URL_SM =
+  'https://res.cloudinary.com/dnxxsspmw/image/upload/v1777671605/og-image-sq-sm_owbm9m.webp'
 const PINNED_THUMB_URL =
   'https://res.cloudinary.com/dnxxsspmw/image/upload/v1776971535/foto/1776966461078-sq%402x.webp'
 
@@ -38,6 +40,7 @@ export async function listPhotos() {
     .map((r) => {
       const isPinned = r.public_id === PINNED_ID
       const url = isPinned ? PINNED_LIGHTBOX_URL : r.secure_url
+      const urlSm = isPinned ? PINNED_LIGHTBOX_URL_SM : null
       const thumbSource = isPinned ? PINNED_THUMB_URL : r.secure_url
       const thumbUrl =
         r.resource_type === 'video'
@@ -50,6 +53,7 @@ export async function listPhotos() {
             )
       return {
         url,
+        urlSm,
         thumbUrl,
         resource_type: r.resource_type,
         width: r.width,

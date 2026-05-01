@@ -24,14 +24,20 @@
               playsinline
               controls
             />
-            <img
-              v-else
-              :src="activePhoto.url"
-              :alt="activePhoto.filename"
-              class="lightboxImg"
-              :class="{ navBlur }"
-              decoding="async"
-            />
+            <picture v-else>
+              <source
+                v-if="activePhoto.urlSm"
+                :srcset="activePhoto.urlSm"
+                media="(max-width: 639px)"
+              />
+              <img
+                :src="activePhoto.url"
+                :alt="activePhoto.filename"
+                class="lightboxImg"
+                :class="{ navBlur }"
+                decoding="async"
+              />
+            </picture>
           </div>
 
           <div
