@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="islandEl"
     class="filterIsland"
     :class="{ isCollapsed: collapsed, isWide }"
   >
@@ -161,6 +162,7 @@
 
   const draft = ref('')
   const historyEl = ref(null)
+  const islandEl = ref(null)
   const collapsed = ref(false)
   const focused = ref(false)
   const menuOpen = ref(false)
@@ -258,6 +260,14 @@
     }, 3200)
   }
 
+  function onOutsidePointer(e) {
+    if (!islandEl.value) return
+    if (islandEl.value.contains(e.target)) return
+    if (!menuOpen.value && (collapsed.value || !hasHistory.value)) return
+    menuOpen.value = false
+    if (hasHistory.value) collapsed.value = true
+  }
+
   onMounted(() => {
     try {
       reduceMotion.value =
@@ -267,9 +277,17 @@
       reduceMotion.value = false
     }
     startPlaceholderTimer()
+    if (typeof document !== 'undefined') {
+      document.addEventListener('pointerdown', onOutsidePointer)
+    }
   })
 
-  onBeforeUnmount(() => stopPlaceholderTimer())
+  onBeforeUnmount(() => {
+    stopPlaceholderTimer()
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('pointerdown', onOutsidePointer)
+    }
+  })
 
   watch(
     () => showRotatingPlaceholder.value,
