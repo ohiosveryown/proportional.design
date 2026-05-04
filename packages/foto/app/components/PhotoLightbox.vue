@@ -241,8 +241,8 @@
   .lightbox-enter-active,
   .lightbox-leave-active {
     transition:
-      opacity 0.2s ease-in-out,
-      backdrop-filter 0.2s ease-in-out;
+      opacity 0.38s ease-out,
+      backdrop-filter 0.38s ease-out;
   }
 
   .lightbox-enter-active .lightboxImg,
@@ -250,8 +250,9 @@
   .lightbox-enter-active .lightboxMeta,
   .lightbox-leave-active .lightboxMeta {
     transition:
-      opacity 0.2s ease-in-out,
-      filter 0.2s ease-in-out;
+      opacity 0.38s ease-out,
+      filter 0.38s ease-out,
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .lightbox-enter-from,
@@ -261,11 +262,17 @@
   }
 
   .lightbox-enter-from .lightboxImg,
-  .lightbox-leave-to .lightboxImg,
+  .lightbox-leave-to .lightboxImg {
+    opacity: 0;
+    filter: blur(20px);
+    transform: scale(0.82);
+  }
+
   .lightbox-enter-from .lightboxMeta,
   .lightbox-leave-to .lightboxMeta {
     opacity: 0;
     filter: blur(20px);
+    transform: translate(-50%, 100%) scale(0.82);
   }
 
   .lightboxStage {

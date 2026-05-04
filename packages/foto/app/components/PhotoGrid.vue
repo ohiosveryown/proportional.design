@@ -2,7 +2,7 @@
   <div
     ref="gridEl"
     class="grid"
-    :class="{ gridFiltering: filtering }"
+    :class="{ gridFiltering: filtering, gridLightboxOpen: lightboxOpen }"
   >
     <div
       v-for="(photo, i) in displayedPhotos"
@@ -68,6 +68,7 @@
 <script setup>
   const props = defineProps({
     photos: { type: Array, required: true },
+    lightboxOpen: { type: Boolean, default: false },
   })
 
   const wiggleMode = defineModel('wiggleMode', {
@@ -240,9 +241,11 @@
   })
 
   function itemStyle(_photo, i) {
-    const delay = i < 12 ? i * 0.04 : 0
+    const revealDelay = i < 12 ? i * 0.04 : 0
+    const lightboxDelay = ((i * 7) % 11) * 0.025
     const style = {
-      transition: `opacity 0.5s ease-out ${delay}s, filter 0.5s ease-out ${delay}s`,
+      '--reveal-delay': `${revealDelay}s`,
+      '--lightbox-delay': `${lightboxDelay}s`,
     }
     if (wiggleMode.value) style.animationDelay = `${(i % 3) * 0.05}s`
     return style
@@ -321,6 +324,10 @@
     pointer-events: none;
   }
 
+  .grid.gridLightboxOpen {
+    pointer-events: none;
+  }
+
   @media (min-width: 640px) {
     .grid {
       margin-top: 0;
@@ -331,11 +338,25 @@
     position: relative;
     opacity: 0;
     filter: blur(10px);
+    transition:
+      opacity 0.5s ease-out var(--reveal-delay, 0s),
+      filter 0.5s ease-out var(--reveal-delay, 0s),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--lightbox-delay, 0s);
   }
 
   .photoWrap.revealed {
     opacity: 1;
     filter: blur(0px);
+  }
+
+  .grid.gridLightboxOpen .photoWrap {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(1.22);
+    transition:
+      opacity 0.42s ease-out var(--lightbox-delay, 0s),
+      filter 0.42s ease-out var(--lightbox-delay, 0s),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--lightbox-delay, 0s);
   }
 
   @keyframes wiggle {

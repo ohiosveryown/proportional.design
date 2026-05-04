@@ -15,6 +15,7 @@
       <PhotoGrid
         v-model:wiggle-mode="wiggleMode"
         :photos="visiblePhotos"
+        :lightbox-open="openIndex >= 0"
         @photo-click="openLightboxForPhoto"
         @delete-request="deleteTarget = $event"
       />
