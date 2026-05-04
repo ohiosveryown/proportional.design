@@ -2,9 +2,10 @@
   <div
     ref="gridEl"
     class="grid"
+    :class="{ gridFiltering: filtering }"
   >
     <div
-      v-for="(photo, i) in photos"
+      v-for="(photo, i) in displayedPhotos"
       :key="photo.url"
       class="photoWrap"
       :class="{ wiggling: wiggleMode, revealed: revealed.has(photo.url) }"
@@ -84,6 +85,29 @@
   let videoObserver = null
   let scanObserver = null
 
+  const displayedPhotos = ref([...props.photos])
+  const filtering = ref(false)
+  let filterTimer = null
+
+  watch(
+    () => props.photos,
+    (next, prev) => {
+      if (!prev || prev === next) {
+        displayedPhotos.value = next
+        return
+      }
+      if (filterTimer) clearTimeout(filterTimer)
+      filtering.value = true
+      filterTimer = setTimeout(() => {
+        displayedPhotos.value = next
+        nextTick(() => {
+          filtering.value = false
+          observeAll()
+        })
+      }, 240)
+    },
+  )
+
   const activeIndices = new Set()
   const currentMonth = ref('')
   const isScrolling = ref(false)
@@ -106,7 +130,7 @@
     let min = Infinity
     for (const i of activeIndices) if (i > 0 && i < min) min = i
     if (min === Infinity) return
-    const photo = props.photos[min]
+    const photo = displayedPhotos.value[min]
     const next = formatMonth(photo?.takenAt || photo?.uploadedAt)
     if (next && next !== currentMonth.value) currentMonth.value = next
   }
@@ -197,7 +221,7 @@
   })
 
   watch(
-    () => props.photos.length,
+    () => displayedPhotos.value.length,
     () => {
       activeIndices.clear()
       nextTick(observeAll)
@@ -209,6 +233,7 @@
     videoObserver?.disconnect()
     scanObserver?.disconnect()
     if (scrollIdleTimer) clearTimeout(scrollIdleTimer)
+    if (filterTimer) clearTimeout(filterTimer)
     if (typeof window !== 'undefined') {
       window.removeEventListener('scroll', onScroll)
     }
@@ -282,6 +307,18 @@
     align-items: start;
     gap: 36px 20px;
     margin-top: 72px;
+    transform-origin: center top;
+    transition:
+      opacity 0.28s ease,
+      transform 0.28s ease,
+      filter 0.28s ease;
+  }
+
+  .grid.gridFiltering {
+    opacity: 0;
+    transform: scale(0.97);
+    filter: blur(14px);
+    pointer-events: none;
   }
 
   @media (min-width: 640px) {
