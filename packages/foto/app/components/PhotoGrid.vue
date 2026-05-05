@@ -22,6 +22,7 @@
         :style="photoStyle(photo)"
         :aria-label="`Open photo ${captionNumber(i)}`"
         @click="onPhotoClick(photo)"
+        @mouseenter="onPhotoHover(photo)"
       >
         <video
           v-if="isVideo(photo)"
@@ -76,6 +77,13 @@
     default: false,
   })
   const emit = defineEmits(['photo-click', 'delete-request'])
+
+  const { canHover, preloadPhoto } = usePhotoPreload()
+
+  function onPhotoHover(photo) {
+    if (!canHover.value) return
+    preloadPhoto(photo)
+  }
 
   const gridEl = ref(null)
   const revealed = ref(new Set())

@@ -218,6 +218,15 @@
 
   const isOpen = computed(() => !!activePhoto.value)
   useBodyScrollLock(isOpen)
+
+  const { preloadPhoto } = usePhotoPreload()
+  watch(openIndex, (idx) => {
+    if (idx < 0) return
+    const len = props.photos.length
+    if (!len) return
+    preloadPhoto(props.photos[(idx + 1) % len])
+    preloadPhoto(props.photos[(idx - 1 + len) % len])
+  })
 </script>
 
 <style>
