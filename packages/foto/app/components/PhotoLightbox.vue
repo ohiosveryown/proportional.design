@@ -12,32 +12,35 @@
       >
         <div class="lightboxStage">
           <div class="lightboxMedia">
-            <video
-              v-if="isVideo(activePhoto)"
-              :src="activePhoto.url"
-              :poster="activePhoto.thumbUrl || undefined"
-              class="lightboxImg lightboxVideo"
+            <div
+              class="lightboxFrame"
               :class="{ navBlur }"
-              autoplay
-              loop
-              muted
-              playsinline
-              controls
-            />
-            <picture v-else>
-              <source
-                v-if="activePhoto.urlSm"
-                :srcset="activePhoto.urlSm"
-                media="(max-width: 639px)"
-              />
-              <img
+            >
+              <video
+                v-if="isVideo(activePhoto)"
                 :src="activePhoto.url"
-                :alt="activePhoto.filename"
-                class="lightboxImg"
-                :class="{ navBlur }"
-                decoding="async"
+                :poster="activePhoto.thumbUrl || undefined"
+                class="lightboxImg lightboxVideo"
+                autoplay
+                loop
+                muted
+                playsinline
+                controls
               />
-            </picture>
+              <picture v-else>
+                <source
+                  v-if="activePhoto.urlSm"
+                  :srcset="activePhoto.urlSm"
+                  media="(max-width: 639px)"
+                />
+                <img
+                  :src="activePhoto.url"
+                  :alt="activePhoto.filename"
+                  class="lightboxImg"
+                  decoding="async"
+                />
+              </picture>
+            </div>
           </div>
 
           <div
@@ -254,8 +257,8 @@
       backdrop-filter 0.38s ease-out;
   }
 
-  .lightbox-enter-active .lightboxImg,
-  .lightbox-leave-active .lightboxImg,
+  .lightbox-enter-active .lightboxFrame,
+  .lightbox-leave-active .lightboxFrame,
   .lightbox-enter-active .lightboxMeta,
   .lightbox-leave-active .lightboxMeta {
     transition:
@@ -270,8 +273,8 @@
     backdrop-filter: blur(0px);
   }
 
-  .lightbox-enter-from .lightboxImg,
-  .lightbox-leave-to .lightboxImg {
+  .lightbox-enter-from .lightboxFrame,
+  .lightbox-leave-to .lightboxFrame {
     opacity: 0;
     filter: blur(20px);
     transform: scale(0.82);
@@ -302,19 +305,35 @@
     overflow: visible;
   }
 
-  .lightboxImg {
-    max-width: min(1100px, calc(100vw - 36px));
-    max-height: calc(100dvh - 220px);
-    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.55);
-    object-fit: contain;
-    background: rgba(255, 255, 255, 0.04);
-    pointer-events: none;
+  .lightboxFrame {
+    position: relative;
+    display: inline-block;
+    border-radius: 25px;
     transition: filter 260ms ease-out;
   }
 
-  .lightboxImg.navBlur {
+  .lightboxFrame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0.5px 1px 0.5px rgba(255, 255, 255, 0.32);
+    pointer-events: none;
+  }
+
+  .lightboxFrame.navBlur {
     filter: blur(20px);
     transition: none;
+  }
+
+  .lightboxImg {
+    display: block;
+    border-radius: 25px;
+    max-width: min(1100px, calc(100vw - 36px));
+    max-height: calc(100dvh - 220px);
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.04);
+    pointer-events: none;
   }
 
   .lightboxVideo {
