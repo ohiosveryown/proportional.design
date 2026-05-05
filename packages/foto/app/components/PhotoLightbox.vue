@@ -330,7 +330,7 @@
     padding: 0.75rem 0 0;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     pointer-events: auto;
     transition: filter 260ms ease-out;
   }
@@ -342,11 +342,10 @@
 
   .metaCaption {
     font-weight: 500;
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: 19px;
     text-align: center;
     line-height: 1.4;
-    letter-spacing: 0.25px;
+    letter-spacing: 0.01em;
     text-transform: capitalize;
   }
 
@@ -362,8 +361,9 @@
 
   .metaTag {
     text-transform: capitalize;
-    font-size: 13px;
-    font-family: 'Georgia', 'Times New Roman', Times, serif;
+    font-size: 14px;
+    font-family:
+      'New York', ui-serif, 'Georgia', 'Times New Roman', Times, serif;
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 0.01em;
   }

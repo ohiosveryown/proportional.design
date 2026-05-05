@@ -39,7 +39,8 @@
           :alt="photo.filename"
           :width="photo.width || undefined"
           :height="photo.height || undefined"
-          loading="lazy"
+          :loading="i < 8 ? 'eager' : 'lazy'"
+          :fetchpriority="i < 8 ? 'high' : 'auto'"
           decoding="async"
         />
       </button>
