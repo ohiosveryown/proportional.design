@@ -370,8 +370,7 @@
 
   .metaTag:not(:last-child)::after {
     content: '•';
-    margin: 0 4px;
-    color: rgba(255, 255, 255, 0.35);
+    margin: 0 3px;
   }
 
   @media (max-width: 640px) {
