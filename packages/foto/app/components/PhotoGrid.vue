@@ -40,6 +40,7 @@
           :width="photo.width || undefined"
           :height="photo.height || undefined"
           loading="lazy"
+          decoding="async"
         />
       </button>
 
