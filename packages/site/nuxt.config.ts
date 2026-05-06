@@ -2,10 +2,20 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxt/content', '@nuxtjs/plausible'],
-  plausible: {
-    domain: 'proportional.design',
-    autoOutboundTracking: true,
+  modules: ['@nuxt/content'],
+  app: {
+    head: {
+      script: [
+        {
+          async: true,
+          src: 'https://plausible.io/js/pa-Ez2vPOozpDgFpL4_vgPLb.js',
+        },
+        {
+          innerHTML:
+            'window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()',
+        },
+      ],
+    },
   },
   routeRules: {
     '/': { prerender: true }
