@@ -68,6 +68,14 @@ export default defineNuxtConfig({
             },
             sameAs: ['https://www.instagram.com/proportional.design']
           })
+        },
+        {
+          async: true,
+          src: 'https://plausible.io/js/pa-S3-z8HCc1srXMlnBG4rWl.js'
+        },
+        {
+          innerHTML:
+            'window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()'
         }
       ]
     }

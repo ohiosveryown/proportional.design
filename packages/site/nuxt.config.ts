@@ -3,20 +3,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   modules: ['@nuxt/content'],
-  app: {
-    head: {
-      script: [
-        {
-          async: true,
-          src: 'https://plausible.io/js/pa-S3-z8HCc1srXMlnBG4rWl.js',
-        },
-        {
-          innerHTML:
-            'window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()',
-        },
-      ],
-    },
-  },
   routeRules: {
     '/': { prerender: true }
   },
