@@ -2,7 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxt/content'],
+  modules: ['@nuxt/content', '@nuxtjs/plausible'],
+  plausible: {
+    domain: 'proportional.design',
+    trackLocalhost: false,
+    autoOutboundTracking: true,
+  },
   routeRules: {
     '/': { prerender: true }
   },
