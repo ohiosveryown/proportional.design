@@ -3,9 +3,9 @@ export function useChatFilter(photos) {
   const activeFilter = ref(null)
   const chatLoading = ref(false)
 
-  function trackFilter(tag, source) {
+  function track(event, props) {
     if (typeof window === 'undefined') return
-    window.plausible?.('Gallery Filter', { props: { tag, source } })
+    window.plausible?.(event, props ? { props } : undefined)
   }
 
   const visiblePhotos = computed(() => {
@@ -43,6 +43,7 @@ export function useChatFilter(photos) {
   )
 
   async function onSend(text) {
+    track('Chat Submitted')
     chatMessages.value.push({ role: 'user', content: text })
     chatLoading.value = true
     try {
@@ -78,7 +79,8 @@ export function useChatFilter(photos) {
           })),
         }
         for (const t of res.filter.tags) {
-          if (!previousLabels.has(t.label)) trackFilter(t.label, 'chat')
+          if (!previousLabels.has(t.label))
+            track('Gallery Filter', { tag: t.label, source: 'chat' })
         }
       }
     } catch {
@@ -103,7 +105,7 @@ export function useChatFilter(photos) {
     activeFilter.value = {
       tags: [...current, { label, filenames: new Set(filenames) }],
     }
-    trackFilter(label, 'tag-click')
+    track('Gallery Filter', { tag: label, source: 'tag-click' })
   }
 
   return {
