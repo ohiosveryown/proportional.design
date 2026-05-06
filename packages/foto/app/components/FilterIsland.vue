@@ -110,7 +110,7 @@
         href="https://www.instagram.com/proportional.design"
         target="_blank"
         rel="noopener"
-        class="avatar"
+        class="avatar plausible-event-name=Instagram+Click"
         aria-label="Instagram"
       />
       <div class="inputWrap">
