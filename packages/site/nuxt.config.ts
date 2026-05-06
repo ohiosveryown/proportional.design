@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       script: [
         {
           async: true,
-          src: 'https://plausible.io/js/pa-Ez2vPOozpDgFpL4_vgPLb.js',
+          src: 'https://plausible.io/js/pa-S3-z8HCc1srXMlnBG4rWl.js',
         },
         {
           innerHTML:
