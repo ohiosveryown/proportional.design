@@ -3,6 +3,11 @@ export function useChatFilter(photos) {
   const activeFilter = ref(null)
   const chatLoading = ref(false)
 
+  function trackFilter(tag, source) {
+    if (typeof window === 'undefined') return
+    window.plausible?.('Gallery Filter', { props: { tag, source } })
+  }
+
   const visiblePhotos = computed(() => {
     const tags = activeFilter.value?.tags
     if (!tags?.length) return photos.value
@@ -63,11 +68,17 @@ export function useChatFilter(photos) {
         activeFilter.value = null
       }
       if (res.filter?.tags?.length) {
+        const previousLabels = new Set(
+          (activeFilter.value?.tags || []).map((t) => t.label),
+        )
         activeFilter.value = {
           tags: res.filter.tags.map((t) => ({
             label: t.label,
             filenames: new Set(t.filenames),
           })),
+        }
+        for (const t of res.filter.tags) {
+          if (!previousLabels.has(t.label)) trackFilter(t.label, 'chat')
         }
       }
     } catch {
@@ -92,6 +103,7 @@ export function useChatFilter(photos) {
     activeFilter.value = {
       tags: [...current, { label, filenames: new Set(filenames) }],
     }
+    trackFilter(label, 'tag-click')
   }
 
   return {
