@@ -1,4 +1,8 @@
-import { fromPhotoSlug, photoPath } from '~/utils/photo-slug'
+import {
+  findPhotoByRouteSlug,
+  isCanonicalPhotoPath,
+  photoPath,
+} from '~/utils/photo-slug'
 
 export function usePhotoRoute(photos, visiblePhotos, openIndex, { clearFilter }) {
   const route = useRoute()
@@ -6,19 +10,20 @@ export function usePhotoRoute(photos, visiblePhotos, openIndex, { clearFilter })
   let syncing = false
 
   function findPhotoBySlug(slug) {
-    if (!slug) return null
-    const filename = fromPhotoSlug(slug)
-    return photos.value.find((p) => p.filename === filename) || null
+    return findPhotoByRouteSlug(photos.value, slug)
   }
 
-  function openIndexForSlug(slug) {
-    const photo = findPhotoBySlug(slug)
+  function openIndexForPhoto(photo) {
     if (!photo) return -1
 
-    let idx = visiblePhotos.value.findIndex((p) => p.filename === photo.filename)
+    let idx = visiblePhotos.value.findIndex(
+      (p) => p.filename === photo.filename,
+    )
     if (idx < 0) {
       clearFilter()
-      idx = visiblePhotos.value.findIndex((p) => p.filename === photo.filename)
+      idx = visiblePhotos.value.findIndex(
+        (p) => p.filename === photo.filename,
+      )
     }
     return idx
   }
@@ -38,7 +43,14 @@ export function usePhotoRoute(photos, visiblePhotos, openIndex, { clearFilter })
       return
     }
 
-    const idx = openIndexForSlug(slug)
+    if (!isCanonicalPhotoPath(photo, route.path)) {
+      syncing = true
+      router.replace(photoPath(photo)).finally(() => {
+        syncing = false
+      })
+    }
+
+    const idx = openIndexForPhoto(photo)
     openIndex.value = idx >= 0 ? idx : -1
   }
 
@@ -57,7 +69,9 @@ export function usePhotoRoute(photos, visiblePhotos, openIndex, { clearFilter })
 
   watch(visiblePhotos, () => {
     if (syncing || !route.params.slug) return
-    const idx = openIndexForSlug(route.params.slug)
+    const photo = findPhotoBySlug(route.params.slug)
+    if (!photo) return
+    const idx = openIndexForPhoto(photo)
     if (idx >= 0 && openIndex.value !== idx) {
       openIndex.value = idx
     }

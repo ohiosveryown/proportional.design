@@ -101,6 +101,7 @@
           caption: nextCaption,
           tags: nextTags,
           takenAt: nextTakenAt || photo.uploadedAt,
+          slug: res.slug,
         })
       }
     } catch {

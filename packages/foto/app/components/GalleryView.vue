@@ -68,6 +68,7 @@
     'Proportional Design is a small furniture studio in Atlanta, Georgia, building functional objects from sustainable materials since 2016.'
 
   const route = useRoute()
+  const router = useRouter()
   const { data, pending, error } = useLazyFetch('/api/photos')
   const photos = computed(() => data.value?.photos || [])
 
@@ -167,6 +168,12 @@
       photos: data.value.photos.map((p) =>
         p.filename === photo.filename ? { ...p, ...patch } : p,
       ),
+    }
+    if (
+      patch.slug &&
+      findPhotoBySlug(route.params.slug)?.filename === photo.filename
+    ) {
+      router.replace(photoPath({ ...photo, ...patch }))
     }
     editingPhoto.value = null
   }

@@ -1,4 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary'
+import { computePhotoSlug } from '#shared/photo-slug.js'
+import { listPhotos } from '../utils/list-photos.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -15,7 +17,14 @@ export default defineEventHandler(async (event) => {
       return { success: false, error: 'Incorrect password' }
     }
 
-    const context = { caption: caption ?? '' }
+    const existingPhotos = await listPhotos()
+    const slug = computePhotoSlug({
+      publicId,
+      caption: caption ?? '',
+      existingPhotos,
+    })
+
+    const context = { caption: caption ?? '', slug }
     if (takenAt) context.takenAt = takenAt
 
     await cloudinary.uploader.explicit(publicId, {
@@ -25,7 +34,7 @@ export default defineEventHandler(async (event) => {
       tags: Array.isArray(tags) ? tags : [],
     })
 
-    return { success: true }
+    return { success: true, slug }
   } catch (error) {
     console.error('Update photo error:', error)
     return { success: false, error: error.message }

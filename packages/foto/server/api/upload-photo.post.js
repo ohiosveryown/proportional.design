@@ -1,7 +1,9 @@
 import sharp from 'sharp'
 import exifReader from 'exif-reader'
 import { v2 as cloudinary } from 'cloudinary'
+import { computePhotoSlug } from '#shared/photo-slug.js'
 import { autoTag } from '../utils/auto-tag.js'
+import { listPhotos } from '../utils/list-photos.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -63,7 +65,14 @@ export default defineEventHandler(async (event) => {
     const aiTags = await autoTag(webp, vocab, caption)
     const finalTags = [...new Set([...userTags, ...aiTags])]
 
-    const context = {}
+    const existingPhotos = await listPhotos()
+    const slug = computePhotoSlug({
+      publicId,
+      caption,
+      existingPhotos,
+    })
+
+    const context = { slug }
     if (caption) context.caption = caption
     if (takenAt) context.takenAt = takenAt
 
@@ -84,6 +93,7 @@ export default defineEventHandler(async (event) => {
       success: true,
       url: result.secure_url,
       filename: result.public_id,
+      slug,
       size: body.length,
       takenAt,
       tags: finalTags,

@@ -7,6 +7,9 @@ const ogImage = `${siteUrl}/og-image.jpg`
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  alias: {
+    '#shared': new URL('./shared', import.meta.url).pathname,
+  },
   nitro: {
     preset: 'vercel'
   },

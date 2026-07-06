@@ -1,5 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary'
 
+import { assignPhotoSlugs } from '#shared/photo-slug.js'
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -36,7 +38,7 @@ export async function listPhotos() {
     }),
   ])
 
-  return [...images.resources, ...videos.resources]
+  const photos = [...images.resources, ...videos.resources]
     .map((r) => {
       const isPinned = r.public_id === PINNED_ID
       const url = isPinned ? PINNED_LIGHTBOX_URL : r.secure_url
@@ -63,6 +65,7 @@ export async function listPhotos() {
         uploadedAt: r.created_at,
         takenAt: r.context?.custom?.takenAt || r.created_at,
         caption: r.context?.custom?.caption || '',
+        slug: r.context?.custom?.slug || '',
         tags: r.tags || [],
       }
     })
@@ -73,4 +76,6 @@ export async function listPhotos() {
       const bT = new Date(b.takenAt || b.uploadedAt).getTime()
       return bT - aT
     })
+
+  return assignPhotoSlugs(photos)
 }
