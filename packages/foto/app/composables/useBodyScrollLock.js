@@ -16,14 +16,17 @@ export function useBodyScrollLock(active) {
 
   function unlock() {
     if (!import.meta.client || !locked) return
+    const y = savedScrollY
     document.body.style.position = ''
     document.body.style.top = ''
     document.body.style.left = ''
     document.body.style.right = ''
     document.body.style.width = ''
     document.body.style.overflow = ''
-    window.scrollTo(0, savedScrollY)
     locked = false
+    requestAnimationFrame(() => {
+      window.scrollTo(0, y)
+    })
   }
 
   watch(active, (isActive) => {

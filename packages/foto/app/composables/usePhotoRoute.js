@@ -4,6 +4,25 @@ import {
   photoPath,
 } from '~/utils/photo-slug'
 
+const GALLERY_SCROLL_KEY = 'gallery-scroll-y'
+
+function saveGalleryScroll() {
+  if (!import.meta.client) return
+  sessionStorage.setItem(GALLERY_SCROLL_KEY, String(window.scrollY))
+}
+
+function restoreGalleryScroll() {
+  if (!import.meta.client) return
+  const raw = sessionStorage.getItem(GALLERY_SCROLL_KEY)
+  if (raw == null) return
+  sessionStorage.removeItem(GALLERY_SCROLL_KEY)
+  const y = Number(raw)
+  if (!Number.isFinite(y)) return
+  requestAnimationFrame(() => {
+    window.scrollTo(0, y)
+  })
+}
+
 export function usePhotoRoute(photos, visiblePhotos, openIndex, { clearFilter }) {
   const route = useRoute()
   const router = useRouter()
@@ -55,6 +74,15 @@ export function usePhotoRoute(photos, visiblePhotos, openIndex, { clearFilter })
   }
 
   watch(
+    () => route.path,
+    (path, prev) => {
+      if (prev?.startsWith('/photo/') && path === '/') {
+        restoreGalleryScroll()
+      }
+    },
+  )
+
+  watch(
     [() => route.params.slug, photos],
     () => {
       if (syncing) return
@@ -85,6 +113,7 @@ export function usePhotoRoute(photos, visiblePhotos, openIndex, { clearFilter })
         syncing = true
         router.push('/').finally(() => {
           syncing = false
+          restoreGalleryScroll()
         })
       }
       return
@@ -106,6 +135,7 @@ export function usePhotoRoute(photos, visiblePhotos, openIndex, { clearFilter })
   })
 
   function openLightboxForPhoto(photo) {
+    saveGalleryScroll()
     router.push(photoPath(photo))
   }
 
