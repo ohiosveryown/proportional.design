@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary'
+import { invalidatePhotoCache } from '../utils/list-photos.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -22,6 +23,7 @@ export default defineEventHandler(async (event) => {
       return { success: false, error: 'Failed to delete photo' }
     }
 
+    invalidatePhotoCache()
     return { success: true }
   } catch (error) {
     console.error('Delete error:', error)

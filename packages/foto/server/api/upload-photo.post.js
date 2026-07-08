@@ -3,7 +3,7 @@ import exifReader from 'exif-reader'
 import { v2 as cloudinary } from 'cloudinary'
 import { computePhotoSlug } from '#shared/photo-slug.js'
 import { autoTag } from '../utils/auto-tag.js'
-import { listPhotos } from '../utils/list-photos.js'
+import { listPhotos, invalidatePhotoCache } from '../utils/list-photos.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -65,7 +65,7 @@ export default defineEventHandler(async (event) => {
     const aiTags = await autoTag(webp, vocab, caption)
     const finalTags = [...new Set([...userTags, ...aiTags])]
 
-    const existingPhotos = await listPhotos()
+    const existingPhotos = await listPhotos({ force: true })
     const slug = computePhotoSlug({
       publicId,
       caption,
@@ -89,6 +89,7 @@ export default defineEventHandler(async (event) => {
       ).end(webp)
     })
 
+    invalidatePhotoCache()
     return {
       success: true,
       url: result.secure_url,

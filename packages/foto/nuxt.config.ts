@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     '/photo/**': { isr: true },
     '/api/photos': {
       headers: {
-        'cache-control': 'public, s-maxage=60, stale-while-revalidate=300'
+        'cache-control': 'public, s-maxage=120, stale-while-revalidate=600'
       }
     }
   },

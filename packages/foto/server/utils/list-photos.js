@@ -16,7 +16,27 @@ const PINNED_LIGHTBOX_URL_SM =
 const PINNED_THUMB_URL =
   'https://res.cloudinary.com/dnxxsspmw/image/upload/v1776971535/foto/1776966461078-sq%402x.webp'
 
-export async function listPhotos() {
+// The Cloudinary Admin API call below is ~300-500ms, and the photo list only
+// changes on upload/delete/edit. Memoize it in-instance with a short TTL so the
+// public /api/photos endpoint doesn't pay that cost on every request. This is
+// per serverless instance (not a shared/global cache) — a cold instance still
+// fetches fresh — which is fine: it turns repeat hits on a warm instance into
+// ~1ms. Mutations call invalidatePhotoCache() so changes surface immediately on
+// the instance that handled them; the edge cache-control header (nuxt.config
+// routeRules) bounds staleness across instances. Pass { force: true } when you
+// need a guaranteed-fresh list (e.g. computing a unique slug on upload).
+const CACHE_TTL_MS = 60 * 1000
+let photoCache = { at: 0, photos: null }
+
+export function invalidatePhotoCache() {
+  photoCache = { at: 0, photos: null }
+}
+
+export async function listPhotos({ force = false } = {}) {
+  if (!force && photoCache.photos && Date.now() - photoCache.at < CACHE_TTL_MS) {
+    return photoCache.photos
+  }
+
   const [images, videos] = await Promise.all([
     cloudinary.api.resources({
       type: 'upload',
@@ -77,5 +97,7 @@ export async function listPhotos() {
       return bT - aT
     })
 
-  return assignPhotoSlugs(photos)
+  const result = assignPhotoSlugs(photos)
+  photoCache = { at: Date.now(), photos: result }
+  return result
 }

@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { computePhotoSlug } from '#shared/photo-slug.js'
-import { listPhotos } from '../utils/list-photos.js'
+import { listPhotos, invalidatePhotoCache } from '../utils/list-photos.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
       return { success: false, error: 'Incorrect password' }
     }
 
-    const existingPhotos = await listPhotos()
+    const existingPhotos = await listPhotos({ force: true })
     const slug = computePhotoSlug({
       publicId,
       caption: caption ?? '',
@@ -34,6 +34,7 @@ export default defineEventHandler(async (event) => {
       tags: Array.isArray(tags) ? tags : [],
     })
 
+    invalidatePhotoCache()
     return { success: true, slug }
   } catch (error) {
     console.error('Update photo error:', error)
