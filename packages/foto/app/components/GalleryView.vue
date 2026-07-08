@@ -70,7 +70,12 @@
 
   const route = useRoute()
   const router = useRouter()
-  const { data, pending, error } = useLazyFetch('/api/photos')
+  // Client-only fetch: without this, the prerender/ISR render runs it at build
+  // time and bakes a frozen photo list into the static HTML — new uploads then
+  // never appear until a redeploy. server:false keeps the prerendered shell fast
+  // while fetching the live list in the browser (and lets the /api/photos edge +
+  // server cache do its job).
+  const { data, pending, error } = useLazyFetch('/api/photos', { server: false })
   const photos = computed(() => data.value?.photos || [])
 
   const pageLoaded = ref(false)
