@@ -1,16 +1,16 @@
-# Foto - Personal Photo Gallery
+# Foto - Furniture Photo Gallery
 
 ## Project Overview
 
-Personal photo gallery web app built with Nuxt 4, deployed on Vercel.
-Photos uploaded from iPhone via iOS Shortcuts Share Sheet.
+Furniture photo gallery web app built with Nuxt 4, deployed on Vercel.
+Photos uploaded via iOS/MacOS Shortcuts and CLI.
 
 ## Current Stack
 
 - **Framework**: Nuxt 4
-- **Deployment**: Vercel (foto-five-livid.vercel.app)
-- **Storage**: Cloudinary (folder: `foto/`)
-- **Domain**: fotos.proportional.design
+- **Deployment**: Vercel
+- **Storage**: Cloudinary
+- **Domain**: proportional.design
 
 ## How Photo Upload Works
 
@@ -36,7 +36,7 @@ Photos uploaded from iPhone via iOS Shortcuts Share Sheet.
 
 ## Planned Features (not yet built)
 
-- Sidecar JSON metadata (caption, tags)
+- ~~Sidecar JSON metadata (caption, tags)~~
 - Links section
 
 ## Key Files
