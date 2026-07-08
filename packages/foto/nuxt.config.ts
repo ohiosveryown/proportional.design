@@ -13,6 +13,15 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'vercel'
   },
+  // Prerendering auto-enables payload extraction, which makes every client-side
+  // navigation fetch <route>/_payload.json before completing. Our photo pages
+  // resolve entirely on the client (no server data), so that round-trip is pure
+  // latency — it added a ~400ms stall when opening a photo (payload hit the ISR
+  // function). Disable it: the homepage still prerenders (state inlines into the
+  // HTML) and photo navigation goes back to instant client-side routing.
+  experimental: {
+    payloadExtraction: false
+  },
   routeRules: {
     // Homepage HTML is identical per request (photos load client-side), so
     // serve it as a static file from the CDN instead of paying a serverless
