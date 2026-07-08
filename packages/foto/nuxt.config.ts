@@ -14,6 +14,14 @@ export default defineNuxtConfig({
     preset: 'vercel'
   },
   routeRules: {
+    // Homepage HTML is identical per request (photos load client-side), so
+    // serve it as a static file from the CDN instead of paying a serverless
+    // cold start on every visit.
+    '/': { prerender: true },
+    // Photo permalinks are a growing set (new upload = new slug), so they
+    // can't be enumerated at build time. ISR renders each on first hit, then
+    // serves the cached HTML from the edge on subsequent requests.
+    '/photo/**': { isr: true },
     '/api/photos': {
       headers: {
         'cache-control': 'public, s-maxage=60, stale-while-revalidate=300'
