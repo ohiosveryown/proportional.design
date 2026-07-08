@@ -18,6 +18,7 @@
         :lightbox-open="openIndex >= 0"
         @photo-click="openLightboxForPhoto"
         @delete-request="deleteTarget = $event"
+        @photo-error="onPhotoError"
       />
       <PhotoLightbox
         v-model:open-index="openIndex"
@@ -160,6 +161,22 @@
   })
 
   const contactOpen = ref(false)
+
+  // A thumbnail failed to load even after a retry (asset gone from Cloudinary
+  // while a cached list still references it). Prune it from the source data so
+  // the grid, lightbox, and tag counts stay consistent — same mutation the
+  // optimistic delete uses. Idempotent: no-op if it's already gone.
+  function onPhotoError(photo) {
+    if (!data.value?.photos?.some((p) => p.filename === photo.filename)) return
+    const wasOpen =
+      openIndex.value >= 0 &&
+      visiblePhotos.value[openIndex.value]?.filename === photo.filename
+    data.value = {
+      ...data.value,
+      photos: data.value.photos.filter((p) => p.filename !== photo.filename),
+    }
+    if (wasOpen) openIndex.value = -1
+  }
 
   const editingPhoto = ref(null)
   function onPhotoUpdated(photo, patch) {

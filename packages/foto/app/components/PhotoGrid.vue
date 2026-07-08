@@ -42,6 +42,7 @@
           :loading="i < 8 ? 'eager' : 'lazy'"
           :fetchpriority="i < 8 ? 'high' : 'auto'"
           decoding="async"
+          @error="onImgError(photo, $event)"
         />
       </button>
 
@@ -78,7 +79,25 @@
     type: Boolean,
     default: false,
   })
-  const emit = defineEmits(['photo-click', 'delete-request'])
+  const emit = defineEmits(['photo-click', 'delete-request', 'photo-error'])
+
+  // If a thumbnail fails to load (e.g. the Cloudinary asset was deleted but a
+  // cached /api/photos list still references it, or a transient network/CDN
+  // blip), retry once with a cache-busting param. A real 404 fails again and we
+  // emit photo-error so the parent can prune it from the source data — a blip
+  // usually recovers on the retry and never reaches the parent. Only runs on the
+  // error path, so it costs nothing for images that load normally.
+  const retriedUrls = new Set()
+  function onImgError(photo, e) {
+    const img = e.target
+    if (!retriedUrls.has(photo.url)) {
+      retriedUrls.add(photo.url)
+      const base = photo.thumbUrl || photo.url
+      img.src = base + (base.includes('?') ? '&' : '?') + '_retry=1'
+      return
+    }
+    emit('photo-error', photo)
+  }
 
   const { canHover, preloadPhoto } = usePhotoPreload()
 
