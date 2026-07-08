@@ -13,10 +13,10 @@
 
       <h1 class="errorTitle">{{ title }}</h1>
       <p
-        v-if="isNotFound && path"
-        class="errorPath"
+        v-if="isNotFound && subtitle"
+        class="errorSubtitle"
       >
-        {{ path }}
+        {{ subtitle }}
       </p>
       <p
         v-else-if="message"
@@ -37,6 +37,14 @@
 </template>
 
 <script setup>
+  const NOT_FOUND_LINES = [
+    "This joint didn't fit.",
+    'No piece lives at this address.',
+    'We checked the lumber rack. Nothing here.',
+    'Wrong grain direction.',
+    "Measure twice. This URL wasn't cut once.",
+  ]
+
   const props = defineProps({
     error: {
       type: Object,
@@ -44,12 +52,21 @@
     },
   })
 
+  const route = useRoute()
+
+  function hashString(value) {
+    let hash = 0
+    for (let i = 0; i < value.length; i++) {
+      hash = (hash * 31 + value.charCodeAt(i)) | 0
+    }
+    return Math.abs(hash)
+  }
+
   const statusCode = computed(() => props.error?.statusCode || 500)
   const isNotFound = computed(() => statusCode.value === 404)
-  const path = computed(() => {
-    const msg = props.error?.message || ''
-    const match = msg.match(/\/[^\s]+/)
-    return match?.[0] || ''
+  const subtitle = computed(() => {
+    if (!isNotFound.value) return ''
+    return NOT_FOUND_LINES[hashString(route.path || '/404') % NOT_FOUND_LINES.length]
   })
   const message = computed(() => {
     if (isNotFound.value) return ''
@@ -65,6 +82,7 @@
   })
 
   const errorPageVisible = ref(false)
+
   onMounted(() => {
     requestAnimationFrame(() => {
       errorPageVisible.value = true
@@ -146,7 +164,15 @@
     letter-spacing: -0.01em;
   }
 
-  .errorPath,
+  .errorSubtitle {
+    position: relative;
+    margin-top: 0.65rem;
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
   .errorMessage {
     position: relative;
     margin-top: 0.75rem;
@@ -154,11 +180,6 @@
     font-size: 0.95rem;
     line-height: 1.4;
     word-break: break-all;
-  }
-
-  .errorPath {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
   }
 
   .homeBtn {
