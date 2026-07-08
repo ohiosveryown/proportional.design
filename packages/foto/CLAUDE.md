@@ -47,6 +47,29 @@ Photos uploaded from iPhone via iOS Shortcuts Share Sheet.
 - app/app.vue - gallery frontend (lightbox, wiggle/delete mode)
 - nuxt.config.ts - Nuxt config with Vercel preset
 
+## Rendering / performance (nuxt.config.ts routeRules)
+
+- `/` is prerendered to a static CDN file (`routeRules: { '/': { prerender: true } }`).
+  This cut homepage TTFB from ~534ms (serverless cold start) to ~63ms. Photos still
+  load live because they're fetched client-side via `useLazyFetch('/api/photos')` —
+  prerendering only freezes the shell + static meta, not gallery content. Editing the
+  title/OG/JSON-LD meta requires a redeploy for the static HTML to update.
+- `/photo/**` uses ISR (`{ isr: true }`) so growing/unknown photo slugs get server-rendered
+  on first hit then edge-cached (deep links / refresh work).
+- `experimental.payloadExtraction: false` is REQUIRED. Prerendering auto-enables payload
+  extraction, which makes every client-side navigation fetch `<route>/_payload.json` first.
+  For photo pages that round-trip hit the ISR function and added a ~400ms stall when opening
+  a photo. Disabling it inlines the homepage payload into the HTML and restores instant
+  client-side photo navigation. Don't re-enable it without re-testing photo-open latency.
+
+### Known limitation: no per-photo social previews
+
+`GalleryView.vue` sets per-photo OG/`useHead` meta, but photo data comes from the
+client-side `useLazyFetch('/api/photos')` (non-blocking), so it's empty at server/ISR
+render time. Crawlers hitting `/photo/[slug]` get the generic site OG image/title, not the
+specific photo. To enable rich per-photo link unfurls, the photo data would need to be
+available at server-render time (e.g. blocking fetch or passing the single photo server-side).
+
 ## Notes
 
 - Using Nuxt 4 (compatibilityDate: 2025-07-15)
