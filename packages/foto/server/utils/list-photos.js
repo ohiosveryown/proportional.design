@@ -17,14 +17,12 @@ const PINNED_THUMB_URL =
   'https://res.cloudinary.com/dnxxsspmw/image/upload/v1776971535/foto/1776966461078-sq%402x.webp'
 
 // The Cloudinary Admin API call below is ~300-500ms, and the photo list only
-// changes on upload/delete/edit. Memoize it in-instance with a short TTL so the
-// public /api/photos endpoint doesn't pay that cost on every request. This is
-// per serverless instance (not a shared/global cache) — a cold instance still
-// fetches fresh — which is fine: it turns repeat hits on a warm instance into
-// ~1ms. Mutations call invalidatePhotoCache() so changes surface immediately on
-// the instance that handled them; the edge cache-control header (nuxt.config
-// routeRules) bounds staleness across instances. Pass { force: true } when you
-// need a guaranteed-fresh list (e.g. computing a unique slug on upload).
+// changes on upload/delete/edit. Memoize it in-instance with a short TTL so a
+// warm serverless instance doesn't re-hit Cloudinary on every /api/photos
+// request. This is per-instance (not shared) — a cold instance still fetches
+// fresh. Mutations call invalidatePhotoCache() so changes surface immediately
+// on the instance that handled them. Do not add a CDN s-maxage on /api/photos:
+// the edge can't be purged from mutation handlers and would reintroduce lag.
 const CACHE_TTL_MS = 60 * 1000
 let photoCache = { at: 0, photos: null }
 

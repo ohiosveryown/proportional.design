@@ -73,8 +73,7 @@
   // Client-only fetch: without this, the prerender/ISR render runs it at build
   // time and bakes a frozen photo list into the static HTML — new uploads then
   // never appear until a redeploy. server:false keeps the prerendered shell fast
-  // while fetching the live list in the browser (and lets the /api/photos edge +
-  // server cache do its job).
+  // while fetching the live list in the browser.
   const { data, pending, error } = useLazyFetch('/api/photos', { server: false })
   const photos = computed(() => data.value?.photos || [])
 

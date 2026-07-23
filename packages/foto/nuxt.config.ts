@@ -32,10 +32,14 @@ export default defineNuxtConfig({
     // serves the cached HTML from the edge on subsequent requests.
     '/photo/**': { isr: true },
     '/api/photos': {
+      // Don't edge-cache the list: uploads/deletes invalidate the serverless
+      // in-memory cache, but Vercel CDN can't be purged from those handlers, so
+      // s-maxage made new/deleted photos lag for minutes. Public traffic is low
+      // enough that a live Cloudinary fetch (memoized 60s per warm instance) is fine.
       headers: {
-        'cache-control': 'public, s-maxage=120, stale-while-revalidate=600'
-      }
-    }
+        'cache-control': 'private, no-store',
+      },
+    },
   },
   app: {
     head: {
