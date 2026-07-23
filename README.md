@@ -7,4 +7,5 @@ Monorepo for proportional.design.
 ## Packages
 
 - `packages/site` → proportional.design (old studio site)
-- `packages/fotos` → fotos.proportional.design (photo gallery)
+- `packages/foto` → fotos.proportional.design (photo gallery)
+- `packages/foto-raycast` → Raycast extension to upload photos (caption + optional tags)

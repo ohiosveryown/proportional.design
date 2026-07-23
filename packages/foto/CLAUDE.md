@@ -3,7 +3,7 @@
 ## Project Overview
 
 Furniture photo gallery web app built with Nuxt 4, deployed on Vercel.
-Photos uploaded via iOS/MacOS Shortcuts and CLI.
+Photos uploaded via Raycast (`packages/foto-raycast`), iOS/macOS Shortcuts, and CLI.
 
 ## Current Stack
 
@@ -14,17 +14,28 @@ Photos uploaded via iOS/MacOS Shortcuts and CLI.
 
 ## How Photo Upload Works
 
-1. iPhone Shortcuts Share Sheet shortcut called "Fotos"
-2. Resizes image to 1000px wide
-3. POSTs raw image binary to /api/upload-photo
-4. Filename passed as query param: ?filename=IMG_1234.jpg
-5. API converts to WebP (quality 85) via Sharp, uploads to Cloudinary, returns public URL
+1. Client (Raycast, Shortcuts, or CLI) POSTs raw image binary to `/api/upload-photo`
+2. Requires `Authorization: Bearer <GALLERY_SECRET>` (same secret as delete/update)
+3. Query params: `filename`, optional `caption`, optional `tags` (comma-separated), optional `takenAt`
+4. API converts to WebP (quality 85) via Sharp, auto-tags via Claude vision, uploads to Cloudinary
+5. Date (`takenAt`) is taken from EXIF when present; `takenAt` query is a fallback
+
+### Raycast
+
+- Extension: `packages/foto-raycast` (run `npm install && npm run dev` from that folder)
+- Preferences: API Base URL (`https://fotos.proportional.design`) + Shared Secret (`GALLERY_SECRET`)
+- Command "Upload Photo": Finder selection prefills the file picker; form asks for caption + optional tags
+
+### iOS Shortcuts
+
+Share Sheet shortcut "Fotos" must send the Bearer header after auth was added. Resizes to ~1000px wide, then POSTs the binary with `?filename=…`.
 
 ## Current API Endpoints
 
-- POST /api/upload-photo - receives raw image, converts to WebP, auto-tags via Claude vision (strict vocabulary — only reuses existing Cloudinary tags, never invents), uploads to Cloudinary
+- POST /api/upload-photo - Bearer auth; raw image body; converts to WebP; auto-tags via Claude vision (strict vocabulary — only reuses existing Cloudinary tags, never invents); uploads to Cloudinary
 - GET /api/photos - lists all photos from Cloudinary (folder: foto/)
 - DELETE /api/delete-photo - deletes a photo by public_id, requires GALLERY_SECRET password
+- PATCH /api/update-photo - updates caption/tags/takenAt, requires GALLERY_SECRET password
 
 ## Environment Variables
 
@@ -32,7 +43,7 @@ Photos uploaded via iOS/MacOS Shortcuts and CLI.
 - CLOUDINARY_API_KEY - Cloudinary API key
 - CLOUDINARY_API_SECRET - Cloudinary API secret
 - ANTHROPIC_API_KEY - Claude API key for auto-tagging on upload (optional; auto-tagging no-ops if unset)
-- Password required to delete photos
+- GALLERY_SECRET - shared secret for upload (Bearer), delete, and update
 
 ## Planned Features (not yet built)
 

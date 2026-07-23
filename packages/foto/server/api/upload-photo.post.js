@@ -39,6 +39,12 @@ async function extractTakenAt(body) {
 }
 
 export default defineEventHandler(async (event) => {
+  const auth = getHeader(event, 'authorization') || ''
+  const provided = auth.replace(/^Bearer\s+/i, '').trim()
+  if (!process.env.GALLERY_SECRET || provided !== process.env.GALLERY_SECRET) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+
   try {
     const query = getQuery(event)
     const filename = query.filename || 'photo.jpg'
