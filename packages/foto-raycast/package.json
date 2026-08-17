@@ -12,7 +12,7 @@
       "name": "upload-photo",
       "title": "Upload Photo",
       "subtitle": "Foto",
-      "description": "Upload an image to Foto with a caption and optional tags",
+      "description": "Upload an image to proportional.design with a caption and optional tags",
       "mode": "view"
     }
   ],
