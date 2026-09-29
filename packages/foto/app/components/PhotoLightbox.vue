@@ -10,11 +10,53 @@
         @touchend="onTouchEnd"
         @touchcancel="onTouchCancel"
       >
-        <div class="lightboxStage">
-          <div class="lightboxMedia">
+        <button
+          type="button"
+          class="lightboxBack"
+          @click.stop="close"
+        >
+          Back
+        </button>
+
+        <div class="lightboxBody">
+          <div
+            class="lightboxMeta"
+            @click.stop
+          >
+            <p
+              v-if="activePhoto.takenAt"
+              class="metaDate"
+            >
+              {{ formatTakenAt(activePhoto.takenAt) }}
+            </p>
             <div
-              class="lightboxFrame"
-              :class="{ navBlur }"
+              v-if="activePhoto.caption || sortedTags.length"
+              class="metaCopy"
+            >
+              <p
+                v-if="activePhoto.caption"
+                class="metaCaption"
+              >
+                {{ activePhoto.caption }}
+              </p>
+              <p
+                v-if="sortedTags.length"
+                class="metaTags"
+              >
+                <span
+                  v-for="tag in sortedTags"
+                  :key="tag"
+                  class="metaTag"
+                  >{{ tag }}</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="lightboxStage">
+            <div
+              class="lightboxMedia"
+              @click.stop
             >
               <video
                 v-if="isVideo(activePhoto)"
@@ -31,7 +73,7 @@
                 <source
                   v-if="activePhoto.urlSm"
                   :srcset="activePhoto.urlSm"
-                  media="(max-width: 639px)"
+                  media="(max-width: 700px)"
                 />
                 <img
                   :src="activePhoto.url"
@@ -42,38 +84,36 @@
               </picture>
             </div>
           </div>
+        </div>
 
-          <div
-            class="lightboxMeta"
-            :class="{ navBlur }"
-            @click.stop
+        <div
+          v-if="photos.length"
+          ref="stripEl"
+          class="lightboxStrip"
+          aria-label="Photo filmstrip"
+          @click.stop
+          @touchstart.stop
+        >
+          <button
+            v-for="(photo, i) in photos"
+            :key="photo.slug || photo.url"
+            type="button"
+            class="lightboxThumb"
+            :class="{ isActive: i === openIndex }"
+            :data-active="i === openIndex ? 'true' : undefined"
+            :aria-current="i === openIndex ? 'true' : undefined"
+            :aria-label="thumbLabel(photo, i)"
+            @click="selectIndex(i)"
           >
-            <p
-              v-if="activePhoto.caption"
-              class="metaCaption"
-            >
-              {{ activePhoto.caption }}
-            </p>
-            <div
-              v-if="
-                activePhoto.takenAt ||
-                (activePhoto.tags && activePhoto.tags.length)
-              "
-              class="metaTags"
-            >
-              <span
-                v-if="activePhoto.takenAt"
-                class="metaTag metaTagDate"
-                >{{ formatTakenAt(activePhoto.takenAt) }}</span
-              >
-              <span
-                v-for="tag in sortedTags"
-                :key="tag"
-                class="metaTag"
-                >{{ tag }}</span
-              >
-            </div>
-          </div>
+            <span class="lightboxThumbFrame">
+              <img
+                :src="photo.thumbUrl || photo.url"
+                alt=""
+                :loading="i === openIndex ? 'eager' : 'lazy'"
+                decoding="async"
+              />
+            </span>
+          </button>
         </div>
       </div>
     </Transition>
@@ -88,6 +128,8 @@
 
   const openIndex = defineModel('openIndex', { type: Number, default: -1 })
   const emit = defineEmits(['edit-request'])
+
+  const stripEl = ref(null)
 
   const activePhoto = computed(() => {
     if (openIndex.value < 0) return null
@@ -119,32 +161,69 @@
     }
   }
 
+  function thumbLabel(photo, i) {
+    const caption = photo?.caption?.trim()
+    if (caption) return `View ${caption}`
+    return `View photo ${i + 1}`
+  }
+
   function close() {
     openIndex.value = -1
   }
 
-  const navBlur = ref(false)
+  function goNext() {
+    moveBy(1)
+  }
 
-  function triggerNavBlur() {
-    navBlur.value = true
-    requestAnimationFrame(() => {
+  function goPrev() {
+    moveBy(-1)
+  }
+
+  function selectIndex(i) {
+    if (i === openIndex.value) return
+    openIndex.value = i
+  }
+
+  function moveBy(n) {
+    const len = props.photos.length
+    if (!len || !n) return false
+    const next = Math.min(len - 1, Math.max(0, openIndex.value + n))
+    if (next === openIndex.value) return false
+    openIndex.value = next
+    return true
+  }
+
+  function scrollActiveThumb(behavior = 'auto') {
+    const strip = stripEl.value
+    if (!strip || strip.offsetHeight === 0) return false
+    const thumb = strip.querySelector('[data-active="true"]')
+    if (!thumb) return false
+    const stripRect = strip.getBoundingClientRect()
+    const thumbRect = thumb.getBoundingClientRect()
+    const next =
+      strip.scrollTop +
+      (thumbRect.top + thumbRect.height / 2) -
+      (stripRect.top + stripRect.height / 2)
+    if (behavior === 'smooth') {
+      strip.scrollTo({ top: next, behavior: 'smooth' })
+    } else {
+      strip.scrollTop = next
+    }
+    return true
+  }
+
+  function scheduleScrollActiveThumb(behavior = 'auto') {
+    nextTick(() => {
+      if (scrollActiveThumb(behavior)) return
       requestAnimationFrame(() => {
-        navBlur.value = false
+        scrollActiveThumb(behavior)
       })
     })
   }
 
-  function goNext() {
-    if (!props.photos.length) return
-    triggerNavBlur()
-    openIndex.value = (openIndex.value + 1) % props.photos.length
-  }
-
-  function goPrev() {
-    if (!props.photos.length) return
-    triggerNavBlur()
-    openIndex.value =
-      (openIndex.value - 1 + props.photos.length) % props.photos.length
+  function onStripLayoutChange() {
+    if (openIndex.value < 0) return
+    scrollActiveThumb('auto')
   }
 
   function onKey(e) {
@@ -154,8 +233,8 @@
       close()
       return
     }
-    if (e.key === 'ArrowRight') goNext()
-    if (e.key === 'ArrowLeft') goPrev()
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goNext()
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goPrev()
     if (e.key === '?') {
       e.preventDefault()
       emit('edit-request', activePhoto.value)
@@ -216,175 +295,203 @@
     touchState.swiped = false
   }
 
-  onMounted(() => window.addEventListener('keydown', onKey))
-  onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
+  const wheelState = {
+    acc: 0,
+    idleTimer: 0,
+  }
+  const WHEEL_ITEM_PX = 80
+  const WHEEL_IDLE_MS = 120
+  const wheelOpts = { passive: false, capture: true }
+
+  function wheelDeltaY(e) {
+    if (e.deltaMode === 1) return e.deltaY * 16
+    if (e.deltaMode === 2) return e.deltaY * 800
+    return e.deltaY
+  }
+
+  function onWheel(e) {
+    if (props.paused) return
+    if (!activePhoto.value) return
+    e.preventDefault()
+    wheelState.acc += wheelDeltaY(e)
+    const steps = Math.trunc(wheelState.acc / WHEEL_ITEM_PX)
+    if (steps !== 0) {
+      wheelState.acc -= steps * WHEEL_ITEM_PX
+      if (!moveBy(steps)) wheelState.acc = 0
+    }
+    clearTimeout(wheelState.idleTimer)
+    wheelState.idleTimer = window.setTimeout(() => {
+      wheelState.acc = 0
+    }, WHEEL_IDLE_MS)
+  }
 
   const isOpen = computed(() => !!activePhoto.value)
   useBodyScrollLock(isOpen)
 
+  watch(isOpen, (open) => {
+    if (!import.meta.client) return
+    if (open) window.addEventListener('wheel', onWheel, wheelOpts)
+    else window.removeEventListener('wheel', onWheel, wheelOpts)
+  })
+
+  onMounted(() => {
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('resize', onStripLayoutChange)
+    if (isOpen.value) window.addEventListener('wheel', onWheel, wheelOpts)
+  })
+  onBeforeUnmount(() => {
+    window.removeEventListener('keydown', onKey)
+    window.removeEventListener('resize', onStripLayoutChange)
+    window.removeEventListener('wheel', onWheel, wheelOpts)
+    clearTimeout(wheelState.idleTimer)
+  })
+
   const { preloadPhoto } = usePhotoPreload()
-  watch(openIndex, (idx) => {
-    if (idx < 0) return
-    const len = props.photos.length
-    if (!len) return
-    preloadPhoto(props.photos[(idx + 1) % len])
-    preloadPhoto(props.photos[(idx - 1 + len) % len])
+  watch(
+    openIndex,
+    (idx, prevIdx) => {
+      if (idx < 0) return
+      const len = props.photos.length
+      if (!len) return
+      if (idx + 1 < len) preloadPhoto(props.photos[idx + 1])
+      if (idx - 1 >= 0) preloadPhoto(props.photos[idx - 1])
+      const first = prevIdx == null || prevIdx < 0
+      scheduleScrollActiveThumb(first ? 'auto' : 'smooth')
+    },
+    { immediate: true },
+  )
+
+  watch(stripEl, (el) => {
+    if (!el || openIndex.value < 0) return
+    scheduleScrollActiveThumb('auto')
   })
 </script>
 
-<style>
+<style scoped>
   .lightboxBackdrop {
+    display: flex;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100lvh;
-    background: rgba(0, 0, 0, 0.88);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     z-index: 1000;
-    display: grid;
-    place-items: center;
-    padding: 18px;
+    inset: 0;
+    overflow: hidden;
+    background: #000;
     overscroll-behavior: contain;
   }
 
   .lightbox-enter-active,
   .lightbox-leave-active {
-    transition:
-      opacity 0.38s ease-out,
-      backdrop-filter 0.38s ease-out;
+    transition: opacity 0.38s ease-out;
   }
 
-  .lightbox-enter-active .lightboxFrame,
-  .lightbox-leave-active .lightboxFrame,
+  .lightbox-enter-active .lightboxMedia,
+  .lightbox-leave-active .lightboxMedia,
   .lightbox-enter-active .lightboxMeta,
-  .lightbox-leave-active .lightboxMeta {
+  .lightbox-leave-active .lightboxMeta,
+  .lightbox-enter-active .lightboxStrip,
+  .lightbox-leave-active .lightboxStrip {
     transition:
       opacity 0.38s ease-out,
-      filter 0.38s ease-out,
-      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      filter 0.38s ease-out;
   }
 
   .lightbox-enter-from,
   .lightbox-leave-to {
     opacity: 0;
-    backdrop-filter: blur(0px);
   }
 
-  .lightbox-enter-from .lightboxFrame,
-  .lightbox-leave-to .lightboxFrame {
-    opacity: 0;
-    filter: blur(20px);
-    transform: scale(0.82);
-  }
-
+  .lightbox-enter-from .lightboxMedia,
+  .lightbox-leave-to .lightboxMedia,
   .lightbox-enter-from .lightboxMeta,
-  .lightbox-leave-to .lightboxMeta {
+  .lightbox-leave-to .lightboxMeta,
+  .lightbox-enter-from .lightboxStrip,
+  .lightbox-leave-to .lightboxStrip {
     opacity: 0;
-    filter: blur(20px);
-    transform: translate(-50%, 100%) scale(0.82);
+    filter: blur(10px);
   }
 
-  .lightboxStage {
+  .lightboxBack {
+    position: absolute;
+    z-index: 2;
+    top: 28px;
+    left: 32px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: #fff;
+    background: none;
+    font-size: 16px;
+    font-family: inherit;
+    line-height: 1;
+    opacity: 0.5;
+    cursor: pointer;
+    appearance: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .lightboxBack:hover,
+  .lightboxBack:focus-visible {
+    opacity: 1;
+  }
+
+  .lightboxBody {
     position: relative;
-    width: min(1100px, 100%);
-    display: grid;
-    place-items: center;
-    pointer-events: none;
-    overflow: visible;
-  }
-
-  .lightboxMedia {
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
-    pointer-events: auto;
-    display: grid;
-    place-items: center;
-    overflow: visible;
-  }
-
-  .lightboxFrame {
-    position: relative;
-    display: inline-block;
-    border-radius: 25px;
-    transition: filter 260ms ease-out;
-  }
-
-  .lightboxFrame::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: inset 0 0.5px 1px 0.5px rgba(255, 255, 255, 0.32);
-    pointer-events: none;
-  }
-
-  .lightboxFrame.navBlur {
-    filter: blur(20px);
-    transition: none;
-  }
-
-  .lightboxImg {
-    display: block;
-    border-radius: 25px;
-    max-width: min(1100px, calc(100vw - 36px));
-    max-height: calc(100dvh - 220px);
-    object-fit: contain;
-    background: rgba(255, 255, 255, 0.04);
-    pointer-events: none;
-  }
-
-  .lightboxVideo {
-    pointer-events: auto;
   }
 
   .lightboxMeta {
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translate(-50%, 100%);
-    width: min(420px, calc(100vw - 36px));
-    padding: 0.75rem 0 0;
     display: flex;
+    position: absolute;
+    z-index: 2;
+    top: 147px;
+    left: 32px;
     flex-direction: column;
-    gap: 2px;
-    pointer-events: auto;
-    transition: filter 260ms ease-out;
+    align-items: flex-start;
+    gap: 22px;
+    width: 320px;
+    color: #fff;
   }
 
-  .lightboxMeta.navBlur {
-    filter: blur(10px);
-    transition: none;
+  .metaDate {
+    margin: 0;
+    width: 100%;
+    color: #fff;
+    font-size: 14px;
+    line-height: normal;
+    opacity: 0.5;
+  }
+
+  .metaCopy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
   }
 
   .metaCaption {
+    margin: 0;
+    width: 100%;
+    font-size: 20px;
     font-weight: 500;
-    font-size: 19px;
-    text-align: center;
-    line-height: 1.4;
-    letter-spacing: 0.01em;
+    line-height: normal;
     text-transform: capitalize;
-  }
-
-  .metaTagDate {
-    text-transform: none;
   }
 
   .metaTags {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    margin: 0;
+    width: 100%;
   }
 
   .metaTag {
-    text-transform: capitalize;
+    color: #fff;
     font-size: 14px;
-    font-family:
-      'New York', ui-serif, 'Georgia', 'Times New Roman', Times, serif;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 0.01em;
+    text-transform: capitalize;
+    opacity: 0.5;
   }
 
   .metaTag:not(:last-child)::after {
@@ -392,9 +499,153 @@
     margin: 0 3px;
   }
 
-  @media (max-width: 640px) {
+  .lightboxStage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+
+  .lightboxMedia {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .lightboxMedia picture {
+    display: contents;
+  }
+
+  .lightboxImg {
+    display: block;
+    max-width: calc(100vw - 256px);
+    max-height: calc(100dvh - 220px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  .lightboxVideo {
+    pointer-events: auto;
+  }
+
+  .lightboxStrip {
+    display: flex;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 32px;
+    bottom: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    padding: calc(50vh - 40px) 0;
+    width: 96px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: pan-y;
+  }
+
+  .lightboxStrip::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  .lightboxThumb {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+    width: 96px;
+    height: 80px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  .lightboxThumbFrame {
+    display: block;
+    overflow: hidden;
+    width: 64px;
+    height: 80px;
+    opacity: 0.5;
+    transform-origin: right center;
+    transition:
+      opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      width 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      height 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lightboxThumb:hover .lightboxThumbFrame,
+  .lightboxThumb:focus-visible .lightboxThumbFrame {
+    opacity: 1;
+  }
+
+  .lightboxThumb.isActive .lightboxThumbFrame {
+    width: 96px;
+    height: 72px;
+    opacity: 1;
+  }
+
+  .lightboxThumbFrame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  @media (max-width: 700px) {
+    .lightboxBack {
+      top: 28px;
+      left: 32px;
+    }
+
+    .lightboxBody {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      padding: 72px 32px 32px;
+      overflow-y: auto;
+    }
+
+    .lightboxMeta {
+      position: static;
+      top: auto;
+      left: auto;
+      width: 100%;
+    }
+
     .lightboxStage {
-      width: min(1100px, 100%);
+      width: 100%;
+      height: auto;
+      padding: 0;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .lightboxImg {
+      max-width: 100%;
+      max-height: calc(100dvh - 220px);
+    }
+
+    .lightboxStrip {
+      display: none;
     }
   }
 </style>
