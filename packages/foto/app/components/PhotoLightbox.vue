@@ -506,7 +506,7 @@
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    padding: 0;
+    padding: 0 160px 0 400px;
   }
 
   .lightboxMedia {
@@ -525,7 +525,7 @@
 
   .lightboxImg {
     display: block;
-    max-width: calc(100vw - 256px);
+    max-width: 100%;
     max-height: calc(100dvh - 220px);
     width: auto;
     height: auto;
@@ -610,7 +610,7 @@
     pointer-events: none;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 1000px) {
     .lightboxBack {
       top: 28px;
       left: 32px;
