@@ -4,12 +4,15 @@ import { v2 as cloudinary } from 'cloudinary'
 import { computePhotoSlug } from '#shared/photo-slug.js'
 import { autoTag } from '../utils/auto-tag.js'
 import { listPhotos, invalidatePhotoCache } from '../utils/list-photos.js'
+import { invalidateStoryCache } from '../utils/list-stories.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 })
+
+const DESTINATIONS = new Set(['gallery', 'story', 'both'])
 
 let vocabCache = { at: 0, tags: [] }
 const VOCAB_TTL_MS = 5 * 60 * 1000
@@ -38,6 +41,23 @@ async function extractTakenAt(body) {
   }
 }
 
+function uploadWebp(publicId, webp, { context = {}, tags = [] } = {}) {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream(
+        {
+          public_id: publicId,
+          resource_type: 'image',
+          format: 'webp',
+          ...(Object.keys(context).length ? { context } : {}),
+          ...(tags.length ? { tags } : {}),
+        },
+        (error, result) => (error ? reject(error) : resolve(result)),
+      )
+      .end(webp)
+  })
+}
+
 export default defineEventHandler(async (event) => {
   const auth = getHeader(event, 'authorization') || ''
   const provided = auth.replace(/^Bearer\s+/i, '').trim()
@@ -51,13 +71,19 @@ export default defineEventHandler(async (event) => {
     const caption = query.caption || ''
     const tags = query.tags || ''
     const takenAtQuery = query.takenAt || ''
+    const rawDestination = String(query.destination || 'gallery').toLowerCase()
+    const destination = DESTINATIONS.has(rawDestination)
+      ? rawDestination
+      : 'gallery'
+    const toGallery = destination === 'gallery' || destination === 'both'
+    const toStory = destination === 'story' || destination === 'both'
     const body = await readRawBody(event, false)
 
     if (!body || body.length < 100) {
       return { success: false, error: 'No image data received' }
     }
 
-    const publicId = `foto/${Date.now()}-${filename.replace(/\.[^.]+$/, '')}`
+    const baseName = `${Date.now()}-${filename.replace(/\.[^.]+$/, '')}`
 
     let takenAt = await extractTakenAt(body)
     if (!takenAt && takenAtQuery) {
@@ -66,44 +92,76 @@ export default defineEventHandler(async (event) => {
     }
     const webp = await sharp(body).webp({ quality: 85 }).toBuffer()
 
-    const userTags = tags ? tags.split(',').map((t) => t.trim()).filter(Boolean) : []
-    const vocab = await getTagVocabulary()
-    const aiTags = await autoTag(webp, vocab, caption)
-    const finalTags = [...new Set([...userTags, ...aiTags])]
+    const baseContext = {}
+    if (caption) baseContext.caption = caption
+    if (takenAt) baseContext.takenAt = takenAt
 
-    const existingPhotos = await listPhotos({ force: true })
-    const slug = computePhotoSlug({
-      publicId,
-      caption,
-      existingPhotos,
-    })
+    let galleryResult = null
+    let storyResult = null
+    let slug = ''
+    let finalTags = []
 
-    const context = { slug }
-    if (caption) context.caption = caption
-    if (takenAt) context.takenAt = takenAt
+    if (toGallery) {
+      const userTags = tags
+        ? tags
+            .split(',')
+            .map((t) => t.trim())
+            .filter(Boolean)
+        : []
+      const vocab = await getTagVocabulary()
+      const aiTags = await autoTag(webp, vocab, caption)
+      finalTags = [...new Set([...userTags, ...aiTags])]
 
-    const result = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
-        {
-          public_id: publicId,
-          resource_type: 'image',
-          format: 'webp',
-          ...(Object.keys(context).length ? { context } : {}),
-          ...(finalTags.length ? { tags: finalTags } : {}),
-        },
-        (error, result) => (error ? reject(error) : resolve(result))
-      ).end(webp)
-    })
+      const publicId = `foto/${baseName}`
+      const existingPhotos = await listPhotos({ force: true })
+      slug = computePhotoSlug({
+        publicId,
+        caption,
+        existingPhotos,
+      })
 
-    invalidatePhotoCache()
+      galleryResult = await uploadWebp(publicId, webp, {
+        context: { ...baseContext, slug },
+        tags: finalTags,
+      })
+    }
+
+    if (toStory) {
+      const publicId = `foto-stories/${baseName}`
+      storyResult = await uploadWebp(publicId, webp, {
+        context: baseContext,
+      })
+    }
+
+    if (toGallery) invalidatePhotoCache()
+    if (toStory) invalidateStoryCache()
+
     return {
       success: true,
-      url: result.secure_url,
-      filename: result.public_id,
-      slug,
+      destination,
+      url: galleryResult?.secure_url || storyResult?.secure_url,
+      filename: galleryResult?.public_id || storyResult?.public_id,
+      slug: slug || undefined,
       size: body.length,
       takenAt,
       tags: finalTags,
+      ...(galleryResult
+        ? {
+            gallery: {
+              url: galleryResult.secure_url,
+              filename: galleryResult.public_id,
+              slug,
+            },
+          }
+        : {}),
+      ...(storyResult
+        ? {
+            story: {
+              url: storyResult.secure_url,
+              filename: storyResult.public_id,
+            },
+          }
+        : {}),
     }
   } catch (error) {
     console.error('Upload error:', error)

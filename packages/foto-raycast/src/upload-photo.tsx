@@ -39,10 +39,13 @@ function mimeFor(filePath: string): string | null {
   return MIME_BY_EXT[extname(filePath).toLowerCase()] ?? null;
 }
 
+type Destination = "gallery" | "story" | "both";
+
 async function uploadPhoto(
   filePath: string,
   caption: string,
   tags: string,
+  destination: Destination,
   prefs: Prefs,
 ): Promise<void> {
   const mime = mimeFor(filePath);
@@ -65,7 +68,7 @@ async function uploadPhoto(
   try {
     const buffer = await readFile(filePath);
     const base = prefs.apiBaseUrl.replace(/\/$/, "");
-    const params = new URLSearchParams({ filename });
+    const params = new URLSearchParams({ filename, destination });
     if (caption.trim()) params.set("caption", caption.trim());
     if (tags.trim()) params.set("tags", tags.trim());
 
@@ -106,7 +109,12 @@ async function uploadPhoto(
     }
 
     toast.style = Toast.Style.Success;
-    toast.title = "Uploaded to Foto";
+    toast.title =
+      destination === "story"
+        ? "Uploaded to Stories"
+        : destination === "both"
+          ? "Uploaded to Gallery + Stories"
+          : "Uploaded to Foto";
     toast.message = caption.trim() || filename;
 
     if (json.slug) {
@@ -114,6 +122,11 @@ async function uploadPhoto(
       toast.primaryAction = {
         title: "Open Photo",
         onAction: () => open(url),
+      };
+    } else {
+      toast.primaryAction = {
+        title: "Open Gallery",
+        onAction: () => open(base),
       };
     }
   } catch (err) {
@@ -159,6 +172,7 @@ export default function UploadPhoto() {
             title="Upload Photo"
             onSubmit={async (values: {
               files: string[];
+              destination: Destination;
               caption: string;
               tags: string;
             }) => {
@@ -174,6 +188,7 @@ export default function UploadPhoto() {
                 filePath,
                 values.caption ?? "",
                 values.tags ?? "",
+                values.destination ?? "gallery",
                 prefs,
               );
               await popToRoot();
@@ -190,6 +205,11 @@ export default function UploadPhoto() {
         value={files}
         onChange={setFiles}
       />
+      <Form.Dropdown id="destination" title="Destination" defaultValue="gallery">
+        <Form.Dropdown.Item value="gallery" title="Gallery" />
+        <Form.Dropdown.Item value="story" title="Story" />
+        <Form.Dropdown.Item value="both" title="Both" />
+      </Form.Dropdown>
       <Form.TextField
         id="caption"
         title="Caption"
@@ -199,7 +219,7 @@ export default function UploadPhoto() {
         id="tags"
         title="Tags"
         placeholder="cabinet, cherry"
-        info="Optional. Comma-separated. Auto-tagging may add more from existing tags."
+        info="Optional. Gallery/Both only — auto-tagging may add more from existing tags. Stories skip auto-tag."
       />
     </Form>
   );

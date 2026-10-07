@@ -1,18 +1,26 @@
 <template>
   <main
     class="gallery"
-    :class="{ galleryHasFilter: !!activeFilter?.tags?.length }"
+    :class="{
+      galleryHasFilter: !!activeFilter?.tags?.length,
+      galleryHasStories: stories.length > 0,
+    }"
     @click="onGalleryClick"
     @contextmenu.prevent
   >
     <GalleryStatus
       :loading="showSpinner"
       :error="error"
-      :empty="!showSpinner && photos.length === 0"
+      :empty="!showSpinner && !photos.length && !stories.length"
     />
 
-    <template v-if="!showSpinner && photos.length">
+    <template v-if="!showSpinner && (photos.length || stories.length)">
+      <StoriesStrip
+        :stories="stories"
+        @open="openStory"
+      />
       <PhotoGrid
+        v-if="photos.length"
         v-model:wiggle-mode="wiggleMode"
         :photos="visiblePhotos"
         :lightbox-open="openIndex >= 0"
@@ -21,10 +29,17 @@
         @photo-error="onPhotoError"
       />
       <PhotoLightbox
+        v-if="photos.length"
         v-model:open-index="openIndex"
         :photos="visiblePhotos"
         :paused="!!editingPhoto"
         @edit-request="editingPhoto = $event"
+      />
+      <StoryViewer
+        v-model:open-index="storyOpenIndex"
+        :stories="stories"
+        :paused="!!deleteTarget"
+        @delete-request="deleteTarget = $event"
       />
     </template>
 
@@ -77,6 +92,9 @@
   const { data, pending, error } = useLazyFetch('/api/photos', { server: false })
   const photos = computed(() => data.value?.photos || [])
 
+  const { data: storiesData } = useLazyFetch('/api/stories', { server: false })
+  const stories = computed(() => storiesData.value?.stories || [])
+
   const pageLoaded = ref(false)
   onMounted(() => {
     if (document.readyState === 'complete') {
@@ -109,12 +127,18 @@
   }
 
   const openIndex = ref(-1)
+  const storyOpenIndex = ref(-1)
   const { openLightboxForPhoto, findPhotoBySlug } = usePhotoRoute(
     photos,
     visiblePhotos,
     openIndex,
     { clearFilter },
   )
+
+  function openStory(index) {
+    openIndex.value = -1
+    storyOpenIndex.value = index
+  }
 
   const activePhoto = computed(() => {
     const slug = route.params.slug
@@ -212,20 +236,50 @@
   const deleteError = ref('')
   const deleteLoading = ref(false)
 
+  function isStoryTarget(target) {
+    return typeof target?.filename === 'string' && target.filename.startsWith('foto-stories/')
+  }
+
   async function onDeleteSubmit(password) {
     const target = deleteTarget.value
     if (!target) return
-    const wasOpen =
+
+    const story = isStoryTarget(target)
+    const wasStoryOpen =
+      story &&
+      storyOpenIndex.value >= 0 &&
+      stories.value[storyOpenIndex.value]?.filename === target.filename
+    const wasPhotoOpen =
+      !story &&
       openIndex.value >= 0 &&
       visiblePhotos.value[openIndex.value]?.filename === target.filename
-    const snapshot = data.value
-    data.value = {
-      ...data.value,
-      photos: data.value.photos.filter((p) => p.filename !== target.filename),
+
+    const photoSnapshot = data.value
+    const storySnapshot = storiesData.value
+
+    if (story) {
+      storiesData.value = {
+        ...storiesData.value,
+        stories: (storiesData.value?.stories || []).filter(
+          (s) => s.filename !== target.filename,
+        ),
+      }
+      deleteTarget.value = null
+      if (wasStoryOpen) {
+        if (!stories.value.length) storyOpenIndex.value = -1
+        else if (storyOpenIndex.value >= stories.value.length) {
+          storyOpenIndex.value = stories.value.length - 1
+        }
+      }
+    } else {
+      data.value = {
+        ...data.value,
+        photos: data.value.photos.filter((p) => p.filename !== target.filename),
+      }
+      deleteTarget.value = null
+      if (!photos.value.length) exitWiggle()
+      if (wasPhotoOpen) openIndex.value = -1
     }
-    deleteTarget.value = null
-    if (!photos.value.length) exitWiggle()
-    if (wasOpen) openIndex.value = -1
 
     deleteLoading.value = true
     deleteError.value = ''
@@ -239,11 +293,15 @@
         },
       })
       if (!res.success) {
-        data.value = snapshot
+        if (story) storiesData.value = storySnapshot
+        else data.value = photoSnapshot
         deleteTarget.value = target
         deleteError.value = res.error || 'Incorrect password'
       }
     } catch {
+      if (story) storiesData.value = storySnapshot
+      else data.value = photoSnapshot
+      deleteTarget.value = target
       deleteError.value = 'Something went wrong'
     } finally {
       deleteLoading.value = false
@@ -262,6 +320,10 @@
   }
 
   @media (max-width: 640px) {
+    .gallery.galleryHasStories {
+      padding-top: 64px;
+    }
+
     .gallery.galleryHasFilter {
       padding-top: 112px;
     }
