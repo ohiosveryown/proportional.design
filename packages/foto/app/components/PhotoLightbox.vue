@@ -23,39 +23,92 @@
             class="lightboxMeta"
             @click.stop
           >
-            <p
-              v-if="activePhoto.takenAt"
-              class="metaDate"
-            >
-              {{ formatTakenAt(activePhoto.takenAt) }}
-            </p>
             <div
-              v-if="activePhoto.caption || sortedTags.length"
-              class="metaCopy"
+              v-if="outgoingPhoto"
+              class="lightboxMetaInner isOutgoing"
+              aria-hidden="true"
             >
               <p
-                v-if="activePhoto.caption"
-                class="metaCaption"
+                v-if="outgoingPhoto.takenAt"
+                class="metaDate"
               >
-                {{ activePhoto.caption }}
+                {{ formatTakenAt(outgoingPhoto.takenAt) }}
               </p>
-              <p
-                v-if="sortedTags.length"
-                class="metaTags"
+              <div
+                v-if="outgoingPhoto.caption || outgoingTags.length"
+                class="metaCopy"
               >
-                <span
-                  v-for="tag in sortedTags"
-                  :key="tag"
-                  class="metaTag"
-                  >{{ tag }}</span
+                <p
+                  v-if="outgoingPhoto.caption"
+                  class="metaCaption"
                 >
+                  {{ outgoingPhoto.caption }}
+                </p>
+                <p
+                  v-if="outgoingTags.length"
+                  class="metaTags"
+                >
+                  <span
+                    v-for="tag in outgoingTags"
+                    :key="tag"
+                    class="metaTag"
+                    >{{ tag }}</span
+                  >
+                </p>
+              </div>
+            </div>
+            <div
+              :key="metaKey"
+              class="lightboxMetaInner"
+              :class="{ isIncoming: swapAnimating }"
+            >
+              <p
+                v-if="activePhoto.takenAt"
+                class="metaDate"
+              >
+                {{ formatTakenAt(activePhoto.takenAt) }}
               </p>
+              <div
+                v-if="activePhoto.caption || sortedTags.length"
+                class="metaCopy"
+              >
+                <p
+                  v-if="activePhoto.caption"
+                  class="metaCaption"
+                >
+                  {{ activePhoto.caption }}
+                </p>
+                <p
+                  v-if="sortedTags.length"
+                  class="metaTags"
+                >
+                  <span
+                    v-for="tag in sortedTags"
+                    :key="tag"
+                    class="metaTag"
+                    >{{ tag }}</span
+                  >
+                </p>
+              </div>
             </div>
           </div>
 
           <div class="lightboxStage">
             <div
+              v-if="outgoingPhoto"
+              class="lightboxMedia isOutgoing"
+              aria-hidden="true"
+            >
+              <img
+                :src="outgoingPhoto.url"
+                alt=""
+                class="lightboxImg"
+              />
+            </div>
+            <div
+              :key="metaKey"
               class="lightboxMedia"
+              :class="{ isIncoming: swapAnimating }"
               @click.stop
             >
               <video
@@ -136,13 +189,53 @@
     return props.photos[openIndex.value] || null
   })
 
-  const sortedTags = computed(() => {
-    const tags = activePhoto.value?.tags
+  function sortPhotoTags(photo) {
+    const tags = photo?.tags
     if (!tags?.length) return []
     return [...tags].sort((a, b) =>
       a.localeCompare(b, undefined, { sensitivity: 'base' }),
     )
+  }
+
+  const sortedTags = computed(() => sortPhotoTags(activePhoto.value))
+
+  const metaKey = computed(() => {
+    const photo = activePhoto.value
+    if (!photo) return 'empty'
+    return photo.slug || photo.url || 'photo'
   })
+
+  const SWAP_MS = 280
+  const swapAnimating = ref(false)
+  const outgoingPhoto = ref(null)
+  let lastSwapAt = 0
+  let swapClearTimer = 0
+
+  const outgoingTags = computed(() => sortPhotoTags(outgoingPhoto.value))
+
+  function clearSwapLayers() {
+    outgoingPhoto.value = null
+    swapAnimating.value = false
+  }
+
+  function prepareSwap(first, prevIdx) {
+    clearTimeout(swapClearTimer)
+    if (first) {
+      clearSwapLayers()
+      lastSwapAt = 0
+      return
+    }
+    const now = performance.now()
+    const rapid = lastSwapAt > 0 && now - lastSwapAt < SWAP_MS
+    lastSwapAt = now
+    if (rapid) {
+      clearSwapLayers()
+      return
+    }
+    outgoingPhoto.value = props.photos[prevIdx] || null
+    swapAnimating.value = true
+    swapClearTimer = window.setTimeout(clearSwapLayers, SWAP_MS)
+  }
 
   function isVideo(photo) {
     return photo?.resource_type === 'video'
@@ -344,18 +437,25 @@
     window.removeEventListener('resize', onStripLayoutChange)
     window.removeEventListener('wheel', onWheel, wheelOpts)
     clearTimeout(wheelState.idleTimer)
+    clearTimeout(swapClearTimer)
   })
 
   const { preloadPhoto } = usePhotoPreload()
   watch(
     openIndex,
     (idx, prevIdx) => {
-      if (idx < 0) return
+      if (idx < 0) {
+        clearSwapLayers()
+        lastSwapAt = 0
+        clearTimeout(swapClearTimer)
+        return
+      }
       const len = props.photos.length
       if (!len) return
       if (idx + 1 < len) preloadPhoto(props.photos[idx + 1])
       if (idx - 1 >= 0) preloadPhoto(props.photos[idx - 1])
       const first = prevIdx == null || prevIdx < 0
+      prepareSwap(first, prevIdx)
       scheduleScrollActiveThumb(first ? 'auto' : 'smooth')
     },
     { immediate: true },
@@ -442,16 +542,61 @@
   }
 
   .lightboxMeta {
-    display: flex;
     position: absolute;
     z-index: 2;
     top: 147px;
     left: 32px;
+    width: 320px;
+    color: #fff;
+  }
+
+  .lightboxMetaInner {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 22px;
-    width: 320px;
-    color: #fff;
+    width: 100%;
+  }
+
+  .lightboxMetaInner.isOutgoing {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    animation: lightboxSwapOut 0.28s ease-out forwards;
+  }
+
+  .lightboxMetaInner.isIncoming,
+  .lightboxMedia.isIncoming {
+    animation: lightboxSwapIn 0.28s ease-out;
+  }
+
+  .lightboxMedia.isOutgoing {
+    pointer-events: none;
+    animation: lightboxSwapOut 0.28s ease-out forwards;
+  }
+
+  @keyframes lightboxSwapIn {
+    from {
+      opacity: 0;
+      filter: blur(10px);
+    }
+  }
+
+  @keyframes lightboxSwapOut {
+    to {
+      opacity: 0;
+      filter: blur(10px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lightboxMetaInner.isOutgoing,
+    .lightboxMetaInner.isIncoming,
+    .lightboxMedia.isOutgoing,
+    .lightboxMedia.isIncoming {
+      animation: none;
+    }
   }
 
   .metaDate {
@@ -500,9 +645,8 @@
   }
 
   .lightboxStage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-items: center;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
@@ -511,7 +655,7 @@
 
   .lightboxMedia {
     display: flex;
-    flex: 0 0 auto;
+    grid-area: 1 / 1;
     align-items: center;
     justify-content: center;
     width: fit-content;
@@ -625,18 +769,17 @@
     }
 
     .lightboxMeta {
-      position: static;
+      position: relative;
       top: auto;
       left: auto;
       width: 100%;
     }
 
     .lightboxStage {
+      place-items: start;
       width: 100%;
       height: auto;
       padding: 0;
-      align-items: flex-start;
-      justify-content: flex-start;
     }
 
     .lightboxImg {
