@@ -16,7 +16,7 @@ Photos uploaded via Raycast (`packages/foto-raycast`), iOS/macOS Shortcuts, and 
 
 1. Client (Raycast, Shortcuts, or CLI) POSTs raw image binary to `/api/upload-photo`
 2. Requires `Authorization: Bearer <GALLERY_SECRET>` (same secret as delete/update)
-3. Query params: `filename`, optional `caption`, optional `tags` (comma-separated), optional `takenAt`, optional `destination`
+3. Query params: `filename`, optional `caption`, optional `tags` (comma-separated), optional `takenAt`, optional `destination`, optional `storyId`, optional `storyName`
 4. API converts to WebP (quality 85) via Sharp, auto-tags via Claude vision (gallery only), uploads to Cloudinary
 5. Date (`takenAt`) is taken from EXIF when present; `takenAt` query is a fallback
 
@@ -28,31 +28,50 @@ Photos uploaded via Raycast (`packages/foto-raycast`), iOS/macOS Shortcuts, and 
 | `story` | `foto-stories/` | no (faster phone uploads) |
 | `both` | both folders (same WebP, two `public_id`s) | yes on gallery copy only |
 
-Stories persist until manually deleted. `GET /api/stories` includes `isNew` when `uploadedAt` is within the last 24 hours (UI callout TBD).
+### Story targeting (when `destination` is `story` or `both`)
+
+| Query | Behavior |
+| ----- | -------- |
+| `storyId` | Append to that existing story (name taken from the group) |
+| `storyName` only | Match existing story by name (case-insensitive), or create a new group |
+| neither | Creates `Untitled story` with a fresh id |
+
+Context on each story asset: `storyId`, `storyName` (plus caption/takenAt). Stories persist until manually deleted. `isNew` = uploaded within 24h.
 
 ### Raycast
 
 - Extension: `packages/foto-raycast` (run `npm install && npm run dev` from that folder)
 - Preferences: API Base URL (`https://fotos.proportional.design`) + Shared Secret (`GALLERY_SECRET`)
-- Command "Upload Photo": Finder selection prefills the file picker; form asks for destination (Gallery / Story / Both), caption + optional tags
+- Command "Upload Photo": destination (Gallery / Story / Both); when Story/Both, pick existing story or name a new one; caption + optional tags
 
-### iOS Shortcuts
+### iOS Shortcuts (option C — pick existing)
 
 Share Sheet shortcut "Fotos":
 
 1. Receives image → resize ~1000px wide
-2. **Choose from Menu:** Gallery / Story / Both
-3. Map choice → `destination=gallery|story|both` query param
-4. POST binary with `Authorization: Bearer <GALLERY_SECRET>` and `?filename=…&destination=…`
+2. **Choose from Menu:** Gallery / Story / Both → set `Destination`
+3. **If Story or Both only:**
+   1. **Get Contents of URL** `GET https://fotos.proportional.design/api/stories/choices` (no auth)
+   2. **Get Dictionary Value** → `choices`
+   3. **Choose from List** on that list (each item shows `name`: existing stories + **New Story…**)
+   4. **Get Dictionary Value** from the chosen item → `id` → Set Variable `StoryId`
+   5. **Get Dictionary Value** → `name` → Set Variable `StoryName`
+   6. **If** `StoryId` is empty (New Story…): **Ask for Text** “Story name?” → Set `StoryName` (leave `StoryId` empty)
+4. POST binary with Bearer header:
+   `…/api/upload-photo?filename=…&destination=[Destination]&storyId=[StoryId]&storyName=[StoryName]`
+   (omit `storyId`/`storyName` when Destination is Gallery)
 
 Must send the Bearer header. Invalid/missing `destination` falls back to `gallery`.
 
 ## Current API Endpoints
 
-- POST /api/upload-photo - Bearer auth; raw image body; `destination=gallery|story|both`; converts to WebP; auto-tags gallery uploads via Claude vision (strict vocabulary — only reuses existing Cloudinary tags, never invents); uploads to Cloudinary (`foto/` and/or `foto-stories/`)
+- POST /api/upload-photo - Bearer auth; raw image body; `destination=gallery|story|both`; optional `storyId` / `storyName`; converts to WebP; auto-tags gallery uploads via Claude vision (strict vocabulary — only reuses existing Cloudinary tags, never invents); uploads to Cloudinary (`foto/` and/or `foto-stories/`)
 - GET /api/photos - lists gallery photos from Cloudinary (folder: `foto/`)
-- GET /api/stories - lists stories from Cloudinary (folder: `foto-stories/`); each item includes `isNew`
-- DELETE /api/delete-photo - deletes by public_id (gallery or story), requires GALLERY_SECRET password
+- GET /api/stories - lists stories from Cloudinary (folder: `foto-stories/`), grouped by `storyId` (falls back to one story per image); each story has `id`, `name`, `items[]`, `isNew`
+- GET /api/stories/choices - picker payload: `names` (text list for Shortcuts Choose from List), `idsByName` (name → id), and `choices` (objects for Raycast). Includes `New Story…` with empty id.
+- POST /api/add-to-story - copies a gallery photo into an existing story (`storyId` + password); stamps `storyId`/`storyName` on the group
+- DELETE /api/delete-story - deletes all `foto-stories/` items in a story group (does not touch gallery `foto/` assets)
+- DELETE /api/delete-photo - deletes by public_id (gallery or story item), requires GALLERY_SECRET password
 - PATCH /api/update-photo - updates caption/tags/takenAt, requires GALLERY_SECRET password
 
 ## Environment Variables

@@ -4,7 +4,8 @@ import { v2 as cloudinary } from 'cloudinary'
 import { computePhotoSlug } from '#shared/photo-slug.js'
 import { autoTag } from '../utils/auto-tag.js'
 import { listPhotos, invalidatePhotoCache } from '../utils/list-photos.js'
-import { invalidateStoryCache } from '../utils/list-stories.js'
+import { listStories, invalidateStoryCache } from '../utils/list-stories.js'
+import { storyIdFromName } from '../utils/story-id.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -77,6 +78,8 @@ export default defineEventHandler(async (event) => {
       : 'gallery'
     const toGallery = destination === 'gallery' || destination === 'both'
     const toStory = destination === 'story' || destination === 'both'
+    const storyIdQuery = String(query.storyId || '').trim()
+    const storyNameQuery = String(query.storyName || query.name || '').trim()
     const body = await readRawBody(event, false)
 
     if (!body || body.length < 100) {
@@ -100,6 +103,35 @@ export default defineEventHandler(async (event) => {
     let storyResult = null
     let slug = ''
     let finalTags = []
+    let resolvedStoryId = ''
+    let resolvedStoryName = ''
+
+    if (toStory) {
+      const existingStories = await listStories({ force: true })
+      const byId = storyIdQuery
+        ? existingStories.find((s) => s.id === storyIdQuery)
+        : null
+      const byName = !byId && storyNameQuery
+        ? existingStories.find(
+            (s) =>
+              s.name.localeCompare(storyNameQuery, undefined, {
+                sensitivity: 'accent',
+              }) === 0,
+          )
+        : null
+      const match = byId || byName
+
+      if (match) {
+        resolvedStoryId = match.id
+        resolvedStoryName = match.name || storyNameQuery || 'Untitled story'
+      } else if (storyNameQuery) {
+        resolvedStoryId = storyIdFromName(storyNameQuery)
+        resolvedStoryName = storyNameQuery
+      } else {
+        resolvedStoryId = `story-${Date.now()}`
+        resolvedStoryName = 'Untitled story'
+      }
+    }
 
     if (toGallery) {
       const userTags = tags
@@ -129,7 +161,11 @@ export default defineEventHandler(async (event) => {
     if (toStory) {
       const publicId = `foto-stories/${baseName}`
       storyResult = await uploadWebp(publicId, webp, {
-        context: baseContext,
+        context: {
+          ...baseContext,
+          storyId: resolvedStoryId,
+          storyName: resolvedStoryName,
+        },
       })
     }
 
@@ -145,6 +181,9 @@ export default defineEventHandler(async (event) => {
       size: body.length,
       takenAt,
       tags: finalTags,
+      ...(resolvedStoryId
+        ? { storyId: resolvedStoryId, storyName: resolvedStoryName }
+        : {}),
       ...(galleryResult
         ? {
             gallery: {
@@ -159,6 +198,8 @@ export default defineEventHandler(async (event) => {
             story: {
               url: storyResult.secure_url,
               filename: storyResult.public_id,
+              storyId: resolvedStoryId,
+              storyName: resolvedStoryName,
             },
           }
         : {}),

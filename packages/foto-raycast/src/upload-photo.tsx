@@ -25,6 +25,8 @@ type UploadResult = {
   error?: string;
 };
 
+type StoryChoice = { name: string; id: string };
+
 const MIME_BY_EXT: Record<string, string> = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
@@ -46,6 +48,8 @@ async function uploadPhoto(
   caption: string,
   tags: string,
   destination: Destination,
+  storyId: string,
+  storyName: string,
   prefs: Prefs,
 ): Promise<void> {
   const mime = mimeFor(filePath);
@@ -71,6 +75,10 @@ async function uploadPhoto(
     const params = new URLSearchParams({ filename, destination });
     if (caption.trim()) params.set("caption", caption.trim());
     if (tags.trim()) params.set("tags", tags.trim());
+    if (destination !== "gallery") {
+      if (storyId.trim()) params.set("storyId", storyId.trim());
+      if (storyName.trim()) params.set("storyName", storyName.trim());
+    }
 
     const res = await fetch(`${base}/api/upload-photo?${params}`, {
       method: "POST",
@@ -143,7 +151,15 @@ export default function UploadPhoto() {
   const prefs = getPreferenceValues<Prefs>();
   const [phase, setPhase] = useState<"checking" | "form">("checking");
   const [files, setFiles] = useState<string[]>([]);
+  const [destination, setDestination] = useState<Destination>("gallery");
+  const [storyChoices, setStoryChoices] = useState<StoryChoice[]>([
+    { name: "New Story…", id: "" },
+  ]);
+  const [storyKey, setStoryKey] = useState("__new__");
   const ran = useRef(false);
+
+  const needsStory = destination === "story" || destination === "both";
+  const creatingNewStory = needsStory && storyKey === "__new__";
 
   useEffect(() => {
     if (ran.current) return;
@@ -156,9 +172,31 @@ export default function UploadPhoto() {
       } catch {
         // Finder isn't frontmost or has no selection — show empty picker.
       }
+
+      try {
+        const base = prefs.apiBaseUrl.replace(/\/$/, "");
+        const res = await fetch(`${base}/api/stories/choices`);
+        if (res.ok) {
+          const json = (await res.json()) as {
+            choices?: StoryChoice[];
+          };
+          if (json.choices?.length) {
+            setStoryChoices(
+              json.choices.map((c) =>
+                c.id
+                  ? c
+                  : { name: c.name || "New Story…", id: "" },
+              ),
+            );
+          }
+        }
+      } catch {
+        // Offline / cold start — keep New Story only.
+      }
+
       setPhase("form");
     })();
-  }, []);
+  }, [prefs.apiBaseUrl]);
 
   if (phase === "checking") {
     return <Form isLoading />;
@@ -173,6 +211,8 @@ export default function UploadPhoto() {
             onSubmit={async (values: {
               files: string[];
               destination: Destination;
+              storyKey: string;
+              newStoryName: string;
               caption: string;
               tags: string;
             }) => {
@@ -184,11 +224,31 @@ export default function UploadPhoto() {
                 });
                 return;
               }
+
+              const dest = values.destination ?? destination;
+              const key = values.storyKey ?? storyKey;
+              const choice = storyChoices.find(
+                (c) => (c.id || "__new__") === key,
+              );
+              const isNew = !choice?.id;
+              const newName = (values.newStoryName ?? "").trim();
+
+              if ((dest === "story" || dest === "both") && isNew && !newName) {
+                await showToast({
+                  style: Toast.Style.Failure,
+                  title: "Name the new story",
+                  message: "Enter a story name, or pick an existing one.",
+                });
+                return;
+              }
+
               await uploadPhoto(
                 filePath,
                 values.caption ?? "",
                 values.tags ?? "",
-                values.destination ?? "gallery",
+                dest,
+                isNew ? "" : choice?.id ?? "",
+                isNew ? newName : choice?.name ?? "",
                 prefs,
               );
               await popToRoot();
@@ -205,11 +265,38 @@ export default function UploadPhoto() {
         value={files}
         onChange={setFiles}
       />
-      <Form.Dropdown id="destination" title="Destination" defaultValue="gallery">
+      <Form.Dropdown
+        id="destination"
+        title="Destination"
+        value={destination}
+        onChange={(v) => setDestination(v as Destination)}
+      >
         <Form.Dropdown.Item value="gallery" title="Gallery" />
         <Form.Dropdown.Item value="story" title="Story" />
         <Form.Dropdown.Item value="both" title="Both" />
       </Form.Dropdown>
+      {needsStory && (
+        <Form.Dropdown
+          id="storyKey"
+          title="Story"
+          value={storyKey}
+          onChange={setStoryKey}
+        >
+          {storyChoices.map((c) => {
+            const value = c.id || "__new__";
+            return (
+              <Form.Dropdown.Item key={value} value={value} title={c.name} />
+            );
+          })}
+        </Form.Dropdown>
+      )}
+      {creatingNewStory && (
+        <Form.TextField
+          id="newStoryName"
+          title="New story name"
+          placeholder="Shop WIP"
+        />
+      )}
       <Form.TextField
         id="caption"
         title="Caption"

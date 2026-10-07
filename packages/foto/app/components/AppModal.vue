@@ -62,7 +62,9 @@
     (open) => {
       if (!open) return
       nextTick(() => {
-        const focusable = modalEl.value?.querySelector('input, textarea')
+        const focusable = modalEl.value?.querySelector(
+          'input, textarea, select',
+        )
         focusable?.focus()
       })
     },
@@ -86,7 +88,7 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(6px);
-    z-index: 2000;
+    z-index: 3000;
     display: grid;
     place-items: center;
     padding: 1rem;
