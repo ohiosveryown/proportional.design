@@ -1,7 +1,7 @@
 <template>
   <AppModal
     :open="!!target"
-    title="Delete photo?"
+    :title="title"
     :error="error"
     :loading="loading"
     confirm-label="Delete"
@@ -23,6 +23,7 @@
 <script setup>
   defineProps({
     target: { type: Object, default: null },
+    title: { type: String, default: 'Delete photo?' },
     error: { type: String, default: '' },
     loading: { type: Boolean, default: false },
   })

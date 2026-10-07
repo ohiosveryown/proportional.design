@@ -16,25 +16,62 @@ Photos uploaded via Raycast (`packages/foto-raycast`), iOS/macOS Shortcuts, and 
 
 1. Client (Raycast, Shortcuts, or CLI) POSTs raw image binary to `/api/upload-photo`
 2. Requires `Authorization: Bearer <GALLERY_SECRET>` (same secret as delete/update)
-3. Query params: `filename`, optional `caption`, optional `tags` (comma-separated), optional `takenAt`
-4. API converts to WebP (quality 85) via Sharp, auto-tags via Claude vision, uploads to Cloudinary
+3. Query params: `filename`, optional `caption`, optional `tags` (comma-separated), optional `takenAt`, optional `destination`, optional `storyId`, optional `storyName`
+4. API converts to WebP (quality 85) via Sharp, auto-tags via Claude vision (gallery only), uploads to Cloudinary
 5. Date (`takenAt`) is taken from EXIF when present; `takenAt` query is a fallback
+
+### Destination (`destination` query param)
+
+| Value | Cloudinary folder | Auto-tag |
+| ----- | ----------------- | -------- |
+| `gallery` (default) | `foto/` | yes |
+| `story` | `foto-stories/` | no (faster phone uploads) |
+| `both` | both folders (same WebP, two `public_id`s) | yes on gallery copy only |
+
+### Story targeting (when `destination` is `story` or `both`)
+
+| Query | Behavior |
+| ----- | -------- |
+| `storyId` | Append to that existing story (name taken from the group) |
+| `storyName` only | Match existing story by name (case-insensitive), or create a new group |
+| neither | Creates `Untitled story` with a fresh id |
+
+Context on each story asset: `storyId`, `storyName` (plus caption/takenAt). Stories persist until manually deleted. `isNew` = uploaded within 24h.
 
 ### Raycast
 
 - Extension: `packages/foto-raycast` (run `npm install && npm run dev` from that folder)
 - Preferences: API Base URL (`https://fotos.proportional.design`) + Shared Secret (`GALLERY_SECRET`)
-- Command "Upload Photo": Finder selection prefills the file picker; form asks for caption + optional tags
+- Command "Upload Photo": destination (Gallery / Story / Both); when Story/Both, pick existing story or name a new one; caption + optional tags
 
-### iOS Shortcuts
+### iOS Shortcuts (option C — pick existing)
 
-Share Sheet shortcut "Fotos" must send the Bearer header after auth was added. Resizes to ~1000px wide, then POSTs the binary with `?filename=…`.
+Share Sheet shortcut "Fotos":
+
+1. Receives image → resize ~1000px wide
+2. **Choose from Menu:** Gallery / Story / Both → set `Destination`
+3. **If Story or Both only:**
+   1. **Get Contents of URL** `GET https://fotos.proportional.design/api/stories/choices` (no auth)
+   2. **Get Dictionary Value** → `choices`
+   3. **Choose from List** on that list (each item shows `name`: existing stories + **New Story…**)
+   4. **Get Dictionary Value** from the chosen item → `id` → Set Variable `StoryId`
+   5. **Get Dictionary Value** → `name` → Set Variable `StoryName`
+   6. **If** `StoryId` is empty (New Story…): **Ask for Text** “Story name?” → Set `StoryName` (leave `StoryId` empty)
+4. POST binary with Bearer header:
+   `…/api/upload-photo?filename=…&destination=[Destination]&storyId=[StoryId]&storyName=[StoryName]`
+   (omit `storyId`/`storyName` when Destination is Gallery)
+
+Must send the Bearer header. Invalid/missing `destination` falls back to `gallery`.
 
 ## Current API Endpoints
 
-- POST /api/upload-photo - Bearer auth; raw image body; converts to WebP; auto-tags via Claude vision (strict vocabulary — only reuses existing Cloudinary tags, never invents); uploads to Cloudinary
-- GET /api/photos - lists all photos from Cloudinary (folder: foto/)
-- DELETE /api/delete-photo - deletes a photo by public_id, requires GALLERY_SECRET password
+- POST /api/upload-photo - Bearer auth; raw image body; `destination=gallery|story|both`; optional `storyId` / `storyName`; converts to WebP; auto-tags gallery uploads via Claude vision (strict vocabulary — only reuses existing Cloudinary tags, never invents); uploads to Cloudinary (`foto/` and/or `foto-stories/`)
+- GET /api/photos - lists gallery photos from Cloudinary (folder: `foto/`)
+- GET /api/stories - lists stories from Cloudinary (folder: `foto-stories/`), grouped by `storyId` (falls back to one story per image); each story has `id`, `name`, `items[]`, `isNew`
+- GET /api/stories/choices - picker payload: `names` (text list for Shortcuts Choose from List), `idsByName` (name → id), and `choices` (objects for Raycast). Includes `New Story…` with empty id.
+- POST /api/add-to-story - copies a gallery photo into an existing story (`storyId` + password); stamps `storyId`/`storyName` on the group
+- DELETE /api/delete-story - deletes all `foto-stories/` items in a story group (does not touch gallery `foto/` assets)
+- DELETE /api/delete-photo - deletes by public_id (gallery or story item), requires GALLERY_SECRET password
 - PATCH /api/update-photo - updates caption/tags/takenAt, requires GALLERY_SECRET password
 
 ## Environment Variables
@@ -48,14 +85,19 @@ Share Sheet shortcut "Fotos" must send the Bearer header after auth was added. R
 ## Planned Features (not yet built)
 
 - ~~Sidecar JSON metadata (caption, tags)~~
+- Stories "new" ring / unread UI callout (`isNew` already on API)
 - Links section
 
 ## Key Files
 
-- server/api/upload-photo.post.js - upload handler (Sharp WebP conversion + Cloudinary)
-- server/api/photos.get.js - list photos from Cloudinary
-- server/api/delete-photo.delete.js - delete photo from Cloudinary
-- app/app.vue - gallery frontend (lightbox, wiggle/delete mode)
+- server/api/upload-photo.post.js - upload handler (Sharp WebP conversion + Cloudinary; destination routing)
+- server/api/photos.get.js - list gallery photos from Cloudinary
+- server/api/stories.get.js - list stories from Cloudinary
+- server/utils/list-stories.js - story list + cache + `isNew`
+- server/api/delete-photo.delete.js - delete photo/story from Cloudinary
+- app/components/GalleryView.vue - gallery + stories strip orchestrator
+- app/components/StoriesStrip.vue - horizontal story rings
+- app/components/StoryViewer.vue - full-screen story viewer
 - nuxt.config.ts - Nuxt config with Vercel preset
 
 ## Rendering / performance (nuxt.config.ts routeRules)
@@ -88,3 +130,4 @@ available at server-render time (e.g. blocking fetch or passing the single photo
 - Images converted to WebP (quality 85) on upload via Sharp
 - Long-press on any photo activates iOS-style wiggle/delete mode; tap outside grid to exit
 - Delete requires password; optimistic UI removes photo immediately on submit
+- Stories strip sits above the photo grid; tap opens StoryViewer (progress bars, ~5s auto-advance)

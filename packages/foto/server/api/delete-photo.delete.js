@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { invalidatePhotoCache } from '../utils/list-photos.js'
+import { invalidateStoryCache } from '../utils/list-stories.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -24,6 +25,9 @@ export default defineEventHandler(async (event) => {
     }
 
     invalidatePhotoCache()
+    if (typeof publicId === 'string' && publicId.startsWith('foto-stories/')) {
+      invalidateStoryCache()
+    }
     return { success: true }
   } catch (error) {
     console.error('Delete error:', error)
