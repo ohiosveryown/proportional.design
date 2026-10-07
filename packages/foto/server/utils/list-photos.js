@@ -10,9 +10,9 @@ cloudinary.config({
 
 const PINNED_ID = 'foto/1776966461078-sq@2x'
 const PINNED_LIGHTBOX_URL =
-  'https://res.cloudinary.com/dnxxsspmw/image/upload/v1776971496/og-image_2x_nogug8.webp'
+  'https://res.cloudinary.com/dnxxsspmw/image/upload/v1791383026/og-image__lg_3x_wolaqq.webp'
 const PINNED_LIGHTBOX_URL_SM =
-  'https://res.cloudinary.com/dnxxsspmw/image/upload/v1777671605/og-image-sq-sm_owbm9m.webp'
+  'https://res.cloudinary.com/dnxxsspmw/image/upload/v1791383026/og-image__sm_3x_desqjn.webp'
 const PINNED_THUMB_URL =
   'https://res.cloudinary.com/dnxxsspmw/image/upload/v1776971535/foto/1776966461078-sq%402x.webp'
 
