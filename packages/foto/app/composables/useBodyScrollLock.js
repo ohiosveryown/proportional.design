@@ -5,6 +5,7 @@ export function useBodyScrollLock(active) {
   function lock() {
     if (!import.meta.client || locked) return
     savedScrollY = window.scrollY || window.pageYOffset || 0
+    document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed'
     document.body.style.top = `-${savedScrollY}px`
     document.body.style.left = '0'
@@ -17,6 +18,7 @@ export function useBodyScrollLock(active) {
   function unlock() {
     if (!import.meta.client || !locked) return
     const y = savedScrollY
+    document.documentElement.style.overflow = ''
     document.body.style.position = ''
     document.body.style.top = ''
     document.body.style.left = ''
@@ -29,10 +31,14 @@ export function useBodyScrollLock(active) {
     })
   }
 
-  watch(active, (isActive) => {
-    if (isActive) lock()
-    else unlock()
-  })
+  watch(
+    active,
+    (isActive) => {
+      if (isActive) lock()
+      else unlock()
+    },
+    { immediate: true },
+  )
 
   onBeforeUnmount(unlock)
 }
