@@ -4,6 +4,7 @@
 .nuxt
 .nitro
 .cache
+.zip
 .shortcut
 dist
 uploader

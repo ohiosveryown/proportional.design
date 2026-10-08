@@ -5,6 +5,7 @@ node_modules/
 .output/
 .nitro/
 .cache/
+.zip
 dist/
 
 # Env files (may contain secrets)
@@ -23,3 +24,4 @@ Thumbs.db
 # Logs
 *.log
 packages/foto/fotos-proportional.design.shortcut
+old-shortcuts.zip
