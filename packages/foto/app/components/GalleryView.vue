@@ -94,7 +94,9 @@
   // time and bakes a frozen photo list into the static HTML — new uploads then
   // never appear until a redeploy. server:false keeps the prerendered shell fast
   // while fetching the live list in the browser.
-  const { data, pending, error } = useLazyFetch('/api/photos', { server: false })
+  const { data, pending, error } = useLazyFetch('/api/photos', {
+    server: false,
+  })
   const photos = computed(() => data.value?.photos || [])
 
   const { data: storiesData, refresh: refreshStories } = useLazyFetch(
@@ -182,7 +184,10 @@
       return {
         title: `${siteName} — A fine furniture studio in Atlanta, Georgia`,
         meta: [
-          { property: 'og:title', content: `${siteName} — A fine furniture studio in Atlanta, Georgia` },
+          {
+            property: 'og:title',
+            content: `${siteName} — A fine furniture studio in Atlanta, Georgia`,
+          },
           { property: 'og:description', content: siteDescription },
           { property: 'og:url', content: siteUrl },
           { property: 'og:type', content: 'website' },
@@ -191,13 +196,11 @@
       }
     }
 
-    const title = photo.caption
-      ? `${photo.caption} — ${siteName}`
-      : siteName
+    const title = photo.caption ? `${photo.caption} — ${siteName}` : siteName
     const url = `${siteUrl}${photoPath(photo)}`
-    const description = [photo.caption, ...(photo.tags || [])]
-      .filter(Boolean)
-      .join(' · ') || siteDescription
+    const description =
+      [photo.caption, ...(photo.tags || [])].filter(Boolean).join(' · ') ||
+      siteDescription
 
     return {
       title,
@@ -327,7 +330,9 @@
 
     storiesData.value = {
       ...storiesData.value,
-      stories: (storiesData.value?.stories || []).filter((s) => s.id !== storyId),
+      stories: (storiesData.value?.stories || []).filter(
+        (s) => s.id !== storyId,
+      ),
     }
     deleteTarget.value = null
     if (wasOpen) storyOpenIndex.value = -1
@@ -361,7 +366,9 @@
           if (!s.items?.length) {
             return s.filename === target.filename ? null : s
           }
-          const items = s.items.filter((item) => item.filename !== target.filename)
+          const items = s.items.filter(
+            (item) => item.filename !== target.filename,
+          )
           if (!items.length) return null
           return { ...s, items }
         })
@@ -420,7 +427,7 @@
   .gallery {
     margin: 0 auto;
     @media (min-width: 640px) {
-      margin-top: 40px;
+      margin-top: 20px;
       padding: 2rem 1rem;
       max-width: 1400px;
     }
