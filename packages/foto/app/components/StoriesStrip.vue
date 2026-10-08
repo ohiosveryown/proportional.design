@@ -31,11 +31,32 @@
           :aria-label="storyAriaLabel(story, i)"
           @click.stop="onRingClick(i)"
         >
-          <span
+          <svg
             v-if="story.isNew"
-            class="storyRingGradient"
+            class="storyRingSvg"
+            viewBox="0 0 100 100"
             aria-hidden="true"
-          />
+          >
+            <circle
+              class="storyRingSolid"
+              cx="50"
+              cy="50"
+              r="45.5"
+            />
+            <g class="storyRingOrbit">
+              <circle
+                v-for="seg in RING_SEGMENTS"
+                :key="seg"
+                class="storyRingSeg"
+                cx="50"
+                cy="50"
+                r="45.5"
+                pathLength="30"
+                :transform="`rotate(${(seg - 1) * (360 / RING_SEGMENTS)} 50 50)`"
+                :style="{ '--seg': seg - 1 }"
+              />
+            </g>
+          </svg>
           <span class="storyRingInner">
             <img
               :src="storyThumb(story)"
@@ -198,32 +219,74 @@
     border-color: transparent;
   }
 
-  /* Instagram-style rotating conic ring for unseen / new stories */
-  .storyRingGradient {
+  /*
+   * Story ring: 30 staggered segments grow → solid → shrink,
+   * while the whole ring orbits slowly. Stroke ≈ 3.5% of ring diameter.
+   */
+  .storyRingSvg {
     position: absolute;
     inset: 0;
-    border-radius: 50%;
-    background: #fff;
-    /* animation: storyRingSpin 4s linear infinite; */
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
   }
 
-  .storyRingGradient::after {
-    content: '';
-    position: absolute;
-    /* Thin stroke; remaining space to the thumb is the black gutter */
-    inset: 2px;
-    border-radius: 50%;
-    background: #000;
+  .storyRingSolid {
+    display: none;
+    fill: none;
+    stroke: #d7d7dc;
+    stroke-width: 3.185;
+    stroke-linecap: round;
   }
 
-  @keyframes storyRingSpin {
+  .storyRingOrbit {
+    transform-origin: center;
+    transform-box: view-box;
+    animation: storyRingOrbit 9s linear infinite;
+  }
+
+  .storyRingSeg {
+    fill: none;
+    stroke: #d7d7dc;
+    stroke-width: 3.185;
+    stroke-linecap: round;
+    stroke-dasharray: 0.1 29.9;
+    animation: storyRingSeg 2.5s infinite;
+    animation-delay: calc(var(--seg) * 1.25s / 30);
+  }
+
+  @keyframes storyRingSeg {
+    0% {
+      stroke-dasharray: 0.1 29.9;
+      animation-timing-function: ease-out;
+    }
+    50% {
+      stroke-dasharray: 1 29;
+      animation-timing-function: ease-in-out;
+    }
+    100% {
+      stroke-dasharray: 0.1 29.9;
+    }
+  }
+
+  @keyframes storyRingOrbit {
     to {
       transform: rotate(360deg);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .storyRingGradient {
+    .storyRingSolid {
+      display: block;
+    }
+
+    .storyRingOrbit {
+      display: none;
+      animation: none;
+    }
+
+    .storyRingSeg {
       animation: none;
     }
   }
@@ -233,17 +296,26 @@
     z-index: 1;
     display: block;
     overflow: hidden;
-    /* Leaves a clear gap inside the ring (matches design gutter) */
     width: 64px;
     height: 64px;
     border-radius: 50%;
     background: #1a1a1a;
   }
 
+  .storyRing.isNew .storyRingInner {
+    width: 78%;
+    height: 78%;
+  }
+
   @media (min-width: 640px) {
     .storyRingInner {
       width: 52px;
       height: 52px;
+    }
+
+    .storyRing.isNew .storyRingInner {
+      width: 78%;
+      height: 78%;
     }
   }
 
@@ -295,6 +367,8 @@
 </style>
 
 <script setup>
+  const RING_SEGMENTS = 30
+
   defineProps({
     stories: { type: Array, default: () => [] },
   })
