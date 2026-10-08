@@ -338,7 +338,7 @@
     grid-template-columns: repeat(8, 1fr);
     align-items: start;
     gap: 36px 20px;
-    margin-top: 72px;
+    margin-top: 40px;
     transform-origin: center top;
     transition:
       opacity 0.28s ease,

@@ -69,7 +69,7 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: flex-start;
-    gap: 8px;
+    gap: 4px;
     margin: 0 0 8px;
     padding: 32px 12px 0px;
     overflow-x: auto;
@@ -84,6 +84,7 @@
 
   @media (min-width: 640px) {
     .storiesStrip {
+      gap: 8px;
       margin-bottom: 24px;
       padding: 0 0 16px;
     }
@@ -94,8 +95,15 @@
     flex-direction: column;
     flex: 0 0 auto;
     align-items: center;
-    gap: 8px;
-    width: 72px;
+    gap: 10px;
+    width: 88px;
+  }
+
+  @media (min-width: 640px) {
+    .storyFig {
+      gap: 8px;
+      width: 72px;
+    }
   }
 
   @keyframes wiggle {
@@ -121,28 +129,49 @@
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    height: 22px;
+    height: 26px;
+  }
+
+  @media (min-width: 640px) {
+    .storyBadgeSlot {
+      height: 22px;
+    }
   }
 
   .storyNewBadge {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px;
-    border-radius: 5px;
+    padding: 7px;
+    border-radius: 6px;
     color: #fff;
     background: rgba(255, 255, 255, 0.18);
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1;
     white-space: nowrap;
     pointer-events: none;
   }
 
+  @media (min-width: 640px) {
+    .storyNewBadge {
+      padding: 6px;
+      border-radius: 5px;
+      font-size: 11px;
+    }
+  }
+
   .storyRingWrap {
     position: relative;
     flex: 0 0 auto;
-    width: 64px;
-    height: 64px;
+    width: 80px;
+    height: 80px;
+  }
+
+  @media (min-width: 640px) {
+    .storyRingWrap {
+      width: 64px;
+      height: 64px;
+    }
   }
 
   .storyRing {
@@ -150,12 +179,19 @@
     place-items: center;
     position: relative;
     padding: 0;
-    width: 68px;
-    height: 68px;
+    width: 80px;
+    height: 80px;
     border: 2px solid rgba(255, 255, 255, 0.32);
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
+  }
+
+  @media (min-width: 640px) {
+    .storyRing {
+      width: 68px;
+      height: 68px;
+    }
   }
 
   .storyRing.isNew {
@@ -198,10 +234,17 @@
     display: block;
     overflow: hidden;
     /* Leaves a clear gap inside the ring (matches design gutter) */
-    width: 52px;
-    height: 52px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: #1a1a1a;
+  }
+
+  @media (min-width: 640px) {
+    .storyRingInner {
+      width: 52px;
+      height: 52px;
+    }
   }
 
   .storyRingInner img {
@@ -217,11 +260,17 @@
     width: 100%;
     min-width: 0;
     color: #fff;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.2;
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  @media (min-width: 640px) {
+    .storyName {
+      font-size: 12px;
+    }
   }
 
   .deleteBtn {

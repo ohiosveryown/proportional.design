@@ -303,6 +303,16 @@
     touch-action: none;
     user-select: none;
     -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .storyHit:focus,
+  .storyHit:focus-visible,
+  .storyHit:active {
+    outline: none;
+    background: transparent;
   }
 
   .storyHit:disabled {
