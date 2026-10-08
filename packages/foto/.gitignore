@@ -4,6 +4,7 @@
 .nuxt
 .nitro
 .cache
+.shortcut
 dist
 uploader
 foto-watcher
