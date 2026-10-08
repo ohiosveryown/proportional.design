@@ -302,12 +302,14 @@ export default function UploadPhoto() {
         title="Caption"
         placeholder="Hemlock Sideboard WIP"
       />
-      <Form.TextField
-        id="tags"
-        title="Tags"
-        placeholder="cabinet, cherry"
-        info="Optional. Gallery/Both only — auto-tagging may add more from existing tags. Stories skip auto-tag."
-      />
+      {destination !== "story" && (
+        <Form.TextField
+          id="tags"
+          title="Tags"
+          placeholder="cabinet, cherry"
+          info="Optional. Auto-tagging may add more from existing gallery tags."
+        />
+      )}
     </Form>
   );
 }

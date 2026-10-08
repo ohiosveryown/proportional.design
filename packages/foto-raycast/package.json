@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "foto",
   "title": "Foto",
-  "description": "Upload a photo to your Foto gallery with caption and tags",
+  "description": "Upload photos to Foto — gallery, stories, or both",
   "icon": "command-icon.png",
   "author": "ohiosveryown",
   "categories": ["Productivity"],
@@ -12,7 +12,7 @@
       "name": "upload-photo",
       "title": "Upload Photo",
       "subtitle": "Foto",
-      "description": "Upload an image to proportional.design with a caption and optional tags",
+      "description": "Upload to Gallery, Stories, or both — with caption, tags, and story picker",
       "mode": "view"
     }
   ],
