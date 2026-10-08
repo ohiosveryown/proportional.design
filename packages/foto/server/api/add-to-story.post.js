@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { listStories, invalidateStoryCache } from '../utils/list-stories.js'
+import { encodeContext } from '../utils/context-value.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -41,12 +42,12 @@ export default defineEventHandler(async (event) => {
     // Stamp existing items so future uploads group with them.
     for (const item of story.items) {
       if (item.storyId === stableStoryId && item.storyName === storyName) continue
-      const ctx = {
+      const ctx = encodeContext({
         caption: item.caption || '',
         storyId: stableStoryId,
         storyName,
-      }
-      if (item.takenAt) ctx.takenAt = item.takenAt
+        ...(item.takenAt ? { takenAt: item.takenAt } : {}),
+      })
       await cloudinary.uploader.explicit(item.filename, {
         type: 'upload',
         resource_type: 'image',
@@ -60,12 +61,12 @@ export default defineEventHandler(async (event) => {
     })
 
     const baseName = `${Date.now()}-${publicId.split('/').pop().replace(/\.[^.]+$/, '')}`
-    const context = {
+    const context = encodeContext({
       storyId: stableStoryId,
       storyName,
-    }
-    if (caption) context.caption = caption
-    if (takenAt) context.takenAt = takenAt
+      ...(caption ? { caption } : {}),
+      ...(takenAt ? { takenAt } : {}),
+    })
 
     const result = await cloudinary.uploader.upload(source.secure_url, {
       public_id: `foto-stories/${baseName}`,

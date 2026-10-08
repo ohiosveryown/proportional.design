@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary'
+import { decodeContextValue } from './context-value.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -36,9 +37,9 @@ function mapResource(r) {
     size: r.bytes,
     uploadedAt: r.created_at,
     takenAt: r.context?.custom?.takenAt || r.created_at,
-    caption: r.context?.custom?.caption || '',
-    storyId: r.context?.custom?.storyId || '',
-    storyName: r.context?.custom?.storyName || '',
+    caption: decodeContextValue(r.context?.custom?.caption || ''),
+    storyId: decodeContextValue(r.context?.custom?.storyId || ''),
+    storyName: decodeContextValue(r.context?.custom?.storyName || ''),
     tags: r.tags || [],
     isNew: isNew(r.created_at),
   }

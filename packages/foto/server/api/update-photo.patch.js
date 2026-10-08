@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { computePhotoSlug } from '#shared/photo-slug.js'
 import { listPhotos, invalidatePhotoCache } from '../utils/list-photos.js'
+import { encodeContext } from '../utils/context-value.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -24,8 +25,11 @@ export default defineEventHandler(async (event) => {
       existingPhotos,
     })
 
-    const context = { caption: caption ?? '', slug }
-    if (takenAt) context.takenAt = takenAt
+    const context = encodeContext({
+      caption: caption ?? '',
+      slug,
+      ...(takenAt ? { takenAt } : {}),
+    })
 
     await cloudinary.uploader.explicit(publicId, {
       type: 'upload',

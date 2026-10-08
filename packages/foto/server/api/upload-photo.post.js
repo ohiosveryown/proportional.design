@@ -6,6 +6,7 @@ import { autoTag } from '../utils/auto-tag.js'
 import { listPhotos, invalidatePhotoCache } from '../utils/list-photos.js'
 import { listStories, invalidateStoryCache } from '../utils/list-stories.js'
 import { storyIdFromName } from '../utils/story-id.js'
+import { encodeContext } from '../utils/context-value.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -153,7 +154,7 @@ export default defineEventHandler(async (event) => {
       })
 
       galleryResult = await uploadWebp(publicId, webp, {
-        context: { ...baseContext, slug },
+        context: encodeContext({ ...baseContext, slug }),
         tags: finalTags,
       })
     }
@@ -161,11 +162,11 @@ export default defineEventHandler(async (event) => {
     if (toStory) {
       const publicId = `foto-stories/${baseName}`
       storyResult = await uploadWebp(publicId, webp, {
-        context: {
+        context: encodeContext({
           ...baseContext,
           storyId: resolvedStoryId,
           storyName: resolvedStoryName,
-        },
+        }),
       })
     }
 

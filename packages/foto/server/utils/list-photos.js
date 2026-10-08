@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary'
 
 import { assignPhotoSlugs } from '#shared/photo-slug.js'
+import { decodeContextValue } from './context-value.js'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -82,8 +83,8 @@ export async function listPhotos({ force = false } = {}) {
         size: r.bytes,
         uploadedAt: r.created_at,
         takenAt: r.context?.custom?.takenAt || r.created_at,
-        caption: r.context?.custom?.caption || '',
-        slug: r.context?.custom?.slug || '',
+        caption: decodeContextValue(r.context?.custom?.caption || ''),
+        slug: decodeContextValue(r.context?.custom?.slug || ''),
         tags: r.tags || [],
       }
     })
