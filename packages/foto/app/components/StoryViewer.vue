@@ -337,12 +337,11 @@
     right: 0;
   }
 
-  .storyViewer-enter-active,
+  /* Enter is instant so deep links don’t flash the gallery underneath */
   .storyViewer-leave-active {
     transition: opacity 0.2s ease;
   }
 
-  .storyViewer-enter-from,
   .storyViewer-leave-to {
     opacity: 0;
   }

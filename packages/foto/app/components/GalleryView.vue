@@ -82,6 +82,7 @@
 
 <script setup>
   import { photoPath } from '~/utils/photo-slug'
+  import { findStoryByRouteId, storyPath } from '~/utils/story-slug'
 
   const siteUrl = 'https://fotos.proportional.design'
   const siteName = 'Proportional Design'
@@ -99,10 +100,12 @@
   })
   const photos = computed(() => data.value?.photos || [])
 
-  const { data: storiesData, refresh: refreshStories } = useLazyFetch(
-    '/api/stories',
-    { server: false },
-  )
+  const {
+    data: storiesData,
+    pending: storiesPending,
+    refresh: refreshStories,
+  } = useLazyFetch('/api/stories', { server: false })
+
 
   function normalizeStory(story) {
     if (story?.items?.length) {
@@ -140,8 +143,6 @@
       { once: true },
     )
   })
-  const showSpinner = computed(() => pending.value || !pageLoaded.value)
-
   const {
     chatMessages,
     activeFilter,
@@ -165,11 +166,38 @@
     openIndex,
     { clearFilter },
   )
+  const { openStory: openStoryAt } = useStoryRoute(stories, storyOpenIndex)
+
+  // On /story/… hold the loading shell until stories resolve and the overlay
+  // is open — otherwise the gallery paints for a frame before the viewer.
+  const showSpinner = computed(() => {
+    if (!pageLoaded.value) return true
+    if (route.path.startsWith('/story/')) {
+      if (storiesPending.value) return true
+      const story = findStoryByRouteId(stories.value, route.params.id)
+      if (!story) return true
+      return storyOpenIndex.value < 0
+    }
+    return pending.value
+  })
 
   function openStory(index) {
     openIndex.value = -1
-    storyOpenIndex.value = index
+    openStoryAt(index)
   }
+
+  // Photo and story overlays are mutually exclusive via the URL.
+  watch(
+    () => route.path,
+    (path) => {
+      if (path.startsWith('/photo/') && storyOpenIndex.value >= 0) {
+        storyOpenIndex.value = -1
+      }
+      if (path.startsWith('/story/') && openIndex.value >= 0) {
+        openIndex.value = -1
+      }
+    },
+  )
 
   const activePhoto = computed(() => {
     const slug = route.params.slug
@@ -178,7 +206,39 @@
     return visiblePhotos.value[openIndex.value] || null
   })
 
+  const activeStory = computed(() => {
+    if (storyOpenIndex.value < 0) return null
+    return stories.value[storyOpenIndex.value] || null
+  })
+
   useHead(() => {
+    const story = activeStory.value
+    if (story) {
+      const title = `${story.name} — ${siteName}`
+      const url = `${siteUrl}${storyPath(story)}`
+      const image = story.thumbUrl || story.items?.[0]?.url || ''
+      return {
+        title,
+        meta: [
+          { name: 'description', content: story.name || siteDescription },
+          { property: 'og:title', content: title },
+          { property: 'og:description', content: story.name || siteDescription },
+          { property: 'og:url', content: url },
+          { property: 'og:type', content: 'article' },
+          ...(image
+            ? [
+                { property: 'og:image', content: image },
+                { name: 'twitter:image', content: image },
+              ]
+            : []),
+          { name: 'twitter:card', content: 'summary_large_image' },
+          { name: 'twitter:title', content: title },
+          { name: 'twitter:description', content: story.name || siteDescription },
+        ],
+        link: [{ rel: 'canonical', href: url }],
+      }
+    }
+
     const photo = activePhoto.value
     if (!photo) {
       return {

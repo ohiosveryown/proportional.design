@@ -31,6 +31,8 @@ export default defineNuxtConfig({
     // can't be enumerated at build time. ISR renders each on first hit, then
     // serves the cached HTML from the edge on subsequent requests.
     '/photo/**': { isr: true },
+    '/story/**': { isr: true },
+
     '/api/photos': {
       // Don't edge-cache the list: uploads/deletes invalidate the serverless
       // in-memory cache, but Vercel CDN can't be purged from those handlers, so
