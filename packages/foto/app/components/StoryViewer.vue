@@ -35,16 +35,6 @@
           Close
         </button>
 
-        <button
-          type="button"
-          class="storyDelete"
-          aria-label="Remove from story"
-          title="Remove from story (⇧?)"
-          @click.stop="requestRemove"
-        >
-          Remove
-        </button>
-
         <div
           ref="cubeEl"
           class="storyCube"
@@ -185,10 +175,10 @@
     }
   }
 
-  .storyClose,
-  .storyDelete {
+  .storyClose {
     position: absolute;
     top: max(28px, calc(env(safe-area-inset-top) + 18px));
+    right: 12px;
     z-index: 3;
     padding: 8px 12px;
     border: 0;
@@ -197,14 +187,6 @@
     background: rgba(0, 0, 0, 0.45);
     font-size: 13px;
     cursor: pointer;
-  }
-
-  .storyClose {
-    right: 12px;
-  }
-
-  .storyDelete {
-    left: 12px;
   }
 
   .storyCube {
