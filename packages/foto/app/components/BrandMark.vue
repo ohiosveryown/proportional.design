@@ -24,7 +24,7 @@
 <style scoped>
   .brandMark {
     display: block;
-    width: 6.25rem;
+    width: 5.6rem;
     height: auto;
     flex-shrink: 0;
   }
