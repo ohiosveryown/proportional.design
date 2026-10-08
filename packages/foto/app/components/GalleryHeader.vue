@@ -41,7 +41,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 2rem;
-    margin: 4rem 0 6.4rem;
+    margin: 8rem 0 6.4rem;
     width: 100%;
     opacity: 0;
     filter: blur(16px);
