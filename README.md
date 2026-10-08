@@ -2,7 +2,7 @@
 
 Monorepo for proportional.design.
 
-![proportional design cover image](https://res.cloudinary.com/dnxxsspmw/image/upload/v1776971496/og-image_2x_nogug8.webp)
+![proportional design cover image](https://res.cloudinary.com/dnxxsspmw/image/upload/v1791383026/og-image__lg_3x_wolaqq.webp)
 
 ## Packages
 
