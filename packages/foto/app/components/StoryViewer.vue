@@ -125,6 +125,7 @@
     flex-direction: column;
     overflow: hidden;
     background: #000;
+    cursor: default;
     touch-action: none;
   }
 
@@ -178,15 +179,24 @@
   .storyClose {
     position: absolute;
     top: max(28px, calc(env(safe-area-inset-top) + 18px));
-    right: 12px;
+    left: 32px;
     z-index: 3;
-    padding: 8px 12px;
+    margin: 0;
+    padding: 0;
     border: 0;
-    border-radius: 999px;
     color: #fff;
-    background: rgba(0, 0, 0, 0.45);
-    font-size: 13px;
-    cursor: pointer;
+    background: none;
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1;
+    opacity: 0.5;
+    cursor: default;
+    appearance: none;
+  }
+
+  .storyClose:hover,
+  .storyClose:focus-visible {
+    opacity: 1;
   }
 
   .storyCube {
@@ -299,7 +309,7 @@
     width: 50%;
     border: 0;
     background: transparent;
-    cursor: pointer;
+    cursor: default;
     touch-action: none;
     user-select: none;
     -webkit-user-select: none;

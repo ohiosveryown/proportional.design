@@ -519,7 +519,7 @@
     border: 0;
     color: #fff;
     background: none;
-    font-size: 16px;
+    font-size: 14px;
     font-family: inherit;
     line-height: 1;
     opacity: 0.5;
