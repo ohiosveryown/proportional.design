@@ -32,7 +32,6 @@
           @click.stop="onRingClick(i)"
         >
           <svg
-            v-if="story.isNew"
             class="storyRingSvg"
             viewBox="0 0 100 100"
             aria-hidden="true"
@@ -43,7 +42,10 @@
               cy="50"
               r="45.5"
             />
-            <g class="storyRingOrbit">
+            <g
+              v-if="story.isNew"
+              class="storyRingOrbit"
+            >
               <circle
                 v-for="seg in RING_SEGMENTS"
                 :key="seg"
@@ -202,7 +204,7 @@
     padding: 0;
     width: 80px;
     height: 80px;
-    border: 2px solid rgba(255, 255, 255, 0.32);
+    border: 0;
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
@@ -210,18 +212,15 @@
 
   @media (min-width: 640px) {
     .storyRing {
-      width: 68px;
-      height: 68px;
+      width: 64px;
+      height: 64px;
     }
   }
 
-  .storyRing.isNew {
-    border-color: transparent;
-  }
-
   /*
-   * Story ring: 30 staggered segments grow → solid → shrink,
-   * while the whole ring orbits slowly. Stroke ≈ 3.5% of ring diameter.
+   * Shared ring geometry (new + not-new): SVG circle r=45.5 in a 100
+   * viewBox, thumb at 78%. Not-new uses the solid stroke; new animates
+   * segments on the same radius.
    */
   .storyRingSvg {
     position: absolute;
@@ -233,11 +232,15 @@
   }
 
   .storyRingSolid {
-    display: none;
     fill: none;
-    stroke: #d7d7dc;
+    stroke: rgba(255, 255, 255, 0.32);
     stroke-width: 3.185;
     stroke-linecap: round;
+  }
+
+  .storyRing.isNew .storyRingSolid {
+    display: none;
+    stroke: #d7d7dc;
   }
 
   .storyRingOrbit {
@@ -277,7 +280,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .storyRingSolid {
+    .storyRing.isNew .storyRingSolid {
       display: block;
     }
 
@@ -296,27 +299,10 @@
     z-index: 1;
     display: block;
     overflow: hidden;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: #1a1a1a;
-  }
-
-  .storyRing.isNew .storyRingInner {
     width: 78%;
     height: 78%;
-  }
-
-  @media (min-width: 640px) {
-    .storyRingInner {
-      width: 52px;
-      height: 52px;
-    }
-
-    .storyRing.isNew .storyRingInner {
-      width: 78%;
-      height: 78%;
-    }
+    border-radius: 50%;
+    background: #1a1a1a;
   }
 
   .storyRingInner img {
