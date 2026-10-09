@@ -43,7 +43,16 @@ function mimeFor(filePath: string): string | null {
 
 type Destination = "gallery" | "story" | "both";
 
-async function uploadPhoto(
+type UploadOk = { ok: true; slug?: string; filename: string };
+type UploadFail = {
+  ok: false;
+  error: string;
+  filename: string;
+  unauthorized?: boolean;
+};
+type UploadOutcome = UploadOk | UploadFail;
+
+async function uploadOne(
   filePath: string,
   caption: string,
   tags: string,
@@ -51,23 +60,16 @@ async function uploadPhoto(
   storyId: string,
   storyName: string,
   prefs: Prefs,
-): Promise<void> {
+): Promise<UploadOutcome> {
+  const filename = basename(filePath);
   const mime = mimeFor(filePath);
   if (!mime) {
-    await showToast({
-      style: Toast.Style.Failure,
-      title: "Unsupported file type",
-      message: "Pick a .jpg, .png, .gif, .webp, or .heic",
-    });
-    return;
+    return {
+      ok: false,
+      filename,
+      error: "Unsupported type — use .jpg, .png, .gif, .webp, or .heic",
+    };
   }
-
-  const filename = basename(filePath);
-  const toast = await showToast({
-    style: Toast.Style.Animated,
-    title: "Uploading…",
-    message: caption.trim() || filename,
-  });
 
   try {
     const buffer = await readFile(filePath);
@@ -90,61 +92,45 @@ async function uploadPhoto(
     });
 
     if (res.status === 401) {
-      toast.style = Toast.Style.Failure;
-      toast.title = "Unauthorized";
-      toast.message = "Check the Shared Secret in extension preferences.";
-      toast.primaryAction = {
-        title: "Open Preferences",
-        onAction: () => openExtensionPreferences(),
+      return {
+        ok: false,
+        filename,
+        unauthorized: true,
+        error: "Unauthorized — check Shared Secret in preferences",
       };
-      return;
     }
 
     if (!res.ok) {
       const text = await res.text().catch(() => "");
-      toast.style = Toast.Style.Failure;
-      toast.title = `Upload failed (${res.status})`;
-      toast.message = text || res.statusText;
-      return;
+      return {
+        ok: false,
+        filename,
+        error: text || `HTTP ${res.status} ${res.statusText}`,
+      };
     }
 
     const json = (await res.json()) as UploadResult;
     if (!json.success) {
-      toast.style = Toast.Style.Failure;
-      toast.title = "Upload failed";
-      toast.message = json.error || "Unknown error";
-      return;
+      return { ok: false, filename, error: json.error || "Unknown error" };
     }
 
-    toast.style = Toast.Style.Success;
-    toast.title =
-      destination === "story"
-        ? "Uploaded to Stories"
-        : destination === "both"
-          ? "Uploaded to Gallery + Stories"
-          : "Uploaded to Foto";
-    toast.message = caption.trim() || filename;
-
-    if (json.slug) {
-      const url = `${base}/photo/${json.slug}`;
-      toast.primaryAction = {
-        title: "Open Photo",
-        onAction: () => open(url),
-      };
-    } else {
-      toast.primaryAction = {
-        title: "Open Gallery",
-        onAction: () => open(base),
-      };
-    }
+    return { ok: true, filename, slug: json.slug };
   } catch (err) {
-    toast.style = Toast.Style.Failure;
-    toast.title = "Couldn't reach Foto";
-    toast.message =
-      err instanceof Error
-        ? err.message
-        : `Is it running at ${prefs.apiBaseUrl}?`;
+    return {
+      ok: false,
+      filename,
+      error:
+        err instanceof Error
+          ? err.message
+          : `Couldn't reach Foto at ${prefs.apiBaseUrl}`,
+    };
   }
+}
+
+function destinationLabel(destination: Destination): string {
+  if (destination === "story") return "Stories";
+  if (destination === "both") return "Gallery + Stories";
+  return "Foto";
 }
 
 export default function UploadPhoto() {
@@ -160,6 +146,7 @@ export default function UploadPhoto() {
 
   const needsStory = destination === "story" || destination === "both";
   const creatingNewStory = needsStory && storyKey === "__new__";
+  const multi = files.length > 1;
 
   useEffect(() => {
     if (ran.current) return;
@@ -167,8 +154,10 @@ export default function UploadPhoto() {
     (async () => {
       try {
         const items = await getSelectedFinderItems();
-        const imageItem = items.find((item) => mimeFor(item.path));
-        if (imageItem) setFiles([imageItem.path]);
+        const images = items
+          .map((item) => item.path)
+          .filter((path) => mimeFor(path));
+        if (images.length) setFiles(images);
       } catch {
         // Finder isn't frontmost or has no selection — show empty picker.
       }
@@ -183,9 +172,7 @@ export default function UploadPhoto() {
           if (json.choices?.length) {
             setStoryChoices(
               json.choices.map((c) =>
-                c.id
-                  ? c
-                  : { name: c.name || "New Story…", id: "" },
+                c.id ? c : { name: c.name || "New Story…", id: "" },
               ),
             );
           }
@@ -207,7 +194,7 @@ export default function UploadPhoto() {
       actions={
         <ActionPanel>
           <Action.SubmitForm
-            title="Upload Photo"
+            title={multi ? `Upload ${files.length} Photos` : "Upload Photo"}
             onSubmit={async (values: {
               files: string[];
               destination: Destination;
@@ -216,11 +203,13 @@ export default function UploadPhoto() {
               caption: string;
               tags: string;
             }) => {
-              const filePath = values.files?.[0] ?? files[0];
-              if (!filePath) {
+              const paths = (
+                values.files?.length ? values.files : files
+              ).filter((path) => mimeFor(path));
+              if (!paths.length) {
                 await showToast({
                   style: Toast.Style.Failure,
-                  title: "Pick an image first",
+                  title: "Pick at least one image",
                 });
                 return;
               }
@@ -242,15 +231,92 @@ export default function UploadPhoto() {
                 return;
               }
 
-              await uploadPhoto(
-                filePath,
-                values.caption ?? "",
-                values.tags ?? "",
-                dest,
-                isNew ? "" : choice?.id ?? "",
-                isNew ? newName : choice?.name ?? "",
-                prefs,
-              );
+              const storyId = isNew ? "" : (choice?.id ?? "");
+              const storyName = isNew ? newName : (choice?.name ?? "");
+              const caption = values.caption ?? "";
+              const tags = values.tags ?? "";
+              const total = paths.length;
+              const toast = await showToast({
+                style: Toast.Style.Animated,
+                title: total === 1 ? "Uploading…" : `Uploading 1 of ${total}…`,
+                message: caption.trim() || basename(paths[0]),
+              });
+
+              let okCount = 0;
+              let lastSlug: string | undefined;
+              const failures: UploadFail[] = [];
+
+              for (let i = 0; i < paths.length; i++) {
+                const path = paths[i];
+                toast.title =
+                  total === 1
+                    ? "Uploading…"
+                    : `Uploading ${i + 1} of ${total}…`;
+                toast.message = caption.trim() || basename(path);
+
+                const result = await uploadOne(
+                  path,
+                  caption,
+                  tags,
+                  dest,
+                  storyId,
+                  storyName,
+                  prefs,
+                );
+
+                if (result.ok) {
+                  okCount++;
+                  lastSlug = result.slug ?? lastSlug;
+                } else {
+                  failures.push(result);
+                  if (result.unauthorized) {
+                    toast.style = Toast.Style.Failure;
+                    toast.title = "Unauthorized";
+                    toast.message =
+                      "Check the Shared Secret in extension preferences.";
+                    toast.primaryAction = {
+                      title: "Open Preferences",
+                      onAction: () => openExtensionPreferences(),
+                    };
+                    return;
+                  }
+                }
+              }
+
+              const base = prefs.apiBaseUrl.replace(/\/$/, "");
+
+              if (okCount === 0) {
+                toast.style = Toast.Style.Failure;
+                toast.title =
+                  total === 1 ? "Upload failed" : "All uploads failed";
+                toast.message = failures[0]?.error ?? "Unknown error";
+                return;
+              }
+
+              toast.style = Toast.Style.Success;
+              if (total === 1) {
+                toast.title = `Uploaded to ${destinationLabel(dest)}`;
+                toast.message = caption.trim() || basename(paths[0]);
+              } else if (failures.length === 0) {
+                toast.title = `Uploaded ${okCount} to ${destinationLabel(dest)}`;
+                toast.message = caption.trim() || undefined;
+              } else {
+                toast.title = `Uploaded ${okCount} of ${total}`;
+                toast.message = `${failures.length} failed — ${failures[0].filename}`;
+              }
+
+              if (okCount === 1 && lastSlug) {
+                toast.primaryAction = {
+                  title: "Open Photo",
+                  onAction: () => open(`${base}/photo/${lastSlug}`),
+                };
+              } else {
+                toast.primaryAction = {
+                  title: "Open Gallery",
+                  onAction: () => open(base),
+                };
+              }
+
               await popToRoot();
             }}
           />
@@ -259,11 +325,12 @@ export default function UploadPhoto() {
     >
       <Form.FilePicker
         id="files"
-        title="Image"
-        allowMultipleSelection={false}
+        title={multi ? "Images" : "Image"}
+        allowMultipleSelection={true}
         canChooseDirectories={false}
         value={files}
         onChange={setFiles}
+        info="Select multiple images to upload in one go. Caption, tags, and destination apply to all."
       />
       <Form.Dropdown
         id="destination"
@@ -301,13 +368,22 @@ export default function UploadPhoto() {
         id="caption"
         title="Caption"
         placeholder="Hemlock Sideboard WIP"
+        info={
+          multi
+            ? "Applied to every selected image. Leave blank to skip."
+            : undefined
+        }
       />
       {destination !== "story" && (
         <Form.TextField
           id="tags"
           title="Tags"
           placeholder="cabinet, cherry"
-          info="Optional. Auto-tagging may add more from existing gallery tags."
+          info={
+            multi
+              ? "Applied to every selected image. Auto-tagging may add more."
+              : "Optional. Auto-tagging may add more from existing gallery tags."
+          }
         />
       )}
     </Form>

@@ -674,11 +674,6 @@
     width: auto;
     height: auto;
     object-fit: contain;
-    pointer-events: none;
-  }
-
-  .lightboxVideo {
-    pointer-events: auto;
   }
 
   .lightboxStrip {

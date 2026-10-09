@@ -6,7 +6,6 @@
       galleryHasStories: stories.length > 0,
     }"
     @click="onGalleryClick"
-    @contextmenu.prevent
   >
     <GalleryStatus
       :loading="showSpinner"

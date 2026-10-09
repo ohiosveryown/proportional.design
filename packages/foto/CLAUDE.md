@@ -42,7 +42,7 @@ Context on each story asset: `storyId`, `storyName` (plus caption/takenAt). Stor
 
 - Extension: `packages/foto-raycast` (run `npm install && npm run dev` from that folder)
 - Preferences: API Base URL (`https://fotos.proportional.design`) + Shared Secret (`GALLERY_SECRET`)
-- Command "Upload Photo": destination (Gallery / Story / Both); when Story/Both, pick existing story or name a new one; caption + optional tags
+- Command "Upload Photo": multi-select images; destination (Gallery / Story / Both); when Story/Both, pick existing story or name a new one; caption + optional tags (applied to every selected image)
 
 ### iOS Shortcuts (option C — pick existing)
 

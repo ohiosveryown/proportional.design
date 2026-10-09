@@ -12,7 +12,7 @@
       "name": "upload-photo",
       "title": "Upload Photo",
       "subtitle": "Foto",
-      "description": "Upload to Gallery, Stories, or both — with caption, tags, and story picker",
+      "description": "Upload one or many photos to Gallery, Stories, or both — with caption, tags, and story picker",
       "mode": "view"
     }
   ],
